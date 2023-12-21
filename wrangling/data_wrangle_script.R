@@ -5,7 +5,6 @@ library(tidyverse)
 library(tidyr)
 library(purrr)
 library(metafor)
-#setwd("Francesca_analysis")
 source("wrangling_functions.R", local = TRUE)
 
 LSR <- 'LSR3'
@@ -13,7 +12,7 @@ LSR <- 'LSR3'
 # Import SyRF outcome data
 LSR3_SyRFOutcomes <- read_csv("Quantitative_data_-_2023_12_18_-_c494b1ae-4cf4-4618-b91a-e69a2b815bdd_-_Investigators_Unblinded.csv")
 
-#clean ; from TiAb etc
+#clean instances of  ';' from TiAb etc
 LSR3_SyRFOutcomes$Title <- gsub(";", ":", LSR3_SyRFOutcomes$Title)
 LSR3_SyRFOutcomes$Abstract <- gsub(";", ":", LSR3_SyRFOutcomes$Abstract)
 LSR3_SyRFOutcomes$Authors <- gsub(";", ":", LSR3_SyRFOutcomes$Authors)
@@ -53,7 +52,7 @@ LSR3_reconciled <- LSR3_SyRFOutcomes %>%
 
 ## Some studies were split due to their complexity, with RoB/ Arrive only entered once
 ## the ARRIVE/RoB data for the second split needs overwritten with the values from the first
-#if this is the case, identify the studyIds concerned, recort in ll48 and 49, and change ll52-59 accordingly
+#if this is the case, identify the studyIds concerned, record in ll48 and 49, and change ll52-59 accordingly
 
 ## Match split studies [Get pairs from bibliographic download on SyRF]
 ## Find position of the start and end of ARRIVE ROB columns to store column names between the start and end index
@@ -62,11 +61,7 @@ start_index <- match("Title", col_names)
 end_index <- match("Is any role of the funder in the design/analysis/reporting of study described?", col_names)
 ARRIVEROB_columns <- col_names[start_index:end_index] 
 
-
-
-
-
-## 1. Overwrite appendix ARRIVE/ROB with main ARRIVE/ROB for both pairs
+##### 1. Overwrite appendix ARRIVE/ROB with main ARRIVE/ROB for both pairs
 ## PAIR 1: fb8ed201-f663-48db-aae1-8ee88b355abd - main, dd9dddac-739b-412f-9fac-6f36e0a21494 - appendix
 r_to_r <- subset(LSR3_reconciled, LSR3_reconciled$StudyId == 'dd9dddac-739b-412f-9fac-6f36e0a21494')
 source_row <- subset(LSR3_reconciled, LSR3_reconciled$StudyId == 'fb8ed201-f663-48db-aae1-8ee88b355abd') %>% slice(1)
@@ -89,12 +84,12 @@ for(i in start_index: end_index) {
 residual_rows <- subset(LSR3_reconciled, !LSR3_reconciled$StudyId %in% r_to_r$StudyId)
 LSR3_reconciled <- rbind(residual_rows, r_to_r)
 
-## 2. Replace StudyId of appendix studies with the StudyId of corresponding main paper
+##### 2. Replace StudyId of appendix studies with the StudyId of corresponding main paper
 LSR3_reconciled <- LSR3_reconciled %>% 
   mutate(StudyId = ifelse(StudyId == 'dd9dddac-739b-412f-9fac-6f36e0a21494', 'fb8ed201-f663-48db-aae1-8ee88b355abd', StudyId)) %>% 
   mutate(StudyId = ifelse(StudyId == '283c541f-6f14-462b-9f3a-800b69a3f44c', '4f31dcd6-e041-4882-acc8-dbf3ccfd2368', StudyId))
 
-## 3. Further step to remove observations from an accidental dual-reconciliation: choose the most recent reconciliation (unlikely to be necessary)
+##### 3. Further step to remove observations from an accidental dual-reconciliation: choose the most recent reconciliation (unlikely to be necessary)
 # Choose the most recent reconciliation 
 recent_reconciledID <- LSR3_reconciled %>%
   arrange(desc(DateTimeDataEntered)) %>%
@@ -116,14 +111,7 @@ reconciled_records <- reconciled_records_unique %>%
   relocate(c(OutcomeLabel, OutcomeId), .after = ExperimentLabel) %>% 
   relocate(c(InterventionLabel), .after = InterventionID)
 
-# this segmented removed by MM 151223
-# Remove ARRIVE/ROB columns and put into separate dataframe (-> reconciled_record_ROB). Join later
-# Now two dataframes, one which contains information that is the same for every observation within a study (reconciled_studyconstants), and one which contains information that differs across every observation (reconciled_studyvaried)
-# reonciled_record_ROB <- reconciled_records %>% 
-#  select(StudyId, ExperimentID, OutcomeId, any_of(ARRIVEROB_columns))
-#reconciled_records_noROB <- reconciled_records %>% 
-#  select(-any_of(ARRIVEROB_columns))
-
+# save these reconciled records - not used in furture processing but for transparency
 savename <- paste0('reconciled_records_',Sys.Date(),'.csv')
 write.csv(reconciled_records, savename)
 
@@ -152,7 +140,7 @@ reconciled_cohort_label <- reconciled_records %>%
     )
   )
 
-## sort the blank disease models (which are equivalent to sham)
+## sort the records where disease model is blank (which are equivalent to sham)
 reconciled_cohort_label <- reconciled_cohort_label %>%
   mutate(
     IsDiseaseModelControl = case_when(
@@ -162,8 +150,6 @@ reconciled_cohort_label <- reconciled_cohort_label %>%
       TRUE ~ as.logical(NA)  # default case if none of the conditions are met
     )
   )
-
-
 
 ## Make CohortType column
 # Combination interventions are interventions where currently licensed antipsychotic is an intervention
