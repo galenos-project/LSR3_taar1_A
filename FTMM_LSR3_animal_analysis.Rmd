@@ -36,7 +36,7 @@ library(PRISMA2020)
 #define LSR
 LSR <- 'LSR3'
 # define date of processing
-DoP <- '2023-12-20'
+DoP <- Sys.Date()
 
 
 # All function needed to run this notebook (analyses, etc.) should be in a util.R file
