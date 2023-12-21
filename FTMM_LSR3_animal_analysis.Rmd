@@ -33,9 +33,6 @@ library(robvis)
 library(PRISMA2020)
 
 
-# Set working directory for all subsequent chunks
-# knitr::opts_knit$set(root.dir = "~/OneDrive - University of Edinburgh/Applications/WT Mental Health/LSR3/FRFT files 241223")
-
 #define LSR
 LSR <- 'LSR3'
 # define date of processing
@@ -43,11 +40,11 @@ DoP <- '2023-12-20'
 
 
 # All function needed to run this notebook (analyses, etc.) should be in a util.R file
-source("util 5 211223.R")
+source("/util/util.R")
 
 # obtain the data and prepare them for analysis - all data cleaning routines should be in this .R script 
-source("wrangling_functions 201223.R", local = TRUE)
-source("data_wrangle_script 201223.R")
+source("/wrangling/wrangling_functions.R", local = TRUE)
+source("/wrangling/data_wrangle_script.R")
 
 #Round off results to two digits
 options(scipen=100, digits=3)
