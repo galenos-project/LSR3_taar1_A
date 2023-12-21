@@ -734,10 +734,13 @@ df <- df %>%
 # Calculate standardised dose
 df <- df %>% 
   mutate(DoseOfIntervention_mgkg = as.numeric(DoseOfIntervention_mgkg)) %>% 
-  mutate(StandardisedDose = log(DoseOfIntervention_mgkg)/(MolarMass*EC50mM*0.001)) 
+  mutate(StandardisedDose = log(DoseOfIntervention_mgkg)/((MolarMass*1000)*(EC50mM/1000000))) 
+
 
 # SAVE FILE
 savefile_output <- paste0(LSR,'_','clean_data_',Sys.Date(),'.csv')
 write.csv(df, savefile_output, row.names = FALSE)
+
+
 
 
