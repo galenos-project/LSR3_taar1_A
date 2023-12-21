@@ -1,6 +1,6 @@
 ---
 title: "LSR3 analysis: effects of TAAR1 agonists in animal models of psychosis"
-author: "Francesca Tinsdeall"
+author: "Francesca Tinsdeall, Fiona Ramage and Malcolm Macleod"
 date: "2023-12-19"
 output: html_document
 ---
@@ -30,6 +30,7 @@ library(rlang)
 devtools::install_github("mcguinlu/robvis")
 install_github("mcguinlu/robvis")
 library(robvis)
+library(PRISMA2020)
 
 
 # Set working directory for all subsequent chunks
@@ -67,7 +68,18 @@ article_metadata <- df %>%
   distinct()
 ```
 
-The flow of study selection is shown in Figure 1 (*to be included*). Studies included were published between `r min(article_metadata$Year)` and `r max(article_metadata$Year)`. Overall, this analysis includes `r length(table(df$StudyId))` studies containing `r nrow(df)` comparisons.
+The flow of study selection is shown in Figure 1. Studies included were published between `r min(article_metadata$Year)` and `r max(article_metadata$Year)`. Overall, this analysis includes `r length(table(df$StudyId))` studies containing `r nrow(df)` comparisons.
+
+```{r PRISMA flowchart, eval = TRUE, echo = FALSE, warning=FALSE, message=FALSE}
+prisma_data <- read_csv("~/data/LSR3_prisma_211223.csv")
+dfp <- PRISMA_data(prisma_data)
+PRISMA_flowdiagram(dfp, interactive=FALSE, previous=FALSE, other=FALSE,
+                    detail_databases=FALSE, detail_registers=FALSE, fontsize=12, font="Helvetica",
+                    title_colour="Goldenrod1", greybox_colour="Gainsboro", main_colour="Black",
+                    arrow_colour="Black", arrow_head="normal", arrow_tail="none", side_boxes=TRUE )
+
+
+```
 
 References of included studies are located in the appendix. Included studies used `r length(table(df$ModelID))` unique disease model induction procedures.
 
