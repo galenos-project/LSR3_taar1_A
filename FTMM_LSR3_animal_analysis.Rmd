@@ -1,6 +1,6 @@
 ---
 title: "LSR3 analysis: effects of TAAR1 agonists in animal models of psychosis"
-author: "Francesca Tinsdeall, Fiona Ramage and Malcolm Macleod"
+author: "Francesca Tinsdeall"
 date: "2023-12-19"
 output: html_document
 ---
@@ -30,21 +30,23 @@ library(rlang)
 devtools::install_github("mcguinlu/robvis")
 install_github("mcguinlu/robvis")
 library(robvis)
-library(PRISMA2020)
 
+
+# Set working directory for all subsequent chunks
+# knitr::opts_knit$set(root.dir = "~/OneDrive - University of Edinburgh/Applications/WT Mental Health/LSR3/FRFT files 241223")
 
 #define LSR
 LSR <- 'LSR3'
 # define date of processing
-DoP <- Sys.Date()
+DoP <- '2023-12-20'
 
 
 # All function needed to run this notebook (analyses, etc.) should be in a util.R file
-source("/util/util.R")
+source("util 5 211223.R")
 
 # obtain the data and prepare them for analysis - all data cleaning routines should be in this .R script 
-source("wrangling/wrangling_functions.R", local = TRUE)
-source("wrangling/data_wrangle_script.R")
+source("wrangling_functions 201223.R", local = TRUE)
+source("data_wrangle_script 201223.R")
 
 #Round off results to two digits
 options(scipen=100, digits=3)
@@ -65,18 +67,7 @@ article_metadata <- df %>%
   distinct()
 ```
 
-The flow of study selection is shown in Figure 1. Studies included were published between `r min(article_metadata$Year)` and `r max(article_metadata$Year)`. Overall, this analysis includes `r length(table(df$StudyId))` studies containing `r nrow(df)` comparisons.
-
-```{r PRISMA flowchart, eval = TRUE, echo = FALSE, warning=FALSE, message=FALSE}
-prisma_data <- read_csv("~/data/LSR3_prisma_211223.csv")
-dfp <- PRISMA_data(prisma_data)
-PRISMA_flowdiagram(dfp, interactive=FALSE, previous=FALSE, other=FALSE,
-                    detail_databases=FALSE, detail_registers=FALSE, fontsize=12, font="Helvetica",
-                    title_colour="Goldenrod1", greybox_colour="Gainsboro", main_colour="Black",
-                    arrow_colour="Black", arrow_head="normal", arrow_tail="none", side_boxes=TRUE )
-
-
-```
+The flow of study selection is shown in Figure 1 (*to be included*). Studies included were published between `r min(article_metadata$Year)` and `r max(article_metadata$Year)`. Overall, this analysis includes `r length(table(df$StudyId))` studies containing `r nrow(df)` comparisons.
 
 References of included studies are located in the appendix. Included studies used `r length(table(df$ModelID))` unique disease model induction procedures.
 
@@ -262,6 +253,35 @@ ARRIVE_summary(df, "Simple intervention", "Social interaction")
 ARRIVE_traffic(df, "Simple intervention", "Social interaction")
 ```
 
+##### Outcome 5 : Stereotypy
+
+##### Risks of bias
+
+Figure x shows the risk of bias summary for studies investigating the effect of administering a TAAR1 agonist on stereotypy in animals. The risk of bias assessment was performed using the SYRCLE’s RoB tool. Figure y shows the corresponding traffic light plot.
+
+**Figure x**
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE}
+SyRCLE_RoB_summary(df, "Simple intervention", "Stereotypy")
+```
+
+**Figure y**
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE}
+SyRCLE_RoB_traffic(df, "Simple intervention", "Stereotypy")
+```
+
+##### Reporting quality
+
+Figure x shows the reporting quality summary for studies investigating the effect of administering a TAAR1 agonist on stereotypy in animals. The reporting quality assessment was performed using the ARRIVE guidelines. Figure y shows the corresponding traffic light plot.
+
+**Figure x**
+```{r warning=FALSE, eval = TRUE, echo = FALSE}
+ARRIVE_summary(df, "Simple intervention", "Stereotypy")
+```
+
+**Figure y**
+```{r fig.height = 10,warning=FALSE, eval = TRUE, echo = FALSE}
+ARRIVE_traffic(df, "Simple intervention", "Stereotypy")
+```
 
 
 # Meta-analyses by experiment type and outcome
@@ -308,29 +328,29 @@ Between-strain variance was `r SMD_S_cog$sigma2[1]`, between-study variance was 
 options(scipen=100, digits=3)
 ```
 
-For each outcome, the covriates of interest for **subgroup analyses** are; 
+For each outcome, the covriates of interest for subgroup analyses are; 
 
-- Sex
+- **Sex**
 
-- Category of disease induction 
+- **Category of disease induction** 
 
-- Route of intervention administration
+- **Route of intervention administration**
 
-- Whether the intervention was prophylactic or therapeutic (i.e. administered before or after disease model induction)
+- **Whether the intervention was prophylactic or therapeutic (i.e. administered before or after disease model induction)**
 
-- Duration of treatment period
+- **Duration of treatment period**
 
-- The intervention administered
+- **The intervention administered**
 
-- The efficacy of the drug (i.e. whether the drug is a partial or full agonist)
+- **The efficacy of the drug (i.e. whether the drug is a partial or full agonist)**
 
-- The selectivity of the drug
+- **The selectivity of the drug**
 
 ## Subgroup analyses for simple interventions
 
-### Locomotor activity
+### Outcome 1: Locomotor activity
 
-##### 1. Sex
+##### Sex
 
 Figure 4 displays the estimates for the pooled SMD's when comparisons are stratified by sex of the animal. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by sex, is displayed as a diamond shape at the bottom of the plot. 
 
@@ -343,7 +363,7 @@ SMD_S_LMA_sex <- plot_subgroup_analysis(df, "Simple intervention", "Locomotor ac
 
 The pooled SMD estimate for male animals was `r SMD_S_LMA_sex$subgroup_rma_summary[SMD_S_LMA_sex$subgroup_rma_summary$Sex == "Male", "SMD"]`, for females `r SMD_S_LMA_sex$subgroup_rma_summary[SMD_S_LMA_sex$subgroup_rma_summary$Sex == "Female", "SMD"]`, and for mixed cohorts `r SMD_S_LMA_sex$subgroup_rma_summary[SMD_S_LMA_sex$subgroup_rma_summary$Sex == "Mixed male and female", "SMD"]`. The pooled SMD estimate for comparisons not reporting the sex of the animals within the experimental cohort was `r SMD_S_LMA_sex$subgroup_rma_summary[SMD_S_LMA_sex$subgroup_rma_summary$Sex == "Not reported", "SMD"]`. 
 
-##### 2. Category of disease induction
+##### Category of disease induction
 
 Figure 5 displays the estimates for the pooled SMD's when comparisons are stratified by the category of disease induction. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by category of disease induction, is displayed as a diamond shape at the bottom of the plot. 
 
@@ -356,7 +376,7 @@ SMD_S_LMA_CatDisInd <- plot_subgroup_analysis(df, "Simple intervention", "Locomo
 
 The pooled SMD estimate for comparisons using pharmacological methods to induce the disease model was `r SMD_S_LMA_CatDisInd$subgroup_rma_summary[SMD_S_LMA_CatDisInd$subgroup_rma_summary$CategoryDiseaseInduction == "Pharmacological (e.g. psychostimulants, NMDA antagonists)", "SMD"]`, and for comparisons using genetic methods to induce the disease model `r SMD_S_LMA_CatDisInd$subgroup_rma_summary[SMD_S_LMA_CatDisInd$subgroup_rma_summary$CategoryDiseaseInduction == "Genetic (e.g. DISC1 KO, DAT KO, D2R overexpression)", "SMD"]`.
 
-##### 3. Route of intervention administration
+##### Route of intervention administration
 
 Figure 6 displays the estimates for the pooled SMD's when comparisons are stratified by the route of intervention administration. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by route of intervention administration, is displayed as a diamond shape at the bottom of the plot. 
 
@@ -369,7 +389,7 @@ SMD_S_LMA_AdminRoute <- plot_subgroup_analysis(df, "Simple intervention", "Locom
 
 The pooled SMD estimate for  experiments administering the TAAR1 agonist intraperitoneally was `r SMD_S_LMA_AdminRoute$subgroup_rma_summary[SMD_S_LMA_AdminRoute$subgroup_rma_summary$InterventionAdministrationRoute == "Intraperitoneal (IP) injection", "SMD"]`, and for  experiments administering the TAAR1 agonist orally `r SMD_S_LMA_AdminRoute$subgroup_rma_summary[SMD_S_LMA_AdminRoute$subgroup_rma_summary$InterventionAdministrationRoute == "Oral administration/gavage", "SMD"]`.
 
-##### 4. Prophylactic or therapeutic intervention 
+##### Prophylactic or therapeutic intervention 
 
 Figure 7 displays the estimates for the pooled SMD's when comparisons are stratified by whether the intervention was administered prophylactically or therapeutically. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by whether the intervention was administered prophylactically or therapeutically, is displayed as a diamond shape at the bottom of the plot.
 
@@ -382,11 +402,11 @@ SMD_S_LMA_ProphThera <- plot_subgroup_analysis(df, "Simple intervention", "Locom
 
 The pooled SMD estimate for  experiments administering the TAAR1 agonist prophylactically was `r SMD_S_LMA_ProphThera$subgroup_rma_summary[SMD_S_LMA_ProphThera$subgroup_rma_summary$ProphylacticOrTherapeutic == "Prophylactic", "SMD"]`, and for  experiments administering the TAAR1 agonist therapeutically `r SMD_S_LMA_ProphThera$subgroup_rma_summary[SMD_S_LMA_ProphThera$subgroup_rma_summary$ProphylacticOrTherapeutic == "Therapeutic", "SMD"]`.
 
-#### 5. Duration of treatment period
+#### Duration of treatment period
 
 In this iteration of the review, all comparisons administered the TAAR1 agonist for < 1 week. Therefore, no subgroup analyses were conducted for this variable.
 
-##### 6. The intervention administered 
+##### The intervention administered 
 
 Figure 8 displays the estimates for the pooled SMD's when comparisons are stratified by the intervention administered. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by the intervention administered, is displayed as a diamond shape at the bottom of the plot.
 
@@ -399,7 +419,7 @@ The TAAR1 agonist SEP-363856 (Ultaront) was administered in `r SMD_S_LMA_Drug$su
 
 The pooled SMD estimate for  experiments administering the TAAR1 agonist SEP-363856 was `r SMD_S_LMA_Drug$subgroup_rma_summary[SMD_S_LMA_Drug$subgroup_rma_summary$DrugName == "SEP-363856", "SMD"]`. For  experiments administering the TAAR1 agonist RO5203648 the pooled estimate was `r SMD_S_LMA_Drug$subgroup_rma_summary[SMD_S_LMA_Drug$subgroup_rma_summary$DrugName == "RO5203648", "SMD"]`. For  experiments administering the TAAR1 agonist RO5166017  `r SMD_S_LMA_Drug$subgroup_rma_summary[SMD_S_LMA_Drug$subgroup_rma_summary$DrugName == "RO5166017", "SMD"]`, for  experiments administering the TAAR1 agonist RO5263397  `r SMD_S_LMA_Drug$subgroup_rma_summary[SMD_S_LMA_Drug$subgroup_rma_summary$DrugName == "RO5263397", "SMD"]`, for  experiments administering the TAAR1 agonist RO5256390  `r SMD_S_LMA_Drug$subgroup_rma_summary[SMD_S_LMA_Drug$subgroup_rma_summary$DrugName == "RO5256390", "SMD"]`, for  experiments administering the TAAR1 agonist RO5073012  `r SMD_S_LMA_Drug$subgroup_rma_summary[SMD_S_LMA_Drug$subgroup_rma_summary$DrugName == "RO5073012", "SMD"]`, for  experiments administering the TAAR1 agonist LK000764  `r SMD_S_LMA_Drug$subgroup_rma_summary[SMD_S_LMA_Drug$subgroup_rma_summary$DrugName == "LK000764", "SMD"]`, for  experiments administering the TAAR1 agonist AP163  `r SMD_S_LMA_Drug$subgroup_rma_summary[SMD_S_LMA_Drug$subgroup_rma_summary$DrugName == "AP163", "SMD"]`, for  experiments administering the TAAR1 agonist Compound 50A  `r SMD_S_LMA_Drug$subgroup_rma_summary[SMD_S_LMA_Drug$subgroup_rma_summary$DrugName == "Compound 50A", "SMD"]`, and for  experiments administering the TAAR1 agonist Compound 50B `r SMD_S_LMA_Drug$subgroup_rma_summary[SMD_S_LMA_Drug$subgroup_rma_summary$DrugName == "Compound 50B", "SMD"]`.
 
-##### 7. The efficacy of the drug (i.e. whether the drug is a partial or full agonist)
+##### The efficacy of the drug (i.e. whether the drug is a partial or full agonist)
 
 Figure 9 displays the estimates for the pooled SMD's when comparisons are stratified by the action/efficacy of the intervention administered. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by intervention efficacy, is displayed as a diamond shape at the bottom of the plot.
 
@@ -412,9 +432,9 @@ TAAR1 partial agonists were used in `r SMD_S_LMA_DrugEfficacy$subgroup_rma_summa
 
 The pooled SMD estimate for experiments administering a TAAR1 partial agonist was `r SMD_S_LMA_DrugEfficacy$subgroup_rma_summary[SMD_S_LMA_DrugEfficacy$subgroup_rma_summary$Efficacy == "TAAR1 partial agonist", "SMD"]` and for those administering a TAAR1 full agonist `r SMD_S_LMA_DrugEfficacy$subgroup_rma_summary[SMD_S_LMA_DrugEfficacy$subgroup_rma_summary$Efficacy == "TAAR1 full agonist", "SMD"]`.
 
-##### 8. The selectivity of the drug 
+##### The selectivity of the drug 
 
-Figure 9 displays the estimates for the pooled SMD's when comparisons are stratified by the selectivity of the intervention administered. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by intervention selectivity, is displayed as a diamond shape at the bottom of the plot.
+Figure 10 displays the estimates for the pooled SMD's when comparisons are stratified by the selectivity of the intervention administered. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by intervention selectivity, is displayed as a diamond shape at the bottom of the plot.
 
 **Figure 10**
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', fig.width=9, fig.height=5} 
@@ -425,37 +445,39 @@ TAAR1 agonists with high DrugSelectivity were used in `r SMD_S_LMA_DrugSelectivi
 
 The pooled SMD estimate for experiments administering a TAAR1 agonist with high selectivity was `r SMD_S_LMA_DrugSelectivity$subgroup_rma_summary[SMD_S_LMA_DrugSelectivity$subgroup_rma_summary$Selectivity == "High", "SMD"]`. The estimate for  experiments administering a TAAR1 agonist with low selectivity was `r SMD_S_LMA_DrugSelectivity$subgroup_rma_summary[SMD_S_LMA_DrugSelectivity$subgroup_rma_summary$Selectivity == "Low (5HT1A partial agonism)", "SMD"]`, and for those experiments administering a TAAR1 agonist with an unknown selectivity `r SMD_S_LMA_DrugSelectivity$subgroup_rma_summary[SMD_S_LMA_DrugSelectivity$subgroup_rma_summary$Selectivity == "Unclear", "SMD"]`.
 
-#### Heterogeneity explained by covariates (Simple interventions, Locomotor activity)
+##### Heterogeneity explained by covariates (simple interventions on locomotor activity)  
+**potentially include meta-regress. and put after metaregression section. NEED TO CHECK HOW WE ARE CALCULATING/EXTRACTING TAU**
 
 The table below shows which of the covariates, if any, explain some of the heterogeneity (reduction of tau) observed in the effect sizes of the effect of TAAR1 agonists on locomotor activity. 
 
-| Moderator | \( \beta \) | 95% CI | \( \tau^2 \) | Test of moderator effect |
-|:---:|:---:|:---:|:---:|
-| Overall effect | `r SMD_S_LMA$beta[1]` | `r SMD_S_LMA$ci.lb` - `r SMD_S_LMA$ci.ub` | `r SMD_S_LMA$sigma2[2]` | NA |
-| *Sex* | - | - | `r SMD_S_LMA_sex$subgroup_analysis$sigma2[2]` | `r if (SMD_S_LMA_Sex$subgroup_analysis$QMp < 0.05) {"p-val < .05"} else {"p-val > 0.05"}`| 
+| Moderator | Category | \( \beta \) | 95% CI | \( \tau^2 \) | Test of moderator effect |
+|:---:|:---:|:---:|:---:|:---:|:---:|
+| Overall effect | - | `r SMD_S_LMA$beta[1]` | `r SMD_S_LMA$ci.lb` - `r SMD_S_LMA$ci.ub` | `r SMD_S_LMA$sigma2[2]` | NA |
+| Sex | - | - | - | `r SMD_S_LMA_sex$subgroup_analysis$sigma2[2]` | `r if (SMD_S_LMA_sex$subgroup_analysis$QMp < 0.05) {"p-val < .05"} else {"p-val > 0.05"}`| 
+| - | *Not reported* | `r SMD_S_LMA_sex$subgroup_analysis$beta[1]` | `r SMD_S_LMA_sex$subgroup_analysis$ci.lb[1]` - `r SMD_S_LMA_sex$subgroup_analysis$ci.ub[1]` | - | - | 
+| - | *Male* | `r SMD_S_LMA_sex$subgroup_analysis$beta[2]` | `r SMD_S_LMA_sex$subgroup_analysis$ci.lb[2]` - `r SMD_S_LMA_sex$subgroup_analysis$ci.ub[2]` | - | - | 
+| - | *Mixed* | `r SMD_S_LMA_sex$subgroup_analysis$beta[3]` | `r SMD_S_LMA_sex$subgroup_analysis$ci.lb[3]` - `r SMD_S_LMA_sex$subgroup_analysis$ci.ub[3]` | - | - | 
+| - | *Female* | `r SMD_S_LMA_sex$subgroup_analysis$beta[4]` | `r SMD_S_LMA_sex$subgroup_analysis$ci.lb[4]` - `r SMD_S_LMA_sex$subgroup_analysis$ci.ub[4]` | - | - | 
 
 
-| *Category of disease induction* | `r SMD_S_LMA_CatDisInd$subgroup_analysis$sigma2[2]` |
-| *Route of intervention administration* | `r SMD_S_LMA_AdminRoute$subgroup_analysis$sigma2[2]` |
-| *Prophylactic or therapeutic intervention* | `r SMD_S_LMA_ProphThera$subgroup_analysis$sigma2[2]` |
-| *The intervention administered* | `r SMD_S_LMA_Drug$subgroup_analysis$sigma2[2]` |
-| *Drug efficacy* | `r SMD_S_LMA_DrugEfficacy$subgroup_analysis$sigma2[2]` |
-| *Drug selectivity* | `r SMD_S_LMA_DrugSelectivity$subgroup_analysis$sigma2[2]` |
-| Unadjusted results | `r SMD_S_LMA$sigma2[2]` |
 
 
-### Subgroup analyses for Cognition 
+### Outcome 2: Cognition 
+
+##### Sex
+
+
 
 
 
 
 # Meta-regression analyses
 
-For each outcome, the variables of interest for **meta-regression analyses** are; 
+For each outcome, the variables of interest for meta-regression analyses are; 
 
-- The potency of the intervention 
+- **The potency of the intervention** 
 
-- The dose of the intervention administered (where there is sufficient data)
+- **The dose of the intervention administered** 
 
 ## Meta-regression analyses for simple interventions
 
