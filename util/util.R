@@ -120,6 +120,10 @@ plot_subgroup_analysis <- function(df, experiment_type, outcome, moderator, rho_
   if (is.character(df2[[moderator]])) {
     df2[[moderator]] <- factor(df2[[moderator]])}
   
+  #df2$RoBScore <- as.numeric(df2$RoBScore)
+  #df2$RoBScore <- factor(df2$RoBScore, levels = c(0, 1, 2))
+  
+  
   #df2<-df2 %>% 
     #filter(SMD>-6) %>% 
     #filter(SMD<6) # delete missing values and some weirdly large values, like -15 and 16
@@ -200,7 +204,8 @@ plot_subgroup_analysis <- function(df, experiment_type, outcome, moderator, rho_
               col.by="black",
               fill.equi="aliceblue",
               leftcols = c(moderator,"k"),
-              leftlabs=c(moderator,"Number of experiments"))
+              leftlabs=c(moderator,"Number of experiments"), 
+              )
   
   return(list(
     subgroup_analysis = subgroup_analysis,
@@ -322,101 +327,6 @@ metaregression_analysis_by_drug <- function(df, experiment_type, outcome, drug_n
     regression_plot = x))
 }
 
-############################################################
-run_ML_NMD <- function(df, experiment, outcome, rho_value) {
-  
-  df<-filter_experiment_outcome_type(df, experiment, outcome) 
-  
-  df<-df %>% 
-    filter(!is.na(NMDv)) %>% 
-    filter(NMD>-600) %>% 
-    filter(NMD<600) # delete missing values and some weirdly large values, like -15 and 16
-  
-  df <- df %>% mutate(effect_id = row_number()) # add effect_id column
-  
-  #calculate variance-covariance matrix of the sampling errors for dependent effect sizes
-  
-  VCVM_NMD <- vcalc(vi = NMDv,
-                    cluster = StudyId, 
-                    subgroup= ExperimentID,
-                    obs=effect_id,
-                    data = df, 
-                    rho = rho_value) 
-  
-  NMD_ML <- rma.mv(yi = NMD,
-                   V = VCVM_NMD,
-                   random = ~1 | Strain / StudyId / ExperimentID, # nested levels
-                   test = "t", # use t- and F-tests for making inferences
-                   data = df,
-                   dfs="contain",
-                   control=list(optimizer="nlm")
-  )
-  
-  #if (length(unique(df$StudyId)) > 1) {
-  #NMD_ML <- robust(NMD_ML, cluster = StudyId, clubSandwich = FALSE)
-  #}
-  
-  cat("Meta analysis summary:\n")
-  print(summary(NMD_ML))
-  
-  cat("\n-------------------------\n")
-  
-  cat("Prediction Interval:\n")
-  
-  pred_interval <- predict(NMD_ML)
-  
-  print(pred_interval)
-  
-  return(NMD_ML)
-}
-
-forest_metafor_NMD <- function(model, outcome){
-  
-  lower_x <- min(model[["yi"]])-mean(model[["vi"]])
-  upper_x <- max(model[["yi"]])+mean(model[["vi"]])
-  summary_x <- model[["beta"]]
-  
-  at_values <- seq(floor(lower_x / 5) * 5, ceiling(upper_x / 5) * 5, by = 5)
-  
-  pred_interval <- predict(model)
-  
-  ifelse(model[["k"]] > 25, 
-         forest_plot <- forest(model, 
-                               xlim=c(lower_x-20, upper_x+20),
-                               mlab="NMD",
-                               slab=NA,
-                               alim=c(lower_x-20, upper_x+20),
-                               at = at_values,
-                               col = c("darkred","darkred"),
-                               addfit = TRUE,
-                               addpred = TRUE,
-                               annotate = FALSE,
-                               order="obs",
-                               xlab = "", 
-                               cex = 1.0, 
-                               cex.axis = 1.0, 
-                               cex.lab = 1.2,
-                               efac = c(1,1,3)), 
-         forest_plot <- forest(model, 
-                               xlim=c(lower_x-20, upper_x+20),
-                               mlab="NMD",
-                               slab=NA,
-                               alim=c(lower_x-20, upper_x+20),
-                               at = at_values,
-                               col = c("darkred","darkred"),
-                               addfit = TRUE,
-                               addpred = TRUE,
-                               annotate = TRUE,
-                               order="obs",
-                               xlab = ""))
-  
-  #mtext(outcome, side = 1, line = 3, cex = 1.2, font = 2)
-  mtext("Favours control", side = 1, line = 3, at = (lower_x + 30), cex = 1.2, col = "red", font = 1)
-  mtext("Favours TAAR1 agonist", side = 1, line = 3, at = (upper_x - 40), cex = 1.2, col = "darkgreen", font = 1)
-  mtext(paste0("NMD: ", round(model$beta, 2), " (", round(model$ci.lb, 2), " to ", round(model$ci.ub, 2), ")"), side = 2, line = 3, cex = 1.2, font = 2)
-  title(paste0("TAAR1 agonist effect on ", outcome, " in psychosis (NMD)"))
-  
-}
 
 ###########################################
 ### risk of bias visualisation function ###
@@ -707,6 +617,100 @@ run_sse_plot <- function(df, rho_value = 0.5) {
   return(plot)
 }
 
+############################################################
+run_ML_NMD <- function(df, experiment, outcome, rho_value) {
+  
+  df<-filter_experiment_outcome_type(df, experiment, outcome) 
+  
+  df<-df %>% 
+    filter(!is.na(NMDv)) %>% 
+    filter(NMD>-600) %>% 
+    filter(NMD<600) # delete missing values and some weirdly large values, like -15 and 16
+  
+  df <- df %>% mutate(effect_id = row_number()) # add effect_id column
+  
+  #calculate variance-covariance matrix of the sampling errors for dependent effect sizes
+  
+  VCVM_NMD <- vcalc(vi = NMDv,
+                    cluster = StudyId, 
+                    subgroup= ExperimentID,
+                    obs=effect_id,
+                    data = df, 
+                    rho = rho_value) 
+  
+  NMD_ML <- rma.mv(yi = NMD,
+                   V = VCVM_NMD,
+                   random = ~1 | Strain / StudyId / ExperimentID, # nested levels
+                   test = "t", # use t- and F-tests for making inferences
+                   data = df,
+                   dfs="contain",
+                   control=list(optimizer="nlm")
+  )
+  
+  #if (length(unique(df$StudyId)) > 1) {
+  #NMD_ML <- robust(NMD_ML, cluster = StudyId, clubSandwich = FALSE)
+  #}
+  
+  cat("Meta analysis summary:\n")
+  print(summary(NMD_ML))
+  
+  cat("\n-------------------------\n")
+  
+  cat("Prediction Interval:\n")
+  
+  pred_interval <- predict(NMD_ML)
+  
+  print(pred_interval)
+  
+  return(NMD_ML)
+}
 
+forest_metafor_NMD <- function(model, outcome){
+  
+  lower_x <- min(model[["yi"]])-mean(model[["vi"]])
+  upper_x <- max(model[["yi"]])+mean(model[["vi"]])
+  summary_x <- model[["beta"]]
+  
+  at_values <- seq(floor(lower_x / 5) * 5, ceiling(upper_x / 5) * 5, by = 5)
+  
+  pred_interval <- predict(model)
+  
+  ifelse(model[["k"]] > 25, 
+         forest_plot <- forest(model, 
+                               xlim=c(lower_x-20, upper_x+20),
+                               mlab="NMD",
+                               slab=NA,
+                               alim=c(lower_x-20, upper_x+20),
+                               at = at_values,
+                               col = c("darkred","darkred"),
+                               addfit = TRUE,
+                               addpred = TRUE,
+                               annotate = FALSE,
+                               order="obs",
+                               xlab = "", 
+                               cex = 1.0, 
+                               cex.axis = 1.0, 
+                               cex.lab = 1.2,
+                               efac = c(1,1,3)), 
+         forest_plot <- forest(model, 
+                               xlim=c(lower_x-20, upper_x+20),
+                               mlab="NMD",
+                               slab=NA,
+                               alim=c(lower_x-20, upper_x+20),
+                               at = at_values,
+                               col = c("darkred","darkred"),
+                               addfit = TRUE,
+                               addpred = TRUE,
+                               annotate = TRUE,
+                               order="obs",
+                               xlab = ""))
+  
+  #mtext(outcome, side = 1, line = 3, cex = 1.2, font = 2)
+  mtext("Favours control", side = 1, line = 3, at = (lower_x + 30), cex = 1.2, col = "red", font = 1)
+  mtext("Favours TAAR1 agonist", side = 1, line = 3, at = (upper_x - 40), cex = 1.2, col = "darkgreen", font = 1)
+  mtext(paste0("NMD: ", round(model$beta, 2), " (", round(model$ci.lb, 2), " to ", round(model$ci.ub, 2), ")"), side = 2, line = 3, cex = 1.2, font = 2)
+  title(paste0("TAAR1 agonist effect on ", outcome, " in psychosis (NMD)"))
+  
+}
 
   

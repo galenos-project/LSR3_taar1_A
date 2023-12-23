@@ -730,17 +730,41 @@ df <- df %>%
                             DrugName == "Compound 50B" ~ 0.405, 
                             TRUE ~ NA_real_)) 
 
-
-# Calculate standardised dose
+# Calculate standardised dose for overall dose-response meta-regression
 df <- df %>% 
   mutate(DoseOfIntervention_mgkg = as.numeric(DoseOfIntervention_mgkg)) %>% 
-  mutate(StandardisedDose = log(DoseOfIntervention_mgkg)/((MolarMass*1000)*(EC50mM/1000000))) 
+  mutate(StandardisedDose = (log(DoseOfIntervention_mgkg))/((MolarMass*1000)*(EC50mM/1000000))) 
 
+
+###### For RoB subgroup analysis ######
+df <- df %>%
+  rename(`(RoB) Were caregivers/investigator blinded to which intervention each animal received?` = `Were caregivers/investigator blinded to which intervention each animal received?`)
+
+# Calculate overall RoB score
+
+df <- df %>%
+  rowwise() %>%
+  mutate(RoBScore = sum(c_across(contains("RoB")) == "Yes", na.rm = TRUE)) %>%
+  ungroup() %>% 
+  mutate(RoBScore = paste0(RoBScore, " criteria met"))
+
+##### For reporting quality subgroup analysis #####
+df <- df %>% 
+  rename(`(ARRIVE) Is any role of the funder in the design/analysis/reporting of the study described?` = `Is any role of the funder in the design/analysis/reporting of study described?`)
+
+# Calculate overall ARRIVE score
+df <- df %>%
+  mutate(ARRIVEScore = rowSums(across(contains("ARRIVE"), ~ (.x == "Yes") | (.x == "NA (ethical approval declared)")), na.rm = TRUE)) %>% 
+  mutate(ARRIVEScoreCat = case_when(ARRIVEScore <= 3 ~ "A: < 3 criteria met",
+                                    ARRIVEScore > 3 & ARRIVEScore <= 7 ~ "B: 4-7 criteria met",
+                                    ARRIVEScore > 7 & ARRIVEScore <= 11 ~ "C: 8-11 criteria met",
+                                    ARRIVEScore > 11 & ARRIVEScore <= 15 ~ "D: 12-15 criteria met",
+                                    ARRIVEScore > 15 & ARRIVEScore <= 19 ~ "E: 16-19 criteria met",
+                                    ARRIVEScore > 19 ~ "F: > 20 criteria met")) %>% 
+  mutate(ARRIVEScoreCat = as.factor(ARRIVEScoreCat))
+                                   
 
 # SAVE FILE
 savefile_output <- paste0(LSR,'_','clean_data_',Sys.Date(),'.csv')
 write.csv(df, savefile_output, row.names = FALSE)
-
-
-
 
