@@ -15,6 +15,30 @@ split_columns <- function(x) {
   return(x)
 }
 
+process_cohort <- function(cohset, cohort_type, prefix) {
+  subset_cohort <- subset(cohset, CohortType == cohort_type)
+  
+  if (nrow(subset_cohort) > 0) {
+    cohset[paste0(prefix, "_label")] <- subset_cohort[1, lab_n]
+    cohset[paste0(prefix, "_n")] <- subset_cohort[1, n_n]
+    cohset[paste0(prefix, "_m")] <- subset_cohort[1, m_n]
+    cohset[paste0(prefix, "_v")] <- subset_cohort[1, v_n]
+  }
+  
+  return(cohset)
+}
+
+process_cohort_type <- function(cohset, cohort_type, label_prefix) {
+  if (any(cohset$CohortType == cohort_type)) {
+    subset_cohort <- subset(cohset, CohortType == cohort_type)
+    cohset[paste0(label_prefix, "_label")] <- subset_cohort[, lab_n]
+    cohset[paste0(label_prefix, "_n")] <- subset_cohort[, n_n]
+    cohset[paste0(label_prefix, "_m")] <- subset_cohort[, m_n]
+    cohset[paste0(label_prefix, "_v")] <- subset_cohort[, v_n]
+  }
+  return(cohset)
+}
+
 positive_control_cohort_type <- function(x) {
   # Identify the groups that have 'Combination intervention'
   combination_groups <- x %>%
@@ -61,5 +85,3 @@ add_missing_sham <- function(x) {
   
   return(y)
 }
-
-
