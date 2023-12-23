@@ -698,7 +698,7 @@ df <- df %>%
                                  DrugName == "AP163" ~ "Unclear",
                                  DrugName == "Compound 50A" ~ "Unclear",
                                  DrugName == "Compound 50B" ~ "Low (5HT1A partial agonism)", 
-                                 TRUE ~ "NA"))
+                                 TRUE ~ "NA")) %>%
 
 # SAVE FILE
 savefile_output <- paste0(LSR,'_','clean_data_',Sys.Date(),'.csv')
