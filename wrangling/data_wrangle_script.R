@@ -5,6 +5,7 @@ library(tidyverse)
 library(tidyr)
 library(purrr)
 library(metafor)
+#setwd("Francesca_analysis")
 source("wrangling_functions.R", local = TRUE)
 
 LSR <- 'LSR3'
@@ -12,7 +13,7 @@ LSR <- 'LSR3'
 # Import SyRF outcome data
 LSR3_SyRFOutcomes <- read_csv("Quantitative_data_-_2023_12_18_-_c494b1ae-4cf4-4618-b91a-e69a2b815bdd_-_Investigators_Unblinded.csv")
 
-#clean instances of  ';' from TiAb etc
+#clean ; from TiAb etc
 LSR3_SyRFOutcomes$Title <- gsub(";", ":", LSR3_SyRFOutcomes$Title)
 LSR3_SyRFOutcomes$Abstract <- gsub(";", ":", LSR3_SyRFOutcomes$Abstract)
 LSR3_SyRFOutcomes$Authors <- gsub(";", ":", LSR3_SyRFOutcomes$Authors)
@@ -26,6 +27,8 @@ LSR3_SyRFOutcomes$CustomId <- gsub(";", ":", LSR3_SyRFOutcomes$CustomId)
 LSR3_SyRFOutcomes$Year<- gsub(";", ":", LSR3_SyRFOutcomes$Year)
 LSR3_SyRFOutcomes$ReferenceType <- gsub(";", ":", LSR3_SyRFOutcomes$ReferenceType)
 LSR3_SyRFOutcomes$PdfRelativePath <- gsub(";", ":", LSR3_SyRFOutcomes$PdfRelativePath)
+
+
 
 
 # Filter for reconciled studies (and rename columns for consistency with shiny outcomes/remove SYRF columnns)
@@ -52,7 +55,7 @@ LSR3_reconciled <- LSR3_SyRFOutcomes %>%
 
 ## Some studies were split due to their complexity, with RoB/ Arrive only entered once
 ## the ARRIVE/RoB data for the second split needs overwritten with the values from the first
-#if this is the case, identify the studyIds concerned, record in ll48 and 49, and change ll52-59 accordingly
+#if this is the case, identify the studyIds concerned, recort in ll48 and 49, and change ll52-59 accordingly
 
 ## Match split studies [Get pairs from bibliographic download on SyRF]
 ## Find position of the start and end of ARRIVE ROB columns to store column names between the start and end index
@@ -61,7 +64,11 @@ start_index <- match("Title", col_names)
 end_index <- match("Is any role of the funder in the design/analysis/reporting of study described?", col_names)
 ARRIVEROB_columns <- col_names[start_index:end_index] 
 
-##### 1. Overwrite appendix ARRIVE/ROB with main ARRIVE/ROB for both pairs
+
+
+
+
+## 1. Overwrite appendix ARRIVE/ROB with main ARRIVE/ROB for both pairs
 ## PAIR 1: fb8ed201-f663-48db-aae1-8ee88b355abd - main, dd9dddac-739b-412f-9fac-6f36e0a21494 - appendix
 r_to_r <- subset(LSR3_reconciled, LSR3_reconciled$StudyId == 'dd9dddac-739b-412f-9fac-6f36e0a21494')
 source_row <- subset(LSR3_reconciled, LSR3_reconciled$StudyId == 'fb8ed201-f663-48db-aae1-8ee88b355abd') %>% slice(1)
@@ -84,12 +91,12 @@ for(i in start_index: end_index) {
 residual_rows <- subset(LSR3_reconciled, !LSR3_reconciled$StudyId %in% r_to_r$StudyId)
 LSR3_reconciled <- rbind(residual_rows, r_to_r)
 
-##### 2. Replace StudyId of appendix studies with the StudyId of corresponding main paper
+## 2. Replace StudyId of appendix studies with the StudyId of corresponding main paper
 LSR3_reconciled <- LSR3_reconciled %>% 
   mutate(StudyId = ifelse(StudyId == 'dd9dddac-739b-412f-9fac-6f36e0a21494', 'fb8ed201-f663-48db-aae1-8ee88b355abd', StudyId)) %>% 
   mutate(StudyId = ifelse(StudyId == '283c541f-6f14-462b-9f3a-800b69a3f44c', '4f31dcd6-e041-4882-acc8-dbf3ccfd2368', StudyId))
 
-##### 3. Further step to remove observations from an accidental dual-reconciliation: choose the most recent reconciliation (unlikely to be necessary)
+## 3. Further step to remove observations from an accidental dual-reconciliation: choose the most recent reconciliation (unlikely to be necessary)
 # Choose the most recent reconciliation 
 recent_reconciledID <- LSR3_reconciled %>%
   arrange(desc(DateTimeDataEntered)) %>%
@@ -111,7 +118,14 @@ reconciled_records <- reconciled_records_unique %>%
   relocate(c(OutcomeLabel, OutcomeId), .after = ExperimentLabel) %>% 
   relocate(c(InterventionLabel), .after = InterventionID)
 
-# save these reconciled records - not used in furture processing but for transparency
+# this segmented removed by MM 151223
+# Remove ARRIVE/ROB columns and put into separate dataframe (-> reconciled_record_ROB). Join later
+# Now two dataframes, one which contains information that is the same for every observation within a study (reconciled_studyconstants), and one which contains information that differs across every observation (reconciled_studyvaried)
+# reonciled_record_ROB <- reconciled_records %>% 
+#  select(StudyId, ExperimentID, OutcomeId, any_of(ARRIVEROB_columns))
+#reconciled_records_noROB <- reconciled_records %>% 
+#  select(-any_of(ARRIVEROB_columns))
+
 savename <- paste0('reconciled_records_',Sys.Date(),'.csv')
 write.csv(reconciled_records, savename)
 
@@ -140,7 +154,7 @@ reconciled_cohort_label <- reconciled_records %>%
     )
   )
 
-## sort the records where disease model is blank (which are equivalent to sham)
+## sort the blank disease models (which are equivalent to sham)
 reconciled_cohort_label <- reconciled_cohort_label %>%
   mutate(
     IsDiseaseModelControl = case_when(
@@ -151,88 +165,99 @@ reconciled_cohort_label <- reconciled_cohort_label %>%
     )
   )
 
+
+
 ## Make CohortType column
 # Combination interventions are interventions where currently licensed antipsychotic is an intervention
 
 reconciled_cohort_type <- reconciled_cohort_label %>%
   mutate(CohortType = case_when(
-    IsDiseaseModelControl == TRUE & 
-      ((Treatment1Type == "TAAR1KO" & Treatment2Type == "Negative control") |
-         (Treatment2Type == "TAAR1KO" & Treatment1Type == "Negative control")) ~ "Sham for TAAR1KO comb.",
+    IsDiseaseModelControl == FALSE & 
+      ((Treatment1Type == "TAAR1KO" & (Treatment2Type == "Negative control"| is.na(Treatment2Type))) |
+       (Treatment2Type == "TAAR1KO" & (Treatment1Type == "Negative control"| is.na(Treatment1Type)))) ~ "Negative control for TAAR1KO",
     
     IsDiseaseModelControl == FALSE & 
-      ((Treatment1Type == "TAAR1KO" & Treatment2Type == "Negative control") |
-         (Treatment2Type == "TAAR1KO" & Treatment1Type == "Negative control")) ~ "Negative control for TAAR1KO comb.",
+      ((Treatment1Type == "Negative control"| is.na(Treatment1Type)) & (Treatment2Type == "Negative control"| is.na(Treatment2Type))) ~ "Negative control",
+    
+    IsDiseaseModelControl == FALSE & 
+      ((Treatment1Type == "Positive control" & (Treatment2Type == "Negative control"| is.na(Treatment2Type))) |
+         (Treatment2Type == "Positive control" & (Treatment1Type == "Negative control"| is.na(Treatment1Type)))) ~ "Positive control",
+    
+    IsDiseaseModelControl == FALSE & 
+      ((Treatment1Type == "Intervention" & (Treatment2Type == "Negative control"| is.na(Treatment2Type))) |
+         (Treatment2Type == "Intervention" & (Treatment1Type == "Negative control"| is.na(Treatment1Type)))) ~ "Simple intervention",
     
     IsDiseaseModelControl == FALSE & 
       ((Treatment1Type == "TAAR1KO" & Treatment2Type == "Positive control") |
-         (Treatment2Type == "TAAR1KO" & Treatment1Type == "Positive control")) ~ "Positive control for TAAR1KO comb.",
+         (Treatment2Type == "TAAR1KO" & Treatment1Type == "Positive control")) ~ "Positive control TAAR1KO",
     
     IsDiseaseModelControl == FALSE & 
       ((Treatment1Type == "TAAR1KO" & Treatment2Type == "Intervention") |
-         (Treatment2Type == "TAAR1KO" & Treatment1Type == "Intervention")) ~ "Intervention and TAAR1KO comb.",
-    
-    (IsDiseaseModelControl == TRUE | is.na(IsDiseaseModelControl)) & 
-      (Treatment1Type %in% c("TAAR1KO", "Negative control", NA) & 
-         Treatment2Type %in% c("TAAR1KO", "Negative control", NA)) ~ "Sham for simple intervention",
-    
-    (IsDiseaseModelControl == TRUE | is.na(IsDiseaseModelControl)) & 
-      (Treatment1Type == "Positive control" | Treatment2Type == "Positive control") ~ "Sham for combination intervention",
-    
-    (IsDiseaseModelControl == TRUE | is.na(IsDiseaseModelControl)) & 
-      (Treatment1Type == "Positive control" & (Treatment2Type != "Intervention" | is.na(Treatment2Type)) | 
-         (Treatment2Type == "Positive control" & (Treatment1Type != "Intervention" | is.na(Treatment1Type)))) ~ "Positive control treated sham",
-    
-    (IsDiseaseModelControl == TRUE | is.na(IsDiseaseModelControl)) & 
-      (Treatment1Type == "Intervention" | Treatment2Type == "Intervention") ~ "Intervention treated sham",
+         (Treatment2Type == "TAAR1KO" & Treatment1Type == "Intervention")) ~ "Intervention for TAAR1KO",
     
     IsDiseaseModelControl == FALSE & 
-      (Treatment1Type == "Positive control" & (Treatment2Type != "Intervention" | is.na(Treatment2Type)) | 
-         (Treatment2Type == "Positive control" & (Treatment1Type != "Intervention" | is.na(Treatment1Type)))) ~ "Positive control",
-    
-    IsDiseaseModelControl == FALSE & 
-      (Treatment1Type != "Intervention" | is.na(Treatment1Type)) & 
-      (Treatment2Type != "Intervention" | is.na(Treatment2Type)) ~ "Negative control for simple intervention",
+      ((Treatment1Type == "TAAR1KO" & Treatment2Type == "Positive control") |
+         (Treatment2Type == "TAAR1KO" & Treatment1Type == "Positive control")) ~ "Positive control for TAAR1KO",
     
     IsDiseaseModelControl == FALSE & 
       ((Treatment1Type == "Intervention" & Treatment2Type == "Positive control") | 
          (Treatment2Type == "Intervention" & Treatment1Type == "Positive control")) ~ "Combination intervention",
+
+    IsDiseaseModelControl == TRUE & 
+      ((Treatment1Type == "TAAR1KO" & (Treatment2Type == "Negative control"| is.na(Treatment2Type))) |
+         (Treatment2Type == "TAAR1KO" & (Treatment1Type == "Negative control"| is.na(Treatment1Type)))) ~ "Sham TAAR1KO",
     
-    IsDiseaseModelControl == FALSE & 
-      (Treatment1Type == "Intervention" & is.na(Treatment2Type)) | 
-      (Treatment2Type == "Intervention" & is.na(Treatment1Type)) ~ "Simple intervention"
-  )) %>% 
+    IsDiseaseModelControl == TRUE & 
+      ((Treatment1Type == "Negative control"| is.na(Treatment1Type)) & (Treatment2Type == "Negative control"| is.na(Treatment2Type))) ~ "Sham",
+        
+    IsDiseaseModelControl == TRUE & 
+          ((Treatment1Type == "Positive control" & (Treatment2Type == "Negative control"| is.na(Treatment2Type))) |
+             (Treatment2Type == "Positive control" & (Treatment1Type == "Negative control"| is.na(Treatment1Type)))) ~ "Sham Positive control",
+        
+    IsDiseaseModelControl == TRUE & 
+          ((Treatment1Type == "Intervention" & (Treatment2Type == "Negative control"| is.na(Treatment2Type))) |
+             (Treatment2Type == "Intervention" & (Treatment1Type == "Negative control"| is.na(Treatment1Type)))) ~ "Sham intervention",
+        
+    IsDiseaseModelControl == TRUE & 
+          ((Treatment1Type == "TAAR1KO" & Treatment2Type == "Positive control") |
+             (Treatment2Type == "TAAR1KO" & Treatment1Type == "Positive control")) ~ "Sham TAAR1KO Positive control",
+        
+    IsDiseaseModelControl == TRUE & 
+          ((Treatment1Type == "TAAR1KO" & Treatment2Type == "Intervention") |
+             (Treatment2Type == "TAAR1KO" & Treatment1Type == "Intervention")) ~ "Sham TAAR1KO intervention",
+        
+    IsDiseaseModelControl == TRUE & 
+          ((Treatment1Type == "TAAR1KO" & Treatment2Type == "Positive control") |
+             (Treatment2Type == "TAAR1KO" & Treatment1Type == "Positive control")) ~ "Sham TAAR1KO Positive control intervention for TAAR1KO comb",
+        
+    IsDiseaseModelControl == TRUE & 
+          ((Treatment1Type == "Intervention" & Treatment2Type == "Positive control") | 
+             (Treatment2Type == "Intervention" & Treatment1Type == "Positive control")) ~ "Sham Positive control intervention"
+      )) %>% 
   relocate(CohortType, .after = `InterventionID[2]`) %>% 
   relocate(c(Treatment1Type, Treatment2Type), .after = `InterventionLabel[2]`) %>% 
   relocate(IsDiseaseModelControl, .after = ModelID)
 
+reconciled_cohort_type <- reconciled_cohort_type %>%
+  mutate(GroupID = interaction(StudyId, ExperimentID, OutcomeId, TimeInMinute))
 
-## Label how positive controls are being used
-# If for an observation with the value "Positive control" in the CohortType column, there is an observation with the CohortType "Combination intervention" with the same combination of values in the StudyId, ExperimentID, OutcomeId, TimeInMinute variables, then the value in the CohortType column needs changed to "Control for combination intervention". Similarly, if for an observation with the value "Positive control treated sham" in the CohortType column, there is an observation with the CohortType "Combination intervention" with the same combination of values in the StudyId, ExperimentID, OutcomeId, TimeInMinute variables, then the value in the CohortType column needs changed to "Sham for combination intervention"
 
-reconciled_cohort_type <- positive_control_cohort_type(reconciled_cohort_type)
-
-############## FIX THIS SECTION IF EXCLUDING SOME POSITIVE CONTROLS #####################
-#only interested in positive controls that serve as a comparison to an intervention
-
-#test <- reconciled_cohort_type %>%  
- # filter(CohortType != "Control for combination intervention") %>% # remove positive controls that aren't for a simple intervention
-  # filter(CohortType != "Sham for combination intervention")
-
-#test <- reconciled_cohort_type %>%  
-  #group_by(GroupID) %>%   
-  #filter(CohortType == "Positive control" & any(CohortType == "Simple intervention")) %>%
-  #ungroup()
-
-#########################################################################################
-
+## Label how positive controls are being used in positive control v TAAR1 Ag experiments
+# If for an observation with the value "Positive control" in the CohortType column, there is an observation 
+# with the CohortType "Combination intervention" with the same combination of values in the StudyId, ExperimentID, 
+# OutcomeId, TimeInMinute variables, then the value in the CohortType column needs changed to "Control for 
+# combination intervention". Similarly, if for an observation with the value "Positive control treated sham" 
+# in the CohortType column, there is an observation with the CohortType "Combination intervention" with 
+# the same combination of values in the StudyId, ExperimentID, OutcomeId, TimeInMinute variables, then the 
+# value in the CohortType column needs changed to "Sham for combination intervention"
 
 ## Identify experiments that are just 'Simple' comparison, those which are 'Combination' comparisons and those which have 'TAAR1KO' involved
 reconciled_comparison_type <- reconciled_cohort_type %>%
   mutate(ExperimentType = case_when(
     str_detect(CohortType, "combination") | str_detect(CohortType, "Combination") ~ "Antipsychotic combination",
-    str_detect(CohortType, "TAAR1")  ~ "TAAR1KO combination",
-    str_detect(CohortType, "simple") | str_detect(CohortType, "Simple") ~ "Simple intervention"
+    str_detect(CohortType, "TAAR1")  ~ "TAAR1KO background",
+    str_detect(CohortType, "simple") | str_detect(CohortType, "Simple") ~ "Simple intervention",
+    str_detect(CohortType, "positive") ~ "Antipsychotic drug"
   ))
 
 reconciled_cohort_role <- reconciled_comparison_type %>% 
@@ -242,181 +267,165 @@ reconciled_cohort_role <- reconciled_comparison_type %>%
     str_detect(CohortType, "Intervention") | str_detect(CohortType, "intervention") ~ "I"
   ))
 
-## Add placeholder sham rows if not present: MM not sure why you would do this
-#  reconciled_with_shams <- add_missing_sham(reconciled_cohort_role)
 
 ## Wrangle wide so each observations is a single comparison
 data <- reconciled_cohort_role
+
+####following section can be removed when SyRF records have been corrected
+dfdelta <- data
+timecol <- match('TimeInMinute', names(dfdelta))
+
+groupid_col <- match('GroupId', names(dfdelta))
+dfdelta[325,138] <- 1
+dfdelta[280,138] <- 1
+dfdelta[277,138] <- 1
+data <- dfdelta
+data <- data %>%
+  mutate(GroupID = interaction(StudyId, ExperimentID, OutcomeId, TimeInMinute))
+
+#### SyRF correction section ends
+
+
 # remove DA knockouts
 data_rem <- subset(data, data$`DiseaseModelLabel(s)` == 'DAT +/-')
 data <- anti_join(data, data_rem)
 #remove data reported from subgroups
 data_rem <- data %>% filter(str_detect(`DiseaseModelLabel(s)`, "SUBGROUP") | str_detect(CohortLabel, 'SUBGROUP'))
 data <- anti_join(data, data_rem)
-
-groups <- as.data.frame(unique(data$GroupID))
-groups$`unique(data$GroupID)` <- as.character(groups$`unique(data$GroupID)`)
-
-###run 1  - moving relevant control and sham to another column###
-
-group <- groups[1,1]
-cohset <- subset(data, data$GroupID == group)
-
-chhrows <- nrow(cohset)
+data <- data %>%
+  mutate(`DiseaseModelLabel(s)` = ifelse(`DiseaseModelLabel(s)` == "DAT -/-", "DAT KO", `DiseaseModelLabel(s)`))
 
 lab_n <- match('CohortLabel', names(data))
 n_n <- match('NumberOfAnimals', names(data))
 m_n <- match('OutcomeResult', names(data))
 v_n <- match('OutcomeError', names(data))
 
-for (j in 1:chhrows) {
-  if (cohset$CohortType[j] == 'Negative control for simple intervention') {
-    cohset$Control_label <- cohset[j, lab_n]
-    cohset$Control_n <- cohset[j, n_n]
-    cohset$Control_m <- cohset[j, m_n]
-    cohset$Control_v <- cohset[j, v_n]
-  }
-}
+###for each cohort, label sham and control groups, along with TAAR1KO -ve control Contol for combination interventions (== positive control)
+groups <- as.data.frame(unique(data$GroupID))
+groups$`unique(data$GroupID)` <- as.character(groups$`unique(data$GroupID)`)
 
-for (j in 1:chhrows) {
-  if(cohset$CohortType[j] == 'Sham for simple intervention'){
-    cohset$Sham_label <- cohset[j,lab_n]
-    cohset$Sham_n <- cohset[j,n_n]
-    cohset$Sham_m <- cohset[j,m_n]
-    cohset$Sham_v <- cohset[j,v_n]
-  }
-}
-for (j in 1:chhrows) {
-  if(cohset$CohortType[j] == 'Control for combination intervention'){
-    cohset$CombC_label <- cohset[j,lab_n]
-    cohset$CombC_n <- cohset[j,n_n]
-    cohset$CombC_m <- cohset[j,m_n]
-    cohset$CombC_v <- cohset[j,v_n]
-  }
-}
-for (j in 1:chhrows) {
-  if(cohset$CohortType[j] == 'Sham for TAAR1KO comb.'){
-    cohset$ShamTAAR_label <- cohset[j,lab_n]
-    cohset$ShamTAAR_n <- cohset[j,n_n]
-    cohset$ShamTAAR_m <- cohset[j,m_n]
-    cohset$ShamTAAR_v <- cohset[j,v_n]
-  }
-}
-for (j in 1:chhrows) {
-  if(cohset$CohortType[j] == 'Negative control for TAAR1KO comb.'){
-    cohset$CTAAR_label <- cohset[j,lab_n]
-    cohset$CTAAR_n <- cohset[j,n_n]
-    cohset$CTAAR_m <- cohset[j,m_n]
-    cohset$CTAAR_v <- cohset[j,v_n]
-  }
-}
-
-data_org <- cohset
-
-### now run the rest###
-for(i in 2:nrow(groups)){
-  group <- groups[i,1]
-  cohset <- subset(data, data$GroupID == group)
-  #chhrows <- nrow(cohset)
-  # Assuming chhrows is the number of rows in cohset
-  chhrows <- nrow(cohset)
+for (i in 1:nrow(groups)) {
+  group <- groups[i, 1]
+  cohset <- subset(data, GroupID == group)
   
-  for (j in 1:chhrows) {
-    if (cohset$CohortType[j] == 'Negative control for simple intervention') {
-      cohset$Control_label <- cohset[j, lab_n]
-      cohset$Control_n <- cohset[j, n_n]
-      cohset$Control_m <- cohset[j, m_n]
-      cohset$Control_v <- cohset[j, v_n]
-    }
-  }
+  cohset <- process_cohort(cohset, 'Negative control', 'Control')
+  cohset <- process_cohort(cohset, 'Sham', 'Sham')
+  cohset <- process_cohort(cohset, 'Sham intervention', 'ShInt')
+  cohset <- process_cohort(cohset, 'Sham TAAR1KO', 'ShamTAAR')
+  cohset <- process_cohort(cohset, 'Negative control for TAAR1KO', 'CTAAR')
   
-  for (j in 1:chhrows) {
-    if(cohset$CohortType[j] == 'Sham for simple intervention'){
-      cohset$Sham_label <- cohset[j,lab_n]
-      cohset$Sham_n <- cohset[j,n_n]
-      cohset$Sham_m <- cohset[j,m_n]
-      cohset$Sham_v <- cohset[j,v_n]
-    }
+  # For the first group, update 'data_org' directly
+  if (i == 1) {
+    data_org <- cohset
+  } else {
+    data_org <- bind_rows(data_org, cohset)
   }
-  for (j in 1:chhrows) {
-    if(cohset$CohortType[j] == 'Control for combination intervention'){
-      cohset$CombC_label <- cohset[j,lab_n]
-      cohset$CombC_n <- cohset[j,n_n]
-      cohset$CombC_m <- cohset[j,m_n]
-      cohset$CombC_v <- cohset[j,v_n]
-    }
-  }
-  for (j in 1:chhrows) {
-    if(cohset$CohortType[j] == 'Sham for TAAR1KO comb.'){
-      cohset$ShamTAAR_label <- cohset[j,lab_n]
-      cohset$ShamTAAR_n <- cohset[j,n_n]
-      cohset$ShamTAAR_m <- cohset[j,m_n]
-      cohset$ShamTAAR_v <- cohset[j,v_n]
-    }
-  }
-  for (j in 1:chhrows) {
-    if(cohset$CohortType[j] == 'Negative control for TAAR1KO comb.'){
-      cohset$CTAAR_label <- cohset[j,lab_n]
-      cohset$CTAAR_n <- cohset[j,n_n]
-      cohset$CTAAR_m <- cohset[j,m_n]
-      cohset$CTAAR_v <- cohset[j,v_n]
-    }
-  }
-  
-  data_org <- bind_rows(data_org, cohset)  
 }
 
-data_SI <- subset(data_org, data_org$CohortType== 'Simple intervention')
+### identify studies which have positive control v TAAR1 Ag with new label comp_exp
+data$comp_exp <- "FALSE"
+
+for (i in 1:nrow(groups)) {
+  group <- groups[i, 1]
+  cohset <- subset(data, GroupID == group)
+  if (any(cohset$CohortType == "Positive control")) {
+    data[data$GroupID == group, "comp_exp"] <- "TRUE"
+  }
+}
+
+### select Groups which include a positive control
+datapc <- subset(data, data$comp_exp == "TRUE")
+
+groupspc <- as.data.frame(unique(datapc$GroupID))
+groupspc$`unique(datapc$GroupID)` <- as.character(groupspc$`unique(datapc$GroupID)`)
+
+for (i in 1:nrow(groups)) {
+  grouppc <- groupspc[i, 1]
+  cohset <- subset(datapc, GroupID == grouppc)
+  
+  cohset <- process_cohort(cohset, "Positive control", "Control")
+  cohset <- process_cohort(cohset, "Sham", "ShamC")
+  
+  if (i == 1) {
+    data_org_p <- cohset
+  } else {
+    data_org_p <- bind_rows(data_org_p, cohset)
+  }
+}
+
+data_org_p1 <- subset(data_org_p, data_org_p$CohortType == "Simple intervention")
+data_org_p1$ExperimentType <- "Head to head"
+
+data_org <- bind_rows(data_org, data_org_p1)
+
+data_SI <- subset(data_org, (data_org$CohortType== 'Simple intervention' & !data_org$ExperimentType == "Head to head"))
 data_CI <- subset(data_org, data_org$CohortType== 'Combination intervention')
-data_TI <- subset(data_org, data_org$CohortType== 'Intervention and TAAR1KO comb.')
+data_TI <- subset(data_org, data_org$CohortType== 'Intervention for TAAR1KO')
+data_PC <- subset(data_org, data_org$ExperimentType == "Head to head")
 
 ### get standard placement - Single I ###
-data_SI$F_C_L <- data_SI$Control_label$CohortLabel
-data_SI$F_C_n <- data_SI$Control_n$NumberOfAnimals
-data_SI$F_C_m <- data_SI$Control_m$OutcomeResult
-data_SI$F_C_v <- data_SI$Control_v$OutcomeError
+data_SI$F_C_L <- data_SI$Control_label
+data_SI$F_C_n <- data_SI$Control_n
+data_SI$F_C_m <- data_SI$Control_m
+data_SI$F_C_v <- data_SI$Control_v
 
 data_SI$F_T_L <- data_SI$CohortLabel
 data_SI$F_T_n <- data_SI$NumberOfAnimals
 data_SI$F_T_m <- data_SI$OutcomeResult
 data_SI$F_T_v <- data_SI$OutcomeError
 
-data_SI$F_S_L <- data_SI$Sham_label$CohortLabel
-data_SI$F_S_n <- data_SI$Sham_n$NumberOfAnimals
-data_SI$F_S_m <- data_SI$Sham_m$OutcomeResult
-data_SI$F_S_v <- data_SI$Sham_v$OutcomeError
+data_SI$F_S_L <- data_SI$Sham_label
+data_SI$F_S_n <- data_SI$Sham_n
+data_SI$F_S_m <- data_SI$Sham_m
+data_SI$F_S_v <- data_SI$Sham_v
 
 ### get standard placement - Combined I ###
-data_CI$F_C_L <- data_CI$CombC_label$CohortLabel
-data_CI$F_C_n <- data_CI$CombC_n$NumberOfAnimals
-data_CI$F_C_m <- data_CI$CombC_m$OutcomeResult
-data_CI$F_C_v <- data_CI$CombC_v$OutcomeError
+data_CI$F_C_L <- data_CI$Control_label
+data_CI$F_C_n <- data_CI$Control_n
+data_CI$F_C_m <- data_CI$Control_m
+data_CI$F_C_v <- data_CI$Control_v
 
 data_CI$F_T_L <- data_CI$CohortLabel
 data_CI$F_T_n <- data_CI$NumberOfAnimals
 data_CI$F_T_m <- data_CI$OutcomeResult
 data_CI$F_T_v <- data_CI$OutcomeError
 
-data_CI$F_S_L <- data_CI$Sham_label$CohortLabel
-data_CI$F_S_n <- data_CI$Sham_n$NumberOfAnimals
-data_CI$F_S_m <- data_CI$Sham_m$OutcomeResult
-data_CI$F_S_v <- data_CI$Sham_v$OutcomeError
+data_CI$F_S_L <- data_CI$Sham_label
+data_CI$F_S_n <- data_CI$Sham_n
+data_CI$F_S_m <- data_CI$Sham_m
+data_CI$F_S_v <- data_CI$Sham_v
 
 ### get standard placement - TAAR I ###
-data_TI$F_C_L <- data_TI$CTAAR_label$CohortLabel
-data_TI$F_C_n <- data_TI$CTAAR_n$NumberOfAnimals
-data_TI$F_C_m <- data_TI$CTAAR_m$OutcomeResult
-data_TI$F_C_v <- data_TI$CTAAR_v$OutcomeError
+data_TI$F_C_L <- data_TI$CTAAR_label
+data_TI$F_C_n <- data_TI$CTAAR_n
+data_TI$F_C_m <- data_TI$CTAAR_m
+data_TI$F_C_v <- data_TI$CTAAR_v
 
 data_TI$F_T_L <- data_TI$CohortLabel
 data_TI$F_T_n <- data_TI$NumberOfAnimals
 data_TI$F_T_m <- data_TI$OutcomeResult
 data_TI$F_T_v <- data_TI$OutcomeError
 
-data_TI$F_S_L <- data_TI$ShamTAAR_label$CohortLabel
-data_TI$F_S_n <- data_TI$ShamTAAR_n$NumberOfAnimals
-data_TI$F_S_m <- data_TI$ShamTAAR_m$OutcomeResult
-data_TI$F_S_v <- data_TI$ShamTAAR_v$OutcomeError
+data_TI$F_S_L <- data_TI$ShamTAAR_label
+data_TI$F_S_n <- data_TI$ShamTAAR_n
+data_TI$F_S_m <- data_TI$ShamTAAR_m
+data_TI$F_S_v <- data_TI$ShamTAAR_v
+
+### get standard placement - PC ###
+data_PC$F_C_L <- data_PC$Control_label
+data_PC$F_C_n <- data_PC$Control_n
+data_PC$F_C_m <- data_PC$Control_m
+data_PC$F_C_v <- data_PC$Control_v
+
+data_PC$F_T_L <- data_PC$CohortLabel
+data_PC$F_T_n <- data_PC$NumberOfAnimals
+data_PC$F_T_m <- data_PC$OutcomeResult
+data_PC$F_T_v <- data_PC$OutcomeError
+
+data_PC$F_S_L <- data_PC$ShamC_label
+data_PC$F_S_n <- data_PC$ShamC_n
+data_PC$F_S_m <- data_PC$ShamC_m
+data_PC$F_S_v <- data_PC$ShamC_v
 
 start_flag <- match('Control_label', names(data_CI))
 end_flag <- match('CTAAR_v', names(data_CI))
@@ -425,7 +434,7 @@ data_CI_F <- data_CI[,-c(start_flag:end_flag)]
 data_SI_F <- data_SI[,-c(start_flag:end_flag)]
 data_TI_F <- data_TI[,-c(start_flag:end_flag)]
 
-data_all_F <- rbind(data_CI_F, data_SI_F, data_TI_F)
+data_all_F <- bind_rows(data_CI, data_SI, data_TI, data_PC)
 
 data_all_F <- data_all_F%>%
   mutate(drugname1 = case_when(
@@ -477,11 +486,13 @@ data_all_F <- data_all_F%>%
 savename_SI <- paste0(LSR,'dataSI_',Sys.Date(),'.csv')
 savename_CI <- paste0(LSR,'dataCI_',Sys.Date(),'.csv')
 savename_TI <- paste0(LSR,'dataTI_',Sys.Date(),'.csv')
+savename_PC <- paste0(LSR,'dataPC_',Sys.Date(),'.csv')
 savename_all <- paste0(LSR,'data_all_',Sys.Date(),'.csv')
 
-write_csv(data_CI_F, savename_CI) #move to LSR3data in RMA folder 
-write_csv(data_SI_F, savename_SI)
-write_csv(data_TI_F, savename_TI)
+#write_csv(data_CI, savename_CI) #move to LSR3data in RMA folder 
+#write_csv(data_SI, savename_SI)
+#write_csv(data_TI, savename_TI)
+#write_csv(data_PC, savename_PC)
 write_csv(data_all_F, savename_all)
 
 
@@ -638,7 +649,7 @@ df <- df %>%
          Sex = `Sex of animals?`, 
          DrugName = drugname1,  #change for combination
          InterventionAdministrationRoute = `Treatment administration route:[1]`, #change for combination
-         DoseOfIntervention_mgkg = `Dose of treatment used:[1]`)  #FOR LSR3 THESE ARE ALL IN UNIT mg/kg SO NO CONVERSION NEEDED
+         DoseOfIntervention = `Dose of treatment used:[1]`)  #FOR LSR3 THESE ARE ALL IN UNIT mg/kg SO NO CONVERSION NEEDED
 
 ## Categorise by outcome type - requires checking with each iteration
 df <-  df %>%
@@ -659,7 +670,6 @@ df <- df %>%
                           DrugName == "RO5073012" ~ 7.64, 
                           DrugName == "RO5166017" ~ 7.23,
                           DrugName == "RO5203648" ~ 7.52,
-                          DrugName == "RO5256390" ~ 7.74,
                           DrugName == "RO5263397" ~ 7.77,
                           DrugName == "Ulotaront" | DrugName == "SEP-363856" ~ 6.85,
                           DrugName == "Ralmitaront" | DrugName == "RO6889450" ~ 7.23,
@@ -671,9 +681,8 @@ df <- df %>%
                               DrugName == "RO5073012" ~ "TAAR1 partial agonist", 
                               DrugName == "RO5166017" ~ "TAAR1 full agonist",
                               DrugName == "RO5203648" ~ "TAAR1 partial agonist",
-                              DrugName == "RO5256390" ~ "TAAR1 full agonist",
-                              DrugName == "RO5263397" ~ "TAAR1 partial agonist",
-                              DrugName == "Ulotaront" | DrugName == "SEP-363856" ~ "TAAR1 full agonist",
+                              DrugName == "RO5263397" ~ "TAAR1 full agonist",
+                              DrugName == "Ulotaront" | DrugName == "SEP-363856" ~ "TAAR1 partial agonist",
                               DrugName == "Ralmitaront" | DrugName == "RO6889450"~ "TAAR1 partial agonist",
                               DrugName == "AP163" ~ "TAAR1 full agonist",
                               DrugName == "Compound 50A" ~ "TAAR1 partial agonist",
@@ -683,44 +692,13 @@ df <- df %>%
                                  DrugName == "RO5073012" ~ "High", 
                                  DrugName == "RO5166017" ~ "High",
                                  DrugName == "RO5203648" ~ "High",
-                                 DrugName == "RO5256390" ~ "High",
                                  DrugName == "RO5263397" ~ "High",
                                  DrugName == "Ulotaront" | DrugName == "SEP-363856" ~ "Low (5HT1A partial agonism)",
                                  DrugName == "Ralmitaront" | DrugName == "RO6889450" ~ "Unclear",
                                  DrugName == "AP163" ~ "Unclear",
                                  DrugName == "Compound 50A" ~ "Unclear",
                                  DrugName == "Compound 50B" ~ "Low (5HT1A partial agonism)", 
-                                 TRUE ~ "NA")) %>% 
-  mutate(MolarMass = case_when(DrugName == "LK000764" ~ 299.1058, 
-                               DrugName == "RO5073012" ~ 249.742, 
-                               DrugName == "RO5166017" ~ 219.288,
-                               DrugName == "RO5203648" ~ 231.08,
-                               DrugName == "RO5256390" ~ 218.29,
-                               DrugName == "RO5263397" ~ 194.21,
-                               DrugName == "Ulotaront" | DrugName == "SEP-363856" ~ 183.27,
-                               DrugName == "Ralmitaront" | DrugName == "RO6889450" ~ 314.38,
-                               DrugName == "AP163" ~ 282.1368,
-                               DrugName == "Compound 50A" ~ 170.3,
-                               DrugName == "Compound 50B" ~ 170.3, 
-                               TRUE ~ NA_real_)) %>% 
-  mutate(EC50mM = case_when(DrugName == "LK000764" ~ 0.004, 
-                            DrugName == "RO5073012" ~ 0.023, 
-                            DrugName == "RO5166017" ~ 0.059,
-                            DrugName == "RO5203648" ~ 0.03,
-                            DrugName == "RO5256390" ~ 0.018,
-                            DrugName == "RO5263397" ~ 0.017,
-                            DrugName == "Ulotaront" | DrugName == "SEP-363856" ~ 0.14,
-                            DrugName == "Ralmitaront" | DrugName == "RO6889450" ~ 0.059,
-                            DrugName == "AP163" ~ 0.112,
-                            DrugName == "Compound 50A" ~ 6.25,
-                            DrugName == "Compound 50B" ~ 0.405, 
-                            TRUE ~ NA_real_)) 
-
-
-# Calculate standardised dose
-df <- df %>% 
-  mutate(DoseOfIntervention_mgkg = as.numeric(DoseOfIntervention_mgkg)) %>% 
-  mutate(StandardisedDose = log(DoseOfIntervention_mgkg)/(MolarMass*EC50mM*0.001)) 
+                                 TRUE ~ "NA"))
 
 # SAVE FILE
 savefile_output <- paste0(LSR,'_','clean_data_',Sys.Date(),'.csv')
