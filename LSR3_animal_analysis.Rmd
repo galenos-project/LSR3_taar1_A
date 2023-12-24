@@ -339,7 +339,6 @@ Between-strain variance was `r SMD_S_cog$sigma2[1]`, between-study variance was 
 options(scipen=100, digits=3)
 ```
 
-
 For each outcome, the covariates of interest for subgroup analyses were; 
 
 - **Sex**
@@ -357,7 +356,6 @@ For each outcome, the covariates of interest for subgroup analyses were;
 - **The efficacy of the drug (i.e. whether the drug is a partial or full agonist)**
 
 - **The selectivity of the drug**
-
 
 We also conducted subgroup analyses using **(1) SYRCLE Risk of Bias** and **(2) ARRIVE reporting quality** assessment scores as covariates to evaluate their influence on effect size estimates.
 
@@ -417,7 +415,6 @@ SMD_S_LMA_ProphThera <- plot_subgroup_analysis(df, "Simple intervention", "Locom
 
 The pooled SMD estimate for  experiments administering the TAAR1 agonist prophylactically was `r SMD_S_LMA_ProphThera$subgroup_rma_summary[SMD_S_LMA_ProphThera$subgroup_rma_summary$ProphylacticOrTherapeutic == "Prophylactic", "SMD"]`, and for  experiments administering the TAAR1 agonist therapeutically `r SMD_S_LMA_ProphThera$subgroup_rma_summary[SMD_S_LMA_ProphThera$subgroup_rma_summary$ProphylacticOrTherapeutic == "Therapeutic", "SMD"]`.
 
-
 ##### Duration of treatment period
 
 In this iteration of the review, all comparisons administered the TAAR1 agonist for < 1 week. Therefore, no subgroup analyses were conducted for this variable.
@@ -461,7 +458,6 @@ TAAR1 agonists with high DrugSelectivity were used in `r SMD_S_LMA_DrugSelectivi
 
 The pooled SMD estimate for experiments administering a TAAR1 agonist with high selectivity was `r SMD_S_LMA_DrugSelectivity$subgroup_rma_summary[SMD_S_LMA_DrugSelectivity$subgroup_rma_summary$Selectivity == "High", "SMD"]`. The estimate for  experiments administering a TAAR1 agonist with low selectivity was `r SMD_S_LMA_DrugSelectivity$subgroup_rma_summary[SMD_S_LMA_DrugSelectivity$subgroup_rma_summary$Selectivity == "Low (5HT1A partial agonism)", "SMD"]`, and for those experiments administering a TAAR1 agonist with an unknown selectivity `r SMD_S_LMA_DrugSelectivity$subgroup_rma_summary[SMD_S_LMA_DrugSelectivity$subgroup_rma_summary$Selectivity == "Unclear", "SMD"]`.
 
-
 ##### SYRCLE RoB assessment 
 
 Figure x displays the estimates for the pooled SMD's when comparisons are stratified by how many of the SYRCLE risk of bias assessment criteria (of which there are 10) that the experiment met. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by SYRCLE RoB assessment, is displayed as a diamond shape at the bottom of the plot.
@@ -499,30 +495,30 @@ The table below shows which of the covariates, if any, explain some of the heter
 |:---:|:---:|:---:|:---:|:---:|:---:|
 | Overall effect | - | `r SMD_S_LMA$beta[1]` | `r SMD_S_LMA$ci.lb` - `r SMD_S_LMA$ci.ub` | - | NA |
 | Sex | - | - | - | `r r2_ml(SMD_S_LMA_sex$subgroup_analysis)[1]` | `r if (SMD_S_LMA_sex$subgroup_analysis$QMp < 0.05) {"p-val < .05"} else {"p-val > 0.05"}`| 
-| - | *Not reported* | `r SMD_S_LMA_sex$subgroup_analysis$beta[1]` | `r SMD_S_LMA_sex$subgroup_analysis$ci.lb[1]` - `r SMD_S_LMA_sex$subgroup_analysis$ci.ub[1]` | - | - | 
+| - | *Female* | `r SMD_S_LMA_sex$subgroup_analysis$beta[1]` | `r SMD_S_LMA_sex$subgroup_analysis$ci.lb[1]` - `r SMD_S_LMA_sex$subgroup_analysis$ci.ub[1]` | - | - | 
 | - | *Male* | `r SMD_S_LMA_sex$subgroup_analysis$beta[2]` | `r SMD_S_LMA_sex$subgroup_analysis$ci.lb[2]` - `r SMD_S_LMA_sex$subgroup_analysis$ci.ub[2]` | - | - | 
 | - | *Mixed* | `r SMD_S_LMA_sex$subgroup_analysis$beta[3]` | `r SMD_S_LMA_sex$subgroup_analysis$ci.lb[3]` - `r SMD_S_LMA_sex$subgroup_analysis$ci.ub[3]` | - | - | 
-| - | *Female* | `r SMD_S_LMA_sex$subgroup_analysis$beta[4]` | `r SMD_S_LMA_sex$subgroup_analysis$ci.lb[4]` - `r SMD_S_LMA_sex$subgroup_analysis$ci.ub[4]` | - | - | 
+| - | *Not reported* | `r SMD_S_LMA_sex$subgroup_analysis$beta[4]` | `r SMD_S_LMA_sex$subgroup_analysis$ci.lb[4]` - `r SMD_S_LMA_sex$subgroup_analysis$ci.ub[4]` | - | - | 
 | Category of disease model induction | - | - | - | `r r2_ml(SMD_S_LMA_CatDisInd$subgroup_analysis)[1]` | `r if (SMD_S_LMA_CatDisInd$subgroup_analysis$QMp < 0.05) {"p-val < .05"} else {"p-val > 0.05"}`|
-| - | *Pharmacological* | `r SMD_S_LMA_CatDisInd$subgroup_analysis$beta[1]` | `r SMD_S_LMA_CatDisInd$subgroup_analysis$ci.lb[1]` - `r SMD_S_LMA_CatDisInd$subgroup_analysis$ci.ub[1]` | - | - |
-| - | *Genetic* | `r SMD_S_LMA_CatDisInd$subgroup_analysis$beta[2]` | `r SMD_S_LMA_CatDisInd$subgroup_analysis$ci.lb[2]` - `r SMD_S_LMA_CatDisInd$subgroup_analysis$ci.ub[2]` | - | - |
+| - | *Genetic* | `r SMD_S_LMA_CatDisInd$subgroup_analysis$beta[1]` | `r SMD_S_LMA_CatDisInd$subgroup_analysis$ci.lb[1]` - `r SMD_S_LMA_CatDisInd$subgroup_analysis$ci.ub[1]` | - | - |
+| - | *Pharmacological* | `r SMD_S_LMA_CatDisInd$subgroup_analysis$beta[2]` | `r SMD_S_LMA_CatDisInd$subgroup_analysis$ci.lb[2]` - `r SMD_S_LMA_CatDisInd$subgroup_analysis$ci.ub[2]` | - | - |
 | Administration route | - | - | - | `r r2_ml(SMD_S_LMA_AdminRoute$subgroup_analysis)[1]` | `r if (SMD_S_LMA_AdminRoute$subgroup_analysis$QMp < 0.05) {"p-val < .05"} else {"p-val > 0.05"}`|
-| - | *Oral* | `r SMD_S_LMA_AdminRoute$subgroup_analysis$beta[1]` | `r SMD_S_LMA_AdminRoute$subgroup_analysis$ci.lb[1]` - `r SMD_S_LMA_AdminRoute$subgroup_analysis$ci.ub[1]` | - | - |
-| - | *Intraperitoneal* | `r SMD_S_LMA_AdminRoute$subgroup_analysis$beta[2]` | `r SMD_S_LMA_AdminRoute$subgroup_analysis$ci.lb[2]` - `r SMD_S_LMA_AdminRoute$subgroup_analysis$ci.ub[2]` | - | - |
+| - | *Intraperitoneal* | `r SMD_S_LMA_AdminRoute$subgroup_analysis$beta[1]` | `r SMD_S_LMA_AdminRoute$subgroup_analysis$ci.lb[1]` - `r SMD_S_LMA_AdminRoute$subgroup_analysis$ci.ub[1]` | - | - |
+| - | *Oral* | `r SMD_S_LMA_AdminRoute$subgroup_analysis$beta[2]` | `r SMD_S_LMA_AdminRoute$subgroup_analysis$ci.lb[2]` - `r SMD_S_LMA_AdminRoute$subgroup_analysis$ci.ub[2]` | - | - |
 | Prophylactic or therapeutic intervention | - | - | - | `r r2_ml(SMD_S_LMA_ProphThera$subgroup_analysis)[1]` | `r if (SMD_S_LMA_ProphThera$subgroup_analysis$QMp < 0.05) {"p-val < .05"} else {"p-val > 0.05"}`|
 | - | *Prophylactic* | `r SMD_S_LMA_ProphThera$subgroup_analysis$beta[1]` | `r SMD_S_LMA_ProphThera$subgroup_analysis$ci.lb[1]` - `r SMD_S_LMA_ProphThera$subgroup_analysis$ci.ub[1]` | - | - |
 | - | *Therapeutic* | `r SMD_S_LMA_ProphThera$subgroup_analysis$beta[2]` | `r SMD_S_LMA_ProphThera$subgroup_analysis$ci.lb[2]` - `r SMD_S_LMA_ProphThera$subgroup_analysis$ci.ub[2]` | - | - |
 | Intervention administered | - | - | - | `r r2_ml(SMD_S_LMA_Drug$subgroup_analysis)[1]` | `r if (SMD_S_LMA_Drug$subgroup_analysis$QMp < 0.05) {"p-val < .05"} else {"p-val > 0.05"}`|
-| - | *SEP-363856 (Ultaront)* | `r SMD_S_LMA_Drug$subgroup_analysis$beta[1]` | `r SMD_S_LMA_Drug$subgroup_analysis$ci.lb[1]` - `r SMD_S_LMA_Drug$subgroup_analysis$ci.ub[1]` | - | - |
-| - | *RO5203648* | `r SMD_S_LMA_Drug$subgroup_analysis$beta[2]` | `r SMD_S_LMA_Drug$subgroup_analysis$ci.lb[2]` - `r SMD_S_LMA_Drug$subgroup_analysis$ci.ub[2]` | - | - |
-| - | *RO5166017* | `r SMD_S_LMA_Drug$subgroup_analysis$beta[3]` | `r SMD_S_LMA_Drug$subgroup_analysis$ci.lb[3]` - `r SMD_S_LMA_Drug$subgroup_analysis$ci.ub[3]` | - | - |
-| - | *RO5263397* | `r SMD_S_LMA_Drug$subgroup_analysis$beta[4]` | `r SMD_S_LMA_Drug$subgroup_analysis$ci.lb[4]` - `r SMD_S_LMA_Drug$subgroup_analysis$ci.ub[4]` | - | - |
-| - | *RO5256390* | `r SMD_S_LMA_Drug$subgroup_analysis$beta[5]` | `r SMD_S_LMA_Drug$subgroup_analysis$ci.lb[5]` - `r SMD_S_LMA_Drug$subgroup_analysis$ci.ub[5]` | - | - |
-| - | *RO5073012* | `r SMD_S_LMA_Drug$subgroup_analysis$beta[6]` | `r SMD_S_LMA_Drug$subgroup_analysis$ci.lb[6]` - `r SMD_S_LMA_Drug$subgroup_analysis$ci.ub[6]` | - | - |
-| - | *Compound 50B* | `r SMD_S_LMA_Drug$subgroup_analysis$beta[7]` | `r SMD_S_LMA_Drug$subgroup_analysis$ci.lb[7]` - `r SMD_S_LMA_Drug$subgroup_analysis$ci.ub[7]` | - | - |
-| - | *LK000764* | `r SMD_S_LMA_Drug$subgroup_analysis$beta[8]` | `r SMD_S_LMA_Drug$subgroup_analysis$ci.lb[8]` - `r SMD_S_LMA_Drug$subgroup_analysis$ci.ub[8]` | - | - |
-| - | *Compound 50A* | `r SMD_S_LMA_Drug$subgroup_analysis$beta[9]` | `r SMD_S_LMA_Drug$subgroup_analysis$ci.lb[9]` - `r SMD_S_LMA_Drug$subgroup_analysis$ci.ub[9]` | - | - |
-| - | *AP163* | `r SMD_S_LMA_Drug$subgroup_analysis$beta[10]` | `r SMD_S_LMA_Drug$subgroup_analysis$ci.lb[10]` - `r SMD_S_LMA_Drug$subgroup_analysis$ci.ub[10]` | - | - |
+| - | *AP163* | `r SMD_S_LMA_Drug$subgroup_analysis$beta[1]` | `r SMD_S_LMA_Drug$subgroup_analysis$ci.lb[1]` - `r SMD_S_LMA_Drug$subgroup_analysis$ci.ub[1]` | - | - |
+| - | *Compound 50A* | `r SMD_S_LMA_Drug$subgroup_analysis$beta[2]` | `r SMD_S_LMA_Drug$subgroup_analysis$ci.lb[2]` - `r SMD_S_LMA_Drug$subgroup_analysis$ci.ub[2]` | - | - |
+| - | *Compound 50B* | `r SMD_S_LMA_Drug$subgroup_analysis$beta[3]` | `r SMD_S_LMA_Drug$subgroup_analysis$ci.lb[3]` - `r SMD_S_LMA_Drug$subgroup_analysis$ci.ub[3]` | - | - |
+| - | *LK000764* | `r SMD_S_LMA_Drug$subgroup_analysis$beta[4]` | `r SMD_S_LMA_Drug$subgroup_analysis$ci.lb[4]` - `r SMD_S_LMA_Drug$subgroup_analysis$ci.ub[4]` | - | - |
+| - | *RO5073012* | `r SMD_S_LMA_Drug$subgroup_analysis$beta[5]` | `r SMD_S_LMA_Drug$subgroup_analysis$ci.lb[5]` - `r SMD_S_LMA_Drug$subgroup_analysis$ci.ub[5]` | - | - |
+| - | *RO5166017* | `r SMD_S_LMA_Drug$subgroup_analysis$beta[6]` | `r SMD_S_LMA_Drug$subgroup_analysis$ci.lb[6]` - `r SMD_S_LMA_Drug$subgroup_analysis$ci.ub[6]` | - | - |
+| - | *RO5203648* | `r SMD_S_LMA_Drug$subgroup_analysis$beta[7]` | `r SMD_S_LMA_Drug$subgroup_analysis$ci.lb[7]` - `r SMD_S_LMA_Drug$subgroup_analysis$ci.ub[7]` | - | - |
+| - | *RO5256390* | `r SMD_S_LMA_Drug$subgroup_analysis$beta[8]` | `r SMD_S_LMA_Drug$subgroup_analysis$ci.lb[8]` - `r SMD_S_LMA_Drug$subgroup_analysis$ci.ub[8]` | - | - |
+| - | *RO5263397* | `r SMD_S_LMA_Drug$subgroup_analysis$beta[9]` | `r SMD_S_LMA_Drug$subgroup_analysis$ci.lb[9]` - `r SMD_S_LMA_Drug$subgroup_analysis$ci.ub[9]` | - | - |
+| - | *SEP-363856 (Ultaront)* | `r SMD_S_LMA_Drug$subgroup_analysis$beta[10]` | `r SMD_S_LMA_Drug$subgroup_analysis$ci.lb[10]` - `r SMD_S_LMA_Drug$subgroup_analysis$ci.ub[10]` | - | - |
 | Drug efficacy | - | - | - | `r r2_ml(SMD_S_LMA_DrugEfficacy$subgroup_analysis)[1]` | `r if (SMD_S_LMA_DrugEfficacy$subgroup_analysis$QMp < 0.05) {"p-val < .05"} else {"p-val > 0.05"}`|
 | - | *Full agonist* | `r SMD_S_LMA_DrugEfficacy$subgroup_analysis$beta[1]` | `r SMD_S_LMA_DrugEfficacy$subgroup_analysis$ci.lb[1]` - `r SMD_S_LMA_DrugEfficacy$subgroup_analysis$ci.ub[1]` | - | - |
 | - | *Partial agonist* | `r SMD_S_LMA_DrugEfficacy$subgroup_analysis$beta[2]` | `r SMD_S_LMA_DrugEfficacy$subgroup_analysis$ci.lb[2]` - `r SMD_S_LMA_DrugEfficacy$subgroup_analysis$ci.ub[2]` | - | - |
@@ -539,7 +535,6 @@ The table below shows which of the covariates, if any, explain some of the heter
 | - | *8-11 criteria met* | `r SMD_S_LMA_ARRIVE$subgroup_analysis$beta[2]` | `r SMD_S_LMA_ARRIVE$subgroup_analysis$ci.lb[2]` - `r SMD_S_LMA_ARRIVE$subgroup_analysis$ci.ub[2]` | - | - |
 | - | *12-15 criteria met* | `r SMD_S_LMA_ARRIVE$subgroup_analysis$beta[3]` | `r SMD_S_LMA_ARRIVE$subgroup_analysis$ci.lb[3]` - `r SMD_S_LMA_ARRIVE$subgroup_analysis$ci.ub[3]` | - | - |
 | - | *16-19 criteria met* | `r SMD_S_LMA_ARRIVE$subgroup_analysis$beta[4]` | `r SMD_S_LMA_ARRIVE$subgroup_analysis$ci.lb[4]` - `r SMD_S_LMA_ARRIVE$subgroup_analysis$ci.ub[4]` | - | - |
-
 
 
 ### Outcome 2: Cognition 
@@ -735,7 +730,6 @@ The estimate for \( \theta \) was `r SMD_S_LMA_AP163_dose$metaregression_summary
 
 ##### Standardised dose
 
-
 We then sought evidence of a dose response relationship across all drugs. To do this, we conducted meta-regression using a standardised dose variable. This variable quantifies the administered dose as a multiple of the drug's EC50, indicating how many times the dose administered was greater (or lesser) than the concentration needed to achieve half-maximal effect. For example, if a drug's dose is twice its EC50, the standardized dose would be 2, indicating that the dose is twice the concentration needed to achieve half-maximal effect. 
 
 The standardised dose was calculated by dividing the log-transformed dose of the intervention (in mg/kg) by the product of the intervention's EC50 (in moles) and the Molar mass of the drug (in mg/mol):
@@ -750,13 +744,11 @@ The actual concentration of a drug at the receptor site is influenced by several
 
 Figure x provides a visualisation of the meta-regression analysis predicting the response, measured as the Standardized Mean Difference (SMD), in locomotor activity to varying standardised doses of TAAR1 agonists. As before, dashed lines represent the 95% confidence interval of the regression line and dotted lines represent the 95% prediction interval. Raw data is plotted with point size adjusted according to effect size precision. 
 
-
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 SMD_S_LMA_StandardDose <- metaregression_analysis(df, "Simple intervention", "Locomotor activity", "StandardisedDose", 0.5)
 ```
 
 **Figure x**
-
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
 SMD_S_LMA_StandardDose$regression_plot
 ```
@@ -869,7 +861,6 @@ Small studies effects using modified Egger's regression
 ```{r warning=FALSE, eval = TRUE, echo = FALSE}
 run_sse_plot(df)
 ```
-
 
 
 
