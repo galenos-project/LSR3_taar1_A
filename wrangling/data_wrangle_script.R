@@ -6,12 +6,12 @@ library(tidyr)
 library(purrr)
 library(metafor)
 #setwd("Francesca_analysis")
-source("wrangling_functions.R", local = TRUE)
+source("wrangling/wrangling_functions.R", local = TRUE)
 
 LSR <- 'LSR3'
 
 # Import SyRF outcome data
-LSR3_SyRFOutcomes <- read_csv("Quantitative_data_-_2023_12_18_-_c494b1ae-4cf4-4618-b91a-e69a2b815bdd_-_Investigators_Unblinded.csv")
+LSR3_SyRFOutcomes <- read_csv("data/Quantitative_data_-_2023_12_18_-_c494b1ae-4cf4-4618-b91a-e69a2b815bdd_-_Investigators_Unblinded.csv")
 
 #clean ; from TiAb etc
 LSR3_SyRFOutcomes$Title <- gsub(";", ":", LSR3_SyRFOutcomes$Title)
@@ -698,10 +698,67 @@ df <- df %>%
                                  DrugName == "AP163" ~ "Unclear",
                                  DrugName == "Compound 50A" ~ "Unclear",
                                  DrugName == "Compound 50B" ~ "Low (5HT1A partial agonism)", 
-                                 TRUE ~ "NA")) %>%
+                                 TRUE ~ "NA")) %>% 
+  mutate(MolarMass = case_when(DrugName == "LK000764" ~ 299.1058, 
+                               DrugName == "RO5073012" ~ 249.742, 
+                               DrugName == "RO5166017" ~ 219.288,
+                               DrugName == "RO5203648" ~ 231.08,
+                               DrugName == "RO5256390" ~ 218.29,
+                               DrugName == "RO5263397" ~ 194.21,
+                               DrugName == "Ulotaront" | DrugName == "SEP-363856" ~ 183.27,
+                               DrugName == "Ralmitaront" | DrugName == "RO6889450" ~ 314.38,
+                               DrugName == "AP163" ~ 282.1368,
+                               DrugName == "Compound 50A" ~ 170.3,
+                               DrugName == "Compound 50B" ~ 170.3, 
+                               TRUE ~ NA_real_)) %>% 
+  mutate(EC50mM = case_when(DrugName == "LK000764" ~ 0.004, 
+                            DrugName == "RO5073012" ~ 0.023, 
+                            DrugName == "RO5166017" ~ 0.059,
+                            DrugName == "RO5203648" ~ 0.03,
+                            DrugName == "RO5256390" ~ 0.018,
+                            DrugName == "RO5263397" ~ 0.017,
+                            DrugName == "Ulotaront" | DrugName == "SEP-363856" ~ 0.14,
+                            DrugName == "Ralmitaront" | DrugName == "RO6889450" ~ 0.059,
+                            DrugName == "AP163" ~ 0.112,
+                            DrugName == "Compound 50A" ~ 6.25,
+                            DrugName == "Compound 50B" ~ 0.405, 
+                            TRUE ~ NA_real_)) 
+
+# Calculate standardised dose for overall dose-response meta-regression
+df <- df %>% 
+  mutate(DoseOfIntervention_mgkg = as.numeric(DoseOfIntervention_mgkg)) %>% 
+  mutate(StandardisedDose = (log(DoseOfIntervention_mgkg))/((MolarMass*1000)*(EC50mM/1000000))) 
+
+
+###### For RoB subgroup analysis ######
+df <- df %>%
+  rename(`(RoB) Were caregivers/investigator blinded to which intervention each animal received?` = `Were caregivers/investigator blinded to which intervention each animal received?`)
+
+# Calculate overall RoB score
+
+df <- df %>%
+  rowwise() %>%
+  mutate(RoBScore = sum(c_across(contains("RoB")) == "Yes", na.rm = TRUE)) %>%
+  ungroup() %>% 
+  mutate(RoBScore = paste0(RoBScore, " criteria met"))
+
+##### For reporting quality subgroup analysis #####
+df <- df %>% 
+  rename(`(ARRIVE) Is any role of the funder in the design/analysis/reporting of the study described?` = `Is any role of the funder in the design/analysis/reporting of study described?`)
+
+# Calculate overall ARRIVE score
+df <- df %>%
+  mutate(ARRIVEScore = rowSums(across(contains("ARRIVE"), ~ (.x == "Yes") | (.x == "NA (ethical approval declared)")), na.rm = TRUE)) %>% 
+  mutate(ARRIVEScoreCat = case_when(ARRIVEScore <= 3 ~ "A: < 3 criteria met",
+                                    ARRIVEScore > 3 & ARRIVEScore <= 7 ~ "B: 4-7 criteria met",
+                                    ARRIVEScore > 7 & ARRIVEScore <= 11 ~ "C: 8-11 criteria met",
+                                    ARRIVEScore > 11 & ARRIVEScore <= 15 ~ "D: 12-15 criteria met",
+                                    ARRIVEScore > 15 & ARRIVEScore <= 19 ~ "E: 16-19 criteria met",
+                                    ARRIVEScore > 19 ~ "F: > 20 criteria met")) %>% 
+  mutate(ARRIVEScoreCat = as.factor(ARRIVEScoreCat))
+                                  
 
 # SAVE FILE
 savefile_output <- paste0(LSR,'_','clean_data_',Sys.Date(),'.csv')
 write.csv(df, savefile_output, row.names = FALSE)
-
 

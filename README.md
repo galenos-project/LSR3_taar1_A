@@ -1,5 +1,5 @@
 LSR3 documents for TAAR1 agonists in psychosis
 
-- Raw data can be found in the /data folder
-- Raw data needs to be processed into an analysable format via the data wrangling code in /wrangling, which uses its own wrangling functions within the same folder
-- Wrangled data can be processed using the R markdown document found in the main branch of the repository
+- Raw data is found in the /data folder
+- /wrangling contains files required for data wrangling (data_wrangle_script.R which calls functions in wrangling_functions.R)
+- Assuming the raw data and files requred for wrangling are downloaded with the markdown document, wrangling and meta-analysis can be performed entirely within the R markdown document 
