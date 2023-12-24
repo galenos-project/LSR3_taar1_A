@@ -649,7 +649,7 @@ df <- df %>%
          Sex = `Sex of animals?`, 
          DrugName = drugname1,  #change for combination
          InterventionAdministrationRoute = `Treatment administration route:[1]`, #change for combination
-         DoseOfIntervention = `Dose of treatment used:[1]`)  #FOR LSR3 THESE ARE ALL IN UNIT mg/kg SO NO CONVERSION NEEDED
+         DoseOfIntervention_mgkg = `Dose of treatment used:[1]`)  #FOR LSR3 THESE ARE ALL IN UNIT mg/kg SO NO CONVERSION NEEDED
 
 ## Categorise by outcome type - requires checking with each iteration
 df <-  df %>%
