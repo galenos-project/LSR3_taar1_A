@@ -759,6 +759,17 @@ SMD_S_LMA_StandardDose$regression_plot
 The estimate for \( \theta \) was `r SMD_S_LMA_StandardDose$metaregression_summary$beta[1] `. The estimate for \( \beta \) was `r SMD_S_LMA_StandardDose$metaregression_summary$beta[2]`.
 
 
+# Head to head experiments
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_LMA <- run_ML_SMD(df, "Head to head", "Locomotor activity", 0.5)
+```
+
+**Figure n**
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=10}
+forest_metafor(SMD_S_LMA, "locomotor activity")
+```
+
+
 # Sensitivity Analyses
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
