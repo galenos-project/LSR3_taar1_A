@@ -52,6 +52,7 @@ source("wrangling/data_wrangle_script.R")
 options(scipen=100, digits=3)
 
 # Import data
+LSR3_SyRFOutcomes <- read_csv("data/Quantitative_data_-_2023_12_18_-_c494b1ae-4cf4-4618-b91a-e69a2b815bdd_-_Investigators_Unblinded.csv")
 file2load <- paste0(LSR,'_clean_data_',DoP,'.csv')
 df <- read_csv(file2load)
 
