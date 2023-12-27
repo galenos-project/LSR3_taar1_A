@@ -420,7 +420,7 @@ The pooled SMD estimate for  experiments administering the TAAR1 agonist prophyl
 
 ##### Duration of treatment period
 
-In this iteration of the review, all comparisons administered the TAAR1 agonist for < 1 week. Therefore, no subgroup analyses were conducted for this variable.
+In this iteration of the review, all relevant comparisons administered the TAAR1 agonist for < 1 week. Therefore, no subgroup analyses were conducted for this variable.
 
 ##### The intervention administered 
 
@@ -457,7 +457,7 @@ Figure 10 displays the estimates for the pooled SMD's when comparisons are strat
 SMD_S_LMA_DrugSelectivity <- plot_subgroup_analysis(df, "Simple intervention", "Locomotor activity", "Selectivity", 0.5)
 ```
 
-TAAR1 agonists with high DrugSelectivity were used in `r SMD_S_LMA_DrugSelectivity$subgroup_rma_summary[SMD_S_LMA_DrugSelectivity$subgroup_rma_summary$Selectivity == "High", "k"]` experiments. TAAR1 drugs with additional agonist activity at serotonin 5HT1A receptors were used in `r SMD_S_LMA_DrugSelectivity$subgroup_rma_summary[SMD_S_LMA_DrugEfficacy$subgroup_rma_summary$Selectivity == "Low (5HT1A partial agonism)", "k"]` experiments. The selectivity of the TAAR1 agonist used in `r SMD_S_LMA_DrugSelectivity$subgroup_rma_summary[SMD_S_LMA_DrugEfficacy$subgroup_rma_summary$Selectivity == "Unclear", "k"]` experiments was unclear/remains undetermined. 
+TAAR1 agonists with high selectivity were used in `r SMD_S_LMA_DrugSelectivity$subgroup_rma_summary[SMD_S_LMA_DrugSelectivity$subgroup_rma_summary$Selectivity == "High", "k"]` experiments. TAAR1 drugs with additional agonist activity at serotonin 5HT1A receptors were used in `r SMD_S_LMA_DrugSelectivity$subgroup_rma_summary[SMD_S_LMA_DrugEfficacy$subgroup_rma_summary$Selectivity == "Low (5HT1A partial agonism)", "k"]` experiments. The selectivity of the TAAR1 agonist used in `r SMD_S_LMA_DrugSelectivity$subgroup_rma_summary[SMD_S_LMA_DrugEfficacy$subgroup_rma_summary$Selectivity == "Unclear", "k"]` experiments was unclear/remains undetermined. 
 
 The pooled SMD estimate for experiments administering a TAAR1 agonist with high selectivity was `r SMD_S_LMA_DrugSelectivity$subgroup_rma_summary[SMD_S_LMA_DrugSelectivity$subgroup_rma_summary$Selectivity == "High", "SMD"]`. The estimate for  experiments administering a TAAR1 agonist with low selectivity was `r SMD_S_LMA_DrugSelectivity$subgroup_rma_summary[SMD_S_LMA_DrugSelectivity$subgroup_rma_summary$Selectivity == "Low (5HT1A partial agonism)", "SMD"]`, and for those experiments administering a TAAR1 agonist with an unknown selectivity `r SMD_S_LMA_DrugSelectivity$subgroup_rma_summary[SMD_S_LMA_DrugSelectivity$subgroup_rma_summary$Selectivity == "Unclear", "SMD"]`.
 
@@ -486,9 +486,9 @@ Figure x displays the estimates for the pooled SMD's when comparisons are strati
 SMD_S_LMA_ARRIVE <- plot_subgroup_analysis(df, "Simple intervention", "Locomotor activity", "ARRIVEScoreCat", 0.5)
 ```
 
-`r SMD_S_LMA_ARRIVE$subgroup_rma_summary[SMD_S_LMA_ARRIVE$subgroup_rma_summary$ARRIVEScoreCat == "B: 4-7 criteria met", "k"]` experiments met between 4 and 7 of the ARRIVE reporting quality criteria. `r SMD_S_LMA_ARRIVE$subgroup_rma_summary[SMD_S_LMA_ARRIVE$subgroup_rma_summary$ARRIVEScoreCat == "C: 8-11 criteria met", "k"]` experiments met between 8 and 11, `r SMD_S_LMA_ARRIVE$subgroup_rma_summary[SMD_S_LMA_ARRIVE$subgroup_rma_summary$ARRIVEScoreCat == "D: 12-15 criteria met", "k"]` experiments met between 12 and 15, `r SMD_S_LMA_ARRIVE$subgroup_rma_summary[SMD_S_LMA_ARRIVE$subgroup_rma_summary$ARRIVEScoreCat == "E: 16-19 criteria met", "k"]` experiments met between 16 and 19 and `r SMD_S_LMA_ARRIVE$subgroup_rma_summary[SMD_S_LMA_ARRIVE$subgroup_rma_summary$ARRIVEScoreCat == "F: 20-23 criteria met", "k"]` experiments met between 20 and 23. No experiment met below 4 of the ARRIVE reporting quality criteria.
+`r SMD_S_LMA_ARRIVE$subgroup_rma_summary[SMD_S_LMA_ARRIVE$subgroup_rma_summary$ARRIVEScoreCat == "B: 4-7 criteria met", "k"]` experiments met between 4-7 of the ARRIVE reporting quality criteria. `r SMD_S_LMA_ARRIVE$subgroup_rma_summary[SMD_S_LMA_ARRIVE$subgroup_rma_summary$ARRIVEScoreCat == "C: 8-11 criteria met", "k"]` experiments met between 8-11, `r SMD_S_LMA_ARRIVE$subgroup_rma_summary[SMD_S_LMA_ARRIVE$subgroup_rma_summary$ARRIVEScoreCat == "D: 12-15 criteria met", "k"]` experiments met between 12-15, `r SMD_S_LMA_ARRIVE$subgroup_rma_summary[SMD_S_LMA_ARRIVE$subgroup_rma_summary$ARRIVEScoreCat == "E: 16-19 criteria met", "k"]` experiments met between 16-19. No experiment met below 4 or above 19 of the ARRIVE reporting quality criteria.
 
-The pooled SMD estimate for the effect of TAAR1 agonists on locomotor activity in experiments that met between 4 and 7 of the ARRIVE reporting quality criteria was `r SMD_S_LMA_ARRIVE$subgroup_rma_summary[SMD_S_LMA_ARRIVE$subgroup_rma_summary$ARRIVEScoreCat == "4-7 criteria met", "SMD"]`. The estimate for experiments that met between 8 and 11 of the ARRIVE reporting quality criteria was `r SMD_S_LMA_ARRIVE$subgroup_rma_summary[SMD_S_LMA_ARRIVE$subgroup_rma_summary$ARRIVEScoreCat == "8-11 criteria met", "SMD"]`, for those experiments that met between 12 and 15 of the ARRIVE reporting quality criteria `r SMD_S_LMA_ARRIVE$subgroup_rma_summary[SMD_S_LMA_ARRIVE$subgroup_rma_summary$ARRIVEScoreCat == "12-15 criteria met", "SMD"]`, for those experiments that met between 16 and 19 of the ARRIVE reporting quality criteria `r SMD_S_LMA_ARRIVE$subgroup_rma_summary[SMD_S_LMA_ARRIVE$subgroup_rma_summary$ARRIVEScoreCat == "16-19 criteria met", "SMD"]`, and for those experiments that met between 20 and 23 of the ARRIVE reporting quality criteria `r SMD_S_LMA_ARRIVE$subgroup_rma_summary[SMD_S_LMA_ARRIVE$subgroup_rma_summary$ARRIVEScoreCat == "20-23 criteria met", "SMD"]`.
+The pooled SMD estimate for the effect of TAAR1 agonists on locomotor activity in experiments that met between 4-7 of the ARRIVE reporting quality criteria was `r SMD_S_LMA_ARRIVE$subgroup_rma_summary[SMD_S_LMA_ARRIVE$subgroup_rma_summary$ARRIVEScoreCat == "4-7 criteria met", "SMD"]`. The estimate for experiments that met between 8-11 of the ARRIVE reporting quality criteria was `r SMD_S_LMA_ARRIVE$subgroup_rma_summary[SMD_S_LMA_ARRIVE$subgroup_rma_summary$ARRIVEScoreCat == "8-11 criteria met", "SMD"]`, for those experiments that met between 12-15 of the ARRIVE reporting quality criteria `r SMD_S_LMA_ARRIVE$subgroup_rma_summary[SMD_S_LMA_ARRIVE$subgroup_rma_summary$ARRIVEScoreCat == "12-15 criteria met", "SMD"]`, and for those experiments that met between 16-19 of the ARRIVE reporting quality criteria `r SMD_S_LMA_ARRIVE$subgroup_rma_summary[SMD_S_LMA_ARRIVE$subgroup_rma_summary$ARRIVEScoreCat == "16-19 criteria met", "SMD"]`. 
 
 ##### Heterogeneity explained by covariates (simple interventions on locomotor activity)  
 
@@ -539,6 +539,7 @@ The table below shows which of the covariates, if any, explain some of the heter
 | - | *12-15 criteria met* | `r SMD_S_LMA_ARRIVE$subgroup_analysis$beta[3]` | `r SMD_S_LMA_ARRIVE$subgroup_analysis$ci.lb[3]` - `r SMD_S_LMA_ARRIVE$subgroup_analysis$ci.ub[3]` | - | - |
 | - | *16-19 criteria met* | `r SMD_S_LMA_ARRIVE$subgroup_analysis$beta[4]` | `r SMD_S_LMA_ARRIVE$subgroup_analysis$ci.lb[4]` - `r SMD_S_LMA_ARRIVE$subgroup_analysis$ci.ub[4]` | - | - |
 
+
 ### Outcome 2: Cognition 
 
 ##### Sex
@@ -580,11 +581,103 @@ SMD_S_cog_AdminRoute <- plot_subgroup_analysis(df, "Simple intervention", "Cogni
 
 The pooled SMD estimate for  experiments administering the TAAR1 agonist intraperitoneally was `r SMD_S_cog_AdminRoute$subgroup_rma_summary[SMD_S_cog_AdminRoute$subgroup_rma_summary$InterventionAdministrationRoute == "Intraperitoneal (IP) injection", "SMD"]`, and for  experiments administering the TAAR1 agonist orally `r SMD_S_cog_AdminRoute$subgroup_rma_summary[SMD_S_cog_AdminRoute$subgroup_rma_summary$InterventionAdministrationRoute == "Oral administration/gavage", "SMD"]`.
 
+##### Prophylactic or therapeutic intervention 
 
+In this iteration of the review, all relevant comparisons administered the TAAR1 agonist after induction of the disease model. Therefore, no subgroup analyses were conducted for this variable.
 
+##### Duration of treatment period
 
+In this iteration of the review, all relevant comparisons administered the TAAR1 agonist for < 1 week. Therefore, no subgroup analyses were conducted for this variable.
 
+##### The intervention administered 
 
+Figure x displays the estimates for the pooled SMD's when comparisons are stratified by the intervention administered. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by the intervention administered, is displayed as a diamond shape at the bottom of the plot.
+
+**Figure x**
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', fig.width=9, fig.height=5} 
+SMD_S_cog_Drug <- plot_subgroup_analysis(df, "Simple intervention", "Cognition", "DrugName", 0.5)
+```
+
+The TAAR1 agonist SEP-363856 (Ultaront) was administered in `r SMD_S_LMA_Drug$subgroup_rma_summary[SMD_S_LMA_Drug$subgroup_rma_summary$DrugName == "SEP-363856", "k"]` experiments. `r SMD_S_cog_Drug$subgroup_rma_summary[SMD_S_cog_Drug$subgroup_rma_summary$DrugName == "RO5203648", "k"]` experiments administered the TAAR1 agonist RO5203648, and `r SMD_S_cog_Drug$subgroup_rma_summary[SMD_S_cog_Drug$subgroup_rma_summary$DrugName == "RO5256390", "k"]` experiments administered the TAAR1 agonist RO5256390.
+
+The pooled SMD estimate for experiments administering the TAAR1 agonist SEP-363856 was `r SMD_S_cog_Drug$subgroup_rma_summary[SMD_S_cog_Drug$subgroup_rma_summary$DrugName == "SEP-363856", "SMD"]`, for experiments administering the TAAR1 agonist RO5203648 `r SMD_S_cog_Drug$subgroup_rma_summary[SMD_S_cog_Drug$subgroup_rma_summary$DrugName == "RO5203648", "SMD"]`, and for experiments administering the TAAR1 agonist RO5256390 `r SMD_S_cog_Drug$subgroup_rma_summary[SMD_S_cog_Drug$subgroup_rma_summary$DrugName == "RO5256390", "SMD"]`.
+
+##### The efficacy of the drug (i.e. whether the drug is a partial or full agonist)
+
+In this iteration of the review, all relevant comparisons administered the TAAR1 agonists with partial agonist activity. Therefore, no subgroup analyses were conducted for this variable.
+
+##### The selectivity of the drug 
+
+Figure x displays the estimates for the pooled SMD's when comparisons are stratified by the selectivity of the intervention administered. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by intervention selectivity, is displayed as a diamond shape at the bottom of the plot.
+
+**Figure 10**
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', fig.width=9, fig.height=5} 
+SMD_S_cog_DrugSelectivity <- plot_subgroup_analysis(df, "Simple intervention", "Cognition", "Selectivity", 0.5)
+```
+
+TAAR1 agonists with high selectivity were used in `r SMD_S_cog_DrugSelectivity$subgroup_rma_summary[SMD_S_cog_DrugSelectivity$subgroup_rma_summary$Selectivity == "High", "k"]` experiments. TAAR1 drugs with additional agonist activity at serotonin 5HT1A receptors were used in `r SMD_S_cog_DrugSelectivity$subgroup_rma_summary[SMD_S_cog_DrugSelectivity$subgroup_rma_summary$Selectivity == "Low (5HT1A partial agonism)", "k"]` experiments.
+
+The pooled SMD estimate for experiments administering TAAR1 agonists with high selectivity was `r SMD_S_cog_DrugSelectivity$subgroup_rma_summary[SMD_S_cog_DrugSelectivity$subgroup_rma_summary$Selectivity == "High", "SMD"]`, and for experiments administering TAAR1 agonists with low selectivity `r SMD_S_cog_DrugSelectivity$subgroup_rma_summary[SMD_S_cog_DrugSelectivity$subgroup_rma_summary$Selectivity == "Low (5HT1A partial agonism)", "SMD"]`.
+
+##### SYRCLE RoB assessment 
+
+Figure x displays the estimates for the pooled SMD's when comparisons are stratified by how many of the SYRCLE risk of bias assessment criteria (of which there are 10) that the experiment met. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by SYRCLE RoB assessment, is displayed as a diamond shape at the bottom of the plot.
+
+**Figure x** 
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', fig.width=9, fig.height=5} 
+SMD_S_cog_SYRCLERoB <- plot_subgroup_analysis(df, "Simple intervention", "Cognition", "RoBScore", 0.5)
+```
+
+`r SMD_S_cog_SYRCLERoB$subgroup_rma_summary[SMD_S_cog_SYRCLERoB$subgroup_rma_summary$RoBScore == "0 criteria met", "k"]` experiments met none of the SYRCLE Risk of Bias criteria. `r SMD_S_cog_SYRCLERoB$subgroup_rma_summary[SMD_S_cog_SYRCLERoB$subgroup_rma_summary$RoBScore == "1 criteria met", "k"]` experiments met one of the SYRCLE Risk of Bias criteria. No studies met more than one of the SYRCLE Risk of Bias criteria.
+
+The pooled SMD estimate for experiments that met none of the SYRCLE Risk of Bias criteria was `r SMD_S_cog_SYRCLERoB$subgroup_rma_summary[SMD_S_cog_SYRCLERoB$subgroup_rma_summary$RoBScore == "0 criteria met", "SMD"]`, and for experiments that met one of the SYRCLE Risk of Bias criteria `r SMD_S_cog_SYRCLERoB$subgroup_rma_summary[SMD_S_cog_SYRCLERoB$subgroup_rma_summary$RoBScore == "1 criteria met", "SMD"]`.
+
+##### ARRIVE reporting quality guidelines
+
+Experiments were categorised based on the number of ARRIVE guidelines (of which there are 23) met. The categorisation was as follows: Experiments meeting 3 or fewer criteria were labeled as "A: < 3 criteria met"; those meeting 4 to 7 criteria were labeled "B: 4-7 criteria met"; for 8 to 11 criteria, "C: 8-11 criteria met"; for 12 to 15 criteria, "D: 12-15 criteria met"; for 16 to 19 criteria, "E: 16-19 criteria met"; and experiments meeting more than 19 criteria were labeled as "F: > 20 criteria met". 
+
+Figure x displays the estimates for the pooled SMD's when comparisons are stratified by this categorisation that the experiment met. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by ARRIVE reporting quality guidelines, is displayed as a diamond shape at the bottom of the plot.
+
+**Figure x** 
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', fig.width=9, fig.height=5} 
+SMD_S_cog_ARRIVE <- plot_subgroup_analysis(df, "Simple intervention", "Cognition", "ARRIVEScoreCat", 0.5)
+```
+
+`r SMD_S_cog_ARRIVE$subgroup_rma_summary[SMD_S_cog_ARRIVE$subgroup_rma_summary$ARRIVEScoreCat == "C: 8-11 criteria met", "k"]` experiments met between 8-11 of the ARRIVE reporting quality criteria. No studies met less than 8 or more than 19 of the ARRIVE reporting quality criteria. `r SMD_S_cog_ARRIVE$subgroup_rma_summary[SMD_S_cog_ARRIVE$subgroup_rma_summary$ARRIVEScoreCat == "D: 12-15 criteria met", "k"]` experiments met between 12-15, and `r SMD_S_cog_ARRIVE$subgroup_rma_summary[SMD_S_cog_ARRIVE$subgroup_rma_summary$ARRIVEScoreCat == "E: 16-19 criteria met", "k"]` experiments met between 16-19 of the ARRIVE reporting quality criteria. No studies met less than 8 or more than 19 of the ARRIVE reporting quality criteria.
+
+The pooled SMD estimate for experiments that met between 8-11 of the ARRIVE reporting quality criteria was `r SMD_S_cog_ARRIVE$subgroup_rma_summary[SMD_S_cog_ARRIVE$subgroup_rma_summary$ARRIVEScoreCat == "C: 8-11 criteria met", "SMD"]`, and for experiments that met between 12-15 of the ARRIVE reporting quality criteria `r SMD_S_cog_ARRIVE$subgroup_rma_summary[SMD_S_cog_ARRIVE$subgroup_rma_summary$ARRIVEScoreCat == "D: 12-15 criteria met", "SMD"]`, and for experiments that met between 16-19 of the ARRIVE reporting quality criteria `r SMD_S_cog_ARRIVE$subgroup_rma_summary[SMD_S_cog_ARRIVE$subgroup_rma_summary$ARRIVEScoreCat == "E: 16-19 criteria met", "SMD"]`.
+
+##### Heterogeneity explained by covariates (simple interventions on cognition)  
+
+The table below shows which of the covariates, if any, explain some of the heterogeneity (reduction of tau) observed in the effect sizes of the effect of TAAR1 agonists on cognition. We present marginal R^2^, which measures the proportion of variance explained by including moderators in the model. 
+
+| Moderator | Category | \( \beta \) | 95% CI | Marginal R^2^ | Test of moderator effect |
+|:---:|:---:|:---:|:---:|:---:|:---:|
+| Overall effect | - | `r SMD_S_cog$beta[1]` | `r SMD_S_cog$ci.lb` - `r SMD_S_cog$ci.ub` | - | NA |
+| Sex | - | - | - | `r r2_ml(SMD_S_cog_sex$subgroup_analysis)[1]` | `r if (SMD_S_cog_sex$subgroup_analysis$QMp < 0.05) {"p-val < .05"} else {"p-val > 0.05"}`| 
+| - | *Female* | `r SMD_S_cog_sex$subgroup_analysis$beta[1]` | `r SMD_S_cog_sex$subgroup_analysis$ci.lb[1]` - `r SMD_S_cog_sex$subgroup_analysis$ci.ub[1]` | - | - | 
+| - | *Male* | `r SMD_S_cog_sex$subgroup_analysis$beta[2]` | `r SMD_S_cog_sex$subgroup_analysis$ci.lb[2]` - `r SMD_S_cog_sex$subgroup_analysis$ci.ub[2]` | - | - |
+| - | *Mixed male and female* | `r SMD_S_cog_sex$subgroup_analysis$beta[3]` | `r SMD_S_cog_sex$subgroup_analysis$ci.lb[3]` - `r SMD_S_cog_sex$subgroup_analysis$ci.ub[3]` | - | - |
+| Category of disease model induction | - | - | - | `r r2_ml(SMD_S_cog_CatDisInd$subgroup_analysis)[1]` | `r if (SMD_S_cog_CatDisInd$subgroup_analysis$QMp < 0.05) {"p-val < .05"} else {"p-val > 0.05"}`|
+| - | *Genetic* | `r SMD_S_cog_CatDisInd$subgroup_analysis$beta[1]` | `r SMD_S_cog_CatDisInd$subgroup_analysis$ci.lb[1]` - `r SMD_S_cog_CatDisInd$subgroup_analysis$ci.ub[1]` | - | - |
+| - | *Pharmacological* | `r SMD_S_cog_CatDisInd$subgroup_analysis$beta[2]` | `r SMD_S_cog_CatDisInd$subgroup_analysis$ci.lb[2]` - `r SMD_S_cog_CatDisInd$subgroup_analysis$ci.ub[2]` | - | - |
+| Administration route | - | - | - | `r r2_ml(SMD_S_cog_AdminRoute$subgroup_analysis)[1]` | `r if (SMD_S_cog_AdminRoute$subgroup_analysis$QMp < 0.05) {"p-val < .05"} else {"p-val > 0.05"}`|
+| - | *Intraperitoneal* | `r SMD_S_cog_AdminRoute$subgroup_analysis$beta[1]` | `r SMD_S_cog_AdminRoute$subgroup_analysis$ci.lb[1]` - `r SMD_S_cog_AdminRoute$subgroup_analysis$ci.ub[1]` | - | - |
+| - | *Oral* | `r SMD_S_cog_AdminRoute$subgroup_analysis$beta[2]` | `r SMD_S_cog_AdminRoute$subgroup_analysis$ci.lb[2]` - `r SMD_S_cog_AdminRoute$subgroup_analysis$ci.ub[2]` | - | - |
+| Intervention administered | - | - | - | `r r2_ml(SMD_S_cog_Drug$subgroup_analysis)[1]` | `r if (SMD_S_cog_Drug$subgroup_analysis$QMp < 0.05) {"p-val < .05"} else {"p-val > 0.05"}`|
+| - | *RO5203648* | `r SMD_S_cog_Drug$subgroup_analysis$beta[1]` | `r SMD_S_cog_Drug$subgroup_analysis$ci.lb[1]` - `r SMD_S_cog_Drug$subgroup_analysis$ci.ub[1]` | - | - |
+| - | *RO5256390* | `r SMD_S_cog_Drug$subgroup_analysis$beta[2]` | `r SMD_S_cog_Drug$subgroup_analysis$ci.lb[2]` - `r SMD_S_cog_Drug$subgroup_analysis$ci.ub[2]` | - | - |
+| - | *SEP-363856 (Ultaront)* | `r SMD_S_cog_Drug$subgroup_analysis$beta[3]` | `r SMD_S_cog_Drug$subgroup_analysis$ci.lb[3]` - `r SMD_S_cog_Drug$subgroup_analysis$ci.ub[3]` | - | - |
+| Drug selectivity | - | - | - | `r r2_ml(SMD_S_cog_DrugSelectivity$subgroup_analysis)[1]` | `r if (SMD_S_cog_DrugSelectivity$subgroup_analysis$QMp < 0.05) {"p-val < .05"} else {"p-val > 0.05"}`|
+| - | *High* | `r SMD_S_cog_DrugSelectivity$subgroup_analysis$beta[1]` | `r SMD_S_cog_DrugSelectivity$subgroup_analysis$ci.lb[1]` - `r SMD_S_cog_DrugSelectivity$subgroup_analysis$ci.ub[1]` | - | - |
+| - | *Low* | `r SMD_S_cog_DrugSelectivity$subgroup_analysis$beta[2]` | `r SMD_S_cog_DrugSelectivity$subgroup_analysis$ci.lb[2]` - `r SMD_S_cog_DrugSelectivity$subgroup_analysis$ci.ub[2]` | - | - |
+| Risk of Bias | - | - | - | `r r2_ml(SMD_S_cog_SYRCLERoB$subgroup_analysis)[1]` | `r if (SMD_S_cog_SYRCLERoB$subgroup_analysis$QMp < 0.05) {"p-val < .05"} else {"p-val > 0.05"}`|
+| - | *0 criteria met* | `r SMD_S_cog_SYRCLERoB$subgroup_analysis$beta[1]` | `r SMD_S_cog_SYRCLERoB$subgroup_analysis$ci.lb[1]` - `r SMD_S_cog_SYRCLERoB$subgroup_analysis$ci.ub[1]` | - | - |
+| - | *1 criteria met* | `r SMD_S_cog_SYRCLERoB$subgroup_analysis$beta[2]` | `r SMD_S_cog_SYRCLERoB$subgroup_analysis$ci.lb[2]` - `r SMD_S_cog_SYRCLERoB$subgroup_analysis$ci.ub[2]` | - | - |
+| Reporting quality | - | - | - | `r r2_ml(SMD_S_cog_ARRIVE$subgroup_analysis)[1]` | `r if (SMD_S_cog_ARRIVE$subgroup_analysis$QMp < 0.05) {"p-val < .05"} else {"p-val > 0.05"}`|
+| - | *8-11 criteria met* | `r SMD_S_LMA_ARRIVE$subgroup_analysis$beta[1]` | `r SMD_S_LMA_ARRIVE$subgroup_analysis$ci.lb[1]` - `r SMD_S_LMA_ARRIVE$subgroup_analysis$ci.ub[1]` | - | - |
+| - | *12-15 criteria met* | `r SMD_S_LMA_ARRIVE$subgroup_analysis$beta[2]` | `r SMD_S_LMA_ARRIVE$subgroup_analysis$ci.lb[2]` - `r SMD_S_LMA_ARRIVE$subgroup_analysis$ci.ub[2]` | - | - |
+| - | *16-19 criteria met* | `r SMD_S_LMA_ARRIVE$subgroup_analysis$beta[3]` | `r SMD_S_LMA_ARRIVE$subgroup_analysis$ci.lb[3]` - `r SMD_S_LMA_ARRIVE$subgroup_analysis$ci.ub[3]` | - | - |
 
 
 # Meta-regression analyses
@@ -617,7 +710,7 @@ The estimate for \( \beta \) was `r SMD_S_LMA_potency$metaregression_summary$bet
 
 #### 2. Dose of intervention
 
-In this iteration of the review, the TAAR1 agonists administered in 'simple intervention' experiments (ordered by number of experiments) were; **`r drugs <- df %>% filter(ExperimentType == "Simple intervention") %>% group_by(DrugName) %>% summarise(count = n()) %>% arrange(desc(count)) %>% pull(DrugName); if (length(drugs) > 1) {paste(paste(head(drugs, -1), collapse = ", "), "and", tail(drugs, 1))} else {drugs}`**. Meta-regression using the administered dose as an explanatory variable will first be conducted individually for each drug/intervention. This approach accounts for varying mechanisms of action, pharmacodynamics, and pharmacokinetics of each drug, ensuring that the dose effect of one intervention is not masked by aggregate data. 
+In this iteration of the review, the TAAR1 agonists administered in 'simple intervention' experiments (ordered by number of experiments) were; **`r drugs <- df %>% filter(ExperimentType == "Simple intervention") %>% filter(outcome_type == "Locomotor activity") %>% group_by(DrugName) %>% summarise(count = n()) %>% arrange(desc(count)) %>% pull(DrugName); if (length(drugs) > 1) {paste(paste(head(drugs, -1), collapse = ", "), "and", tail(drugs, 1))} else {drugs}`**. Meta-regression using the administered dose as an explanatory variable was first conducted individually for each drug/intervention. This approach accounts for varying mechanisms of action, pharmacodynamics, and pharmacokinetics of each drug, ensuring that the dose effect of one intervention is not masked by aggregate data. 
 
 In the following plots, dashed lines represent the 95% confidence interval of the regression line and dotted lines represent the 95% prediction interval. Raw data is plotted with point size adjusted according to effect size precision.
 
@@ -795,6 +888,68 @@ SMD_S_LMA_StandardDose$regression_plot
 ```
 
 The estimate for \( \theta \) was `r SMD_S_LMA_StandardDose$metaregression_summary$beta[1] `. The estimate for \( \beta \) was `r SMD_S_LMA_StandardDose$metaregression_summary$beta[2]`.
+
+### Cognition
+
+#### 1. Potency of intervention
+
+The pEC50 value of each drug was again used to measure potency. Higher pEC50 values indicate higher potency (as they indicate a lower EC50). Figure x displays a visualisation of the meta-regression using the pEC50 value as an explanatory variable. Dashed lines represent the 95% confidence interval of the regression line. The dotted lines represent the 95% prediction interval. Raw data is plotted with 'bubble' size adjusted according to effect size precision. 
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_cog_potency <- metaregression_analysis(df, "Simple intervention", "Cognition", "pE50", 0.5)
+```
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
+SMD_S_cog_potency$regression_plot
+```
+
+The estimate for \( \theta \) was `r SMD_S_cog_potency$metaregression_summary$beta[1] `. This gives the predicted SMD when the pEC50 of the intervention is 0. Note that this should be interpreted with caution; since the logarithm of zero is undefined (it tends towards negative infinity), a pEC50 value cannot be 0 unless the EC50 is 1 mol/L. The estimate for \( \theta \) can be interpreted as the estimated SMD when the EC50 is 1 mol/L (1000mM), which signifies extremely low potency. 
+
+The estimate for \( \beta \) was `r SMD_S_cog_potency$metaregression_summary$beta[2]`. This represents the predicted regression weight for the pEC50 of the intervention. 
+
+#### 2. Dose of intervention
+
+In this iteration of the review, the TAAR1 agonists administered in 'simple intervention' experiments (ordered by number of experiments) were; **`r drugs <- df %>% filter(ExperimentType == "Simple intervention") %>% filter(outcome_type == "Cognition") %>% group_by(DrugName) %>% summarise(count = n()) %>% arrange(desc(count)) %>% pull(DrugName); if (length(drugs) > 1) {paste(paste(head(drugs, -1), collapse = ", "), "and", tail(drugs, 1))} else {drugs}`**. Meta-regression using the administered dose as an explanatory variable was first conducted individually for each drug/intervention. This approach accounts for varying mechanisms of action, pharmacodynamics, and pharmacokinetics of each drug, ensuring that the dose effect of one intervention is not masked by aggregate data. 
+
+##### SEP-363856 (Ultaront)
+
+Figure x provides a visualisation of the meta-regression analysis predicting the response, measured as the Standardized Mean Difference (SMD), in cognition to varying doses of SEP-363856 (in mg/kg). 
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_cog_SEP363856_dose <- metaregression_analysis_by_drug(df, "Simple intervention", "Cognition", "SEP-363856", "DoseOfIntervention_mgkg", 0.5)
+```
+
+**Figure x**
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
+SMD_S_cog_SEP363856_dose$regression_plot
+```
+
+The estimate for \( \theta \) was `r SMD_S_cog_SEP363856_dose$metaregression_summary$beta[1] `. The estimate for \( \beta \) was `r SMD_S_cog_SEP363856_dose$metaregression_summary$beta[2]`.
+
+##### RO5203648
+
+In this iteration of the review, all relevant comparisons used the same dose of RO5203648 (1 mg/kg). Therefore, meta-regression on the dose on intervention was not conducted for this drug.
+
+##### RO5256390
+
+In this iteration of the review, there was insufficient data to perform meta-regression on the dose on intervention for RO5256390 (only a single data point for each dose of RO5256390 administered)
+
+##### Standardised dose
+
+As for locomotor activity, we then sought evidence of a dose response relationship across all drugs using the standardised dose variable. 
+
+Figure x provides a visualisation of the meta-regression analysis predicting the response, measured as the Standardized Mean Difference (SMD), in cognition to varying standardised doses of TAAR1 agonists. As before, dashed lines represent the 95% confidence interval of the regression line and dotted lines represent the 95% prediction interval. Raw data is plotted with point size adjusted according to effect size precision. 
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_cog_StandardDose <- metaregression_analysis(df, "Simple intervention", "Cognition", "StandardisedDose", 0.5)
+```
+
+**Figure x**
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
+SMD_S_cog_StandardDose$regression_plot
+```
+
+The estimate for \( \theta \) was `r SMD_S_cog_StandardDose$metaregression_summary$beta[1] `. The estimate for \( \beta \) was `r SMD_S_cog_StandardDose$metaregression_summary$beta[2]`.
 
 
 # Head to head experiments
