@@ -539,10 +539,48 @@ The table below shows which of the covariates, if any, explain some of the heter
 | - | *12-15 criteria met* | `r SMD_S_LMA_ARRIVE$subgroup_analysis$beta[3]` | `r SMD_S_LMA_ARRIVE$subgroup_analysis$ci.lb[3]` - `r SMD_S_LMA_ARRIVE$subgroup_analysis$ci.ub[3]` | - | - |
 | - | *16-19 criteria met* | `r SMD_S_LMA_ARRIVE$subgroup_analysis$beta[4]` | `r SMD_S_LMA_ARRIVE$subgroup_analysis$ci.lb[4]` - `r SMD_S_LMA_ARRIVE$subgroup_analysis$ci.ub[4]` | - | - |
 
-
 ### Outcome 2: Cognition 
 
 ##### Sex
+
+Figure x displays the estimates for the pooled SMD's when comparisons are stratified by sex of the animal. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by sex, is displayed as a diamond shape at the bottom of the plot. 
+
+**Figure x**
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', fig.width=9, fig.height=5}
+SMD_S_cog_sex <- plot_subgroup_analysis(df, "Simple intervention", "Cognition", "Sex", 0.5)
+```
+
+`r SMD_S_cog_sex$subgroup_rma_summary[SMD_S_cog_sex$subgroup_rma_summary$Sex == "Not reported", "k"]` comparisons did not report the sex of the animals used within the experimental cohort. `r SMD_S_cog_sex$subgroup_rma_summary[SMD_S_cog_sex$subgroup_rma_summary$Sex == "Male", "k"]` comparisons used cohorts of only male animals and `r SMD_S_cog_sex$subgroup_rma_summary[SMD_S_cog_sex$subgroup_rma_summary$Sex == "Female", "k"]` comparisons used cohorts of only female animals. There were `r SMD_S_cog_sex$subgroup_rma_summary[SMD_S_cog_sex$subgroup_rma_summary$Sex == "Mixed male and female", "k"]` comparisons using cohorts of both male and female animals. 
+
+The pooled SMD estimate for male animals was `r SMD_S_cog_sex$subgroup_rma_summary[SMD_S_cog_sex$subgroup_rma_summary$Sex == "Male", "SMD"]`, for females `r SMD_S_cog_sex$subgroup_rma_summary[SMD_S_cog_sex$subgroup_rma_summary$Sex == "Female", "SMD"]`, and for mixed cohorts `r SMD_S_cog_sex$subgroup_rma_summary[SMD_S_cog_sex$subgroup_rma_summary$Sex == "Mixed male and female", "SMD"]`. 
+
+##### Category of disease induction 
+
+Figure x displays the estimates for the pooled SMD's when comparisons are stratified by the category of disease induction. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by category of disease induction, is displayed as a diamond shape at the bottom of the plot.
+
+**Figure x**
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', fig.width=9, fig.height=5}
+SMD_S_cog_CatDisInd <- plot_subgroup_analysis(df, "Simple intervention", "Cognition", "CategoryDiseaseInduction", 0.5)
+```
+
+`r SMD_S_cog_CatDisInd$subgroup_rma_summary[SMD_S_cog_CatDisInd$subgroup_rma_summary$CategoryDiseaseInduction == "Pharmacological (e.g. psychostimulants, NMDA antagonists)", "k"]` comparisons used pharmacological methods to induce the disease model. `r SMD_S_cog_CatDisInd$subgroup_rma_summary[SMD_S_cog_CatDisInd$subgroup_rma_summary$CategoryDiseaseInduction == "Genetic (e.g. DISC1 KO, DAT KO, D2R overexpression)", "k"]` comparisons used genetic methods to induce the disease model. 
+
+The pooled SMD estimate for comparisons using pharmacological methods to induce the disease model was `r SMD_S_cog_CatDisInd$subgroup_rma_summary[SMD_S_cog_CatDisInd$subgroup_rma_summary$CategoryDiseaseInduction == "Pharmacological (e.g. psychostimulants, NMDA antagonists)", "SMD"]`, and for comparisons using genetic methods to induce the disease model `r SMD_S_cog_CatDisInd$subgroup_rma_summary[SMD_S_cog_CatDisInd$subgroup_rma_summary$CategoryDiseaseInduction == "Genetic (e.g. DISC1 KO, DAT KO, D2R overexpression)", "SMD"]`.
+
+##### Route of intervention administration
+
+Figure x displays the estimates for the pooled SMD's when comparisons are stratified by the administration route of the intervention. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by administration route of the intervention, is displayed as a diamond shape at the bottom of the plot.
+
+**Figure x**
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', fig.width=9, fig.height=5}
+SMD_S_cog_AdminRoute <- plot_subgroup_analysis(df, "Simple intervention", "Cognition", "InterventionAdministrationRoute", 0.5)
+```
+
+`r SMD_S_cog_AdminRoute$subgroup_rma_summary[SMD_S_cog_AdminRoute$subgroup_rma_summary$InterventionAdministrationRoute == "Intraperitoneal (IP) injection", "k"]` comparisons administered the TAAR1 agonist intraperitoneally. `r SMD_S_cog_AdminRoute$subgroup_rma_summary[SMD_S_cog_AdminRoute$subgroup_rma_summary$InterventionAdministrationRoute == "Oral administration/gavage", "k"]` comparisons administered the TAAR1 agonist orally. 
+
+The pooled SMD estimate for  experiments administering the TAAR1 agonist intraperitoneally was `r SMD_S_cog_AdminRoute$subgroup_rma_summary[SMD_S_cog_AdminRoute$subgroup_rma_summary$InterventionAdministrationRoute == "Intraperitoneal (IP) injection", "SMD"]`, and for  experiments administering the TAAR1 agonist orally `r SMD_S_cog_AdminRoute$subgroup_rma_summary[SMD_S_cog_AdminRoute$subgroup_rma_summary$InterventionAdministrationRoute == "Oral administration/gavage", "SMD"]`.
+
+
 
 
 
