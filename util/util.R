@@ -571,16 +571,7 @@ run_sse_NMD <- function(df, rho_value = 0.5) {
                     control=list(optimizer="nlm")
   )
   
-  #if (length(unique(df$StudyId)) > 1) {
-  #SMD_ML <- robust(SMD_ML, cluster = StudyId, clubSandwich = FALSE)
-  #}
-  
-  cat("Small studies effects regression summary:\n")
-  print(summary(NMD_sse))
-  
-  cat("\n-------------------------\n")
-  
-  return(plot)
+  return(NMD_sse)
 }
 
 run_sse_plot <- function(df, rho_value = 0.5) {
