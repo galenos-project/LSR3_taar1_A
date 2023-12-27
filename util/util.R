@@ -546,7 +546,9 @@ run_sse_NMD <- function(df, rho_value = 0.5) {
   #  df<-filter_experiment_outcome_type(df, experiment, outcome)
   
   df<-df %>% 
-    filter(!is.na(NMDv))
+    filter(!is.na(NMDv)) %>%
+    filter(outcome_type == "Locomotor activity") %>%
+    filter(CohortType == "Simple intervention")
   
   df <- df %>% mutate(effect_id = row_number()) # add effect_id column
   df$NMDSE <- sqrt(df$NMDv)
