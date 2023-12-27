@@ -1157,5 +1157,5 @@ Egger regression based on `r run_sse_NMD(df)[["k"]]` studies of Simple intervent
 |                                 |                                  |                                   |                                |                                  |                               |
 |------------|------------|------------|------------|------------|------------|
 | **Source of evidence**          | **Summary of the association**   | **Bias due to study limitations** | **Bias due to reporting bias** | **Bias due to indirectedness**   | **Bias due to other reasons** |
-| Animal and pre-clinical studies |                                  |                                   |                                |                                  |                               |
+| Animal and pre-clinical studies |                                  |No studies were of low risk of bias or low reporting bias                                   | Egger Regression showed evidence of small study effects                               |                                  |                               |
 | Human studies                   |                                  |                                   |                                |                                  |                               |
