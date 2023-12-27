@@ -761,12 +761,12 @@ The estimate for \( \theta \) was `r SMD_S_LMA_StandardDose$metaregression_summa
 
 # Head to head experiments
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-SMD_S_LMA <- run_ML_SMD(df, "Head to head", "Locomotor activity", 0.5)
+SMD_S_LMA_H2H <- run_ML_SMD(df, "Head to head", "Locomotor activity", 0.5)
 ```
 
 **Figure n**
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=10}
-forest_metafor(SMD_S_LMA, "locomotor activity")
+forest_metafor(SMD_S_LMA_H2H, "Locomotor activity")
 ```
 
 
