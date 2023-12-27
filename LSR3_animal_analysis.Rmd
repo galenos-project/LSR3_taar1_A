@@ -863,10 +863,11 @@ Small studies effects using modified Egger's regression
 
 ```{r warning=FALSE, eval = TRUE, echo = FALSE}
 run_sse_plot(df)
+#run_sse_NMD(df)
 ```
 
 
-
+Egger regression based on those studies where NMD was evaluable showed a coefficient for a small study effect of `r run_sse_NMD(df)[["beta"]][2]` (95% CI: `r run_sse_NMD(df)[["ci.lb"]][2]` to `r run_sse_NMD(df)[["ci.ub"]][2]` (p = `r ifelse(run_sse_NMD(df)[["pval"]][2] < 0.001, "<0.001", sprintf("%.3f", run_sse_NMD(df)[["pval"]][2]))`) in the context of a baseline estimate of effect of `r run_sse_NMD(df)[["beta"]][1]` (95% CI: `r run_sse_NMD(df)[["ci.lb"]][1]` to `r run_sse_NMD(df)[["ci.ub"]][1]` (p = `r ifelse(run_sse_NMD(df)[["pval"]][2] < 0.001, "<0.001", sprintf("%.3f", run_sse_NMD(df)[["pval"]][1]))`).
 
 
 
