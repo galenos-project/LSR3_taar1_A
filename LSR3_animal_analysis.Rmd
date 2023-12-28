@@ -10,76 +10,147 @@ editor_options:
 # Contents
 
 1. Flow of study selection
-2. Description of experiment types
-   2.1 Simple interventions
+
+2. Description of experiment types 
+
+   - 2.1 Simple interventions
+   
 3. Risk of bias and reporting quality assessment
-   3.1 Simple interventions
-      3.1.1 Outcome 1: Locomotor activity
-         3.1.1.1 Risks of bias
-         3.1.1.2 Reporting quality
-      3.1.2 Outcome 2: Prepulse inhibition
-         3.1.2.1 Risks of bias
-         3.1.2.2 Reporting quality
-      3.1.3 Outcome 3: Cognition
-         3.1.3.1 Risks of bias
-         3.1.3.2 Reporting quality
-      3.1.4 Outcome 4: Social interaction
-         3.1.4.1 Risks of bias
-         3.1.4.2 Reporting quality
-      3.1.5 Outcome 5: Stereotypy
-         3.1.5.1 Risks of bias
-         3.1.5.2 Reporting quality
+
+   - 3.1 Simple interventions
+   
+      - 3.1.1 Outcome 1: Locomotor activity
+      
+         - 3.1.1.1 Risks of bias
+         
+         - 3.1.1.2 Reporting quality
+         
+     - 3.1.2 Outcome 2: Prepulse inhibition
+     
+         - 3.1.2.1 Risks of bias
+         
+         - 3.1.2.2 Reporting quality
+         
+     - 3.1.3 Outcome 3: Cognition
+     
+         - 3.1.3.1 Risks of bias
+         
+         - 3.1.3.2 Reporting quality
+         
+      - 3.1.4 Outcome 4: Social interaction
+      
+         - 3.1.4.1 Risks of bias
+         
+         - 3.1.4.2 Reporting quality
+         
+      - 3.1.5 Outcome 5: Stereotypy
+      
+         - 3.1.5.1 Risks of bias
+         
+         - 3.1.5.2 Reporting quality
+         
 4. Meta-analyses by experiment type and outcome
-   4.1 Simple interventions
-      4.1.1 Outcome 1: Locomotor activity
-      4.1.2 Outcome 2: Cognition
-   4.2 "Head to head" interventions
+
+   - 4.1 Simple interventions
+   
+      - 4.1.1 Outcome 1: Locomotor activity
+      
+      - 4.1.2 Outcome 2: Cognition
+      
+   - 4.2 "Head to head" interventions
+   
 5. Subgroup analyses
-   5.1 Simple interventions
-      5.1.1 Outcome 1: Locomotor activity
-         5.1.1.1 Sex
-         5.1.1.2 Category of disease induction
-         5.1.1.3 Route of intervention administration
-         5.1.1.4 Prophylactic or therapeutic intervention
-         5.1.1.5 Duration of treatment period
-         5.1.1.6 The intervention administered
-         5.1.1.7 The efficacy of the drug
-         5.1.1.8 The selectivity of the drug
-         5.1.1.9 SYRCLE RoB assessment
-         5.1.1.10 ARRIVE reporting quality guidelines
-         5.1.1.11 Heterogeneity explained by covariates
-      5.1.2 Outcome 2: Cognition
-         5.1.2.1 Sex
-         5.1.2.2 Category of disease induction
-         5.1.2.3 Route of intervention administration
-         5.1.2.4 Prophylactic or therapeutic intervention
-         5.1.2.5 Duration of treatment period
-         5.1.2.6 The intervention administered
-         5.1.2.7 The efficacy of the drug
-         5.1.2.8 The selectivity of the drug
-         5.1.2.9 SYRCLE RoB assessment
-         5.1.2.10 ARRIVE reporting quality guidelines
-         5.1.2.11 Heterogeneity explained by covariates
+
+   - 5.1 Simple interventions
+   
+      - 5.1.1 Outcome 1: Locomotor activity
+      
+         - 5.1.1.1 Sex
+         
+         - 5.1.1.2 Category of disease induction
+         
+         - 5.1.1.3 Route of intervention administration
+         
+         - 5.1.1.4 Prophylactic or therapeutic intervention
+         
+         - 5.1.1.5 Duration of treatment period
+         
+         - 5.1.1.6 The intervention administered
+         
+         - 5.1.1.7 The efficacy of the drug
+         
+         - 5.1.1.8 The selectivity of the drug
+         
+         - 5.1.1.9 SYRCLE RoB assessment
+         
+         - 5.1.1.10 ARRIVE reporting quality guidelines
+         
+         - 5.1.1.11 Heterogeneity explained by covariates
+         
+      - 5.1.2 Outcome 2: Cognition
+      
+         - 5.1.2.1 Sex
+         
+         - 5.1.2.2 Category of disease induction
+         
+         - 5.1.2.3 Route of intervention administration
+         
+         - 5.1.2.4 Prophylactic or therapeutic intervention
+         
+         - 5.1.2.5 Duration of treatment period
+         
+         - 5.1.2.6 The intervention administered
+         
+         - 5.1.2.7 The efficacy of the drug
+         
+         - 5.1.2.8 The selectivity of the drug
+         
+         - 5.1.2.9 SYRCLE RoB assessment
+         
+         - 5.1.2.10 ARRIVE reporting quality guidelines
+         
+         - 5.1.2.11 Heterogeneity explained by covariates
+         
 6. Meta-regression analyses
-   6.1 Meta-regression analyses for simple interventions
-      6.1.1 Locomotor activity
-         6.1.1.1 Potency of intervention
-         6.1.1.2 Dose of intervention
-      6.1.2 Cognition
-         6.1.2.1 Potency of intervention
-         6.1.2.2 Dose of intervention
+   
+   - 6.1 Meta-regression analyses for simple interventions
+   
+      - 6.1.1 Locomotor activity
+      
+         - 6.1.1.1 Potency of intervention
+         
+         - 6.1.1.2 Dose of intervention
+         
+      - 6.1.2 Cognition
+      
+         - 6.1.2.1 Potency of intervention
+         
+         - 6.1.2.2 Dose of intervention
+         
 7. Sensitivity Analyses
-   7.1 Sensitivity analyses for simple interventions
-      7.1.1 Locomotor activity
-         7.1.1.1 Studies with low overall risk of bias
-         7.1.1.2 Imputed rho values
-         7.1.1.3 NMD
-      7.1.2 Cognition
-         7.1.2.1 Studies with low overall risk of bias
-         7.1.2.2 Imputed rho values
-         7.1.2.3 NMD
+
+   - 7.1 Sensitivity analyses for simple interventions
+   
+      - 7.1.1 Locomotor activity
+      
+         - 7.1.1.1 Studies with low overall risk of bias
+         
+         - 7.1.1.2 Imputed rho values
+         
+         - 7.1.1.3 NMD
+         
+      - 7.1.2 Cognition
+      
+         - 7.1.2.1 Studies with low overall risk of bias
+         
+         - 7.1.2.2 Imputed rho values
+         
+         - 7.1.2.3 NMD
+         
 8. Reporting bias/small study effects
-   8.1 Egger regression
+
+   - 8.1 Egger regression
+   
 9. Summary of the evidence
 
 
