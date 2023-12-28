@@ -807,8 +807,7 @@ df <- df %>%
                                     ARRIVEScore > 7 & ARRIVEScore <= 11 ~ "C: 8-11 criteria met",
                                     ARRIVEScore > 11 & ARRIVEScore <= 15 ~ "D: 12-15 criteria met",
                                     ARRIVEScore > 15 & ARRIVEScore <= 19 ~ "E: 16-19 criteria met",
-                                    ARRIVEScore > 19 ~ "F: > 20 criteria met")) %>% 
-  mutate(ARRIVEScoreCat = as.factor(ARRIVEScoreCat))
+                                    ARRIVEScore > 19 ~ "F: > 20 criteria met")) 
 
 
 

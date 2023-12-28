@@ -221,31 +221,61 @@ plot_subgroup_analysis <- function(df, experiment_type, outcome, moderator, rho_
   
   overall_estimate_index <-dim(subgroup_analysis_plotdata)[1]
   
+  if (moderator == "ARRIVEScoreCat") {
+    sorted_data <- subgroup_analysis_plotdata[-overall_estimate_index, ]
+    sorted_data <- sorted_data[order(sorted_data[[moderator]]), ]
+  } else {
+    sorted_data <- subgroup_analysis_plotdata[-overall_estimate_index, ]
+  }
+  
   options(digits=3)
   
-  meta.all = metagen(TE = subgroup_analysis_plotdata$SMD[-overall_estimate_index], 
-                     seTE = subgroup_analysis_plotdata$se[-overall_estimate_index], 
-                     studlab = subgroup_analysis_plotdata[[moderator]][-overall_estimate_index], 
-                     data = subgroup_analysis_plotdata[-overall_estimate_index,], 
+  meta.all = metagen(TE = sorted_data$SMD, 
+                     seTE = sorted_data$se, 
+                     studlab = sorted_data[[moderator]], 
+                     data = sorted_data, 
                      sm = "SMD", 
                      common = F)
   meta.all$TE.random <- subgroup_analysis_plotdata$SMD[overall_estimate_index]
   meta.all$seTE.random <- subgroup_analysis_plotdata$se[overall_estimate_index]
+
   
-  x <- forest(meta.all,
-              xlab="SMD",
-              smlab=outcome,
-              just="right",
-              addrow=F,
-              overall=T,
-              overall.hetstat =F,
-              print.pval.Q=F,
-              col.square="black",sortvar=seTE,
-              col.by="black",
-              fill.equi="aliceblue",
-              leftcols = c(moderator,"k"),
-              leftlabs=c(moderator,"Number of experiments"), 
-              )
+  if (moderator == "ARRIVEScoreCat") {
+    
+    # forest() call without sortvar
+    x <- forest(meta.all,
+                xlab="SMD",
+                smlab=outcome,
+                just="right",
+                addrow=F,
+                overall=T,
+                overall.hetstat =F,
+                print.pval.Q=F,
+                col.square="black",
+                col.by="black",
+                fill.equi="aliceblue",
+                leftcols = c(moderator, "k"),
+                leftlabs = c(moderator, "Number of experiments")
+    )
+  } else {
+    # forest() call with sortvar=seTE
+    x <- forest(meta.all,
+                xlab="SMD",
+                smlab=outcome,
+                just="right",
+                addrow=F,
+                overall=T,
+                overall.hetstat =F,
+                print.pval.Q=F,
+                col.square="black",
+                sortvar=seTE,
+                col.by="black",
+                fill.equi="aliceblue",
+                leftcols = c(moderator, "k"),
+                leftlabs = c(moderator, "Number of experiments")
+    )
+  }
+  
   
   return(list(
     subgroup_analysis = subgroup_analysis,
