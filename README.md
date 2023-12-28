@@ -8,3 +8,4 @@ LSR3 documents for TAAR1 agonists in psychosis
     2. LSR3_prisma_##date##.csv : a user generated file describing the fate of citations identifed in systematic review
 - the code is specific to the LSR3 project, based on the structure of that project in SyRF; but should be adaptable for other SyRF projects
 
+nb the code requires orchaRd 2.0, available from https://daniel1noble.github.io/orchaRd/, rather than the current (Dec 2023) CRAN version
