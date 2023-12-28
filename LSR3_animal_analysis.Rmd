@@ -1293,3 +1293,4 @@ Egger regression based on `r run_sse_NMD(df)[["k"]]` studies of Simple intervent
 | Human studies                   |                                  |                                   |                                |                                  |                               |
 
 
+
