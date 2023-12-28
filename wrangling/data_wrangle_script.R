@@ -618,6 +618,11 @@ df <- dataall.direction
 df <- df %>% 
   mutate(drugname1 = str_replace_all(drugname1, "SEP(?!-363856)", "SEP-363856"))
 
+# Replace unit of measurements for drugs with abbreviations 
+df <- df %>% 
+  mutate(`Measurement unit of treatment dose:[1]` = str_replace_all(`Measurement unit of treatment dose:[1]`, "miligrams \\(mg\\) per kg", "mg/kg"),
+         `Measurement unit of treatment dose:[2]` = str_replace_all(`Measurement unit of treatment dose:[2]`, "miligrams \\(mg\\) per kg", "mg/kg")) 
+
 ### Duration of treatment (categorical)
 
 # Create variable standardised to Weeks
@@ -759,7 +764,8 @@ df <- df %>%
                                     ARRIVEScore > 15 & ARRIVEScore <= 19 ~ "E: 16-19 criteria met",
                                     ARRIVEScore > 19 ~ "F: > 20 criteria met")) %>% 
   mutate(ARRIVEScoreCat = as.factor(ARRIVEScoreCat))
-                                  
+
+
 
 # SAVE FILE
 savefile_output <- paste0(LSR,'_','clean_data_',Sys.Date(),'.csv')
