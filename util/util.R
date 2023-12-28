@@ -89,7 +89,7 @@ forest_metafor <- function(model, experiment_type, outcome_title){ #outcome titl
                                       slab = paste(drugname1, `Dose of treatment used:[1]`, `Measurement unit of treatment dose:[1]`, "vs. ", drugname2, `Dose of treatment used:[2]`, `Measurement unit of treatment dose:[2]`, sep = " "),
                                       at = at_values,
                                       col = c("darkred","darkred"),
-                                      addfit = TRUE,
+                                      addfit = FALSE,
                                       addpred = TRUE,
                                       annotate = FALSE,
                                       order="obs",
@@ -131,6 +131,8 @@ forest_metafor <- function(model, experiment_type, outcome_title){ #outcome titl
   if (experiment_type == "Head to head") {
     mtext("Favours conventional \nantipsychotic", side = 1, line = 3, at = (lower_x*0.6), cex = 1.1, col = "red", font = 1)
     mtext("Favours TAAR1 \nagonist", side = 1, line = 3, at = (upper_x), cex = 1.1, col = "darkgreen", font = 1)
+    addpoly(model, row = 0.25, cex = 0.4, col = "darkred", mlab = "SMD", annotate=FALSE)
+    
   } else {
     mtext("Favours control", side = 1, line = 3, at = (lower_x*0.7), cex = 1.2, col = "red", font = 1)
     mtext("Favours TAAR1 agonist", side = 1, line = 3, at = (upper_x*0.4), cex = 1.2, col = "darkgreen", font = 1)
@@ -138,7 +140,7 @@ forest_metafor <- function(model, experiment_type, outcome_title){ #outcome titl
   
   mtext(paste0("SMD: ", round(model$beta, 2), " (", round(model$ci.lb, 2), " to ", round(model$ci.ub, 2), ")"), side = 3, line = -1, cex = 1, font = 2)
   title(paste0("TAAR1 agonist effect on ", outcome_title, " in psychosis (SMD)"))
-  
+
   
 }
   
