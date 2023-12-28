@@ -257,14 +257,15 @@ reconciled_comparison_type <- reconciled_cohort_type %>%
     str_detect(CohortType, "combination") | str_detect(CohortType, "Combination") ~ "Antipsychotic combination",
     str_detect(CohortType, "TAAR1")  ~ "TAAR1KO background",
     str_detect(CohortType, "simple") | str_detect(CohortType, "Simple") ~ "Simple intervention",
-    str_detect(CohortType, "positive") ~ "Antipsychotic drug"
+    str_detect(CohortType, "Positive") | str_detect(CohortType, "positive") ~ "Antipsychotic drug"
   ))
 
 reconciled_cohort_role <- reconciled_comparison_type %>% 
   mutate(RoleOfCohort = case_when(
     str_detect(CohortType, "Sham") | str_detect(CohortType, "sham") ~ "S", 
     str_detect(CohortType, "Control") | str_detect(CohortType, "control") ~ "C",
-    str_detect(CohortType, "Intervention") | str_detect(CohortType, "intervention") ~ "I"
+    str_detect(CohortType, "Intervention") | str_detect(CohortType, "intervention") ~ "I",
+    str_detect(CohortType, "Positive") | str_detect(CohortType, "positive") ~ "P"
   ))
 
 
@@ -334,14 +335,14 @@ for (i in 1:nrow(groups)) {
 }
 
 ### select Groups which include a positive control
-datapc <- subset(data, data$comp_exp == "TRUE")
+datacomp <- subset(data, data$comp_exp == "TRUE")
 
-groupspc <- as.data.frame(unique(datapc$GroupID))
-groupspc$`unique(datapc$GroupID)` <- as.character(groupspc$`unique(datapc$GroupID)`)
+groupscomp <- as.data.frame(unique(datacomp$GroupID))
+groupscomp$`unique(datacomp$GroupID)` <- as.character(groupscomp$`unique(datacomp$GroupID)`)
 
 for (i in 1:nrow(groups)) {
-  grouppc <- groupspc[i, 1]
-  cohset <- subset(datapc, GroupID == grouppc)
+  groupcomp <- groupscomp[i, 1]
+  cohset <- subset(datacomp, GroupID == groupcomp)
   
   cohset <- process_cohort(cohset, "Positive control", "Control")
   cohset <- process_cohort(cohset, "Sham", "ShamC")
@@ -356,12 +357,47 @@ for (i in 1:nrow(groups)) {
 data_org_p1 <- subset(data_org_p, data_org_p$CohortType == "Simple intervention")
 data_org_p1$ExperimentType <- "Head to head"
 
-data_org <- bind_rows(data_org, data_org_p1)
+### identify studies which have positive control v control with new label pc_exp
+data$pc_exp <- "FALSE"
+
+for (i in 1:nrow(groups)) {
+  group <- groups[i, 1]
+  cohset <- subset(data, GroupID == group)
+  if (any(cohset$CohortType == "Positive control")) {
+    data[data$GroupID == group, "pc_exp"] <- "TRUE"
+  }
+}
+
+### select Groups which include a positive control
+datapc <- subset(data, data$pc_exp == "TRUE")
+
+groupspc <- as.data.frame(unique(datapc$GroupID))
+groupspc$`unique(datapc$GroupID)` <- as.character(groupspc$`unique(datapc$GroupID)`)
+
+for (i in 1:nrow(groups)) {
+  grouppc <- groupspc[i, 1]
+  cohset <- subset(datapc, GroupID == grouppc)
+  
+  cohset <- process_cohort(cohset, 'Negative control', 'Control')
+  cohset <- process_cohort(cohset, 'Sham', 'Sham')
+  
+  if (i == 1) {
+    data_org_p <- cohset
+  } else {
+    data_org_p <- bind_rows(data_org_p, cohset)
+  }
+}
+
+data_org_p2 <- subset(data_org_p, data_org_p$CohortType == "Simple intervention")
+data_org_p2$ExperimentType <- "Positive control"
+
+data_org <- bind_rows(data_org, data_org_p1, data_org_p2)
 
 data_SI <- subset(data_org, (data_org$CohortType== 'Simple intervention' & !data_org$ExperimentType == "Head to head"))
 data_CI <- subset(data_org, data_org$CohortType== 'Combination intervention')
 data_TI <- subset(data_org, data_org$CohortType== 'Intervention for TAAR1KO')
 data_PC <- subset(data_org, data_org$ExperimentType == "Head to head")
+data_APsy <- subset(data_org, data_org$ExperimentType == "Positive control")
 
 ### get standard placement - Single I ###
 data_SI$F_C_L <- data_SI$Control_label
@@ -427,14 +463,23 @@ data_PC$F_S_n <- data_PC$ShamC_n
 data_PC$F_S_m <- data_PC$ShamC_m
 data_PC$F_S_v <- data_PC$ShamC_v
 
-start_flag <- match('Control_label', names(data_CI))
-end_flag <- match('CTAAR_v', names(data_CI))
+### get standard placement - Antipsychotics ###
+data_APsy$F_C_L <- data_APsy$Control_label
+data_APsy$F_C_n <- data_APsy$Control_n
+data_APsy$F_C_m <- data_APsy$Control_m
+data_APsy$F_C_v <- data_APsy$Control_v
 
-data_CI_F <- data_CI[,-c(start_flag:end_flag)]
-data_SI_F <- data_SI[,-c(start_flag:end_flag)]
-data_TI_F <- data_TI[,-c(start_flag:end_flag)]
+data_APsy$F_T_L <- data_APsy$CohortLabel
+data_APsy$F_T_n <- data_APsy$NumberOfAnimals
+data_APsy$F_T_m <- data_APsy$OutcomeResult
+data_APsy$F_T_v <- data_APsy$OutcomeError
 
-data_all_F <- bind_rows(data_CI, data_SI, data_TI, data_PC)
+data_APsy$F_S_L <- data_APsy$Sham_label
+data_APsy$F_S_n <- data_APsy$Sham_n
+data_APsy$F_S_m <- data_APsy$Sham_m
+data_APsy$F_S_v <- data_APsy$Sham_v
+
+data_all_F <- bind_rows(data_CI, data_SI, data_TI, data_PC, data_APsy)
 
 data_all_F <- data_all_F%>%
   mutate(drugname1 = case_when(
