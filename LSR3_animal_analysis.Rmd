@@ -57,8 +57,18 @@ editor_options:
       
       - 4.1.2 Outcome 2: Cognition
       
-   - 4.2 "Head to head" interventions
+   - 4.2 "Head to head" (TAAR1 agonists v known antipsychotic drugs) experiments
+    
+      - 4.2.1 Outcome 1: Locomotor activity
+      
+      - 4.2.2 Outcome 2: Cognition      
    
+   - 4.3 "Positive control" (known antipsychotic drug v control) experiments
+  
+      - 4.3.1 Outcome 1: Locomotor activity
+      
+      - 4.3.2 Outcome 2: Cognition 
+      
 5. Subgroup analyses
 
    - 5.1 Simple interventions
@@ -483,17 +493,68 @@ For simple interventions, TAAR1 interventions had a pooled effect on cognitive o
 
 Between-strain variance was `r SMD_S_cog$sigma2[1]`, between-study variance was `r SMD_S_cog$sigma2[2]`, and within-study variance (between experiments) was `r SMD_S_cog$sigma2[3]`
 
-## 4.2 "Head to head" interventions
+## 4.2 "Head to head" (TAAR1 Ag v known antipsychotic drugs) experiments
+
+### 4.2.1 Outcome 1: Locomotor activity (a primary outcome)
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 SMD_S_LMA_H2H <- run_ML_SMD(df, "Head to head", "Locomotor activity", 0.5)
 ```
+
+For head to head comparisons, TAAR1 interventions had a pooled effect on locomotor activity of SMD = `r SMD_S_LMA_H2H[["beta"]]` (95% CI: `r SMD_S_LMA_H2H[["ci.lb"]]` to `r SMD_S_LMA_H2H[["ci.ub"]]` with a prediction interval of `r predict(SMD_S_LMA_H2H)$pi.lb` to `r predict(SMD_S_LMA_H2H)$pi.ub`.
+
+Between-strain variance was `r SMD_S_LMA_H2H$sigma2[1]`, between-study variance was `r SMD_S_LMA_H2H$sigma2[2]`, and within-study variance (between experiments) was `r SMD_S_LMA_H2H$sigma2[3]`
 
 **Figure n**
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=10}
 forest_metafor(SMD_S_LMA_H2H, "Locomotor activity")
 ```
 
+### 4.2.2 Outcome 2: Cognition (a secondary outcome)
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_Cog_H2H <- run_ML_SMD(df, "Head to head", "Cognition", 0.5)
+```
+
+For head to head comparisons, TAAR1 interventions had a pooled effect on cognitive outcomes  of SMD = `r SMD_S_Cog_H2H[["beta"]]` (95% CI: `r SMD_S_Cog_H2H[["ci.lb"]]` to `r SMD_S_Cog_H2H[["ci.ub"]]` with a prediction interval of `r predict(SMD_S_LMA_H2H)$pi.lb` to `r predict(SMD_S_LMA_H2H)$pi.ub`.
+
+Between-strain variance was `r SMD_S_Cog_H2H$sigma2[1]`, between-study variance was `r SMD_S_Cog_H2H$sigma2[2]`, and within-study variance (between experiments) was `r SMD_S_Cog_H2H$sigma2[3]`
+
+**Figure n**
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=10}
+forest_metafor(SMD_S_Cog_H2H, "Cognition")
+```
+
+# 4.3 "Positive control" (known antipsychotic drug v control) experiments
+
+### 4.3.1 Outcome 1: Locomotor activity (a primary outcome)
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_LMA_PC <- run_ML_SMD(df, "Positive control", "Locomotor activity", 0.5)
+```
+
+**Figure n**
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=10}
+forest_metafor(SMD_S_LMA_PC, "Locomotor activity")
+```
+
+For positive control experiments, known antipsychotic drugs had a pooled effect on locomotor activity of SMD = `r SMD_S_LMA_PC[["beta"]]` (95% CI: `r SMD_S_LMA_PC[["ci.lb"]]` to `r SMD_S_LMA_PC[["ci.ub"]]` with a prediction interval of `r predict(SMD_S_LMA_PC)$pi.lb` to `r predict(SMD_S_LMA_PC)$pi.ub`.
+
+Between-strain variance was `r SMD_S_LMA_PC$sigma2[1]`, between-study variance was `r SMD_S_LMA_PC$sigma2[2]`, and within-study variance (between experiments) was `r SMD_S_LMA_PC$sigma2[3]`
+### 4.3.2 Outcome 2: Cognition (a secondary outcome)
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_Cog_PC <- run_ML_SMD(df, "Head to head", "Cognition", 0.5)
+```
+
+**Figure n**
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=10}
+forest_metafor(SMD_S_Cog_PC, "Cognition")
+```
+
+For positive control experiments, known antipsychotic drugs had a pooled effect on cognitive outcomes of SMD = `r SMD_S_Cog_PC[["beta"]]` (95% CI: `r SMD_S_Cog_PC[["ci.lb"]]` to `r SMD_S_Cog_PC[["ci.ub"]]` with a prediction interval of `r predict(SMD_S_Cog_PC)$pi.lb` to `r predict(SMD_S_Cog_PC)$pi.ub`.
+
+Between-strain variance was `r SMD_S_Cog_PC$sigma2[1]`, between-study variance was `r SMD_S_Cog_PC$sigma2[2]`, and within-study variance (between experiments) was `r SMD_S_Cog_PC$sigma2[3]`
 
 # 5. Subgroup analyses
 
