@@ -268,6 +268,8 @@ df_S_stereo <- filter_experiment_outcome_type(df, "Simple intervention", "Stereo
 
 -   Prepulse inhibition\*: `r length(table(df_S_PPI$StudyId))` studies and `r nrow(df_S_PPI)` comparisons in `r {strains <- unique(df_S_PPI$Strain); if (length(strains) > 1) paste(length(strains), "strains") else paste(length(strains), "strain")}`
 
+    <!--# why the asterisk in the first 2? -->
+
 -   Cognitive function: `r length(table(df_S_cog$StudyId))` studies and `r nrow(df_S_cog)` comparisons in `r {strains <- unique(df_S_cog$Strain); if (length(strains) > 1) paste(length(strains), "strains") else paste(length(strains), "strain")}`
 
 -   Social interaction: `r length(table(df_S_social$StudyId))` studies and `r nrow(df_S_social)` comparisons in `r {strains <- unique(df_S_social$Strain); if (length(strains) > 1) paste(length(strains), "strains") else paste(length(strains), "strain")}`
@@ -275,8 +277,6 @@ df_S_stereo <- filter_experiment_outcome_type(df, "Simple intervention", "Stereo
 -   Stereotypy: `r length(table(df_S_stereo$StudyId))` studies and `r nrow(df_S_stereo)` comparisons in `r {strains <- unique(df_S_stereo$Strain); if (length(strains) > 1) paste(length(strains), "strains") else paste(length(strains), "strain")}`
 
 # 3. Risk of bias and reporting quality assessment
-
-<!--# We normally report the risk of bias after the analyses results -->
 
 ## 3.1 Simple interventions
 
@@ -456,6 +456,8 @@ Outcomes with ≥2 independent effect sizes were proceeded to meta-analysis. In 
 
 All analyses were accounting for the following hierarchical levels (random effects):
 
+<!--# should we specify that they are nested? -->
+
 -   **Level 1: Rodent strain** - effect sizes measured within the same rodent strain
 
 -   **Level 2: Study** - effect sizes measured within the same study
@@ -465,6 +467,8 @@ All analyses were accounting for the following hierarchical levels (random effec
 *NB: We constructed multilevel models without Knapp-Hartung adjustments as these are not available for rma.mv class objects in the metafor package* ([metafor](https://cran.r-project.org/web/packages/metafor/metafor.pdf)). *Instead, the model is set to `test = "t"` to use t- and F-distributions for making inferences, and `dfs="contain"` to improve the method of approximating degrees of freedom of these distributions.*
 
 The scales/units used to measure outcomes in preclinical studies often differ between studies. The primary effect size used for meta-analysis of preclinical studies is therefore the standardised mean difference (SMD, Hedge's g). We will perform a sensitivity analysis using normalised mean difference (NMD) where there is sufficient data.
+
+<!--# we need an explanation about the studies/experiments with missing values or very large SMDs (beyond 6 in absolute value) - these are excluded in the analysis function in util.R but I don't know if they have been accounted for in the PRISMA -->
 
 ## 4.1 Simple interventions
 
@@ -482,7 +486,7 @@ SMD_S_LMA <- run_ML_SMD(df, "Simple intervention", "Locomotor activity", 0.5)
 forest_metafor(SMD_S_LMA, "Simple intervention", "locomotor activity")
 ```
 
-For simple interventions, TAAR1 interventions had a pooled effect on locomotor activity of SMD = `r SMD_S_LMA[["beta"]]` (95% CI: `r SMD_S_LMA[["ci.lb"]]` to `r SMD_S_LMA[["ci.ub"]]` with a prediction interval of `r predict(SMD_S_LMA)$pi.lb` to `r predict(SMD_S_LMA)$pi.ub`.
+For simple interventions, TAAR1 interventions had a pooled effect on locomotor activity of SMD = `r SMD_S_LMA[["beta"]]` (95% CI: `r SMD_S_LMA[["ci.lb"]]` to `r SMD_S_LMA[["ci.ub"]]`) with a prediction interval of `r predict(SMD_S_LMA)$pi.lb` to `r predict(SMD_S_LMA)$pi.ub`.
 
 Between-strain variance was `r SMD_S_LMA$sigma2[1]`, between-study variance was `r SMD_S_LMA$sigma2[2]`, and within-study variance (between experiments) was `r SMD_S_LMA$sigma2[3]`
 
@@ -500,7 +504,7 @@ SMD_S_cog <- run_ML_SMD(df, "Simple intervention", "Cognition", 0.5)
 forest_metafor(SMD_S_cog, "Simple intervention", "cognition")
 ```
 
-For simple interventions, TAAR1 interventions had a pooled effect on cognitive outcomes of SMD = `r SMD_S_cog[["beta"]]` (95% CI: `r SMD_S_cog[["ci.lb"]]` to `r SMD_S_cog[["ci.ub"]]` with a prediction interval of `r predict(SMD_S_cog)$pi.lb` to `r predict(SMD_S_cog)$pi.ub`.
+For simple interventions, TAAR1 interventions had a pooled effect on cognitive outcomes of SMD = `r SMD_S_cog[["beta"]]` (95% CI: `r SMD_S_cog[["ci.lb"]]` to `r SMD_S_cog[["ci.ub"]]`) with a prediction interval of `r predict(SMD_S_cog)$pi.lb` to `r predict(SMD_S_cog)$pi.ub`.
 
 Between-strain variance was `r SMD_S_cog$sigma2[1]`, between-study variance was `r SMD_S_cog$sigma2[2]`, and within-study variance (between experiments) was `r SMD_S_cog$sigma2[3]`
 
@@ -516,31 +520,37 @@ SMD_H2H_LMA <- run_ML_SMD(df, "Head to head", "Locomotor activity", 0.5)
 forest_metafor(SMD_H2H_LMA, "Head to head", "locomotor activity")
 ```
 
+<!--# is the prediction interval not produced at all for this analysis? I don't see it in the forest plot but, unlike the previous comparisons, no text was added here. -->
+
 # 5. Subgroup analyses
+
+<!--# No need to separate subgroup analyses and meta-regression as they are the same thing - they should be in the same section -->
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 options(scipen=100, digits=3)
 ```
 
-For each outcome, the covariates of interest for subgroup analyses were;
+For each outcome, the covariates of interest for subgroup analyses were:
 
 -   **Sex**
 
 -   **Category of disease induction**
 
--   **Route of intervention administration**
+-   **Route of intervention administration** <!--# is this method of induction in the protocol? -->
 
--   **Whether the intervention was prophylactic or therapeutic (i.e. administered before or after disease model induction)**
+-   **Whether the intervention was prophylactic or therapeutic (i.e. administered before or after disease model induction)** <!--#  is this also method of induction? -->
 
 -   **Duration of treatment period**
 
--   **The intervention administered**
+-   **The intervention administered** <!--# where is this in the protocol? -->
 
 -   **The efficacy of the drug (i.e. whether the drug is a partial or full agonist)**
 
 -   **The selectivity of the drug**
 
 We also conducted subgroup analyses using **(1) SYRCLE Risk of Bias** and **(2) ARRIVE reporting quality** assessment scores as covariates to evaluate their influence on effect size estimates.
+
+<!--# these were not specified in the protocol, are they post-hoc because we could not run any low-risk RoB only sensitivity analysis? -->
 
 ## 5.1 Simple interventions
 
@@ -680,7 +690,7 @@ The pooled SMD estimate for the effect of TAAR1 agonists on locomotor activity i
 
 ##### 5.1.1.11 Heterogeneity explained by covariates (simple interventions on locomotor activity)
 
-The table below shows which of the covariates, if any, explain some of the heterogeneity (reduction of tau) observed in the effect sizes of the effect of TAAR1 agonists on locomotor activity. We present marginal R^2^, which measures the proportion of variance explained by including moderators in the model.
+The table below shows which of the covariates, if any, explain some of the heterogeneity observed in the effect sizes of the effect of TAAR1 agonists on locomotor activity. We present marginal R^2^, which measures the proportion of variance explained by including moderators in the model.
 
 |                Moderator                 |        Category         |                         $\beta$                         |                                                       95% CI                                                        |                       Marginal R^2^                       |                                       Test of moderator effect                                        |
 |:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|
@@ -843,7 +853,7 @@ The pooled SMD estimate for experiments that met between 8-11 of the ARRIVE repo
 
 ##### 5.1.2.11 Heterogeneity explained by covariates (simple interventions on cognition)
 
-The table below shows which of the covariates, if any, explain some of the heterogeneity (reduction of tau) observed in the effect sizes of the effect of TAAR1 agonists on cognition. We present marginal R^2^, which measures the proportion of variance explained by including moderators in the model.
+The table below shows which of the covariates, if any, explain some of the heterogeneity observed in the effect sizes of the effect of TAAR1 agonists on cognition. We present marginal R^2^, which measures the proportion of variance explained by including moderators in the model.
 
 |              Moderator              |        Category         |                         $\beta$                         |                                                       95% CI                                                        |                       Marginal R^2^                       |                                       Test of moderator effect                                        |
 |:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|
@@ -1187,13 +1197,13 @@ In the previous analyses for the effect of TAAR1 agonists on locomotor activity,
 SMD_S_LMA_rho0.2 <- run_ML_SMD(df, "Simple intervention", "Locomotor activity", 0.2)
 ```
 
-**When the** $\rho$ value is assumed to be 0.2, the TAAR1 interventions had a pooled effect on locomotor activity of **SMD = `r SMD_S_LMA_rho0.2[["beta"]]`** (95% CI: `r SMD_S_LMA_rho0.2[["ci.lb"]]` to `r SMD_S_LMA_rho0.2[["ci.ub"]]` with a prediction interval of `r predict(SMD_S_LMA_rho0.2)$pi.lb` to `r predict(SMD_S_LMA_rho0.2)$pi.ub`.
+**When the** $\rho$ value is assumed to be 0.2, the TAAR1 interventions had a pooled effect on locomotor activity of **SMD = `r SMD_S_LMA_rho0.2[["beta"]]`** (95% CI: `r SMD_S_LMA_rho0.2[["ci.lb"]]` to `r SMD_S_LMA_rho0.2[["ci.ub"]]`) with a prediction interval of `r predict(SMD_S_LMA_rho0.2)$pi.lb` to `r predict(SMD_S_LMA_rho0.2)$pi.ub`.
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 SMD_S_LMA_rho0.8 <- run_ML_SMD(df, "Simple intervention", "Locomotor activity", 0.8)
 ```
 
-**When the** $\rho$ value is assumed to be 0.8, the TAAR1 interventions had a pooled effect on locomotor activity of **SMD = `r SMD_S_LMA_rho0.8[["beta"]]`** (95% CI: `r SMD_S_LMA_rho0.8[["ci.lb"]]` to `r SMD_S_LMA_rho0.8[["ci.ub"]]` with a prediction interval of `r predict(SMD_S_LMA_rho0.8)$pi.lb` to `r predict(SMD_S_LMA_rho0.8)$pi.ub`.
+**When the** $\rho$ value is assumed to be 0.8, the TAAR1 interventions had a pooled effect on locomotor activity of **SMD = `r SMD_S_LMA_rho0.8[["beta"]]`** (95% CI: `r SMD_S_LMA_rho0.8[["ci.lb"]]` to `r SMD_S_LMA_rho0.8[["ci.ub"]]`) with a prediction interval of `r predict(SMD_S_LMA_rho0.8)$pi.lb` to `r predict(SMD_S_LMA_rho0.8)$pi.ub`.
 
 For reference the pooled effect size when rho is assumed to be 0.5 is `r SMD_S_LMA[["beta"]]` (95% CI: `r SMD_S_LMA[["ci.lb"]]` to `r SMD_S_LMA[["ci.ub"]]`).
 
@@ -1213,7 +1223,7 @@ NMD_S_LMA <- run_ML_NMD(df, "Simple intervention", "Locomotor activity", 0.5)
 forest_metafor_NMD(NMD_S_LMA, "locomotor hyperactivity")
 ```
 
-For simple interventions, TAAR1 interventions had a pooled effect on locomotor activity of NMD = `r NMD_S_LMA[["beta"]]` (95% CI: `r NMD_S_LMA[["ci.lb"]]` to `r NMD_S_LMA[["ci.ub"]]` with a prediction interval of `r predict(NMD_S_LMA)$pi.lb` to `r predict(NMD_S_LMA)$pi.ub`. For reference the pooled effect size for SMD was `r SMD_S_LMA[["beta"]]` (95% CI: `r SMD_S_LMA[["ci.lb"]]` to `r SMD_S_LMA[["ci.ub"]]`).
+For simple interventions, TAAR1 interventions had a pooled effect on locomotor activity of NMD = `r NMD_S_LMA[["beta"]]` (95% CI: `r NMD_S_LMA[["ci.lb"]]` to `r NMD_S_LMA[["ci.ub"]]`) with a prediction interval of `r predict(NMD_S_LMA)$pi.lb` to `r predict(NMD_S_LMA)$pi.ub`. For reference the pooled effect size for SMD was `r SMD_S_LMA[["beta"]]` (95% CI: `r SMD_S_LMA[["ci.lb"]]` to `r SMD_S_LMA[["ci.ub"]]`).
 
 ### 7.1.2 Cognition
 
@@ -1229,13 +1239,13 @@ In the previous analyses for the effect of TAAR1 agonists on cognition, we imput
 SMD_S_cog_rho0.2 <- run_ML_SMD(df, "Simple intervention", "Cognition", 0.2)
 ```
 
-**When the** $\rho$ value is assumed to be 0.2, the TAAR1 interventions had a pooled effect on cognition of **SMD = `r SMD_S_cog_rho0.2[["beta"]]`** (95% CI: `r SMD_S_cog_rho0.2[["ci.lb"]]` to `r SMD_S_cog_rho0.2[["ci.ub"]]` with a prediction interval of `r predict(SMD_S_cog_rho0.2)$pi.lb` to `r predict(SMD_S_cog_rho0.2)$pi.ub`.
+**When the** $\rho$ value is assumed to be 0.2, the TAAR1 interventions had a pooled effect on cognition of **SMD = `r SMD_S_cog_rho0.2[["beta"]]`** (95% CI: `r SMD_S_cog_rho0.2[["ci.lb"]]` to `r SMD_S_cog_rho0.2[["ci.ub"]]`) with a prediction interval of `r predict(SMD_S_cog_rho0.2)$pi.lb` to `r predict(SMD_S_cog_rho0.2)$pi.ub`.
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 SMD_S_cog_rho0.8 <- run_ML_SMD(df, "Simple intervention", "Cognition", 0.8)
 ```
 
-**When the** $\rho$ value is assumed to be 0.8, the TAAR1 interventions had a pooled effect on cognition of **SMD = `r SMD_S_cog_rho0.8[["beta"]]`** (95% CI: `r SMD_S_cog_rho0.8[["ci.lb"]]` to `r SMD_S_cog_rho0.8[["ci.ub"]]` with a prediction interval of `r predict(SMD_S_cog_rho0.8)$pi.lb` to `r predict(SMD_S_cog_rho0.8)$pi.ub`.
+**When the** $\rho$ value is assumed to be 0.8, the TAAR1 interventions had a pooled effect on cognition of **SMD = `r SMD_S_cog_rho0.8[["beta"]]`** (95% CI: `r SMD_S_cog_rho0.8[["ci.lb"]]` to `r SMD_S_cog_rho0.8[["ci.ub"]]`) with a prediction interval of `r predict(SMD_S_cog_rho0.8)$pi.lb` to `r predict(SMD_S_cog_rho0.8)$pi.ub`.
 
 For reference the pooled effect size when rho is assumed to be 0.5 is `r SMD_S_cog[["beta"]]` (95% CI: `r SMD_S_cog[["ci.lb"]]` to `r SMD_S_cog[["ci.ub"]]`).
 
@@ -1255,9 +1265,15 @@ NMD_S_cog <- run_ML_NMD(df, "Simple intervention", "Cognition", 0.5)
 forest_metafor_NMD(NMD_S_cog, "Cognition")
 ```
 
-For simple interventions, TAAR1 interventions had a pooled effect on cognition of NMD = `r NMD_S_cog[["beta"]]` (95% CI: `r NMD_S_cog[["ci.lb"]]` to `r NMD_S_cog[["ci.ub"]]` with a prediction interval of `r predict(NMD_S_cog)$pi.lb` to `r predict(NMD_S_cog)$pi.ub`. For reference the pooled effect size for SMD was `r SMD_S_cog[["beta"]]` (95% CI: `r SMD_S_cog[["ci.lb"]]` to `r SMD_S_cog[["ci.ub"]]`).
+For simple interventions, TAAR1 interventions had a pooled effect on cognition of NMD = `r NMD_S_cog[["beta"]]` (95% CI: `r NMD_S_cog[["ci.lb"]]` to `r NMD_S_cog[["ci.ub"]]`) with a prediction interval of `r predict(NMD_S_cog)$pi.lb` to `r predict(NMD_S_cog)$pi.ub`. For reference the pooled effect size for SMD was `r SMD_S_cog[["beta"]]` (95% CI: `r SMD_S_cog[["ci.lb"]]` to `r SMD_S_cog[["ci.ub"]]`).
 
 # 8. Reporting bias/small study effects
+
+<!--# why running it on the NMD instead of SMD? -->
+
+<!--# as discussed with Georgia, this should be done on the sample size rather than on the SE -->
+
+<!--# also, i would remove the bubble plots -->
 
 ## 8.1 Egger regression
 
@@ -1268,7 +1284,7 @@ run_sse_plot(df)
 #run_sse_NMD(df)
 ```
 
-Egger regression based on `r run_sse_NMD(df)[["k"]]` studies of Simple interventions where Locomotor activity was measured and NMD was evaluable showed a coefficient for a small study effect of `r run_sse_NMD(df)[["beta"]][2]` (95% CI: `r run_sse_NMD(df)[["ci.lb"]][2]` to `r run_sse_NMD(df)[["ci.ub"]][2]` (p = `r ifelse(run_sse_NMD(df)[["pval"]][2] < 0.001, "<0.001", sprintf("%.3f", run_sse_NMD(df)[["pval"]][2]))`) in the context of a baseline estimate of effect of `r run_sse_NMD(df)[["beta"]][1]` (95% CI: `r run_sse_NMD(df)[["ci.lb"]][1]` to `r run_sse_NMD(df)[["ci.ub"]][1]` (p = `r ifelse(run_sse_NMD(df)[["pval"]][2] < 0.001, "<0.001", sprintf("%.3f", run_sse_NMD(df)[["pval"]][1]))`).
+Egger regression based on `r run_sse_NMD(df)[["k"]]` studies of Simple interventions where Locomotor activity was measured and NMD was evaluable showed a coefficient for a small study effect of `r run_sse_NMD(df)[["beta"]][2]` (95% CI: `r run_sse_NMD(df)[["ci.lb"]][2]` to `r run_sse_NMD(df)[["ci.ub"]][2]`; p = `r ifelse(run_sse_NMD(df)[["pval"]][2] < 0.001, "<0.001", sprintf("%.3f", run_sse_NMD(df)[["pval"]][2]))`) in the context of a baseline estimate of effect of `r run_sse_NMD(df)[["beta"]][1]` (95% CI: `r run_sse_NMD(df)[["ci.lb"]][1]` to `r run_sse_NMD(df)[["ci.ub"]][1]`; p = `r ifelse(run_sse_NMD(df)[["pval"]][2] < 0.001, "<0.001", sprintf("%.3f", run_sse_NMD(df)[["pval"]][1]))`).
 
 # 9. Summary of the evidence
 
