@@ -469,7 +469,7 @@ SMD_S_LMA <- run_ML_SMD(df, "Simple intervention", "Locomotor activity", 0.5)
 
 **Figure 2**
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=10}
-forest_metafor(SMD_S_LMA, "locomotor activity")
+forest_metafor(SMD_S_LMA, "Simple intervention", "locomotor activity")
 ```
 
 For simple interventions, TAAR1 interventions had a pooled effect on locomotor activity of SMD = `r SMD_S_LMA[["beta"]]` (95% CI: `r SMD_S_LMA[["ci.lb"]]` to `r SMD_S_LMA[["ci.ub"]]` with a prediction interval of `r predict(SMD_S_LMA)$pi.lb` to `r predict(SMD_S_LMA)$pi.ub`.
@@ -486,7 +486,7 @@ SMD_S_cog <- run_ML_SMD(df, "Simple intervention", "Cognition", 0.5)
 
 **Figure 3**
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=7}
-forest_metafor(SMD_S_cog, "cognition")
+forest_metafor(SMD_S_cog, "Simple intervention", "cognition")
 ```
 
 For simple interventions, TAAR1 interventions had a pooled effect on cognitive outcomes of SMD = `r SMD_S_cog[["beta"]]` (95% CI: `r SMD_S_cog[["ci.lb"]]` to `r SMD_S_cog[["ci.ub"]]` with a prediction interval of `r predict(SMD_S_cog)$pi.lb` to `r predict(SMD_S_cog)$pi.ub`.
@@ -498,7 +498,7 @@ Between-strain variance was `r SMD_S_cog$sigma2[1]`, between-study variance was 
 ### 4.2.1 Outcome 1: Locomotor activity (a primary outcome)
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-SMD_S_LMA_H2H <- run_ML_SMD(df, "Head to head", "Locomotor activity", 0.5)
+SMD_H2H_LMA <- run_ML_SMD(df, "Head to head", "Locomotor activity", 0.5)
 ```
 
 For head to head comparisons, TAAR1 interventions had a pooled effect on locomotor activity of SMD = `r SMD_S_LMA_H2H[["beta"]]` (95% CI: `r SMD_S_LMA_H2H[["ci.lb"]]` to `r SMD_S_LMA_H2H[["ci.ub"]]` with a prediction interval of `r predict(SMD_S_LMA_H2H)$pi.lb` to `r predict(SMD_S_LMA_H2H)$pi.ub`.
@@ -507,7 +507,7 @@ Between-strain variance was `r SMD_S_LMA_H2H$sigma2[1]`, between-study variance 
 
 **Figure n**
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=10}
-forest_metafor(SMD_S_LMA_H2H, "Locomotor activity")
+forest_metafor(SMD_H2H_LMA, "Head to head", "locomotor activity")
 ```
 
 ### 4.2.2 Outcome 2: Cognition (a secondary outcome)

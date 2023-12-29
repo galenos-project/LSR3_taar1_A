@@ -56,7 +56,7 @@ run_ML_SMD <- function(df, experiment, outcome, rho_value) {
   return(SMD_ML)
 }
 
-forest_metafor <- function(model, outcome_title){ #outcome title is what you want outcome to be written as, it doesn't have to match outcome type
+forest_metafor <- function(model, experiment_type, outcome_title){ #outcome title is what you want outcome to be written as, it doesn't have to match outcome type
   
   lower_x <- floor((min(model[["yi"]])-mean(model[["vi"]])) - 1)
   upper_x <- ceiling((max(model[["yi"]])+mean(model[["vi"]])) + 1)
@@ -65,42 +65,82 @@ forest_metafor <- function(model, outcome_title){ #outcome title is what you wan
   at_values <- seq(floor(lower_x / 5) * 5, ceiling(upper_x / 5) * 5, by = 5)
   
   ifelse(model[["k"]] > 25, 
-         forest_plot <- forest(model, 
-                               xlim=c((lower_x-2), (upper_x+2)),
-                               mlab="SMD",
-                               slab=NA,
-                               alim=c((lower_x-2), (upper_x+2)),
-                               at = at_values,
-                               col = c("darkred","darkred"),
-                               addfit = TRUE,
-                               addpred = TRUE,
-                               annotate = FALSE,
-                               order="obs",
-                               xlab = "", 
-                               cex = 0.6, 
-                               cex.axis = 1.0, 
-                               cex.lab = 1.2,
-                               efac = c(1,1,3)), 
-         forest_plot <- forest(model, 
-                               xlim=c((lower_x-2), (upper_x+2)),
-                               mlab="SMD",
-                               slab=NA,
-                               alim=c((lower_x-2), (upper_x+2)),
-                               at = at_values,
-                               col = c("darkred","darkred"),
-                               addfit = TRUE,
-                               addpred = TRUE,
-                               annotate = TRUE,
-                               order="obs",
-                               xlab = "")
+         forest_plot <- ifelse(experiment_type != "Head to head",
+                               forest(model,
+                                      xlim=c((lower_x-2), (upper_x+2)),
+                                      mlab="SMD",
+                                      slab=NA,
+                                      alim=c((lower_x-2), (upper_x+2)),
+                                      at = at_values,
+                                      col = c("darkred","darkred"),
+                                      addfit = TRUE,
+                                      addpred = TRUE,
+                                      annotate = FALSE,
+                                      order="obs",
+                                      xlab = "", 
+                                      cex = 0.6, 
+                                      cex.axis = 1.0, 
+                                      cex.lab = 1.2,
+                                      efac = c(1,1,3)), 
+                               forest(model,
+                                      xlim=c((lower_x-2), (upper_x+2)),
+                                      mlab="SMD",
+                                      alim=c((lower_x-2), (upper_x+2)),
+                                      slab = paste(drugname1, `Dose of treatment used:[1]`, `Measurement unit of treatment dose:[1]`, "vs. ", drugname2, `Dose of treatment used:[2]`, `Measurement unit of treatment dose:[2]`, sep = " "),
+                                      at = at_values,
+                                      col = c("darkred","darkred"),
+                                      addfit = FALSE,
+                                      addpred = TRUE,
+                                      annotate = FALSE,
+                                      order="obs",
+                                      xlab = "", 
+                                      cex = 0.6, 
+                                      cex.axis = 1.0, 
+                                      cex.lab = 1.2,
+                                      efac = c(1,1,3))),
+         
+         forest_plot <- ifelse(experiment_type != "Head to head",
+                               forest(model, 
+                                      xlim=c((lower_x-2), (upper_x+2)),
+                                      mlab="SMD",
+                                      slab=NA,
+                                      alim=c((lower_x-2), (upper_x+2)),
+                                      at = at_values,
+                                      col = c("darkred","darkred"),
+                                      addfit = TRUE,
+                                      addpred = TRUE,
+                                      annotate = TRUE,
+                                      order="obs",
+                                      xlab = ""), 
+                               forest(model,
+                                      xlim=c((lower_x-5), (upper_x+2)),
+                                      mlab="SMD",
+                                      at = at_values,
+                                      slab = paste(drugname1, `Dose of treatment used:[1]`, `Measurement unit of treatment dose:[1]`, "vs. ", drugname2, `Dose of treatment used:[2]`, `Measurement unit of treatment dose:[2]`, sep = " "),
+                                      col = c("darkred","darkred"),
+                                      addfit = FALSE,
+                                      addpred = TRUE,
+                                      annotate = TRUE,
+                                      cex = 0.8,
+                                      order="obs",
+                                      xlab = ""))
   )
 
   #mtext(outcome_title, side = 1, line = 3, cex = 1.2, font = 2)
-  mtext("Favours control", side = 1, line = 3, at = (lower_x/1.5), cex = 1.2, col = "red", font = 1)
-  mtext("Favours TAAR1 agonist", side = 1, line = 3, at = (upper_x*0.8), cex = 1.2, col = "darkgreen", font = 1)
-  mtext(paste0("SMD: ", round(model$beta, 2), " (", round(model$ci.lb, 2), " to ", round(model$ci.ub, 2), ")"), side = 2, line = 3, cex = 1.2, font = 2)
-  title(paste0("TAAR1 agonist effect on ", outcome_title, " in psychosis (SMD)"))
   
+  if (experiment_type == "Head to head") {
+    mtext("Favours conventional \nantipsychotic", side = 1, line = 3, at = (lower_x*0.6), cex = 1.1, col = "red", font = 1)
+    mtext("Favours TAAR1 \nagonist", side = 1, line = 3, at = (upper_x), cex = 1.1, col = "darkgreen", font = 1)
+    addpoly(model, row = 0.25, cex = 0.4, col = "darkred", mlab = "SMD", annotate=FALSE)
+    
+  } else {
+    mtext("Favours control", side = 1, line = 3, at = (lower_x*0.7), cex = 1.2, col = "red", font = 1)
+    mtext("Favours TAAR1 agonist", side = 1, line = 3, at = (upper_x*0.4), cex = 1.2, col = "darkgreen", font = 1)
+  }
+  
+  mtext(paste0("SMD: ", round(model$beta, 2), " (", round(model$ci.lb, 2), " to ", round(model$ci.ub, 2), ")"), side = 3, line = -1, cex = 1, font = 2)
+  title(paste0("TAAR1 agonist effect on ", outcome_title, " in psychosis (SMD)"))
+
   
 }
   
@@ -181,31 +221,61 @@ plot_subgroup_analysis <- function(df, experiment_type, outcome, moderator, rho_
   
   overall_estimate_index <-dim(subgroup_analysis_plotdata)[1]
   
+  if (moderator == "ARRIVEScoreCat") {
+    sorted_data <- subgroup_analysis_plotdata[-overall_estimate_index, ]
+    sorted_data <- sorted_data[order(sorted_data[[moderator]]), ]
+  } else {
+    sorted_data <- subgroup_analysis_plotdata[-overall_estimate_index, ]
+  }
+  
   options(digits=3)
   
-  meta.all = metagen(TE = subgroup_analysis_plotdata$SMD[-overall_estimate_index], 
-                     seTE = subgroup_analysis_plotdata$se[-overall_estimate_index], 
-                     studlab = subgroup_analysis_plotdata[[moderator]][-overall_estimate_index], 
-                     data = subgroup_analysis_plotdata[-overall_estimate_index,], 
+  meta.all = metagen(TE = sorted_data$SMD, 
+                     seTE = sorted_data$se, 
+                     studlab = sorted_data[[moderator]], 
+                     data = sorted_data, 
                      sm = "SMD", 
                      common = F)
   meta.all$TE.random <- subgroup_analysis_plotdata$SMD[overall_estimate_index]
   meta.all$seTE.random <- subgroup_analysis_plotdata$se[overall_estimate_index]
+
   
-  x <- forest(meta.all,
-              xlab="SMD",
-              smlab=outcome,
-              just="right",
-              addrow=F,
-              overall=T,
-              overall.hetstat =F,
-              print.pval.Q=F,
-              col.square="black",sortvar=seTE,
-              col.by="black",
-              fill.equi="aliceblue",
-              leftcols = c(moderator,"k"),
-              leftlabs=c(moderator,"Number of experiments"), 
-              )
+  if (moderator == "ARRIVEScoreCat") {
+    
+    # forest() call without sortvar
+    x <- forest(meta.all,
+                xlab="SMD",
+                smlab=outcome,
+                just="right",
+                addrow=F,
+                overall=T,
+                overall.hetstat =F,
+                print.pval.Q=F,
+                col.square="black",
+                col.by="black",
+                fill.equi="aliceblue",
+                leftcols = c(moderator, "k"),
+                leftlabs = c(moderator, "Number of experiments")
+    )
+  } else {
+    # forest() call with sortvar=seTE
+    x <- forest(meta.all,
+                xlab="SMD",
+                smlab=outcome,
+                just="right",
+                addrow=F,
+                overall=T,
+                overall.hetstat =F,
+                print.pval.Q=F,
+                col.square="black",
+                sortvar=seTE,
+                col.by="black",
+                fill.equi="aliceblue",
+                leftcols = c(moderator, "k"),
+                leftlabs = c(moderator, "Number of experiments")
+    )
+  }
+  
   
   return(list(
     subgroup_analysis = subgroup_analysis,
