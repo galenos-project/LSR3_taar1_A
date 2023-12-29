@@ -388,7 +388,7 @@ for (i in 1:nrow(groups)) {
   }
 }
 
-data_org_p2 <- subset(data_org_p, data_org_p$CohortType == "Simple intervention")
+data_org_p2 <- subset(data_org_p, data_org_p$CohortType == "Positive control")
 data_org_p2$ExperimentType <- "Positive control"
 
 data_org <- bind_rows(data_org, data_org_p1, data_org_p2)
