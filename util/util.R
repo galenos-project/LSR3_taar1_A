@@ -4,7 +4,7 @@ filter_experiment_outcome_type <- function(df, experiment_type, outcome) {
     filter(!is.na(SMD) | !is.na(SMDv))
   
   df_by_experiment_outcome <- df_by_outcome %>%
-    filter(ExperimentType == experiment_type)
+    filter(SortLabel == experiment_type)
   
   return(df_by_experiment_outcome)
 }
@@ -151,7 +151,7 @@ plot_subgroup_analysis <- function(df, experiment_type, outcome, moderator, rho_
   moderator <- as.character(moderator)
   
   df2 <- df %>% 
-    filter(ExperimentType == experiment_type) %>% 
+    filter(SortLabel == experiment_type) %>% 
     filter(outcome_type == outcome) %>%  
     filter(!is.na(SMDv)) %>%
     filter(!is.na(!!sym(moderator))) # Filter out NA values in moderator column
@@ -288,7 +288,7 @@ metaregression_analysis <- function(df, experiment_type, outcome, moderator, rho
   moderator <- as.character(moderator)
   
   df2 <- df %>% 
-    filter(ExperimentType == experiment_type) %>% 
+    filter(SortLabel == experiment_type) %>% 
     filter(outcome_type == outcome) %>%  
     filter(!is.na(SMDv)) %>%
     filter(!is.na(!!sym(moderator))) # Filter out NA values in moderator column
@@ -345,7 +345,7 @@ metaregression_analysis_by_drug <- function(df, experiment_type, outcome, drug_n
   moderator <- as.character(moderator)
   
   df2 <- df %>% 
-    filter(ExperimentType == experiment_type) %>% 
+    filter(SortLabel == experiment_type) %>% 
     filter(outcome_type == outcome) %>% 
     filter(DrugName == drug_name) %>% #THIS IS ONLY CHANGE
     filter(!is.na(SMDv)) %>%
@@ -402,13 +402,13 @@ metaregression_analysis_by_drug <- function(df, experiment_type, outcome, drug_n
 ### risk of bias visualisation function ###
 ###########################################
 
-SyRCLE_RoB_summary <- function(df, experiment_type, outcome_type) {
+SyRCLE_RoB_summary <- function(df, experiment_type, outcome) {
   
   df <- df %>% 
-    filter(ExperimentType == experiment_type) %>% 
-    filter(OutcomeType == outcome_type) 
+    filter(SortLabel == experiment_type) %>% 
+    filter(outcome_type == outcome) 
 
-RoB <- unique(df[,c(1,3,9, 22:55)])
+RoB <- unique(df[,c(3,5,11,24:58)])
 #change studyId to Author, year
 RoB$StudyId <- toupper(paste0(str_extract(RoB$Authors,"\\b\\w+\\b"),', ',RoB$Year))
 
@@ -449,13 +449,13 @@ RoB_summary <- rob_summary(data <- SyRCLE, tool = "Generic", weighted = FALSE, o
 return(RoB_summary)
 }
 
-SyRCLE_RoB_traffic <- function(df, experiment_type, outcome_type) {
+SyRCLE_RoB_traffic <- function(df, experiment_type, outcome) {
   
   df <- df %>% 
-    filter(ExperimentType == experiment_type) %>% 
-    filter(OutcomeType == outcome_type) 
+    filter(SortLabel == experiment_type) %>% 
+    filter(outcome_type == outcome) 
   
-  RoB <- unique(df[,c(1,3,9, 22:55)])
+  RoB <- unique(df[,c(3,5,11,24:57)])
   #change studyId to Author, year
   RoB$StudyId <- toupper(paste0(str_extract(RoB$Authors,"\\b\\w+\\b"),', ',RoB$Year))
   
@@ -497,13 +497,13 @@ SyRCLE_RoB_traffic <- function(df, experiment_type, outcome_type) {
 }
 
 
-ARRIVE_summary <- function(df, experiment_type, outcome_type) {
+ARRIVE_summary <- function(df, experiment_type, outcome) {
   
   df <- df %>% 
-    filter(ExperimentType == experiment_type) %>% 
-    filter(OutcomeType == outcome_type)
+    filter(SortLabel == experiment_type) %>% 
+    filter(outcome_type == outcome)
   
-  RoB <- unique(df[,c(1,3,9, 22:55)])
+  RoB <- unique(df[,c(3,5,11,24:57)])
   #change studyId to Author, year
   RoB$StudyId <- toupper(paste0(str_extract(RoB$Authors,"\\b\\w+\\b"),', ',RoB$Year))
   
@@ -543,7 +543,7 @@ ARRIVE <- ARRIVE %>%
 ARRIVE <- ARRIVE[,c(1:17,25,20:24)]
 
 
-colnames(ARRIVE) <- c('Study ID','Groups clearly defined','Experimental unit defined','Exact number of experimental units','Sample size justification',
+colnames(ARRIVE) <- c('Study','Groups clearly defined','Experimental unit defined','Exact number of experimental units','Sample size justification',
                       'Inclusion and exclusion criteria given','Any exclusions reported','Randomisation for any experiments','Blinding to group allocation',
                       'Details of what was measured','Statistical approach for each outcome','Assessment of whether data met statistical assumptions',
                       'All species specified','Animal sex specified','Age, weight or developmental stage specified','Timing and frequency of proceedures described',
@@ -554,13 +554,12 @@ Rep_summary <- rob_summary(data <- ARRIVE, tool = "Generic", weighted = FALSE, o
 return(Rep_summary)
 }
 
-ARRIVE_traffic <- function(df, experiment_type, outcome_type) {
+ARRIVE_traffic <- function(df, experiment_type, outcome) {
   
-  df <- df %>% 
-    filter(ExperimentType == experiment_type) %>% 
-    filter(OutcomeType == outcome_type)
-  
-  RoB <- unique(df[,c(1,3,9, 22:55)])
+  dfa <- subset(df, df$SortLabel == experiment_type)
+  dfb <- subset(dfa, dfa$outcome_type == outcome)
+
+  RoB <- unique(dfb[,c(3,5,11,24:57)])
   #change studyId to Author, year
   RoB$StudyId <- toupper(paste0(str_extract(RoB$Authors,"\\b\\w+\\b"),', ',RoB$Year))
   
@@ -600,13 +599,13 @@ ARRIVE_traffic <- function(df, experiment_type, outcome_type) {
   ARRIVE <- ARRIVE[,c(1:17,25,20:24)]
   
   
-  colnames(ARRIVE) <- c('Study ID','Groups clearly defined','Experimental unit defined','Exact number of experimental units','Sample size justification',
+  colnames(ARRIVE) <- c('Study','Groups clearly defined','Experimental unit defined','Exact number of experimental units','Sample size justification',
                         'Inclusion and exclusion criteria given','Any exclusions reported','Randomisation for any experiments','Blinding to group allocation',
                         'Details of what was measured','Statistical approach for each outcome','Assessment of whether data met statistical assumptions',
                         'All species specified','Animal sex specified','Age, weight or developmental stage specified','Timing and frequency of proceedures described',
                         'Any acclimitisation described','Data with variance, or Effect size and CI','Ethical approval with approval number',
                         'Ethical approval with or without approval number','Conflicts of interest statement','Funding sources','Description of any role of funder')
-  Rep_TL <- rob_traffic_light(data <- ARRIVE, tool = "Generic", psize = 10, overall = FALSE)
+  Rep_TL <- rob_traffic_light(data = ARRIVE, tool = "Generic", psize = 10, overall = FALSE)
   
   return(Rep_TL)
 }
@@ -618,7 +617,7 @@ run_sse_NMD <- function(df, rho_value = 0.5) {
   df<-df %>% 
     filter(!is.na(NMDv)) %>%
     filter(outcome_type == "Locomotor activity") %>%
-    filter(CohortType == "Simple intervention")
+    filter(SortLabel == "TvC")
   
   df <- df %>% mutate(effect_id = row_number()) # add effect_id column
   df$NMDSE <- sqrt(df$NMDv)
@@ -653,7 +652,7 @@ run_sse_plot <- function(df, rho_value = 0.5) {
   df<-df %>% 
     filter(!is.na(NMDv)) %>%
     filter(outcome_type == "Locomotor activity") %>%
-    filter(CohortType == "Simple intervention")
+    filter(SortLabel == "TvC")
   
   df <- df %>% mutate(effect_id = row_number()) # add effect_id column
   df$NMDSE <- sqrt(df$NMDv)
