@@ -14,9 +14,7 @@ run_ML_SMD <- function(df, experiment, outcome, rho_value) {
   df<-filter_experiment_outcome_type(df, experiment, outcome)
 
   df<-df %>% 
-    filter(!is.na(SMDv)) %>% 
-    filter(SMD>-6) %>% 
-    filter(SMD<6) # delete missing values and some weirdly large values, like -15 and 16
+    filter(!is.na(SMDv))
   
   df <- df %>% mutate(effect_id = row_number()) # add effect_id column
   
@@ -64,8 +62,7 @@ forest_metafor <- function(model, experiment_type, outcome_title){ #outcome titl
   
   at_values <- seq(floor(lower_x / 5) * 5, ceiling(upper_x / 5) * 5, by = 5)
   
-  ifelse(model[["k"]] > 25, 
-         forest_plot <- ifelse(experiment_type != "Head to head",
+         forest_plot <- if(experiment_type == "TvC"){
                                forest(model,
                                       xlim=c((lower_x-2), (upper_x+2)),
                                       mlab="SMD",
@@ -75,73 +72,57 @@ forest_metafor <- function(model, experiment_type, outcome_title){ #outcome titl
                                       col = c("darkred","darkred"),
                                       addfit = TRUE,
                                       addpred = TRUE,
-                                      annotate = FALSE,
+                                      annotate = TRUE,
                                       order="obs",
                                       xlab = "", 
                                       cex = 0.6, 
                                       cex.axis = 1.0, 
                                       cex.lab = 1.2,
-                                      efac = c(1,1,3)), 
+                                      efac = c(1,1,3))
+         } else {
                                forest(model,
                                       xlim=c((lower_x-2), (upper_x+2)),
                                       mlab="SMD",
                                       alim=c((lower_x-2), (upper_x+2)),
-                                      slab = paste(drugname1, `Dose of treatment used:[1]`, `Measurement unit of treatment dose:[1]`, "vs. ", drugname2, `Dose of treatment used:[2]`, `Measurement unit of treatment dose:[2]`, sep = " "),
+                                      slab = Label,
                                       at = at_values,
                                       col = c("darkred","darkred"),
-                                      addfit = FALSE,
+                                      addfit = TRUE,
                                       addpred = TRUE,
-                                      annotate = FALSE,
+                                      annotate = TRUE,
                                       order="obs",
                                       xlab = "", 
                                       cex = 0.6, 
                                       cex.axis = 1.0, 
                                       cex.lab = 1.2,
-                                      efac = c(1,1,3))),
+                                      efac = c(1,1,3))
+  }
          
-         forest_plot <- ifelse(experiment_type != "Head to head",
-                               forest(model, 
-                                      xlim=c((lower_x-2), (upper_x+2)),
-                                      mlab="SMD",
-                                      slab=NA,
-                                      alim=c((lower_x-2), (upper_x+2)),
-                                      at = at_values,
-                                      col = c("darkred","darkred"),
-                                      addfit = TRUE,
-                                      addpred = TRUE,
-                                      annotate = TRUE,
-                                      order="obs",
-                                      xlab = ""), 
-                               forest(model,
-                                      xlim=c((lower_x-5), (upper_x+2)),
-                                      mlab="SMD",
-                                      at = at_values,
-                                      slab = paste(drugname1, `Dose of treatment used:[1]`, `Measurement unit of treatment dose:[1]`, "vs. ", drugname2, `Dose of treatment used:[2]`, `Measurement unit of treatment dose:[2]`, sep = " "),
-                                      col = c("darkred","darkred"),
-                                      addfit = FALSE,
-                                      addpred = TRUE,
-                                      annotate = TRUE,
-                                      cex = 0.8,
-                                      order="obs",
-                                      xlab = ""))
-  )
+
+  cixlower <- model[["ci.lb"]]
+  cixhigher <- model[["ci.ub"]]
 
   #mtext(outcome_title, side = 1, line = 3, cex = 1.2, font = 2)
   
-  if (experiment_type == "Head to head") {
+  if (experiment_type == "TvA") {
     mtext("Favours conventional \nantipsychotic", side = 1, line = 3, at = (lower_x*0.6), cex = 1.1, col = "red", font = 1)
     mtext("Favours TAAR1 \nagonist", side = 1, line = 3, at = (upper_x), cex = 1.1, col = "darkgreen", font = 1)
-    addpoly(model, row = 0.25, cex = 0.4, col = "darkred", mlab = "SMD", annotate=FALSE)
+    #addpoly(model, row = 0.25, cex = 0.4, col = "darkred", mlab = "SMD", annotate = FALSE, xvals = c(cixlower, cixhigher))
+    mtext(paste0("SMD: ", round(model$beta, 2), " (", round(model$ci.lb, 2), " to ", round(model$ci.ub, 2), ")"), side = 3, line = -1, cex = 1, font = 2)
+    title(paste0("TAAR1 agonists effect on ", outcome_title, " compared with\nconventional antipsychotic in psychosis (SMD)"))
     
-  } else {
+  } else if (experiment_type == "AvC") {
+    mtext("Favours control", side = 1, line = 3, at = (lower_x*0.6), cex = 1.1, col = "red", font = 1)
+    mtext("Favours conventional \antipsychotic", side = 1, line = 3, at = (upper_x), cex = 1.1, col = "darkgreen", font = 1)
+    #addpoly(model, row = 0.25, cex = 0.4, col = "darkred", mlab = "SMD", annotate = FALSE, xvals = c(cixlower, cixhigher))    
+    mtext(paste0("SMD: ", round(model$beta, 2), " (", round(model$ci.lb, 2), " to ", round(model$ci.ub, 2), ")"), side = 3, line = -1, cex = 1, font = 2)
+    title(paste0("Conventional antipsychotic effect on ", outcome_title, "\nin psychosis (SMD)"))
+    
+  } else {  
+    
     mtext("Favours control", side = 1, line = 3, at = (lower_x*0.7), cex = 1.2, col = "red", font = 1)
     mtext("Favours TAAR1 agonist", side = 1, line = 3, at = (upper_x*0.4), cex = 1.2, col = "darkgreen", font = 1)
   }
-  
-  mtext(paste0("SMD: ", round(model$beta, 2), " (", round(model$ci.lb, 2), " to ", round(model$ci.ub, 2), ")"), side = 3, line = -1, cex = 1, font = 2)
-  title(paste0("TAAR1 agonist effect on ", outcome_title, " in psychosis (SMD)"))
-
-  
 }
   
 
