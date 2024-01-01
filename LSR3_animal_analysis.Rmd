@@ -469,7 +469,7 @@ SMD_S_LMA <- run_ML_SMD(df, "TvC", "Locomotor activity", 0.5)
 
 **Figure 2**
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=10}
-forest_metafor(SMD_S_LMA, "TvC", "locomotor activity")
+forest_metafor(SMD_S_LMA, "TvC", "Locomotor activity")
 ```
 
 For simple interventions, TAAR1 interventions had a pooled effect on locomotor activity of SMD = `r SMD_S_LMA[["beta"]]` (95% CI: `r SMD_S_LMA[["ci.lb"]]` to `r SMD_S_LMA[["ci.ub"]]` with a prediction interval of `r predict(SMD_S_LMA)$pi.lb` to `r predict(SMD_S_LMA)$pi.ub`.
