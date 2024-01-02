@@ -98,9 +98,9 @@ forest_metafor <- function(model, experiment_type, outcome_title){ #outcome titl
                                       efac = c(1,1,3))
   }
          
+cixlower <- model[["ci.lb"]]
+cixhigher <- model[["ci.ub"]]
 
-  cixlower <- model[["ci.lb"]]
-  cixhigher <- model[["ci.ub"]]
 
   #mtext(outcome_title, side = 1, line = 3, cex = 1.2, font = 2)
   
