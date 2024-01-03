@@ -285,6 +285,7 @@ df_S_stereo <- filter_experiment_outcome_type(df, "Simple intervention", "Stereo
 
 -   Stereotypy: `r length(table(df_S_stereo$StudyId))` studies and `r nrow(df_S_stereo)` comparisons in `r {strains <- unique(df_S_stereo$Strain); if (length(strains) > 1) paste(length(strains), "strains") else paste(length(strains), "strain")}`
 
+Outcomes marked with asterisks (*) were primary outcomes
 
 # 3. Risk of bias and reporting quality assessment
 
