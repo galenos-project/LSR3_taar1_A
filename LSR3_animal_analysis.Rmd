@@ -560,10 +560,11 @@ forest_metafor(SMD_S_LMA_PC, "AvC","Locomotor activity")
 For positive control experiments, known antipsychotic drugs had a pooled effect on locomotor activity of SMD = `r SMD_S_LMA_PC[["beta"]]` (95% CI: `r SMD_S_LMA_PC[["ci.lb"]]` to `r SMD_S_LMA_PC[["ci.ub"]]` with a prediction interval of `r predict(SMD_S_LMA_PC)$pi.lb` to `r predict(SMD_S_LMA_PC)$pi.ub`.
 
 Between-strain variance was `r SMD_S_LMA_PC$sigma2[1]`, between-study variance was `r SMD_S_LMA_PC$sigma2[2]`, and within-study variance (between experiments) was `r SMD_S_LMA_PC$sigma2[3]`
+
 ### 4.3.2 Outcome 2: Cognition (a secondary outcome)
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-SMD_S_Cog_PC <- run_ML_SMD(df, "TvA", "Cognition", 0.5)
+SMD_S_Cog_PC <- run_ML_SMD(df, "AvC", "Cognition", 0.5)
 ```
 
 **Figure n**
