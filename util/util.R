@@ -4,7 +4,7 @@ filter_experiment_outcome_type <- function(df, experiment_type, outcome) {
     filter(!is.na(SMD) | !is.na(SMDv))
   
   df_by_experiment_outcome <- df_by_outcome %>%
-    filter(ExperimentType == experiment_type)
+    filter(SortLabel == experiment_type)
   
   return(df_by_experiment_outcome)
 }
@@ -14,9 +14,7 @@ run_ML_SMD <- function(df, experiment, outcome, rho_value) {
   df<-filter_experiment_outcome_type(df, experiment, outcome)
 
   df<-df %>% 
-    filter(!is.na(SMDv)) %>% 
-    filter(SMD>-6) %>% 
-    filter(SMD<6) # delete missing values and some weirdly large values, like -15 and 16
+    filter(!is.na(SMDv))
   
   df <- df %>% mutate(effect_id = row_number()) # add effect_id column
   
@@ -64,8 +62,7 @@ forest_metafor <- function(model, experiment_type, outcome_title){ #outcome titl
   
   at_values <- seq(floor(lower_x / 5) * 5, ceiling(upper_x / 5) * 5, by = 5)
   
-  ifelse(model[["k"]] > 25, 
-         forest_plot <- ifelse(experiment_type != "Head to head",
+         forest_plot <- if(experiment_type == "TvC"){
                                forest(model,
                                       xlim=c((lower_x-2), (upper_x+2)),
                                       mlab="SMD",
@@ -75,73 +72,57 @@ forest_metafor <- function(model, experiment_type, outcome_title){ #outcome titl
                                       col = c("darkred","darkred"),
                                       addfit = TRUE,
                                       addpred = TRUE,
-                                      annotate = FALSE,
+                                      annotate = TRUE,
                                       order="obs",
                                       xlab = "", 
                                       cex = 0.6, 
                                       cex.axis = 1.0, 
                                       cex.lab = 1.2,
-                                      efac = c(1,1,3)), 
+                                      efac = c(1,1,3))
+         } else {
                                forest(model,
                                       xlim=c((lower_x-2), (upper_x+2)),
                                       mlab="SMD",
                                       alim=c((lower_x-2), (upper_x+2)),
-                                      slab = paste(drugname1, `Dose of treatment used:[1]`, `Measurement unit of treatment dose:[1]`, "vs. ", drugname2, `Dose of treatment used:[2]`, `Measurement unit of treatment dose:[2]`, sep = " "),
+                                      slab = Label,
                                       at = at_values,
                                       col = c("darkred","darkred"),
-                                      addfit = FALSE,
+                                      addfit = TRUE,
                                       addpred = TRUE,
-                                      annotate = FALSE,
+                                      annotate = TRUE,
                                       order="obs",
                                       xlab = "", 
                                       cex = 0.6, 
                                       cex.axis = 1.0, 
                                       cex.lab = 1.2,
-                                      efac = c(1,1,3))),
+                                      efac = c(1,1,3))
+  }
          
-         forest_plot <- ifelse(experiment_type != "Head to head",
-                               forest(model, 
-                                      xlim=c((lower_x-2), (upper_x+2)),
-                                      mlab="SMD",
-                                      slab=NA,
-                                      alim=c((lower_x-2), (upper_x+2)),
-                                      at = at_values,
-                                      col = c("darkred","darkred"),
-                                      addfit = TRUE,
-                                      addpred = TRUE,
-                                      annotate = TRUE,
-                                      order="obs",
-                                      xlab = ""), 
-                               forest(model,
-                                      xlim=c((lower_x-5), (upper_x+2)),
-                                      mlab="SMD",
-                                      at = at_values,
-                                      slab = paste(drugname1, `Dose of treatment used:[1]`, `Measurement unit of treatment dose:[1]`, "vs. ", drugname2, `Dose of treatment used:[2]`, `Measurement unit of treatment dose:[2]`, sep = " "),
-                                      col = c("darkred","darkred"),
-                                      addfit = FALSE,
-                                      addpred = TRUE,
-                                      annotate = TRUE,
-                                      cex = 0.8,
-                                      order="obs",
-                                      xlab = ""))
-  )
+cixlower <- model[["ci.lb"]]
+cixhigher <- model[["ci.ub"]]
+
 
   #mtext(outcome_title, side = 1, line = 3, cex = 1.2, font = 2)
   
-  if (experiment_type == "Head to head") {
+  if (experiment_type == "TvA") {
     mtext("Favours conventional \nantipsychotic", side = 1, line = 3, at = (lower_x*0.6), cex = 1.1, col = "red", font = 1)
     mtext("Favours TAAR1 \nagonist", side = 1, line = 3, at = (upper_x), cex = 1.1, col = "darkgreen", font = 1)
-    addpoly(model, row = 0.25, cex = 0.4, col = "darkred", mlab = "SMD", annotate=FALSE)
+    #addpoly(model, row = 0.25, cex = 0.4, col = "darkred", mlab = "SMD", annotate = FALSE, xvals = c(cixlower, cixhigher))
+    mtext(paste0("SMD: ", round(model$beta, 2), " (", round(model$ci.lb, 2), " to ", round(model$ci.ub, 2), ")"), side = 3, line = -1, cex = 1, font = 2)
+    title(paste0("TAAR1 agonists effect on ", outcome_title, " compared with\nconventional antipsychotic in psychosis (SMD)"))
     
-  } else {
+  } else if (experiment_type == "AvC") {
+    mtext("Favours control", side = 1, line = 3, at = (lower_x*0.6), cex = 1.1, col = "red", font = 1)
+    mtext("Favours conventional \antipsychotic", side = 1, line = 3, at = (upper_x), cex = 1.1, col = "darkgreen", font = 1)
+    #addpoly(model, row = 0.25, cex = 0.4, col = "darkred", mlab = "SMD", annotate = FALSE, xvals = c(cixlower, cixhigher))    
+    mtext(paste0("SMD: ", round(model$beta, 2), " (", round(model$ci.lb, 2), " to ", round(model$ci.ub, 2), ")"), side = 3, line = -1, cex = 1, font = 2)
+    title(paste0("Conventional antipsychotic effect on ", outcome_title, "\nin psychosis (SMD)"))
+    
+  } else {  
+    
     mtext("Favours control", side = 1, line = 3, at = (lower_x*0.7), cex = 1.2, col = "red", font = 1)
     mtext("Favours TAAR1 agonist", side = 1, line = 3, at = (upper_x*0.4), cex = 1.2, col = "darkgreen", font = 1)
   }
-  
-  mtext(paste0("SMD: ", round(model$beta, 2), " (", round(model$ci.lb, 2), " to ", round(model$ci.ub, 2), ")"), side = 3, line = -1, cex = 1, font = 2)
-  title(paste0("TAAR1 agonist effect on ", outcome_title, " in psychosis (SMD)"))
-
-  
 }
   
 
@@ -151,7 +132,7 @@ plot_subgroup_analysis <- function(df, experiment_type, outcome, moderator, rho_
   moderator <- as.character(moderator)
   
   df2 <- df %>% 
-    filter(ExperimentType == experiment_type) %>% 
+    filter(SortLabel == experiment_type) %>% 
     filter(outcome_type == outcome) %>%  
     filter(!is.na(SMDv)) %>%
     filter(!is.na(!!sym(moderator))) # Filter out NA values in moderator column
@@ -288,7 +269,7 @@ metaregression_analysis <- function(df, experiment_type, outcome, moderator, rho
   moderator <- as.character(moderator)
   
   df2 <- df %>% 
-    filter(ExperimentType == experiment_type) %>% 
+    filter(SortLabel == experiment_type) %>% 
     filter(outcome_type == outcome) %>%  
     filter(!is.na(SMDv)) %>%
     filter(!is.na(!!sym(moderator))) # Filter out NA values in moderator column
@@ -345,7 +326,7 @@ metaregression_analysis_by_drug <- function(df, experiment_type, outcome, drug_n
   moderator <- as.character(moderator)
   
   df2 <- df %>% 
-    filter(ExperimentType == experiment_type) %>% 
+    filter(SortLabel == experiment_type) %>% 
     filter(outcome_type == outcome) %>% 
     filter(DrugName == drug_name) %>% #THIS IS ONLY CHANGE
     filter(!is.na(SMDv)) %>%
@@ -402,13 +383,13 @@ metaregression_analysis_by_drug <- function(df, experiment_type, outcome, drug_n
 ### risk of bias visualisation function ###
 ###########################################
 
-SyRCLE_RoB_summary <- function(df, experiment_type, outcome_type) {
+SyRCLE_RoB_summary <- function(df, experiment_type, outcome) {
   
   df <- df %>% 
-    filter(ExperimentType == experiment_type) %>% 
-    filter(OutcomeType == outcome_type) 
+    filter(SortLabel == experiment_type) %>% 
+    filter(outcome_type == outcome) 
 
-RoB <- unique(df[,c(1,3,9, 22:55)])
+RoB <- unique(df[,c(3,5,11,24:58)])
 #change studyId to Author, year
 RoB$StudyId <- toupper(paste0(str_extract(RoB$Authors,"\\b\\w+\\b"),', ',RoB$Year))
 
@@ -449,13 +430,13 @@ RoB_summary <- rob_summary(data <- SyRCLE, tool = "Generic", weighted = FALSE, o
 return(RoB_summary)
 }
 
-SyRCLE_RoB_traffic <- function(df, experiment_type, outcome_type) {
+SyRCLE_RoB_traffic <- function(df, experiment_type, outcome) {
   
   df <- df %>% 
-    filter(ExperimentType == experiment_type) %>% 
-    filter(OutcomeType == outcome_type) 
+    filter(SortLabel == experiment_type) %>% 
+    filter(outcome_type == outcome) 
   
-  RoB <- unique(df[,c(1,3,9, 22:55)])
+  RoB <- unique(df[,c(3,5,11,24:57)])
   #change studyId to Author, year
   RoB$StudyId <- toupper(paste0(str_extract(RoB$Authors,"\\b\\w+\\b"),', ',RoB$Year))
   
@@ -497,13 +478,13 @@ SyRCLE_RoB_traffic <- function(df, experiment_type, outcome_type) {
 }
 
 
-ARRIVE_summary <- function(df, experiment_type, outcome_type) {
+ARRIVE_summary <- function(df, experiment_type, outcome) {
   
   df <- df %>% 
-    filter(ExperimentType == experiment_type) %>% 
-    filter(OutcomeType == outcome_type)
+    filter(SortLabel == experiment_type) %>% 
+    filter(outcome_type == outcome)
   
-  RoB <- unique(df[,c(1,3,9, 22:55)])
+  RoB <- unique(df[,c(3,5,11,24:57)])
   #change studyId to Author, year
   RoB$StudyId <- toupper(paste0(str_extract(RoB$Authors,"\\b\\w+\\b"),', ',RoB$Year))
   
@@ -543,7 +524,7 @@ ARRIVE <- ARRIVE %>%
 ARRIVE <- ARRIVE[,c(1:17,25,20:24)]
 
 
-colnames(ARRIVE) <- c('Study ID','Groups clearly defined','Experimental unit defined','Exact number of experimental units','Sample size justification',
+colnames(ARRIVE) <- c('Study','Groups clearly defined','Experimental unit defined','Exact number of experimental units','Sample size justification',
                       'Inclusion and exclusion criteria given','Any exclusions reported','Randomisation for any experiments','Blinding to group allocation',
                       'Details of what was measured','Statistical approach for each outcome','Assessment of whether data met statistical assumptions',
                       'All species specified','Animal sex specified','Age, weight or developmental stage specified','Timing and frequency of proceedures described',
@@ -554,13 +535,12 @@ Rep_summary <- rob_summary(data <- ARRIVE, tool = "Generic", weighted = FALSE, o
 return(Rep_summary)
 }
 
-ARRIVE_traffic <- function(df, experiment_type, outcome_type) {
+ARRIVE_traffic <- function(df, experiment_type, outcome) {
   
-  df <- df %>% 
-    filter(ExperimentType == experiment_type) %>% 
-    filter(OutcomeType == outcome_type)
-  
-  RoB <- unique(df[,c(1,3,9, 22:55)])
+  dfa <- subset(df, df$SortLabel == experiment_type)
+  dfb <- subset(dfa, dfa$outcome_type == outcome)
+
+  RoB <- unique(dfb[,c(3,5,11,24:57)])
   #change studyId to Author, year
   RoB$StudyId <- toupper(paste0(str_extract(RoB$Authors,"\\b\\w+\\b"),', ',RoB$Year))
   
@@ -600,13 +580,13 @@ ARRIVE_traffic <- function(df, experiment_type, outcome_type) {
   ARRIVE <- ARRIVE[,c(1:17,25,20:24)]
   
   
-  colnames(ARRIVE) <- c('Study ID','Groups clearly defined','Experimental unit defined','Exact number of experimental units','Sample size justification',
+  colnames(ARRIVE) <- c('Study','Groups clearly defined','Experimental unit defined','Exact number of experimental units','Sample size justification',
                         'Inclusion and exclusion criteria given','Any exclusions reported','Randomisation for any experiments','Blinding to group allocation',
                         'Details of what was measured','Statistical approach for each outcome','Assessment of whether data met statistical assumptions',
                         'All species specified','Animal sex specified','Age, weight or developmental stage specified','Timing and frequency of proceedures described',
                         'Any acclimitisation described','Data with variance, or Effect size and CI','Ethical approval with approval number',
                         'Ethical approval with or without approval number','Conflicts of interest statement','Funding sources','Description of any role of funder')
-  Rep_TL <- rob_traffic_light(data <- ARRIVE, tool = "Generic", psize = 10, overall = FALSE)
+  Rep_TL <- rob_traffic_light(data = ARRIVE, tool = "Generic", psize = 10, overall = FALSE)
   
   return(Rep_TL)
 }
@@ -618,7 +598,7 @@ run_sse_NMD <- function(df, rho_value = 0.5) {
   df<-df %>% 
     filter(!is.na(NMDv)) %>%
     filter(outcome_type == "Locomotor activity") %>%
-    filter(CohortType == "Simple intervention")
+    filter(SortLabel == "TvC")
   
   df <- df %>% mutate(effect_id = row_number()) # add effect_id column
   df$NMDSE <- sqrt(df$NMDv)
@@ -653,7 +633,7 @@ run_sse_plot <- function(df, rho_value = 0.5) {
   df<-df %>% 
     filter(!is.na(NMDv)) %>%
     filter(outcome_type == "Locomotor activity") %>%
-    filter(CohortType == "Simple intervention")
+    filter(SortLabel == "TvC")
   
   df <- df %>% mutate(effect_id = row_number()) # add effect_id column
   df$NMDSE <- sqrt(df$NMDv)
