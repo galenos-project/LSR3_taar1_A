@@ -143,6 +143,12 @@ plot_subgroup_analysis <- function(df, experiment_type, outcome, moderator, rho_
   if (is.character(df2[[moderator]])) {
     df2[[moderator]] <- factor(df2[[moderator]])}
   
+  # Add a check for the number of levels in the moderator variable
+  if (length(levels(df2[[moderator]])) <= 1) {
+    message("In this iteration of the review, there was insufficient data to perform subgroup analysis for this variable (data for one subgroup only)")
+    return(NULL)
+  }
+  
   #df2$RoBScore <- as.numeric(df2$RoBScore)
   #df2$RoBScore <- factor(df2$RoBScore, levels = c(0, 1, 2))
   
@@ -677,10 +683,10 @@ run_ML_NMD <- function(df, experiment, outcome, rho_value) {
   
   df<-filter_experiment_outcome_type(df, experiment, outcome) 
   
-  df<-df %>% 
-    filter(!is.na(NMDv)) %>% 
-    filter(NMD>-600) %>% 
-    filter(NMD<600) # delete missing values and some weirdly large values, like -15 and 16
+  #df<-df %>% 
+    #filter(!is.na(NMDv)) %>% 
+    #filter(NMD>-600) %>% 
+    #filter(NMD<600) # delete missing values and some weirdly large values, like -15 and 16
   
   df <- df %>% mutate(effect_id = row_number()) # add effect_id column
   
@@ -768,4 +774,61 @@ forest_metafor_NMD <- function(model, outcome){
   
 }
 
+
+###### Function to check number of levels in moderator variables for an experiment type (SortLabel) and outcome for this iteration #######
+
+check_moderator_levels <- function(df, experiment, outcome) {
   
+  moderator_vars <- c("Sex", "CategoryDiseaseInduction", "InterventionAdministrationRoute", 
+                      "ProphylacticOrTherapeutic", "TreatmentDurationCategory", 
+                      "DrugName", "Efficacy", "Selectivity")
+
+  
+  df2 <- filter_experiment_outcome_type(df, experiment, outcome)
+  single_level_mods <- character()  # Initialize an empty character vector to store moderators
+  
+  for (moderator in moderator_vars) {
+    # convert to factor if not already
+    if (!is.factor(df2[[moderator]])) {
+      df2[[moderator]] <- factor(df2[[moderator]])
+    }
+    
+    # check number of levels
+    moderator_levels <- df2 %>%
+      group_by(!!sym(moderator)) %>%
+      summarise(n = n_distinct(StudyId)) %>%
+      ungroup() %>%
+      summarise(moderator_levels = n_distinct(!!sym(moderator))) %>%
+      pull(moderator_levels)
+    
+    if (moderator_levels < 2) {
+      single_level_mods <- c(single_level_mods, moderator)
+    }
+  }
+  
+  # rename moderator variables in list to match names in the inline text
+  
+  single_level_mods1 <- single_level_mods %>% 
+    str_replace("TreatmentDurationCategory", "Duration of treatment period") %>% 
+    str_replace("InterventionAdministrationRoute", "Route of intervention administration") %>%
+    str_replace("ProphylacticOrTherapeutic", "Prophylactic or therapeutic intervention") %>%
+    str_replace("CategoryDiseaseInduction", "Disease induction method") %>%
+    str_replace("DrugName", "Intervention admnistered (drug)") %>% 
+    tolower()
+  
+  if (length(single_level_mods1) > 1) {
+    x <- paste(head(single_level_mods1, -1), collapse = ", ")
+    x <- paste(x, "and", tail(single_level_mods1, 1))
+  } else {
+    x <- single_level_mods1
+  }
+  
+  return(x)  # Return the formatted string
+}
+
+
+
+
+
+
+
