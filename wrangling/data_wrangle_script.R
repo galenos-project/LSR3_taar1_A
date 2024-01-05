@@ -11,7 +11,7 @@ source("wrangling/wrangling_functions.R", local = TRUE)
 LSR <- 'LSR3'
 
 # Import SyRF outcome data
-LSR3_SyRFOutcomes <- read_csv("data/Quantitative_data_-_2024_01_03_-_c494b1ae-4cf4-4618-b91a-e69a2b815bdd_-_Investigators_Unblinded.csv")
+LSR3_SyRFOutcomes <- read_csv("data/Quantitative_data_-_2024_01_04_-_c494b1ae-4cf4-4618-b91a-e69a2b815bdd_-_Investigators_Unblinded.csv")
 
 ###### Tidying and cleaning the data ######
 #clean ; from TiAb etc
