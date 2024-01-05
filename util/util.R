@@ -22,14 +22,14 @@ run_ML_SMD <- function(df, experiment, outcome, rho_value) {
   
   VCVM_SMD <- vcalc(vi = SMDv,
                     cluster = StudyId, 
-                    subgroup= ExperimentID,
+                    subgroup= ExperimentID_I,
                     obs=effect_id,
                     data = df, 
                     rho = rho_value)
   
   SMD_ML <- rma.mv(yi = SMD,
                    V = VCVM_SMD,
-                   random = ~1 | Strain / StudyId / ExperimentID, # nested levels
+                   random = ~1 | Strain / StudyId / ExperimentID_I, # nested levels
                    test = "t", # use t- and F-tests for making inferences
                    data = df,
                    dfs="contain",
@@ -113,7 +113,9 @@ cixhigher <- model[["ci.ub"]]
     
   } else if (experiment_type == "AvC") {
     mtext("Favours control", side = 1, line = 3, at = (lower_x*0.6), cex = 1.1, col = "red", font = 1)
-    mtext("Favours conventional \antipsychotic", side = 1, line = 3, at = (upper_x), cex = 1.1, col = "darkgreen", font = 1)
+
+    mtext("Favours conventional \nantipsychotic", side = 1, line = 3, at = (upper_x), cex = 1.1, col = "darkgreen", font = 1)
+
     #addpoly(model, row = 0.25, cex = 0.4, col = "darkred", mlab = "SMD", annotate = FALSE, xvals = c(cixlower, cixhigher))    
     mtext(paste0("SMD: ", round(model$beta, 2), " (", round(model$ci.lb, 2), " to ", round(model$ci.ub, 2), ")"), side = 3, line = -1, cex = 1, font = 2)
     title(paste0("Conventional antipsychotic effect on ", outcome_title, "\nin psychosis (SMD)"))
@@ -155,7 +157,7 @@ plot_subgroup_analysis <- function(df, experiment_type, outcome, moderator, rho_
   
   VCVM_SMD <- vcalc(vi = SMDv,
                     cluster = StudyId, 
-                    subgroup= ExperimentID,
+                    subgroup= ExperimentID_I,
                     obs=effect_id,
                     data = df2, 
                     rho = rho_value) 
@@ -164,7 +166,7 @@ plot_subgroup_analysis <- function(df, experiment_type, outcome, moderator, rho_
   subgroup_analysis <- rma.mv(
     yi = SMD,
     V = VCVM_SMD,
-    random = ~1 | Strain / StudyId / ExperimentID,
+    random = ~1 | Strain / StudyId / ExperimentID_I,
     data = df2,
     mods = as.formula(paste("~", moderator, "-1")),
     method = 'REML',
@@ -177,7 +179,7 @@ plot_subgroup_analysis <- function(df, experiment_type, outcome, moderator, rho_
   ## ML model on df2 without subgroup
   overall_estimate_rma <- rma.mv(yi = SMD,
                    V = VCVM_SMD,
-                   random = ~1 | Strain / StudyId / ExperimentID, # nested levels
+                   random = ~1 | Strain / StudyId / ExperimentID_I, # nested levels
                    test = "t", # use t- and F-tests for making inferences
                    data = df2,
                    dfs="contain", # improve degree of freedom estimation for t- and F-distributions
@@ -287,7 +289,7 @@ metaregression_analysis <- function(df, experiment_type, outcome, moderator, rho
   
   VCVM_SMD <- vcalc(vi = SMDv,
                     cluster = StudyId, 
-                    subgroup= ExperimentID,
+                    subgroup= ExperimentID_I,
                     obs=effect_id,
                     data = df2, 
                     rho = rho_value) 
@@ -297,7 +299,7 @@ metaregression_analysis <- function(df, experiment_type, outcome, moderator, rho
   metaregression <- rma.mv(
     yi = SMD,
     V = VCVM_SMD,
-    random = ~1 | Strain / StudyId / ExperimentID,
+    random = ~1 | Strain / StudyId / ExperimentID_I,
     data = df2,
     mods = as.formula(paste("~", moderator)),
     method = 'REML',
@@ -345,7 +347,7 @@ metaregression_analysis_by_drug <- function(df, experiment_type, outcome, drug_n
   
   VCVM_SMD <- vcalc(vi = SMDv,
                     cluster = StudyId, 
-                    subgroup= ExperimentID,
+                    subgroup= ExperimentID_I,
                     obs=effect_id,
                     data = df2, 
                     rho = rho_value) 
@@ -355,7 +357,7 @@ metaregression_analysis_by_drug <- function(df, experiment_type, outcome, drug_n
   metaregression <- rma.mv(
     yi = SMD,
     V = VCVM_SMD,
-    random = ~1 | Strain / StudyId / ExperimentID,
+    random = ~1 | Strain / StudyId / ExperimentID_I,
     data = df2,
     mods = as.formula(paste("~", moderator)),
     method = 'REML',
@@ -389,7 +391,9 @@ SyRCLE_RoB_summary <- function(df, experiment_type, outcome) {
     filter(SortLabel == experiment_type) %>% 
     filter(outcome_type == outcome) 
 
-RoB <- unique(df[,c(3,5,11,24:58)])
+
+RoB <- unique(df[,c(4,6,12,25:58)])
+
 #change studyId to Author, year
 RoB$StudyId <- toupper(paste0(str_extract(RoB$Authors,"\\b\\w+\\b"),', ',RoB$Year))
 
@@ -436,7 +440,9 @@ SyRCLE_RoB_traffic <- function(df, experiment_type, outcome) {
     filter(SortLabel == experiment_type) %>% 
     filter(outcome_type == outcome) 
   
-  RoB <- unique(df[,c(3,5,11,24:57)])
+
+  RoB <- unique(df[,c(4,6,12,25:58)])
+
   #change studyId to Author, year
   RoB$StudyId <- toupper(paste0(str_extract(RoB$Authors,"\\b\\w+\\b"),', ',RoB$Year))
   
@@ -484,7 +490,9 @@ ARRIVE_summary <- function(df, experiment_type, outcome) {
     filter(SortLabel == experiment_type) %>% 
     filter(outcome_type == outcome)
   
-  RoB <- unique(df[,c(3,5,11,24:57)])
+
+  RoB <- unique(df[,c(4,6,12,25:58)])
+
   #change studyId to Author, year
   RoB$StudyId <- toupper(paste0(str_extract(RoB$Authors,"\\b\\w+\\b"),', ',RoB$Year))
   
@@ -520,7 +528,7 @@ ARRIVE <- mutate_all(ARRIVE, list(~ ifelse(. == 'No', 'High', .)))
 ARRIVE <- mutate_all(ARRIVE, list(~ ifelse(. == 'NA (ethical approval declared)', 'Low', .)))
 #combine desc stats and variance with ES and CI
 ARRIVE <- ARRIVE %>%
-  mutate(Data_reporting = ifelse(ARRIVE$`(ARRIVE) Are desc stats for each exp group provided with measure of variability?` == 'Low' | ARRIVE$`(ARRIVE) Is the effect size and confidence interval provided?` == 'Low', 'Low', 'High'))
+  mutate(Data_reporting = ifelse(ARRIVE$`(ARRIVE) Are desc stats for each exp group provided with measure of variability?_I` == 'Low' | ARRIVE$`(ARRIVE) Is the effect size and confidence interval provided?_I` == 'Low', 'Low', 'High'))
 ARRIVE <- ARRIVE[,c(1:17,25,20:24)]
 
 
@@ -540,7 +548,9 @@ ARRIVE_traffic <- function(df, experiment_type, outcome) {
   dfa <- subset(df, df$SortLabel == experiment_type)
   dfb <- subset(dfa, dfa$outcome_type == outcome)
 
-  RoB <- unique(dfb[,c(3,5,11,24:57)])
+
+  RoB <- unique(dfb[,c(4,6,12,25:58)])
+
   #change studyId to Author, year
   RoB$StudyId <- toupper(paste0(str_extract(RoB$Authors,"\\b\\w+\\b"),', ',RoB$Year))
   
@@ -576,7 +586,7 @@ ARRIVE_traffic <- function(df, experiment_type, outcome) {
   ARRIVE <- mutate_all(ARRIVE, list(~ ifelse(. == 'NA (ethical approval declared)', 'Low', .)))
   #combine desc stats and variance with ES and CI
   ARRIVE <- ARRIVE %>%
-    mutate(Data_reporting = ifelse(ARRIVE$`(ARRIVE) Are desc stats for each exp group provided with measure of variability?` == 'Low' | ARRIVE$`(ARRIVE) Is the effect size and confidence interval provided?` == 'Low', 'Low', 'High'))
+    mutate(Data_reporting = ifelse(ARRIVE$`(ARRIVE) Are desc stats for each exp group provided with measure of variability?_I` == 'Low' | ARRIVE$`(ARRIVE) Is the effect size and confidence interval provided?_I` == 'Low', 'Low', 'High'))
   ARRIVE <- ARRIVE[,c(1:17,25,20:24)]
   
   
@@ -608,14 +618,14 @@ run_sse_NMD <- function(df, rho_value = 0.5) {
   
   VCVM_NMD <- vcalc(vi = NMDv,
                     cluster = StudyId, 
-                    subgroup= ExperimentID,
+                    subgroup= ExperimentID_I,
                     obs=effect_id,
                     data = df, 
                     rho = rho_value)
   
   NMD_sse <- rma.mv(yi = NMD,
                     V = VCVM_NMD,
-                    random = ~1 | Strain / StudyId / ExperimentID, # nested levels
+                    random = ~1 | Strain / StudyId / ExperimentID_I, # nested levels
                     mods = ~ NMDSE, # sampling error (squart root of sampling variance SMDV);
                     test = "t", # use t- and F-tests for making inferences
                     data = df,
@@ -643,14 +653,14 @@ run_sse_plot <- function(df, rho_value = 0.5) {
   
   VCVM_NMD <- vcalc(vi = NMDv,
                     cluster = StudyId, 
-                    subgroup= ExperimentID,
+                    subgroup= ExperimentID_I,
                     obs=effect_id,
                     data = df, 
                     rho = rho_value)
   
   NMD_sse <- rma.mv(yi = NMD,
                     V = VCVM_NMD,
-                    random = ~1 | Strain / StudyId / ExperimentID, # nested levels
+                    random = ~1 | Strain / StudyId / ExperimentID_I, # nested levels
                     mods = ~ NMDSE, # sampling error (squart root of sampling variance SMDV);
                     test = "t", # use t- and F-tests for making inferences
                     data = df,
@@ -678,14 +688,14 @@ run_ML_NMD <- function(df, experiment, outcome, rho_value) {
   
   VCVM_NMD <- vcalc(vi = NMDv,
                     cluster = StudyId, 
-                    subgroup= ExperimentID,
+                    subgroup= ExperimentID_I,
                     obs=effect_id,
                     data = df, 
                     rho = rho_value) 
   
   NMD_ML <- rma.mv(yi = NMD,
                    V = VCVM_NMD,
-                   random = ~1 | Strain / StudyId / ExperimentID, # nested levels
+                   random = ~1 | Strain / StudyId / ExperimentID_I, # nested levels
                    test = "t", # use t- and F-tests for making inferences
                    data = df,
                    dfs="contain",

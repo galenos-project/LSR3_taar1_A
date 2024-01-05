@@ -1,10 +1,14 @@
 ---
 title: "LSR3 analysis: effects of TAAR1 agonists in animal models of psychosis"
-author: "Francesca Tinsdeall, Fiona Ramage and Malcolm Macleod"
+author: "Francesca Tinsdeall, Fiona Ramage, Virginia Chiocchia and Malcolm Macleod"
 date: "2023-12-19"
 output: 
   html_document: 
     fig_width: 9
+
+output: html_document
+bibliography: grateful-refs.bib
+
 editor_options: 
   chunk_output_type: console
 ---
@@ -53,13 +57,29 @@ editor_options:
 
 4.  Meta-analyses by experiment type and outcome
 
-    -   4.1 Simple interventions
+    -   4.1 Simple interventions (TAAR1 Agonist v Control)
 
         -   4.1.1 Outcome 1: Locomotor activity
 
         -   4.1.2 Outcome 2: Cognition
 
-    -   4.2 "Head to head" interventions
+    -   4.2 "Head to head" interventions (TAAR1 Agonist v conventional antipsychotic)
+
+        -   4.2.1 Outcome 1: Locomotor activity
+
+        -   4.2.2 Outcome 2: Cognition
+
+    -   4.3 "Positive control" (Conventional antipsychotic v control)
+
+        -   4.3.1 Outcome 1: Locomotor activity
+
+        -   4.3.2 Outcome 2: Cognition
+
+    -   4.4 Combination treatment (TAAR1 Agonist plus conventional antipsychotic v conventional antipsychotic alone)
+
+        -   4.4.1 Outcome 1: Locomotor activity
+
+        -   4.4.2 Outcome 2: Cognition
 
 5.  Subgroup analyses
 
@@ -83,11 +103,15 @@ editor_options:
 
             -   5.1.1.8 The selectivity of the drug
 
-            -   5.1.1.9 SYRCLE RoB assessment
+            -   5.1.1.9 Potency of intervention
 
-            -   5.1.1.10 ARRIVE reporting quality guidelines
+            -   5.1.1.10 Dose of intervention
 
-            -   5.1.1.11 Heterogeneity explained by covariates
+            -   5.1.1.11 SYRCLE RoB assessment
+
+            -   5.1.1.12 ARRIVE reporting quality guidelines
+
+            -   5.1.1.13 Heterogeneity explained by covariates
 
         -   5.1.2 Outcome 2: Cognition
 
@@ -107,53 +131,43 @@ editor_options:
 
             -   5.1.2.8 The selectivity of the drug
 
-            -   5.1.2.9 SYRCLE RoB assessment
+            -   5.1.2.9 Potency of intervention
 
-            -   5.1.2.10 ARRIVE reporting quality guidelines
+            -   5.1.2.10 Dose of intervention
 
-            -   5.1.2.11 Heterogeneity explained by covariates
+            -   5.1.2.11 SYRCLE RoB assessment
 
-6.  Meta-regression analyses
+            -   5.1.2.12 ARRIVE reporting quality guidelines
 
-    -   6.1 Meta-regression analyses for simple interventions
+            -   5.1.2.13 Heterogeneity explained by covariates
+
+6.  Sensitivity Analyses
+
+    -   6.1 Sensitivity analyses for simple interventions
 
         -   6.1.1 Locomotor activity
 
-            -   6.1.1.1 Potency of intervention
+            -   6.1.1.1 Studies with low overall risk of bias
 
-            -   6.1.1.2 Dose of intervention
+            -   6.1.1.2 Imputed rho values
+
+            -   6.1.1.3 NMD
 
         -   6.1.2 Cognition
 
-            -   6.1.2.1 Potency of intervention
+            -   6.1.2.1 Studies with low overall risk of bias
 
-            -   6.1.2.2 Dose of intervention
+            -   6.1.2.2 Imputed rho values
 
-7.  Sensitivity Analyses
+            -   6.1.2.3 NMD
 
-    -   7.1 Sensitivity analyses for simple interventions
+7.  Reporting bias/small study effects
 
-        -   7.1.1 Locomotor activity
+    -   7.1 Egger regression
 
-            -   7.1.1.1 Studies with low overall risk of bias
+8.  Summary of the evidence
 
-            -   7.1.1.2 Imputed rho values
-
-            -   7.1.1.3 NMD
-
-        -   7.1.2 Cognition
-
-            -   7.1.2.1 Studies with low overall risk of bias
-
-            -   7.1.2.2 Imputed rho values
-
-            -   7.1.2.3 NMD
-
-8.  Reporting bias/small study effects
-
-    -   8.1 Egger regression
-
-9.  Summary of the evidence
+9.  Software used
 
 ```{r setup, message=F, echo=F, include=F}
 ### libraries
@@ -182,6 +196,7 @@ devtools::install_github("mcguinlu/robvis")
 install_github("mcguinlu/robvis")
 library(robvis)
 library(PRISMA2020)
+library(grateful)
 
 
 #define LSR
@@ -219,6 +234,8 @@ article_metadata <- df %>%
 ```
 
 The flow of study selection is shown in Figure 1. Studies included were published between `r min(article_metadata$Year)` and `r max(article_metadata$Year)`. Overall, this analysis includes `r length(table(df$StudyId))` studies containing `r nrow(df)` comparisons.
+
+**Figure 1**
 
 ```{r PRISMA flowchart, eval = TRUE, echo = FALSE, warning=FALSE, message=FALSE}
 prisma_data <- read_csv("data/LSR3_prisma_211223.csv")
@@ -270,13 +287,14 @@ df_S_stereo <- filter_experiment_outcome_type(df, "TvC", "Stereotypy")
 
 -   Prepulse inhibition\*: `r length(table(df_S_PPI$StudyId))` studies and `r nrow(df_S_PPI)` comparisons in `r {strains <- unique(df_S_PPI$Strain); if (length(strains) > 1) paste(length(strains), "strains") else paste(length(strains), "strain")}`
 
-    <!--# why the asterisk in the first 2? -->
-
 -   Cognitive function: `r length(table(df_S_cog$StudyId))` studies and `r nrow(df_S_cog)` comparisons in `r {strains <- unique(df_S_cog$Strain); if (length(strains) > 1) paste(length(strains), "strains") else paste(length(strains), "strain")}`
 
 -   Social interaction: `r length(table(df_S_social$StudyId))` studies and `r nrow(df_S_social)` comparisons in `r {strains <- unique(df_S_social$Strain); if (length(strains) > 1) paste(length(strains), "strains") else paste(length(strains), "strain")}`
 
 -   Stereotypy: `r length(table(df_S_stereo$StudyId))` studies and `r nrow(df_S_stereo)` comparisons in `r {strains <- unique(df_S_stereo$Strain); if (length(strains) > 1) paste(length(strains), "strains") else paste(length(strains), "strain")}`
+
+
+\* These outcomes were identified in the study protocol as primary outcomes of interest
 
 # 3. Risk of bias and reporting quality assessment
 
@@ -286,15 +304,15 @@ df_S_stereo <- filter_experiment_outcome_type(df, "TvC", "Stereotypy")
 
 ##### 3.1.1.1 Risks of bias
 
-Figure x shows the risk of bias summary for studies investigating the effect of administering a TAAR1 agonist on locomotor activity in animals. The risk of bias assessment was performed using the SYRCLE's RoB tool. Figure y shows the corresponding traffic light plot.
+Figure 3.1.1.1.1 shows the risk of bias summary for studies investigating the effect of administering a TAAR1 agonist on locomotor activity in animals. The risk of bias assessment was performed using the SYRCLE's RoB tool. Figure 3.1.1.1.2 shows the corresponding traffic light plot.
 
-**Figure x**
+**Figure 3.1.1.1.1**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE}
 SyRCLE_RoB_summary(df, "TvC", "Locomotor activity")
 ```
 
-**Figure y**
+**Figure 3.1.1.1.2**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE}
 SyRCLE_RoB_traffic(df, "TvC", "Locomotor activity")
@@ -302,17 +320,19 @@ SyRCLE_RoB_traffic(df, "TvC", "Locomotor activity")
 
 ##### 3.1.1.2 Reporting quality
 
-Figure x shows the reporting quality summary for studies investigating the effect of administering a TAAR1 agonist on locomotor activity in animals. The reporting quality assessment was performed using the ARRIVE guidelines. Figure y shows the corresponding traffic light plot.
+Figure 3.1.1.2.1 shows the reporting quality summary for studies investigating the effect of administering a TAAR1 agonist on locomotor activity in animals. The reporting quality assessment was performed using the ARRIVE guidelines. Figure 3.1.1.2.2 shows the corresponding traffic light plot.
 
-**Figure x**
+**Figure 3.1.1.2.1**
 
 ```{r warning=FALSE, eval = TRUE, echo = FALSE}
 ARRIVE_summary(df, "TvC", "Locomotor activity")
 ```
 
-**Figure y**
+**Figure 3.1.1.2.2**
 
-```{r fig.height = 10,warning=FALSE, eval = TRUE, echo = FALSE}
+
+```{r message = FALSE, warning=FALSE, eval = TRUE, echo = FALSE}
+
 ARRIVE_traffic(df, "TvC", "Locomotor activity")
 ```
 
@@ -320,15 +340,15 @@ ARRIVE_traffic(df, "TvC", "Locomotor activity")
 
 ##### 3.1.2.1 Risks of bias
 
-Figure x shows the risk of bias summary for studies investigating the effect of administering a TAAR1 agonist on prepulse inhibition in animals. The risk of bias assessment was performed using the SYRCLE's RoB tool. Figure y shows the corresponding traffic light plot.
+Figure 3.1.2.1.1 shows the risk of bias summary for studies investigating the effect of administering a TAAR1 agonist on prepulse inhibition in animals. The risk of bias assessment was performed using the SYRCLE's RoB tool. Figure 3.1.2.1.2 shows the corresponding traffic light plot.
 
-**Figure x**
+**Figure 3.1.2.1.1**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE}
 SyRCLE_RoB_summary(df, "TvC", "Prepulse inhibition")
 ```
 
-**Figure y**
+**Figure 3.1.2.1.2**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE}
 SyRCLE_RoB_traffic(df, "TvC", "Prepulse inhibition")
@@ -336,17 +356,19 @@ SyRCLE_RoB_traffic(df, "TvC", "Prepulse inhibition")
 
 ##### 3.1.2.2 Reporting quality
 
-Figure x shows the reporting quality summary for studies investigating the effect of administering a TAAR1 agonist on prepulse inhibition in animals. The reporting quality assessment was performed using the ARRIVE guidelines. Figure y shows the corresponding traffic light plot.
+Figure 3.1.2.2.1 shows the reporting quality summary for studies investigating the effect of administering a TAAR1 agonist on prepulse inhibition in animals. The reporting quality assessment was performed using the ARRIVE guidelines. Figure 3.1.2.2.2 shows the corresponding traffic light plot.
 
-**Figure x**
+**Figure 3.1.2.2.1**
 
 ```{r warning=FALSE, eval = TRUE, echo = FALSE}
 ARRIVE_summary(df, "TvC", "Prepulse inhibition")
 ```
 
-**Figure y**
+**Figure 3.1.2.2.2**
 
-```{r fig.height = 10,warning=FALSE, eval = TRUE, echo = FALSE}
+
+```{r message = FALSE, warning=FALSE, eval = TRUE, echo = FALSE}
+
 ARRIVE_traffic(df, "TvC", "Prepulse inhibition")
 ```
 
@@ -354,15 +376,15 @@ ARRIVE_traffic(df, "TvC", "Prepulse inhibition")
 
 ##### 3.1.3.1 Risks of bias
 
-Figure x shows the risk of bias summary for studies investigating the effect of administering a TAAR1 agonist on cognition in animals. The risk of bias assessment was performed using the SYRCLE's RoB tool. Figure y shows the corresponding traffic light plot.
+Figure 3.1.3.1.1 shows the risk of bias summary for studies investigating the effect of administering a TAAR1 agonist on cognition in animals. The risk of bias assessment was performed using the SYRCLE's RoB tool. Figure 3.1.3.1.2 shows the corresponding traffic light plot.
 
-**Figure x**
+**Figure 3.1.3.1.1**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE}
 SyRCLE_RoB_summary(df, "TvC", "Cognition")
 ```
 
-**Figure y**
+**Figure 3.1.3.1.2**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE}
 SyRCLE_RoB_traffic(df, "TvC", "Cognition")
@@ -370,17 +392,19 @@ SyRCLE_RoB_traffic(df, "TvC", "Cognition")
 
 ##### 3.1.3.2 Reporting quality
 
-Figure x shows the reporting quality summary for studies investigating the effect of administering a TAAR1 agonist on cognition in animals. The reporting quality assessment was performed using the ARRIVE guidelines. Figure y shows the corresponding traffic light plot.
+Figure 3.1.3.2.1 shows the reporting quality summary for studies investigating the effect of administering a TAAR1 agonist on cognition in animals. The reporting quality assessment was performed using the ARRIVE guidelines. Figure 3.1.3.2.2 shows the corresponding traffic light plot.
 
-**Figure x**
+**Figure 3.1.3.2.1**
 
 ```{r warning=FALSE, eval = TRUE, echo = FALSE}
 ARRIVE_summary(df, "TvC", "Cognition")
 ```
 
-**Figure y**
+**Figure 3.1.3.2.2**
 
-```{r fig.height = 10,warning=FALSE, eval = TRUE, echo = FALSE}
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE}
+
 ARRIVE_traffic(df, "TvC", "Cognition")
 ```
 
@@ -388,15 +412,15 @@ ARRIVE_traffic(df, "TvC", "Cognition")
 
 ##### 3.1.4.1 Risks of bias
 
-Figure x shows the risk of bias summary for studies investigating the effect of administering a TAAR1 agonist on social interaction in animals. The risk of bias assessment was performed using the SYRCLE's RoB tool. Figure y shows the corresponding traffic light plot.
+Figure 3.1.4.1.1 shows the risk of bias summary for studies investigating the effect of administering a TAAR1 agonist on social interaction in animals. The risk of bias assessment was performed using the SYRCLE's RoB tool. Figure 3.1.4.1.2 shows the corresponding traffic light plot.
 
-**Figure x**
+**Figure 3.1.4.1.1**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE}
 SyRCLE_RoB_summary(df, "TvC", "Social interaction")
 ```
 
-**Figure y**
+**Figure 3.1.4.1.2**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE}
 SyRCLE_RoB_traffic(df, "TvC", "Social interaction")
@@ -404,17 +428,19 @@ SyRCLE_RoB_traffic(df, "TvC", "Social interaction")
 
 ##### 3.1.4.2 Reporting quality
 
-Figure x shows the reporting quality summary for studies investigating the effect of administering a TAAR1 agonist on social interaction in animals. The reporting quality assessment was performed using the ARRIVE guidelines. Figure y shows the corresponding traffic light plot.
+Figure 3.1.4.2.1 shows the reporting quality summary for studies investigating the effect of administering a TAAR1 agonist on social interaction in animals. The reporting quality assessment was performed using the ARRIVE guidelines. Figure 3.1.4.2.2 shows the corresponding traffic light plot.
 
-**Figure x**
+**Figure 3.1.4.2.1**
 
 ```{r warning=FALSE, eval = TRUE, echo = FALSE}
 ARRIVE_summary(df, "TvC", "Social interaction")
 ```
 
-**Figure y**
+**Figure 3.1.4.2.2**
 
-```{r fig.height = 10,warning=FALSE, eval = TRUE, echo = FALSE}
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE}
+
 ARRIVE_traffic(df, "TvC", "Social interaction")
 ```
 
@@ -422,15 +448,15 @@ ARRIVE_traffic(df, "TvC", "Social interaction")
 
 ##### 3.1.5.1 Risks of bias
 
-Figure x shows the risk of bias summary for studies investigating the effect of administering a TAAR1 agonist on stereotypy in animals. The risk of bias assessment was performed using the SYRCLE's RoB tool. Figure y shows the corresponding traffic light plot.
+Figure 3.1.5.1.1 shows the risk of bias summary for studies investigating the effect of administering a TAAR1 agonist on stereotypy in animals. The risk of bias assessment was performed using the SYRCLE's RoB tool. Figure 3.1.5.1.2 shows the corresponding traffic light plot.
 
-**Figure x**
+**Figure 3.1.5.1.1**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE}
 SyRCLE_RoB_summary(df, "TvC", "Stereotypy")
 ```
 
-**Figure y**
+**Figure 3.1.5.1.2**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE}
 SyRCLE_RoB_traffic(df, "TvC", "Stereotypy")
@@ -438,17 +464,19 @@ SyRCLE_RoB_traffic(df, "TvC", "Stereotypy")
 
 ##### 3.1.5.2 Reporting quality
 
-Figure x shows the reporting quality summary for studies investigating the effect of administering a TAAR1 agonist on stereotypy in animals. The reporting quality assessment was performed using the ARRIVE guidelines. Figure y shows the corresponding traffic light plot.
+Figure 3.1.5.2.1 shows the reporting quality summary for studies investigating the effect of administering a TAAR1 agonist on stereotypy in animals. The reporting quality assessment was performed using the ARRIVE guidelines. Figure 3.1.5.2.2 shows the corresponding traffic light plot.
 
-**Figure x**
+**Figure 3.1.5.2.1**
 
 ```{r warning=FALSE, eval = TRUE, echo = FALSE}
 ARRIVE_summary(df, "TvC", "Stereotypy")
 ```
 
-**Figure y**
+**Figure 3.1.5.2.2**
 
-```{r fig.height = 10,warning=FALSE, eval = TRUE, echo = FALSE}
+
+```{r warning=FALSE, eval = TRUE, echo = FALSE}
+
 ARRIVE_traffic(df, "TvC", "Stereotypy")
 ```
 
@@ -466,21 +494,25 @@ All analyses were conducted allowing for the following hierarchical levels in a 
 
 *NB: We constructed multilevel models without Knapp-Hartung adjustments as these are not available for rma.mv class objects in the metafor package* ([metafor](https://cran.r-project.org/web/packages/metafor/metafor.pdf)). *Instead, the model is set to `test = "t"` to use t- and F-distributions for making inferences, and `dfs="contain"` to improve the method of approximating degrees of freedom of these distributions.*
 
-The scales/units used to measure outcomes in preclinical studies often differ between studies. The primary effect size used for meta-analysis of preclinical studies is therefore the standardised mean difference (SMD, Hedge's g). We will perform a sensitivity analysis using normalised mean difference (NMD) where there is sufficient data.
+The scales/units used to measure outcomes in preclinical studies often differ between studies. The primary effect size used for meta-analysis of preclinical studies is therefore the standardised mean difference (SMD, Hedge's g). We also present a sensitivity analysis using normalised mean difference (NMD) where there are sufficient data for sham proceedures to allow this.
 
-No studies were excluded on the basis of extreeme effect sizes reported.
+
+No studies were excluded on the basis of extreme effect sizes reported.
+
 
 ## 4.1 Simple interventions
 
 ### 4.1.1 Outcome 1: Locomotor activity (a primary outcome)
 
-The effect of administering a TAAR1 agonist on locomotor activity in animals using SMD as the effect size is shown in Figure 2. The pooled estimate for SMD across all individual comparisons is displayed as a diamond shape at the bottom of the plot. Dotted lines indicate the prediction interval of the pooled estimate.
+
+The effect of administering a TAAR1 agonist on locomotor activity in animals using SMD as the effect size is shown in Figure 4.1.1. The pooled estimate for SMD across all individual comparisons is displayed as a diamond shape at the bottom of the plot. Dotted lines indicate the prediction interval of the pooled estimate.
+
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 SMD_S_LMA <- run_ML_SMD(df, "TvC", "Locomotor activity", 0.5)
 ```
 
-**Figure 2**
+**Figure 4.1.1**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=10}
 forest_metafor(SMD_S_LMA, "TvC", "Locomotor activity")
@@ -492,13 +524,13 @@ Between-strain variance was `r SMD_S_LMA$sigma2[1]`, between-study variance was 
 
 ### 4.1.2 Outcome 2: Cognition (a secondary outcome)
 
-The effect of administering a TAAR1 agonist on cognitive outcomes in animals using SMD as the effect size is shown in Figure 3. The pooled estimate for SMD across all individual comparisons is displayed as a diamond shape at the bottom of the plot. Dotted lines indicate the prediction interval of the pooled estimate.
+The effect of administering a TAAR1 agonist on cognitive outcomes in animals using SMD as the effect size is shown in Figure 4.1.2. The pooled estimate for SMD across all individual comparisons is displayed as a diamond shape at the bottom of the plot. Dotted lines indicate the prediction interval of the pooled estimate.
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 SMD_S_cog <- run_ML_SMD(df, "TvC", "Cognition", 0.5)
 ```
 
-**Figure 3**
+**Figure 4.1.2**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=7}
 forest_metafor(SMD_S_cog, "TvC", "cognition")
@@ -520,7 +552,9 @@ For head to head comparisons, TAAR1 interventions had a pooled effect on locomot
 
 Between-strain variance was `r SMD_S_LMA_H2H$sigma2[1]`, between-study variance was `r SMD_S_LMA_H2H$sigma2[2]`, and within-study variance (between experiments) was `r SMD_S_LMA_H2H$sigma2[3]`
 
-**Figure n**
+
+**Figure 4.2.1**
+
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=10}
 forest_metafor(SMD_S_LMA_H2H, "TvA", "locomotor activity")
@@ -534,11 +568,14 @@ forest_metafor(SMD_S_LMA_H2H, "TvA", "locomotor activity")
 SMD_S_Cog_H2H <- run_ML_SMD(df, "TvA", "Cognition", 0.5)
 ```
 
+
 For head to head comparisons, TAAR1 interventions had a pooled effect on cognitive outcomes of SMD = `r SMD_S_Cog_H2H[["beta"]]` (95% CI: `r SMD_S_Cog_H2H[["ci.lb"]]` to `r SMD_S_Cog_H2H[["ci.ub"]]`) with a prediction interval of `r predict(SMD_S_Cog_H2H)$pi.lb` to `r predict(SMD_S_Cog_H2H)$pi.ub`.
 
 Between-strain variance was `r SMD_S_Cog_H2H$sigma2[1]`, between-study variance was `r SMD_S_Cog_H2H$sigma2[2]`, and within-study variance (between experiments) was `r SMD_S_Cog_H2H$sigma2[3]`
 
-**Figure n**
+**Figure 4.2.2**
+
+
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=10}
 forest_metafor(SMD_S_Cog_H2H, "TvA","Cognition")
@@ -552,7 +589,8 @@ forest_metafor(SMD_S_Cog_H2H, "TvA","Cognition")
 SMD_S_LMA_PC <- run_ML_SMD(df, "AvC", "Locomotor activity", 0.5)
 ```
 
-**Figure n**
+
+**Figure 4.3.1**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=10}
 forest_metafor(SMD_S_LMA_PC, "AvC","Locomotor activity")
@@ -560,13 +598,18 @@ forest_metafor(SMD_S_LMA_PC, "AvC","Locomotor activity")
 
 For positive control experiments, known antipsychotic drugs had a pooled effect on locomotor activity of SMD = `r SMD_S_LMA_PC[["beta"]]` (95% CI: `r SMD_S_LMA_PC[["ci.lb"]]` to `r SMD_S_LMA_PC[["ci.ub"]]`) with a prediction interval of `r predict(SMD_S_LMA_PC)$pi.lb` to `r predict(SMD_S_LMA_PC)$pi.ub`.
 
-Between-strain variance was `r SMD_S_LMA_PC$sigma2[1]`, between-study variance was `r SMD_S_LMA_PC$sigma2[2]`, and within-study variance (between experiments) was `r SMD_S_LMA_PC$sigma2[3]` \### 4.3.2 Outcome 2: Cognition (a secondary outcome)
+
+Between-strain variance was `r SMD_S_LMA_PC$sigma2[1]`, between-study variance was `r SMD_S_LMA_PC$sigma2[2]`, and within-study variance (between experiments) was `r SMD_S_LMA_PC$sigma2[3]`
+
+### 4.3.2 Outcome 2: Cognition (a secondary outcome)
+
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-SMD_S_Cog_PC <- run_ML_SMD(df, "TvA", "Cognition", 0.5)
+SMD_S_Cog_PC <- run_ML_SMD(df, "AvC", "Cognition", 0.5)
 ```
 
-**Figure n**
+
+**Figure 4.3.2**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=10}
 forest_metafor(SMD_S_Cog_PC, "AvC","Cognition")
@@ -576,9 +619,29 @@ For positive control experiments, known antipsychotic drugs had a pooled effect 
 
 Between-strain variance was `r SMD_S_Cog_PC$sigma2[1]`, between-study variance was `r SMD_S_Cog_PC$sigma2[2]`, and within-study variance (between experiments) was `r SMD_S_Cog_PC$sigma2[3]`
 
-# 5. Subgroup analyses
+# 4.4 Combination treatment (TAAR1 Agonist plus conventional antipsychotic v conventional antipsychotic alone)
 
-<!--# No need to separate subgroup analyses and meta-regression as they are the same thing - they should be in the same section -->
+### 4.4.1 Outcome 1: Locomotor activity (a primary outcome)
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_LMA_TAA <- run_ML_SMD(df, "TAvA", "Locomotor activity", 0.5)
+```
+
+**Figure 4.4.1**
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=10}
+forest_metafor(SMD_S_LMA_TAA, "TAvA","Locomotor activity")
+```
+
+For positive control experiments, known antipsychotic drugs had a pooled effect on locomotor activity of SMD = `r SMD_S_LMA_TAA[["beta"]]` (95% CI: `r SMD_S_LMA_TAA[["ci.lb"]]` to `r SMD_S_LMA_TAA[["ci.ub"]]` with a prediction interval of `r predict(SMD_S_LMA_TAA)$pi.lb` to `r predict(SMD_S_LMA_TAA)$pi.ub`.
+
+Between-strain variance was `r SMD_S_LMA_TAA$sigma2[1]`, between-study variance was `r SMD_S_LMA_TAA$sigma2[2]`, and within-study variance (between experiments) was `r SMD_S_LMA_TAA$sigma2[3]`
+
+### 4.4.2 Outcome 2: Cognition (a secondary outcome)
+
+No such studies were identified
+
+# 5. Metaregression
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 options(scipen=100, digits=3)
@@ -602,9 +665,11 @@ For each outcome, the covariates of interest for subgroup analyses were:
 
 -   **The selectivity of the drug**
 
-We also conducted subgroup analyses using **(1) SYRCLE Risk of Bias** and **(2) ARRIVE reporting quality** assessment scores as covariates to evaluate their influence on effect size estimates.
+-   **Potency of the intervention**
 
-<!--# these were not specified in the protocol, are they post-hoc because we could not run any low-risk RoB only sensitivity analysis? -->
+-   **Dose of intervention**
+
+We also conducted subgroup analyses using **(1) SYRCLE Risk of Bias** and **(2) ARRIVE reporting quality** assessment scores as covariates to evaluate their influence on effect size estimates. These were not specified in the study protocol, but evaluation of risk of bias is required for the Sammary of Evidence table, and no studies were considered at low risk of bias or high reporting quality to allow such a sensitivity analysis
 
 ## 5.1 Simple interventions
 
@@ -612,9 +677,9 @@ We also conducted subgroup analyses using **(1) SYRCLE Risk of Bias** and **(2) 
 
 ##### 5.1.1.1 Sex
 
-Figure 4 displays the estimates for the pooled SMD's when comparisons are stratified by sex of the animal. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by sex, is displayed as a diamond shape at the bottom of the plot.
+Figure 5.1.1.1 displays the estimates for the pooled SMD's when comparisons are stratified by sex of the animal. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by sex, is displayed as a diamond shape at the bottom of the plot.
 
-**Figure 4**
+**Figure 5.1.1.1**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', fig.width=8.5, fig.height=3}
 SMD_S_LMA_sex <- plot_subgroup_analysis(df, "TvC", "Locomotor activity", "Sex", 0.5)
@@ -626,11 +691,14 @@ The pooled SMD estimate for male animals was `r SMD_S_LMA_sex$subgroup_rma_summa
 
 ##### 5.1.1.2 Category of disease induction
 
-Figure 5 displays the estimates for the pooled SMD's when comparisons are stratified by the category of disease induction. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by category of disease induction, is displayed as a diamond shape at the bottom of the plot.
+Figure 5.1.1.2 displays the estimates for the pooled SMD's when comparisons are stratified by the category of disease induction. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by category of disease induction, is displayed as a diamond shape at the bottom of the plot.
 
-**Figure 5**
+
+**Figure 5.1.1.2**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', fig.width=11, fig.height=2.5}
+
+
 SMD_S_LMA_CatDisInd <- plot_subgroup_analysis(df, "TvC", "Locomotor activity", "CategoryDiseaseInduction", 0.5)
 ```
 
@@ -640,11 +708,14 @@ The pooled SMD estimate for comparisons using pharmacological methods to induce 
 
 ##### 5.1.1.3 Route of intervention administration
 
-Figure 6 displays the estimates for the pooled SMD's when comparisons are stratified by the route of intervention administration. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by route of intervention administration, is displayed as a diamond shape at the bottom of the plot.
+Figure 5.1.1.3 displays the estimates for the pooled SMD's when comparisons are stratified by the route of intervention administration. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by route of intervention administration, is displayed as a diamond shape at the bottom of the plot.
 
-**Figure 6**
+
+**Figure 5.1.1.3**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', fig.width=9, fig.height=2}
+
+
 SMD_S_LMA_AdminRoute <- plot_subgroup_analysis(df, "TvC", "Locomotor activity", "InterventionAdministrationRoute", 0.5)
 ```
 
@@ -654,9 +725,10 @@ The pooled SMD estimate for experiments administering the TAAR1 agonist intraper
 
 ##### 5.1.1.4 Prophylactic or therapeutic intervention
 
-Figure 7 displays the estimates for the pooled SMD's when comparisons are stratified by whether the intervention was administered prophylactically or therapeutically. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by whether the intervention was administered prophylactically or therapeutically, is displayed as a diamond shape at the bottom of the plot.
+Figure 5.1.1.4 displays the estimates for the pooled SMD's when comparisons are stratified by whether the intervention was administered prophylactically or therapeutically. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by whether the intervention was administered prophylactically or therapeutically, is displayed as a diamond shape at the bottom of the plot.
 
-**Figure 7**
+
+**Figure 5.1.1.4**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', fig.width=9, fig.height=3}
 SMD_S_LMA_ProphThera <- plot_subgroup_analysis(df, "TvC", "Locomotor activity", "ProphylacticOrTherapeutic", 0.5)
@@ -672,9 +744,10 @@ In this iteration of the review, all relevant comparisons administered the TAAR1
 
 ##### 5.1.1.6 The intervention administered
 
-Figure 8 displays the estimates for the pooled SMD's when comparisons are stratified by the intervention administered. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by the intervention administered, is displayed as a diamond shape at the bottom of the plot.
+Figure 5.1.1.6 displays the estimates for the pooled SMD's when comparisons are stratified by the intervention administered. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by the intervention administered, is displayed as a diamond shape at the bottom of the plot.
 
-**Figure 8**
+
+**Figure 5.1.1.6**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', fig.width=9, fig.height=5}
 SMD_S_LMA_Drug <- plot_subgroup_analysis(df, "TvC", "Locomotor activity", "DrugName", 0.5)
@@ -686,9 +759,10 @@ The pooled SMD estimate for experiments administering the TAAR1 agonist SEP-3638
 
 ##### 5.1.1.7 The efficacy of the drug (i.e. whether the drug is a partial or full agonist)
 
-Figure 9 displays the estimates for the pooled SMD's when comparisons are stratified by the action/efficacy of the intervention administered. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by intervention efficacy, is displayed as a diamond shape at the bottom of the plot.
+Figure 5.1.1.7 displays the estimates for the pooled SMD's when comparisons are stratified by the action/efficacy of the intervention administered. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by intervention efficacy, is displayed as a diamond shape at the bottom of the plot.
 
-**Figure 9**
+
+**Figure 5.1.1.7**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', fig.width=9, fig.height=5}
 SMD_S_LMA_DrugEfficacy <- plot_subgroup_analysis(df, "TvC", "Locomotor activity", "Efficacy", 0.5)
@@ -700,9 +774,10 @@ The pooled SMD estimate for experiments administering a TAAR1 partial agonist wa
 
 ##### 5.1.1.8 The selectivity of the drug
 
-Figure 10 displays the estimates for the pooled SMD's when comparisons are stratified by the selectivity of the intervention administered. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by intervention selectivity, is displayed as a diamond shape at the bottom of the plot.
+Figure 5.1.1.8 displays the estimates for the pooled SMD's when comparisons are stratified by the selectivity of the intervention administered. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by intervention selectivity, is displayed as a diamond shape at the bottom of the plot.
 
-**Figure 10**
+
+**Figure 5.1.1.8**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', fig.width=9, fig.height=5}
 SMD_S_LMA_DrugSelectivity <- plot_subgroup_analysis(df, "TvC", "Locomotor activity", "Selectivity", 0.5)
@@ -712,11 +787,244 @@ TAAR1 agonists with high selectivity were used in `r SMD_S_LMA_DrugSelectivity$s
 
 The pooled SMD estimate for experiments administering a TAAR1 agonist with high selectivity was `r SMD_S_LMA_DrugSelectivity$subgroup_rma_summary[SMD_S_LMA_DrugSelectivity$subgroup_rma_summary$Selectivity == "High", "SMD"]`. The estimate for experiments administering a TAAR1 agonist with low selectivity was `r SMD_S_LMA_DrugSelectivity$subgroup_rma_summary[SMD_S_LMA_DrugSelectivity$subgroup_rma_summary$Selectivity == "Low (5HT1A partial agonism)", "SMD"]`, and for those experiments administering a TAAR1 agonist with an unknown selectivity `r SMD_S_LMA_DrugSelectivity$subgroup_rma_summary[SMD_S_LMA_DrugSelectivity$subgroup_rma_summary$Selectivity == "Unclear", "SMD"]`.
 
-##### 5.1.1.9 SYRCLE RoB assessment
+#### 5.1.1.9 Potency of intervention
 
-Figure 5.1.1.9 displays the estimates for the pooled SMD's when comparisons are stratified by how many of the SYRCLE risk of bias assessment criteria (of which there are 10) that the experiment met. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by SYRCLE RoB assessment, is displayed as a diamond shape at the bottom of the plot.
+The pEC50 value of each drug was used to measure potency. The pEC50 value is the negative logarithm (to base 10) of the EC50 value. Higher pEC50 values indicate higher potency (as they indicate a lower EC50). Figure x displays a visualisation of the meta-regression using the pEC50 value as an explanatory variable. Dashed lines represent the 95% confidence interval of the regression line. The dotted lines represent the 95% prediction interval. Raw data is plotted with 'bubble' size adjusted according to effect size precision.
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_LMA_potency <- metaregression_analysis(df, "TvC", "Locomotor activity", "pE50", 0.5)
+
+```
 
 **Figure 5.1.1.9**
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
+SMD_S_LMA_potency$regression_plot
+```
+
+The estimate for $\theta$ was `r SMD_S_LMA_potency$metaregression_summary$beta[1]`. This gives the predicted SMD when the pEC50 of the intervention is 0. Note that this should be interpreted with caution; since the logarithm of zero is undefined (it tends towards negative infinity), a pEC50 value cannot be 0 unless the EC50 is 1 mol/L. The estimate for $\theta$ can be interpreted as the estimated SMD when the EC50 is 1 mol/L (1000mM), which signifies extremely low potency.
+
+The estimate for $\beta$ was `r SMD_S_LMA_potency$metaregression_summary$beta[2]`. This represents the predicted regression weight for the pEC50 of the intervention.
+
+
+
+#### 5.1.1.10 Dose of intervention
+
+In this iteration of the review, the TAAR1 agonists administered in 'simple intervention' experiments (ordered by number of experiments) were; **`r drugs <- df %>% filter(SortLabel == "TvC") %>% filter(outcome_type == "Locomotor activity") %>% group_by(DrugName) %>% summarise(count = n()) %>% arrange(desc(count)) %>% pull(DrugName); if (length(drugs) > 1) {paste(paste(head(drugs, -1), collapse = ", "), "and", tail(drugs, 1))} else {drugs}`**. Meta-regression using the administered dose as an explanatory variable was first conducted individually for each drug/intervention. This approach accounts for varying mechanisms of action, pharmacodynamics, and pharmacokinetics of each drug, ensuring that the dose effect of one intervention is not masked by aggregate data.
+
+
+In the following plots, dashed lines represent the 95% confidence interval of the regression line and dotted lines represent the 95% prediction interval. Raw data is plotted with point size adjusted according to effect size precision.
+
+
+##### 5.1.1.10.1 SEP-363856 (Ultaront)
+
+Figure 5.1.1.10.1 provides a visualisation of the meta-regression analysis predicting the response, measured as the Standardized Mean Difference (SMD), in locomotor activity to varying doses of SEP-363856 (in mg/kg).
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_LMA_SEP363856_dose <- metaregression_analysis_by_drug(df, "TvC", "Locomotor activity", "SEP-363856", "DoseOfIntervention_mgkg", 0.5)
+```
+
+**Figure 5.1.1.10.1**
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
+SMD_S_LMA_SEP363856_dose$regression_plot
+```
+
+The estimate for $\theta$ was `r SMD_S_LMA_SEP363856_dose$metaregression_summary$beta[1]`. The estimate for $\beta$ was `r SMD_S_LMA_SEP363856_dose$metaregression_summary$beta[2]`.
+
+
+##### 5.1.1.10.2 RO5203648
+
+Figure 5.1.1.10.2 provides a visualisation of the meta-regression analysis predicting the response, measured as the Standardized Mean Difference (SMD), in locomotor activity to varying doses of RO5203648 (in mg/kg).
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_LMA_RO5203648_dose <- metaregression_analysis_by_drug(df, "TvC", "Locomotor activity", "RO5203648", "DoseOfIntervention_mgkg", 0.5)
+
+```
+
+**Figure 5.1.1.10.2**
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
+SMD_S_LMA_RO5203648_dose$regression_plot
+```
+
+The estimate for $\theta$ was `r SMD_S_LMA_RO5203648_dose$metaregression_summary$beta[1]`. The estimate for $\beta$ was `r SMD_S_LMA_RO5203648_dose$metaregression_summary$beta[2]`.
+
+
+##### 5.1.1.10.3 RO5166017
+
+Figure 5.1.1.10.3 provides a visualisation of the meta-regression analysis predicting the response, measured as the Standardized Mean Difference (SMD), in locomotor activity to varying doses of RO5166017 (in mg/kg).
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_LMA_RO5166017_dose <- metaregression_analysis_by_drug(df, "TvC", "Locomotor activity", "RO5166017", "DoseOfIntervention_mgkg", 0.5)
+
+```
+
+**Figure 5.1.1.10.3**
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
+SMD_S_LMA_RO5166017_dose$regression_plot
+```
+
+The estimate for $\theta$ was `r SMD_S_LMA_RO5166017_dose$metaregression_summary$beta[1]`. The estimate for $\beta$ was `r SMD_S_LMA_RO5166017_dose$metaregression_summary$beta[2]`.
+
+
+##### 5.1.1.10.4 RO5263397
+
+Figure 5.1.1.10.4 provides a visualisation of the meta-regression analysis predicting the response, measured as the Standardized Mean Difference (SMD), in locomotor activity to varying doses of RO5263397 (in mg/kg).
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_LMA_RO5263397_dose <- metaregression_analysis_by_drug(df, "TvC", "Locomotor activity", "RO5263397", "DoseOfIntervention_mgkg", 0.5)
+
+```
+
+**Figure 5.1.1.10.4**
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
+SMD_S_LMA_RO5263397_dose$regression_plot
+```
+
+The estimate for $\theta$ was `r SMD_S_LMA_RO5263397_dose$metaregression_summary$beta[1]`. The estimate for $\beta$ was `r SMD_S_LMA_RO5263397_dose$metaregression_summary$beta[2]`.
+
+##### 5.1.1.10.5 RO5256390
+
+Figure 5.1.1.10.5 provides a visualisation of the meta-regression analysis predicting the response, measured as the Standardized Mean Difference (SMD), in locomotor activity to varying doses of RO5256390 (in mg/kg).
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_LMA_RO5256390_dose <- metaregression_analysis_by_drug(df, "TvC", "Locomotor activity", "RO5256390", "DoseOfIntervention_mgkg", 0.5)
+```
+
+**Figure 5.1.1.10.5**
+
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
+SMD_S_LMA_RO5256390_dose$regression_plot
+```
+
+##### 5.1.1.10.6 LK000764
+
+Figure 5.1.1.10.6 provides a visualisation of the meta-regression analysis predicting the response, measured as the Standardized Mean Difference (SMD), in locomotor activity to varying doses of LK000764 (in mg/kg).
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_LMA_LK000764_dose <- metaregression_analysis_by_drug(df, "TvC", "Locomotor activity", "LK000764", "DoseOfIntervention_mgkg", 0.5)
+
+```
+
+**Figure 5.1.1.10.6**
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
+SMD_S_LMA_LK000764_dose$regression_plot
+```
+
+The estimate for $\theta$ was `r SMD_S_LMA_LK000764_dose$metaregression_summary$beta[1]`. The estimate for $\beta$ was `r SMD_S_LMA_LK000764_dose$metaregression_summary$beta[2]`.
+
+##### 5.1.1.10.7 Compound 50B
+
+Figure 5.1.1.10.7 provides a visualisation of the meta-regression analysis predicting the response, measured as the Standardized Mean Difference (SMD), in locomotor activity to varying doses of Compound 50B (in mg/kg).
+
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_LMA_Compound50B_dose <- metaregression_analysis_by_drug(df, "TvC", "Locomotor activity", "Compound 50B", "DoseOfIntervention_mgkg", 0.5)
+```
+
+**Figure 5.1.1.10.7**
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
+SMD_S_LMA_Compound50B_dose$regression_plot
+
+```
+
+The estimate for $\theta$ was `r SMD_S_LMA_Compound50B_dose$metaregression_summary$beta[1]`. The estimate for $\beta$ was `r SMD_S_LMA_Compound50B_dose$metaregression_summary$beta[2]`.
+
+##### 5.1.1.10.8 Compound 50A
+
+Figure 5.1.1.10.8 provides a visualisation of the meta-regression analysis predicting the response, measured as the Standardized Mean Difference (SMD), in locomotor activity to varying doses of Compound 50A (in mg/kg).
+
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_LMA_Compound50A_dose <- metaregression_analysis_by_drug(df, "TvC", "Locomotor activity", "Compound 50A", "DoseOfIntervention_mgkg", 0.5)
+```
+
+**Figure 5.1.1.10.8**
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
+SMD_S_LMA_Compound50A_dose$regression_plot
+
+```
+
+The estimate for $\theta$ was `r SMD_S_LMA_Compound50A_dose$metaregression_summary$beta[1]`. The estimate for $\beta$ was `r SMD_S_LMA_Compound50A_dose$metaregression_summary$beta[2]`.
+
+##### 5.1.1.10.9 RO5073012
+
+Figure 5.1.1.10.9 provides a visualisation of the meta-regression analysis predicting the response, measured as the Standardized Mean Difference (SMD), in locomotor activity to varying doses of RO5073012 (in mg/kg).
+
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_LMA_RO5073012_dose <- metaregression_analysis_by_drug(df, "TvC", "Locomotor activity", "RO5073012", "DoseOfIntervention_mgkg", 0.5)
+```
+
+**Figure 5.1.1.10.9**
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
+SMD_S_LMA_RO5073012_dose$regression_plot
+
+```
+
+The estimate for $\theta$ was `r SMD_S_LMA_RO5073012_dose$metaregression_summary$beta[1]`. The estimate for $\beta$ was `r SMD_S_LMA_RO5073012_dose$metaregression_summary$beta[2]`.
+
+##### 5.1.1.10.10 AP163
+
+Figure 5.1.1.10.10 provides a visualisation of the meta-regression analysis predicting the response, measured as the Standardized Mean Difference (SMD), in locomotor activity to varying doses of AP163 (in mg/kg).
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_LMA_AP163_dose <- metaregression_analysis_by_drug(df, "TvC", "Locomotor activity", "AP163", "DoseOfIntervention_mgkg", 0.5)
+```
+
+**Figure 5.1.1.10.10**
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
+SMD_S_LMA_AP163_dose$regression_plot
+```
+
+The estimate for $\theta$ was `r SMD_S_LMA_AP163_dose$metaregression_summary$beta[1]`. The estimate for $\beta$ was `r SMD_S_LMA_AP163_dose$metaregression_summary$beta[2]`.
+
+##### 5.1.1.10.11 Standardised dose
+
+We then sought evidence of a dose response relationship across all drugs. To do this, we conducted meta-regression using a standardised dose variable. This variable quantifies the administered dose as a multiple of the drug's EC50, indicating how many times the dose administered was greater (or lesser) than the concentration needed to achieve half-maximal effect. For example, if a drug's dose is twice its EC50, the standardized dose would be 2, indicating that the dose is twice the concentration needed to achieve half-maximal effect.
+
+The standardised dose was calculated by dividing the log-transformed dose of the intervention (in mg/kg) by the product of the intervention's EC50 (in moles) and the Molar mass of the drug (in mg/mol):
+
+$$
+\frac{\log(\text{Dose of Intervention (mg/kg)})}{(\text{Molar Mass (g/mol)} \times 1000) \times (\frac{\text{EC50 (micromoles)}}{1000000})}
+$$
+
+**This is a simplified approximation based on the reasoning that if drug actions are mediated through the TAAR1 receptor, and drug efficacy is reflected in the respective EC50 values, then theoretically drugs should exhibit similar effects when acting at their respective EC50.**
+
+The actual concentration of a drug at the receptor site is influenced by several variables, including dosage, administration route, elimination half-life, and first-pass metabolism (in case of oral administration). Incorporating all these factors accurately would necessitate a detailed pharmacokinetic model, which falls outside the scope of this review. Consequently, we assume uniformity across experiments in terms of (i) volume of distribution, (ii) first-pass metabolism, (iii) blood-brain barrier permeability, and (iv) experimental design, especially regarding the timing of peak drug concentration (where we assume that experiments were designed to be done at a time when the drug was near peak concentration).
+
+Figure x provides a visualisation of the meta-regression analysis predicting the response, measured as the Standardized Mean Difference (SMD), in locomotor activity to varying standardised doses of TAAR1 agonists. As before, dashed lines represent the 95% confidence interval of the regression line and dotted lines represent the 95% prediction interval. Raw data is plotted with point size adjusted according to effect size precision.
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+
+SMD_S_LMA_StandardDose <- metaregression_analysis(df, "TvC", "Locomotor activity", "StandardisedDose", 0.5)
+
+```
+
+**Figure 5.1.1.10.11**
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
+SMD_S_LMA_StandardDose$regression_plot
+```
+
+The estimate for $\theta$ was `r SMD_S_LMA_StandardDose$metaregression_summary$beta[1]`. The estimate for $\beta$ was `r SMD_S_LMA_StandardDose$metaregression_summary$beta[2]`.
+
+##### 5.1.1.11 SYRCLE RoB assessment
+
+Figure 5.1.2.11 displays the estimates for the pooled SMD's when comparisons are stratified by how many of the SYRCLE risk of bias assessment criteria (of which there are 10) that the experiment met. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by SYRCLE Risk of Bias, is displayed as a diamond shape at the bottom of the plot.
+
+
+**Figure 5.1.1.11**
+
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', fig.width=9, fig.height=5}
 SMD_S_LMA_SYRCLERoB <- plot_subgroup_analysis(df, "TvC", "Locomotor activity", "RoBScore", 0.5)
@@ -724,15 +1032,19 @@ SMD_S_LMA_SYRCLERoB <- plot_subgroup_analysis(df, "TvC", "Locomotor activity", "
 
 `r SMD_S_LMA_SYRCLERoB$subgroup_rma_summary[SMD_S_LMA_SYRCLERoB$subgroup_rma_summary$RoBScore == "0 criteria met", "k"]` experiments met none of the SYRCLE Risk of Bias criteria. `r SMD_S_LMA_SYRCLERoB$subgroup_rma_summary[SMD_S_LMA_SYRCLERoB$subgroup_rma_summary$RoBScore == "1 criteria met", "k"]` experiments met one of the SYRCLE Risk of Bias criteria. `r SMD_S_LMA_SYRCLERoB$subgroup_rma_summary[SMD_S_LMA_SYRCLERoB$subgroup_rma_summary$RoBScore == "2 criteria met", "k"]` experiments met two of the SYRCLE Risk of Bias criteria. No experiments met more than two of the SYRCLE Risk of Bias criteria.
 
+
 The pooled SMD estimate for the effect of TAAR1 agonists on locomotor activity in experiments that met none of the SYRCLE Risk of Bias criteria was `r SMD_S_LMA_SYRCLERoB$subgroup_rma_summary[SMD_S_LMA_SYRCLERoB$subgroup_rma_summary$RoBScore == "0 criteria met", "SMD"]`. The estimate for experiments that met one of the SYRCLE Risk of Bias criteria was `r SMD_S_LMA_SYRCLERoB$subgroup_rma_summary[SMD_S_LMA_SYRCLERoB$subgroup_rma_summary$RoBScore == "1 criteria met", "SMD"]`, and for those experiments that met two of the SYRCLE Risk of Bias criteria `r SMD_S_LMA_SYRCLERoB$subgroup_rma_summary[SMD_S_LMA_SYRCLERoB$subgroup_rma_summary$RoBScore == "2 criteria met", "SMD"]`.
 
-##### 5.1.1.10 ARRIVE reporting quality guidelines
+Figure 5.1.1.11 displays the estimates for the pooled SMD's when comparisons are stratified by this categorisation that the experiment met. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by SyRCLE Risk of Bias score, is displayed as a diamond shape at the bottom of the plot.
+
+##### 5.1.1.12 ARRIVE reporting quality guidelines
+
 
 Experiments were categorised based on the number of ARRIVE guidelines (of which there are 23) met. The categorisation was as follows: Experiments meeting 3 or fewer criteria were labeled as "A: \< 3 criteria met"; those meeting 4 to 7 criteria were labeled "B: 4-7 criteria met"; for 8 to 11 criteria, "C: 8-11 criteria met"; for 12 to 15 criteria, "D: 12-15 criteria met"; for 16 to 19 criteria, "E: 16-19 criteria met"; and experiments meeting more than 19 criteria were labeled as "F: \> 20 criteria met".
 
-Figure 5.1.1.10 displays the estimates for the pooled SMD's when comparisons are stratified by this categorisation that the experiment met. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by ARRIVE reporting quality guidelines, is displayed as a diamond shape at the bottom of the plot.
+Figure 5.1.1.12 displays the estimates for the pooled SMD's when comparisons are stratified by this categorisation that the experiment met. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by ARRIVE reporting quality guidelines, is displayed as a diamond shape at the bottom of the plot.
 
-**Figure 5.1.1.10**
+**Figure 5.1.1.12**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', fig.width=9, fig.height=5}
 SMD_S_LMA_ARRIVE <- plot_subgroup_analysis(df, "TvC", "Locomotor activity", "ARRIVEScoreCat", 0.5)
@@ -742,7 +1054,8 @@ SMD_S_LMA_ARRIVE <- plot_subgroup_analysis(df, "TvC", "Locomotor activity", "ARR
 
 The pooled SMD estimate for the effect of TAAR1 agonists on locomotor activity in experiments that met between 4-7 of the ARRIVE reporting quality criteria was `r SMD_S_LMA_ARRIVE$subgroup_rma_summary[SMD_S_LMA_ARRIVE$subgroup_rma_summary$ARRIVEScoreCat == "4-7 criteria met", "SMD"]`. The estimate for experiments that met between 8-11 of the ARRIVE reporting quality criteria was `r SMD_S_LMA_ARRIVE$subgroup_rma_summary[SMD_S_LMA_ARRIVE$subgroup_rma_summary$ARRIVEScoreCat == "8-11 criteria met", "SMD"]`, for those experiments that met between 12-15 of the ARRIVE reporting quality criteria `r SMD_S_LMA_ARRIVE$subgroup_rma_summary[SMD_S_LMA_ARRIVE$subgroup_rma_summary$ARRIVEScoreCat == "12-15 criteria met", "SMD"]`, and for those experiments that met between 16-19 of the ARRIVE reporting quality criteria `r SMD_S_LMA_ARRIVE$subgroup_rma_summary[SMD_S_LMA_ARRIVE$subgroup_rma_summary$ARRIVEScoreCat == "16-19 criteria met", "SMD"]`.
 
-##### 5.1.1.11 Heterogeneity explained by covariates (simple interventions on locomotor activity)
+
+##### 5.1.1.13 Heterogeneity explained by covariates (simple interventions on locomotor activity)
 
 The table below shows which of the covariates, if any, explain some of the heterogeneity observed in the effect sizes of the effect of TAAR1 agonists on locomotor activity. We present marginal R^2^, which measures the proportion of variance explained by including moderators in the model.
 
@@ -791,11 +1104,13 @@ The table below shows which of the covariates, if any, explain some of the heter
 |                    \-                    |  *12-15 criteria met*   |     `r SMD_S_LMA_ARRIVE$subgroup_analysis$beta[3]`      |          `r SMD_S_LMA_ARRIVE$subgroup_analysis$ci.lb[3]` - `r SMD_S_LMA_ARRIVE$subgroup_analysis$ci.ub[3]`          |                            \-                             |
 |                    \-                    |  *16-19 criteria met*   |     `r SMD_S_LMA_ARRIVE$subgroup_analysis$beta[4]`      |          `r SMD_S_LMA_ARRIVE$subgroup_analysis$ci.lb[4]` - `r SMD_S_LMA_ARRIVE$subgroup_analysis$ci.ub[4]`          |                            \-                             |
 
+
 ### 5.1.2 Outcome 2: Cognition
 
 ##### 5.1.2.1 Sex
 
 Figure 5.1.2.1 displays the estimates for the pooled SMD's when comparisons are stratified by sex of the animal. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by sex, is displayed as a diamond shape at the bottom of the plot.
+
 
 **Figure 5.1.2.1**
 
@@ -805,19 +1120,22 @@ SMD_S_cog_sex <- plot_subgroup_analysis(df, "TvC", "Cognition", "Sex", 0.5)
 
 `r SMD_S_cog_sex$subgroup_rma_summary[SMD_S_cog_sex$subgroup_rma_summary$Sex == "Not reported", "k"]` comparisons did not report the sex of the animals used within the experimental cohort. `r SMD_S_cog_sex$subgroup_rma_summary[SMD_S_cog_sex$subgroup_rma_summary$Sex == "Male", "k"]` comparisons used cohorts of only male animals and `r SMD_S_cog_sex$subgroup_rma_summary[SMD_S_cog_sex$subgroup_rma_summary$Sex == "Female", "k"]` comparisons used cohorts of only female animals. There were `r SMD_S_cog_sex$subgroup_rma_summary[SMD_S_cog_sex$subgroup_rma_summary$Sex == "Mixed male and female", "k"]` comparisons using cohorts of both male and female animals.
 
+
 The pooled SMD estimate for male animals was `r SMD_S_cog_sex$subgroup_rma_summary[SMD_S_cog_sex$subgroup_rma_summary$Sex == "Male", "SMD"]`, for females `r SMD_S_cog_sex$subgroup_rma_summary[SMD_S_cog_sex$subgroup_rma_summary$Sex == "Female", "SMD"]`, and for mixed cohorts `r SMD_S_cog_sex$subgroup_rma_summary[SMD_S_cog_sex$subgroup_rma_summary$Sex == "Mixed male and female", "SMD"]`.
 
 ##### 5.1.2.2 Category of disease induction
 
 Figure 5.1.2.2 displays the estimates for the pooled SMD's when comparisons are stratified by the category of disease induction. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by category of disease induction, is displayed as a diamond shape at the bottom of the plot.
 
+
 **Figure 5.1.2.2**
 
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', fig.width=12, fig.height=5}
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', fig.width=9, fig.height=5}
 SMD_S_cog_CatDisInd <- plot_subgroup_analysis(df, "TvC", "Cognition", "CategoryDiseaseInduction", 0.5)
 ```
 
 `r SMD_S_cog_CatDisInd$subgroup_rma_summary[SMD_S_cog_CatDisInd$subgroup_rma_summary$CategoryDiseaseInduction == "Pharmacological (e.g. psychostimulants, NMDA antagonists)", "k"]` comparisons used pharmacological methods to induce the disease model. `r SMD_S_cog_CatDisInd$subgroup_rma_summary[SMD_S_cog_CatDisInd$subgroup_rma_summary$CategoryDiseaseInduction == "Genetic (e.g. DISC1 KO, DAT KO, D2R overexpression)", "k"]` comparisons used genetic methods to induce the disease model.
+
 
 The pooled SMD estimate for comparisons using pharmacological methods to induce the disease model was `r SMD_S_cog_CatDisInd$subgroup_rma_summary[SMD_S_cog_CatDisInd$subgroup_rma_summary$CategoryDiseaseInduction == "Pharmacological (e.g. psychostimulants, NMDA antagonists)", "SMD"]`, and for comparisons using genetic methods to induce the disease model `r SMD_S_cog_CatDisInd$subgroup_rma_summary[SMD_S_cog_CatDisInd$subgroup_rma_summary$CategoryDiseaseInduction == "Genetic (e.g. DISC1 KO, DAT KO, D2R overexpression)", "SMD"]`.
 
@@ -825,13 +1143,15 @@ The pooled SMD estimate for comparisons using pharmacological methods to induce 
 
 Figure 5.1.2.3 displays the estimates for the pooled SMD's when comparisons are stratified by the administration route of the intervention. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by administration route of the intervention, is displayed as a diamond shape at the bottom of the plot.
 
+
 **Figure 5.1.2.3**
 
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', fig.width=11, fig.height=5}
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', fig.width=9, fig.height=5}
 SMD_S_cog_AdminRoute <- plot_subgroup_analysis(df, "TvC", "Cognition", "InterventionAdministrationRoute", 0.5)
 ```
 
 `r SMD_S_cog_AdminRoute$subgroup_rma_summary[SMD_S_cog_AdminRoute$subgroup_rma_summary$InterventionAdministrationRoute == "Intraperitoneal (IP) injection", "k"]` comparisons administered the TAAR1 agonist intraperitoneally. `r SMD_S_cog_AdminRoute$subgroup_rma_summary[SMD_S_cog_AdminRoute$subgroup_rma_summary$InterventionAdministrationRoute == "Oral administration/gavage", "k"]` comparisons administered the TAAR1 agonist orally.
+
 
 The pooled SMD estimate for experiments administering the TAAR1 agonist intraperitoneally was `r SMD_S_cog_AdminRoute$subgroup_rma_summary[SMD_S_cog_AdminRoute$subgroup_rma_summary$InterventionAdministrationRoute == "Intraperitoneal (IP) injection", "SMD"]`, and for experiments administering the TAAR1 agonist orally `r SMD_S_cog_AdminRoute$subgroup_rma_summary[SMD_S_cog_AdminRoute$subgroup_rma_summary$InterventionAdministrationRoute == "Oral administration/gavage", "SMD"]`.
 
@@ -839,7 +1159,9 @@ The pooled SMD estimate for experiments administering the TAAR1 agonist intraper
 
 In this iteration of the review, all relevant comparisons administered the TAAR1 agonist after induction of the disease model. Therefore, no subgroup analyses were conducted for this variable.
 
+
 ##### 5.1.2.5 Duration of treatment period
+
 
 In this iteration of the review, all relevant comparisons administered the TAAR1 agonist for \< 1 week. Therefore, no subgroup analyses were conducted for this variable.
 
@@ -859,7 +1181,9 @@ The pooled SMD estimate for experiments administering the TAAR1 agonist SEP-3638
 
 ##### 5.1.2.7 The efficacy of the drug (i.e. whether the drug is a partial or full agonist)
 
+
 In this iteration of the review, all relevant comparisons administered the TAAR1 agonists with partial agonist activity. Therefore, no subgroup analyses were conducted for this variable.
+
 
 ##### 5.1.2.8 The selectivity of the drug
 
@@ -875,11 +1199,133 @@ TAAR1 agonists with high selectivity were used in `r SMD_S_cog_DrugSelectivity$s
 
 The pooled SMD estimate for experiments administering TAAR1 agonists with high selectivity was `r SMD_S_cog_DrugSelectivity$subgroup_rma_summary[SMD_S_cog_DrugSelectivity$subgroup_rma_summary$Selectivity == "High", "SMD"]`, and for experiments administering TAAR1 agonists with low selectivity `r SMD_S_cog_DrugSelectivity$subgroup_rma_summary[SMD_S_cog_DrugSelectivity$subgroup_rma_summary$Selectivity == "Low (5HT1A partial agonism)", "SMD"]`.
 
-##### 5.1.2.9 SYRCLE RoB assessment
+#### 5.1.2.9 Potency of intervention
 
-Figure 5.1.2.9 displays the estimates for the pooled SMD's when comparisons are stratified by how many of the SYRCLE risk of bias assessment criteria (of which there are 10) that the experiment met. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by SYRCLE RoB assessment, is displayed as a diamond shape at the bottom of the plot.
+The pEC50 value of each drug was used to measure potency. The pEC50 value is the negative logarithm (to base 10) of the EC50 value. Higher pEC50 values indicate higher potency (as they indicate a lower EC50). Figure x displays a visualisation of the meta-regression using the pEC50 value as an explanatory variable. Dashed lines represent the 95% confidence interval of the regression line. The dotted lines represent the 95% prediction interval. Raw data is plotted with 'bubble' size adjusted according to effect size precision.
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+
+SMD_S_cog_potency <- metaregression_analysis(df, "TvC", "Cognition", "pE50", 0.5)
+
+```
 
 **Figure 5.1.2.9**
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
+SMD_S_cog_potency$regression_plot
+```
+
+The estimate for $\theta$ was `r SMD_S_cog_potency$metaregression_summary$beta[1]`. This gives the predicted SMD when the pEC50 of the intervention is 0. Note that this should be interpreted with caution; since the logarithm of zero is undefined (it tends towards negative infinity), a pEC50 value cannot be 0 unless the EC50 is 1 mol/L. The estimate for $\theta$ can be interpreted as the estimated SMD when the EC50 is 1 mol/L (1000mM), which signifies extremely low potency.
+
+The estimate for $\beta$ was `r SMD_S_cog_potency$metaregression_summary$beta[2]`. This represents the predicted regression weight for the pEC50 of the intervention.
+
+#### 5.1.2.10 Dose of intervention
+
+In this iteration of the review, the TAAR1 agonists administered in 'simple intervention' experiments (ordered by number of experiments) were; **`r drugs <- df %>% filter(SortLabel == "TvC") %>% filter(outcome_type == "Cognition") %>% group_by(DrugName) %>% summarise(count = n()) %>% arrange(desc(count)) %>% pull(DrugName); if (length(drugs) > 1) {paste(paste(head(drugs, -1), collapse = ", "), "and", tail(drugs, 1))} else {drugs}`**. Meta-regression using the administered dose as an explanatory variable was first conducted individually for each drug/intervention. This approach accounts for varying mechanisms of action, pharmacodynamics, and pharmacokinetics of each drug, ensuring that the dose effect of one intervention is not masked by aggregate data.
+
+In the following plots, dashed lines represent the 95% confidence interval of the regression line and dotted lines represent the 95% prediction interval. Raw data is plotted with point size adjusted according to effect size precision.
+
+##### 5.1.2.10.1 SEP-363856 (Ultaront)
+
+Figure 5.1.2.10.1 provides a visualisation of the meta-regression analysis predicting the response, measured as the Standardized Mean Difference (SMD), in Cognition to varying doses of SEP-363856 (in mg/kg).
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+
+SMD_S_cog_SEP363856_dose <- metaregression_analysis_by_drug(df, "TvC", "Cognition", "SEP-363856", "DoseOfIntervention_mgkg", 0.5)
+
+```
+
+**Figure 5.1.2.10.1**
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
+SMD_S_cog_SEP363856_dose$regression_plot
+```
+
+The estimate for $\theta$ was `r SMD_S_cog_SEP363856_dose$metaregression_summary$beta[1]`. The estimate for $\beta$ was `r SMD_S_cog_SEP363856_dose$metaregression_summary$beta[2]`.
+
+##### 5.1.2.10.2 RO5203648
+
+For 4 comparisons of RO5203648 reporting cognitive outcomes a single dose was used, with outcomes measured at different times, so metaregression is not possible.
+
+##### 5.1.2.10.3 RO5166017
+
+No cognitive outcomes were reported for RO5166017.
+
+##### 5.1.2.10.4 RO5263397
+
+No cognitive outcomes were reported for RO5263397.
+
+##### 5.1.2.10.5 RO5256390
+
+Figure 5.1.2.10.5 provides a visualisation of the meta-regression analysis predicting the response, measured as the Standardized Mean Difference (SMD), in Cognition to varying doses of RO5256390 (in mg/kg).
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+
+SMD_S_cog_RO5256390_dose <- metaregression_analysis_by_drug(df, "TvC", "Cognition", "RO5256390", "DoseOfIntervention_mgkg", 0.5)
+
+```
+
+**Figure 5.1.2.10.5**
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
+SMD_S_cog_RO5256390_dose$regression_plot
+```
+
+##### 5.1.2.10.6 LK000764
+
+No cognitive outcomes were reported for LK000764.
+
+##### 5.1.2.10.7 Compound 50B
+
+No cognitive outcomes were reported for Compound 50B.
+
+##### 5.1.2.10.8 Compound 50A
+
+No cognitive outcomes were reported for Compound 50A.
+
+##### 5.1.2.10.9 RO5073012
+
+No cognitive outcomes were reported for RO5073012.
+
+##### 5.1.2.10.10 AP163
+
+No cognitive outcomes were reported for AP163.
+
+##### 5.1.2.10.11 Standardised dose
+
+We then sought evidence of a dose response relationship across all drugs. To do this, we conducted meta-regression using a standardised dose variable. This variable quantifies the administered dose as a multiple of the drug's EC50, indicating how many times the dose administered was greater (or lesser) than the concentration needed to achieve half-maximal effect. For example, if a drug's dose is twice its EC50, the standardized dose would be 2, indicating that the dose is twice the concentration needed to achieve half-maximal effect.
+
+The standardised dose was calculated by dividing the log-transformed dose of the intervention (in mg/kg) by the product of the intervention's EC50 (in moles) and the Molar mass of the drug (in mg/mol):
+
+$$
+\frac{\log(\text{Dose of Intervention (mg/kg)})}{(\text{Molar Mass (g/mol)} \times 1000) \times (\frac{\text{EC50 (micromoles)}}{1000000})}
+$$
+
+**This is a simplified approximation based on the reasoning that if drug actions are mediated through the TAAR1 receptor, and drug efficacy is reflected in the respective EC50 values, then theoretically drugs should exhibit similar effects when acting at their respective EC50.**
+
+The actual concentration of a drug at the receptor site is influenced by several variables, including dosage, administration route, elimination half-life, and first-pass metabolism (in case of oral administration). Incorporating all these factors accurately would necessitate a detailed pharmacokinetic model, which falls outside the scope of this review. Consequently, we assume uniformity across experiments in terms of (i) volume of distribution, (ii) first-pass metabolism, (iii) blood-brain barrier permeability, and (iv) experimental design, especially regarding the timing of peak drug concentration (where we assume that experiments were designed to be done at a time when the drug was near peak concentration).
+
+Figure x provides a visualisation of the meta-regression analysis predicting the response, measured as the Standardized Mean Difference (SMD), in Cognition to varying standardised doses of TAAR1 agonists. As before, dashed lines represent the 95% confidence interval of the regression line and dotted lines represent the 95% prediction interval. Raw data is plotted with point size adjusted according to effect size precision.
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+
+SMD_S_cog_StandardDose <- metaregression_analysis(df, "TvC", "Cognition", "StandardisedDose", 0.5)
+
+```
+
+**Figure 5.1.2.10.11**
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
+SMD_S_cog_StandardDose$regression_plot
+```
+
+The estimate for $\theta$ was `r SMD_S_cog_StandardDose$metaregression_summary$beta[1]`. The estimate for $\beta$ was `r SMD_S_cog_StandardDose$metaregression_summary$beta[2]`.
+
+##### 5.1.2.11 SYRCLE RoB assessment
+
+Figure 5.1.2.11 displays the estimates for the pooled SMD's when comparisons are stratified by how many of the SYRCLE risk of bias assessment criteria (of which there are 10) that the experiment met. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by SYRCLE RoB assessment, is displayed as a diamond shape at the bottom of the plot.
+
+**Figure 5.1.2.11**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', fig.width=9, fig.height=5}
 SMD_S_cog_SYRCLERoB <- plot_subgroup_analysis(df, "TvC", "Cognition", "RoBScore", 0.5)
@@ -889,13 +1335,15 @@ SMD_S_cog_SYRCLERoB <- plot_subgroup_analysis(df, "TvC", "Cognition", "RoBScore"
 
 The pooled SMD estimate for experiments that met none of the SYRCLE Risk of Bias criteria was `r SMD_S_cog_SYRCLERoB$subgroup_rma_summary[SMD_S_cog_SYRCLERoB$subgroup_rma_summary$RoBScore == "0 criteria met", "SMD"]`, and for experiments that met one of the SYRCLE Risk of Bias criteria `r SMD_S_cog_SYRCLERoB$subgroup_rma_summary[SMD_S_cog_SYRCLERoB$subgroup_rma_summary$RoBScore == "1 criteria met", "SMD"]`.
 
-##### 5.1.2.10 ARRIVE reporting quality guidelines
+Figure 5.1.2.11 displays the estimates for the pooled SMD's when comparisons are stratified by this categorisation that the experiment met. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by SyRCLE Risk of Bias, is displayed as a diamond shape at the bottom of the plot.
+
+##### 5.1.2.12 ARRIVE reporting quality guidelines
 
 Experiments were categorised based on the number of ARRIVE guidelines (of which there are 23) met. The categorisation was as follows: Experiments meeting 3 or fewer criteria were labeled as "A: \< 3 criteria met"; those meeting 4 to 7 criteria were labeled "B: 4-7 criteria met"; for 8 to 11 criteria, "C: 8-11 criteria met"; for 12 to 15 criteria, "D: 12-15 criteria met"; for 16 to 19 criteria, "E: 16-19 criteria met"; and experiments meeting more than 19 criteria were labeled as "F: \> 20 criteria met".
 
-Figure 5.1.2.10 displays the estimates for the pooled SMD's when comparisons are stratified by this categorisation that the experiment met. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by ARRIVE reporting quality guidelines, is displayed as a diamond shape at the bottom of the plot.
+Figure 5.1.2.12 displays the estimates for the pooled SMD's when comparisons are stratified by this categorisation that the experiment met. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by ARRIVE reporting quality guidelines, is displayed as a diamond shape at the bottom of the plot.
 
-**Figure 5.1.2.10**
+**Figure 5.1.2.12**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', fig.width=9, fig.height=5}
 SMD_S_cog_ARRIVE <- plot_subgroup_analysis(df, "TvC", "Cognition", "ARRIVEScoreCat", 0.5)
@@ -905,7 +1353,7 @@ SMD_S_cog_ARRIVE <- plot_subgroup_analysis(df, "TvC", "Cognition", "ARRIVEScoreC
 
 The pooled SMD estimate for experiments that met between 8-11 of the ARRIVE reporting quality criteria was `r SMD_S_cog_ARRIVE$subgroup_rma_summary[SMD_S_cog_ARRIVE$subgroup_rma_summary$ARRIVEScoreCat == "C: 8-11 criteria met", "SMD"]`, and for experiments that met between 12-15 of the ARRIVE reporting quality criteria `r SMD_S_cog_ARRIVE$subgroup_rma_summary[SMD_S_cog_ARRIVE$subgroup_rma_summary$ARRIVEScoreCat == "D: 12-15 criteria met", "SMD"]`, and for experiments that met between 16-19 of the ARRIVE reporting quality criteria `r SMD_S_cog_ARRIVE$subgroup_rma_summary[SMD_S_cog_ARRIVE$subgroup_rma_summary$ARRIVEScoreCat == "E: 16-19 criteria met", "SMD"]`.
 
-##### 5.1.2.11 Heterogeneity explained by covariates (simple interventions on cognition)
+##### 5.1.2.13 Heterogeneity explained by covariates (simple interventions on cognition)
 
 The table below shows which of the covariates, if any, explain some of the heterogeneity observed in the effect sizes of the effect of TAAR1 agonists on cognition. We present marginal R^2^, which measures the proportion of variance explained by including moderators in the model.
 
@@ -933,295 +1381,11 @@ The table below shows which of the covariates, if any, explain some of the heter
 |                 \-                  |    *0 criteria met*     |    `r SMD_S_cog_SYRCLERoB$subgroup_analysis$beta[1]`    |       `r SMD_S_cog_SYRCLERoB$subgroup_analysis$ci.lb[1]` - `r SMD_S_cog_SYRCLERoB$subgroup_analysis$ci.ub[1]`       |                            \-                             |
 |                 \-                  |    *1 criteria met*     |    `r SMD_S_cog_SYRCLERoB$subgroup_analysis$beta[2]`    |       `r SMD_S_cog_SYRCLERoB$subgroup_analysis$ci.lb[2]` - `r SMD_S_cog_SYRCLERoB$subgroup_analysis$ci.ub[2]`       |                            \-                             |
 |          Reporting quality          |           \-            |                           \-                            |                                                         \-                                                          |     `r r2_ml(SMD_S_cog_ARRIVE$subgroup_analysis)[1]`      |
-|                 \-                  |   *8-11 criteria met*   |     `r SMD_S_LMA_ARRIVE$subgroup_analysis$beta[1]`      |          `r SMD_S_LMA_ARRIVE$subgroup_analysis$ci.lb[1]` - `r SMD_S_LMA_ARRIVE$subgroup_analysis$ci.ub[1]`          |                            \-                             |
-|                 \-                  |  *12-15 criteria met*   |     `r SMD_S_LMA_ARRIVE$subgroup_analysis$beta[2]`      |          `r SMD_S_LMA_ARRIVE$subgroup_analysis$ci.lb[2]` - `r SMD_S_LMA_ARRIVE$subgroup_analysis$ci.ub[2]`          |                            \-                             |
-|                 \-                  |  *16-19 criteria met*   |     `r SMD_S_LMA_ARRIVE$subgroup_analysis$beta[3]`      |          `r SMD_S_LMA_ARRIVE$subgroup_analysis$ci.lb[3]` - `r SMD_S_LMA_ARRIVE$subgroup_analysis$ci.ub[3]`          |                            \-                             |
+|                 \-                  |   *8-11 criteria met*   |     `r SMD_S_cog_ARRIVE$subgroup_analysis$beta[1]`      |          `r SMD_S_cog_ARRIVE$subgroup_analysis$ci.lb[1]` - `r SMD_S_cog_ARRIVE$subgroup_analysis$ci.ub[1]`          |                            \-                             |
+|                 \-                  |  *12-15 criteria met*   |     `r SMD_S_cog_ARRIVE$subgroup_analysis$beta[2]`      |          `r SMD_S_cog_ARRIVE$subgroup_analysis$ci.lb[2]` - `r SMD_S_cog_ARRIVE$subgroup_analysis$ci.ub[2]`          |                            \-                             |
+|                 \-                  |  *16-19 criteria met*   |     `r SMD_S_cog_ARRIVE$subgroup_analysis$beta[3]`      |          `r SMD_S_cog_ARRIVE$subgroup_analysis$ci.lb[3]` - `r SMD_S_cog_ARRIVE$subgroup_analysis$ci.ub[3]`          |                            \-                             |
 
-# 6. Meta-regression analyses
 
-For each outcome, the variables of interest for meta-regression analyses are;
-
--   **The potency of the intervention**
-
--   **The dose of the intervention administered**
-
-## 6.1 Meta-regression analyses for simple interventions
-
-### 6.1.1 Locomotor activity
-
-#### 6.1.1.1 Potency of intervention
-
-The pEC50 value of each drug was used to measure potency. The pEC50 value is the negative logarithm (to base 10) of the EC50 value. Higher pEC50 values indicate higher potency (as they indicate a lower EC50). Figure x displays a visualisation of the meta-regression using the pEC50 value as an explanatory variable. Dashed lines represent the 95% confidence interval of the regression line. The dotted lines represent the 95% prediction interval. Raw data is plotted with 'bubble' size adjusted according to effect size precision.
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-SMD_S_LMA_potency <- metaregression_analysis(df, "TvC", "Locomotor activity", "pE50", 0.5)
-```
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
-SMD_S_LMA_potency$regression_plot
-```
-
-The estimate for $\theta$ was `r SMD_S_LMA_potency$metaregression_summary$beta[1]`. This gives the predicted SMD when the pEC50 of the intervention is 0. Note that this should be interpreted with caution; since the logarithm of zero is undefined (it tends towards negative infinity), a pEC50 value cannot be 0 unless the EC50 is 1 mol/L. The estimate for $\theta$ can be interpreted as the estimated SMD when the EC50 is 1 mol/L (1000mM), which signifies extremely low potency.
-
-The estimate for $\beta$ was `r SMD_S_LMA_potency$metaregression_summary$beta[2]`. This represents the predicted regression weight for the pEC50 of the intervention.
-
-#### 6.1.1.2 Dose of intervention
-
-In this iteration of the review, the TAAR1 agonists administered in 'simple intervention' experiments (ordered by number of experiments) were: **`r drugs <- df %>% filter(ExperimentType == "Simple intervention (T v Cont)") %>% filter(outcome_type == "Locomotor activity") %>% group_by(DrugName) %>% summarise(count = n()) %>% arrange(desc(count)) %>% pull(DrugName); if (length(drugs) > 1) {paste(paste(head(drugs, -1), collapse = ", "), "and", tail(drugs, 1))} else {drugs}`**. Meta-regression using the administered dose as an explanatory variable was first conducted individually for each drug/intervention. This approach accounts for varying mechanisms of action, pharmacodynamics, and pharmacokinetics of each drug, ensuring that the dose effect of one intervention is not masked by aggregate data.
-
-In the following plots, dashed lines represent the 95% confidence interval of the regression line and dotted lines represent the 95% prediction interval. Raw data is plotted with point size adjusted according to effect size precision.
-
-##### 6.1.1.2.1 SEP-363856 (Ultaront)
-
-Figure 6.1.1.2.1 provides a visualisation of the meta-regression analysis predicting the response, measured as the Standardized Mean Difference (SMD), in locomotor activity to varying doses of SEP-363856 (in mg/kg).
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-SMD_S_LMA_SEP363856_dose <- metaregression_analysis_by_drug(df, "TvC", "Locomotor activity", "SEP-363856", "DoseOfIntervention_mgkg", 0.5)
-```
-
-**Figure 6.1.1.2.1**
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
-SMD_S_LMA_SEP363856_dose$regression_plot
-```
-
-The estimate for $\theta$ was `r SMD_S_LMA_SEP363856_dose$metaregression_summary$beta[1]`. The estimate for $\beta$ was `r SMD_S_LMA_SEP363856_dose$metaregression_summary$beta[2]`.
-
-##### 6.1.1.2.2 RO5203648
-
-Figure 6.1.1.2.2 provides a visualisation of the meta-regression analysis predicting the response, measured as the Standardized Mean Difference (SMD), in locomotor activity to varying doses of RO5203648 (in mg/kg).
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-SMD_S_LMA_RO5203648_dose <- metaregression_analysis_by_drug(df, "TvC", "Locomotor activity", "RO5203648", "DoseOfIntervention_mgkg", 0.5)
-```
-
-**Figure 6.1.1.2.2**
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
-SMD_S_LMA_RO5203648_dose$regression_plot
-```
-
-The estimate for $\theta$ was `r SMD_S_LMA_RO5203648_dose$metaregression_summary$beta[1]`. The estimate for $\beta$ was `r SMD_S_LMA_RO5203648_dose$metaregression_summary$beta[2]`.
-
-##### 6.1.1.2.3 RO5166017
-
-Figure 6.1.1.2.3 provides a visualisation of the meta-regression analysis predicting the response, measured as the Standardized Mean Difference (SMD), in locomotor activity to varying doses of RO5166017 (in mg/kg).
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-SMD_S_LMA_RO5166017_dose <- metaregression_analysis_by_drug(df, "TvC", "Locomotor activity", "RO5166017", "DoseOfIntervention_mgkg", 0.5)
-```
-
-**Figure 6.1.1.2.3**
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
-SMD_S_LMA_RO5166017_dose$regression_plot
-```
-
-The estimate for $\theta$ was `r SMD_S_LMA_RO5166017_dose$metaregression_summary$beta[1]`. The estimate for $\beta$ was `r SMD_S_LMA_RO5166017_dose$metaregression_summary$beta[2]`.
-
-##### 6.1.1.2.4 RO5263397
-
-Figure 6.1.1.2.4 provides a visualisation of the meta-regression analysis predicting the response, measured as the Standardized Mean Difference (SMD), in locomotor activity to varying doses of RO5263397 (in mg/kg).
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-SMD_S_LMA_RO5263397_dose <- metaregression_analysis_by_drug(df, "TvC", "Locomotor activity", "RO5263397", "DoseOfIntervention_mgkg", 0.5)
-```
-
-**Figure 6.1.1.2.4**
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
-SMD_S_LMA_RO5263397_dose$regression_plot
-```
-
-The estimate for $\theta$ was `r SMD_S_LMA_RO5263397_dose$metaregression_summary$beta[1]`. The estimate for $\beta$ was `r SMD_S_LMA_RO5263397_dose$metaregression_summary$beta[2]`.
-
-##### 6.1.1.2.5 RO5256390
-
-Figure 6.1.1.2.5 provides a visualisation of the meta-regression analysis predicting the response, measured as the Standardized Mean Difference (SMD), in locomotor activity to varying doses of RO5256390 (in mg/kg).
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-SMD_S_LMA_RO5256390_dose <- metaregression_analysis_by_drug(df, "TvC", "Locomotor activity", "RO5256390", "DoseOfIntervention_mgkg", 0.5)
-```
-
-**Figure 6.1.1.2.5**
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
-SMD_S_LMA_RO5256390_dose$regression_plot
-```
-
-##### 6.1.1.2.6 LK000764
-
-Figure x provides a visualisation of the meta-regression analysis predicting the response, measured as the Standardized Mean Difference (SMD), in locomotor activity to varying doses of LK000764 (in mg/kg).
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-SMD_S_LMA_LK000764_dose <- metaregression_analysis_by_drug(df, "TvC", "Locomotor activity", "LK000764", "DoseOfIntervention_mgkg", 0.5)
-```
-
-**Figure x**
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
-SMD_S_LMA_LK000764_dose$regression_plot
-```
-
-The estimate for $\theta$ was `r SMD_S_LMA_LK000764_dose$metaregression_summary$beta[1]`. The estimate for $\beta$ was `r SMD_S_LMA_LK000764_dose$metaregression_summary$beta[2]`.
-
-##### 6.1.1.2.7 Compound 50B
-
-Figure x provides a visualisation of the meta-regression analysis predicting the response, measured as the Standardized Mean Difference (SMD), in locomotor activity to varying doses of Compound 50B (in mg/kg).
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-SMD_S_LMA_Compound50B_dose <- metaregression_analysis_by_drug(df, "TvC", "Locomotor activity", "Compound 50B", "DoseOfIntervention_mgkg", 0.5)
-```
-
-**Figure x**
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
-SMD_S_LMA_Compound50B_dose$regression_plot
-```
-
-The estimate for $\theta$ was `r SMD_S_LMA_Compound50B_dose$metaregression_summary$beta[1]`. The estimate for $\beta$ was `r SMD_S_LMA_Compound50B_dose$metaregression_summary$beta[2]`.
-
-##### 6.1.1.2.8 Compound 50A
-
-Figure x provides a visualisation of the meta-regression analysis predicting the response, measured as the Standardized Mean Difference (SMD), in locomotor activity to varying doses of Compound 50A (in mg/kg).
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-SMD_S_LMA_Compound50A_dose <- metaregression_analysis_by_drug(df, "TvC", "Locomotor activity", "Compound 50A", "DoseOfIntervention_mgkg", 0.5)
-```
-
-**Figure x**
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
-SMD_S_LMA_Compound50A_dose$regression_plot
-```
-
-The estimate for $\theta$ was `r SMD_S_LMA_Compound50A_dose$metaregression_summary$beta[1]`. The estimate for $\beta$ was `r SMD_S_LMA_Compound50A_dose$metaregression_summary$beta[2]`.
-
-##### 6.1.1.2.9 RO5073012
-
-Figure x provides a visualisation of the meta-regression analysis predicting the response, measured as the Standardized Mean Difference (SMD), in locomotor activity to varying doses of RO5073012 (in mg/kg).
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-SMD_S_LMA_RO5073012_dose <- metaregression_analysis_by_drug(df, "TvC", "Locomotor activity", "RO5073012", "DoseOfIntervention_mgkg", 0.5)
-```
-
-**Figure x**
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
-SMD_S_LMA_RO5073012_dose$regression_plot
-```
-
-The estimate for $\theta$ was `r SMD_S_LMA_RO5073012_dose$metaregression_summary$beta[1]`. The estimate for $\beta$ was `r SMD_S_LMA_RO5073012_dose$metaregression_summary$beta[2]`.
-
-##### 6.1.1.2.10 AP163
-
-Figure x provides a visualisation of the meta-regression analysis predicting the response, measured as the Standardized Mean Difference (SMD), in locomotor activity to varying doses of AP163 (in mg/kg).
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-SMD_S_LMA_AP163_dose <- metaregression_analysis_by_drug(df, "TvC", "Locomotor activity", "AP163", "DoseOfIntervention_mgkg", 0.5)
-```
-
-**Figure x**
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
-SMD_S_LMA_AP163_dose$regression_plot
-```
-
-The estimate for $\theta$ was `r SMD_S_LMA_AP163_dose$metaregression_summary$beta[1]`. The estimate for $\beta$ was `r SMD_S_LMA_AP163_dose$metaregression_summary$beta[2]`.
-
-##### 6.1.1.2.11 Standardised dose
-
-We then sought evidence of a dose response relationship across all drugs. To do this, we conducted meta-regression using a standardised dose variable. This variable quantifies the administered dose as a multiple of the drug's EC50, indicating how many times the dose administered was greater (or lesser) than the concentration needed to achieve half-maximal effect. For example, if a drug's dose is twice its EC50, the standardized dose would be 2, indicating that the dose is twice the concentration needed to achieve half-maximal effect.
-
-The standardised dose was calculated by dividing the log-transformed dose of the intervention (in mg/kg) by the product of the intervention's EC50 (in moles) and the Molar mass of the drug (in mg/mol):
-
-$$
-\frac{\log(\text{Dose of Intervention (mg/kg)})}{(\text{Molar Mass (g/mol)} \times 1000) \times (\frac{\text{EC50 (micromoles)}}{1000000})}
-$$
-
-**This is a simplified approximation based on the reasoning that if drug actions are mediated through the TAAR1 receptor, and drug efficacy is reflected in the respective EC50 values, then theoretically drugs should exhibit similar effects when acting at their respective EC50.**
-
-The actual concentration of a drug at the receptor site is influenced by several variables, including dosage, administration route, elimination half-life, and first-pass metabolism (in case of oral administration). Incorporating all these factors accurately would necessitate a detailed pharmacokinetic model, which falls outside the scope of this review. Consequently, we assume uniformity across experiments in terms of (i) volume of distribution, (ii) first-pass metabolism, (iii) blood-brain barrier permeability, and (iv) experimental design, especially regarding the timing of peak drug concentration (where we assume that experiments were designed to be done at a time when the drug was near peak concentration).
-
-Figure x provides a visualisation of the meta-regression analysis predicting the response, measured as the Standardized Mean Difference (SMD), in locomotor activity to varying standardised doses of TAAR1 agonists. As before, dashed lines represent the 95% confidence interval of the regression line and dotted lines represent the 95% prediction interval. Raw data is plotted with point size adjusted according to effect size precision.
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-SMD_S_LMA_StandardDose <- metaregression_analysis(df, "TvC", "Locomotor activity", "StandardisedDose", 0.5)
-```
-
-**Figure x**
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
-SMD_S_LMA_StandardDose$regression_plot
-```
-
-The estimate for $\theta$ was `r SMD_S_LMA_StandardDose$metaregression_summary$beta[1]`. The estimate for $\beta$ was `r SMD_S_LMA_StandardDose$metaregression_summary$beta[2]`.
-
-### 6.1.2 Cognition
-
-#### 6.1.2.1 Potency of intervention
-
-The pEC50 value of each drug was again used to measure potency. Higher pEC50 values indicate higher potency (as they indicate a lower EC50). Figure x displays a visualisation of the meta-regression using the pEC50 value as an explanatory variable. Dashed lines represent the 95% confidence interval of the regression line. The dotted lines represent the 95% prediction interval. Raw data is plotted with 'bubble' size adjusted according to effect size precision.
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-SMD_S_cog_potency <- metaregression_analysis(df, "TvC", "Cognition", "pE50", 0.5)
-```
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
-SMD_S_cog_potency$regression_plot
-```
-
-The estimate for $\theta$ was `r SMD_S_cog_potency$metaregression_summary$beta[1]`. This gives the predicted SMD when the pEC50 of the intervention is 0. Note that this should be interpreted with caution; since the logarithm of zero is undefined (it tends towards negative infinity), a pEC50 value cannot be 0 unless the EC50 is 1 mol/L. The estimate for $\theta$ can be interpreted as the estimated SMD when the EC50 is 1 mol/L (1000mM), which signifies extremely low potency.
-
-The estimate for $\beta$ was `r SMD_S_cog_potency$metaregression_summary$beta[2]`. This represents the predicted regression weight for the pEC50 of the intervention.
-
-#### 6.1.2.2 Dose of intervention
-
-<!--# why here you use SortLabel=="TvC" to filter the experiments instead of ExperimentType == "Simple intervention (T v Cont)" as for Locomotor activity? the two variables does not seem to be the same-->
-
-In this iteration of the review, the TAAR1 agonists administered in 'simple intervention' experiments (ordered by number of experiments) were: **`r drugs <- df %>% filter(SortLabel == "TvC") %>% filter(outcome_type == "Cognition") %>% group_by(DrugName) %>% summarise(count = n()) %>% arrange(desc(count)) %>% pull(DrugName); if (length(drugs) > 1) {paste(paste(head(drugs, -1), collapse = ", "), "and", tail(drugs, 1))} else {drugs}`**. Meta-regression using the administered dose as an explanatory variable was first conducted individually for each drug/intervention. This approach accounts for varying mechanisms of action, pharmacodynamics, and pharmacokinetics of each drug, ensuring that the dose effect of one intervention is not masked by aggregate data.
-
-##### 6.1.2.2.1 SEP-363856 (Ultaront)
-
-Figure x provides a visualisation of the meta-regression analysis predicting the response, measured as the Standardized Mean Difference (SMD), in cognition to varying doses of SEP-363856 (in mg/kg).
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-SMD_S_cog_SEP363856_dose <- metaregression_analysis_by_drug(df, "TvC", "Cognition", "SEP-363856", "DoseOfIntervention_mgkg", 0.5)
-```
-
-**Figure x**
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
-SMD_S_cog_SEP363856_dose$regression_plot
-```
-
-The estimate for $\theta$ was `r SMD_S_cog_SEP363856_dose$metaregression_summary$beta[1]`. The estimate for $\beta$ was `r SMD_S_cog_SEP363856_dose$metaregression_summary$beta[2]`.
-
-##### 6.1.2.2.2 RO5203648
-
-In this iteration of the review, all relevant comparisons used the same dose of RO5203648 (1 mg/kg). Therefore, meta-regression on the dose on intervention was not conducted for this drug.
-
-##### 6.1.2.2.3 RO5256390
-
-In this iteration of the review, there was insufficient data to perform meta-regression on the dose on intervention for RO5256390 (only a single data point for each dose of RO5256390 administered)
-
-##### 6.1.2.2.4 Standardised dose
-
-As for locomotor activity, we then sought evidence of a dose response relationship across all drugs using the standardised dose variable.
-
-Figure x provides a visualisation of the meta-regression analysis predicting the response, measured as the Standardized Mean Difference (SMD), in cognition to varying standardised doses of TAAR1 agonists. As before, dashed lines represent the 95% confidence interval of the regression line and dotted lines represent the 95% prediction interval. Raw data is plotted with point size adjusted according to effect size precision.
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-SMD_S_cog_StandardDose <- metaregression_analysis(df, "TvC", "Cognition", "StandardisedDose", 0.5)
-```
-
-**Figure x**
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
-SMD_S_cog_StandardDose$regression_plot
-```
-
-The estimate for $\theta$ was `r SMD_S_cog_StandardDose$metaregression_summary$beta[1]`. The estimate for $\beta$ was `r SMD_S_cog_StandardDose$metaregression_summary$beta[2]`.
 
 # 7. Sensitivity Analyses
 
@@ -1342,8 +1506,17 @@ Egger regression based on `r run_sse_NMD(df)[["k"]]` studies of Simple intervent
 
 # 9. Summary of the evidence
 
+
+
 |                                 |                                  |                                                           |                                                         |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |                               |
-|------------|------------|------------|------------|------------|------------|
+|---------|----------|-----------|-----------|------------------------|------------|
 | **Source of evidence**          | **Summary of the association**   | **Bias due to study limitations**                         | **Bias due to reporting bias**                          | **Bias due to indirectedness**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | **Bias due to other reasons** |
 | Animal and pre-clinical studies |                                  | No studies were of low risk of bias or low reporting bias | Egger Regression showed evidence of small study effects | Bias due to indirectness was assessed as follows. The **Initial organism (Homological validity)** We assessed rodents as having moderate validity as a non primate mammalian species, and all experiments included here were conducted in rodents. Further, `r SMD_S_LMA_CatDisInd$subgroup_rma_summary[SMD_S_LMA_CatDisInd$subgroup_rma_summary$CategoryDiseaseInduction == "Genetic (e.g. DISC1 KO, DAT KO, D2R overexpression)", "k"]` studies reporting locomotor activity and `r SMD_S_cog_CatDisInd$subgroup_rma_summary[SMD_S_cog_CatDisInd$subgroup_rma_summary$CategoryDiseaseInduction == "Genetic (e.g. DISC1 KO, DAT KO, D2R overexpression)", "k"]` studies reporting cognition used a genetic manipulation in a gene (DAT) known to be associated with human disease. **Early environment factors inducing transition from initial organism to vulnerable organism (Ontopathogenic validity)** Aside from the genetic models above, no models manipulated early environmental factors. **Triggering factors inducing transition from Vulnerable organism to Pathological organism** were commonly used (e.g. cocaine, amphetamine, PCP) but usually only with short term exposures trigerring increased locomotor activity. It was not possible to assess **Pathological Organism Mechanistic validity** (whether the neurobiological or cognitive mechanisms which operate in human disease could be observed in the animal models used) or **Triggering factors inducing changes in biomarkers (Induction validity)** because these were not assessed. **Therapeutic agents inducing changes in outcome** There was some evidence to support directness in that known antipsychotic drugs had observed efficacy in improving locomotor activity. **Biological markers** There were insufficient studies reporting neuotransmitter levels and no studies reported brain imaging outcomes. **Behavioural manifestations (Ethological validity)** Most studies reported locomotor activity, but `r SMD_S_cog[["k"]]` studies reported some form of cognitive outcome, and in these there was no significant effect of TAAR1 agonists `r SMD_S_cog[["beta"]]` (95% CI: `r SMD_S_cog[["ci.lb"]]` to `r SMD_S_cog[["ci.ub"]]`. |                               |
 | Human studies                   |                                  |                                                           |                                                         |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |                               |
+
+### Software used
+
+```{r echo=FALSE}
+grateful::cite_packages(output = "paragraph", pkgs = "Session", out.dir = ".")
+```
+
