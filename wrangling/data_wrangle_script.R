@@ -203,6 +203,7 @@ reconciled_cohort_type <- reconciled_cohort_label %>%
     IsDiseaseModelControl == FALSE & 
       ((Treatment1Type == "Intervention" & Treatment2Type == "Positive control") | 
          (Treatment2Type == "Intervention" & Treatment1Type == "Positive control")) ~ "Combination intervention",
+
     
     IsDiseaseModelControl == TRUE & 
       ((Treatment1Type == "Intervention" & Treatment2Type == "Positive control") | 
@@ -232,6 +233,7 @@ reconciled_cohort_type <- reconciled_cohort_label %>%
     IsDiseaseModelControl == TRUE & 
       ((Treatment1Type == "TAAR1KO" & (Treatment2Type == "Negative control"| is.na(Treatment2Type))) |
          (Treatment2Type == "TAAR1KO" & (Treatment1Type == "Negative control"| is.na(Treatment1Type)))) ~ "Sham for TAAR1KO",
+
 
     IsDiseaseModelControl == TRUE ~ "Sham"
       )) %>% 
@@ -272,7 +274,6 @@ reconciled_cohort_role <- reconciled_comparison_type %>%
 
 ## Wrangle wide so each observations is a single comparison
 data <- reconciled_cohort_role
-
 data <- data %>%
   mutate(GroupID = interaction(StudyId, ExperimentID, OutcomeId, TimeInMinute))
 
@@ -288,6 +289,7 @@ data <- anti_join(data, data_rem)
 data <- data %>%
   mutate(`DiseaseModelLabel(s)` = ifelse(`DiseaseModelLabel(s)` == "DAT -/-", "DAT KO", `DiseaseModelLabel(s)`))
 data <- data %>% mutate_all(trimws)
+
 
 ##### Extract treatment names and doses ####
 data <- data%>%
@@ -367,6 +369,7 @@ data$TreatmentLabel2 <- gsub("miligrams \\(mg\\) per kg", "mg/kg", data$Treatmen
 data$TreatmentLabel1 <- gsub("Other, NA NA", "", data$TreatmentLabel1)
 data$TreatmentLabel2 <- gsub("Other, NA NA", "", data$TreatmentLabel2)
 
+
 data <- data %>% 
   mutate(
     TreatmentLabel = case_when(
@@ -376,6 +379,7 @@ data <- data %>%
       TRUE ~ NA_character_
     )
   )
+
 
 ###for each cohort, label sham and control groups, along with TAAR1KO -ve control Contol for combination interventions (== positive control)
 ### first, we need to work out the attributes of each group - wgat types of comparisons will they allow?
@@ -392,6 +396,7 @@ group_characteristics$GroupID <- as.character(group_characteristics$GroupID)
 data$GroupID <- as.character(data$GroupID)
 
 
+
 ##### Wrangling experiment type and outcome data #####
 ##### 3.1.1 T v C  with sham ####
 ## using same approach as for 3.3 and 3.4 to get consistency in final df ##
@@ -400,6 +405,7 @@ data_TvCs <- data.frame()
 for (i in 1:nrow(group_characteristics)) {
   group <- group_characteristics[i, 1]
   cohset <- data[data$GroupID == as.character(group), ]  
+
   
   # Create combinations of interventions and positive controls
   combinations <- expand.grid(
@@ -408,7 +414,7 @@ for (i in 1:nrow(group_characteristics)) {
     Sham = unique(cohset$CohortLabel [cohset$CohortType == "Sham"])
   )
   
-  if (nrow(combinations) > 0) {
+if (nrow(combinations) > 0) {
     cohset <- combinations %>%
       left_join(cohset %>% filter(CohortType == "Simple intervention"), by = c("Intervention" = "CohortLabel")) %>%
       left_join(cohset %>% filter(CohortType == "Negative control"), by = c("Control" = "CohortLabel")) %>%
@@ -479,20 +485,22 @@ data_AvCs <- subset(data_AvCs, !is.na(data_AvCs$Intervention) & !is.na(data_AvCs
 ##### 3.2.2 A v C without sham #####
 data_AvC <- data.frame()
 
+
 for (i in 1:nrow(group_characteristics)) {
   group <- group_characteristics[i, 1]
   cohset <- data[data$GroupID == as.character(group), ]  
-  #cohset <- cohset %>% select(all_of(cols2retain))
   
   # Create combinations of interventions and positive controls
   combinations <- expand.grid(
     Intervention = unique(cohset$CohortLabel [cohset$CohortType == "Positive control"]),
     Control = unique(cohset$CohortLabel [cohset$CohortType == "Negative control"])
+
   )
   
   # Merge combinations with the original data
   cohset <- combinations %>%
     left_join(cohset %>% filter(CohortType == "Positive control"), by = c("Intervention" = "CohortLabel")) %>%
+
     left_join(cohset %>% filter(CohortType == "Negative control"), by = c("Control" = "CohortLabel"))
   
   data_AvC <- bind_rows(data_AvC, cohset)
@@ -556,11 +564,69 @@ for (i in 1:nrow(group_characteristics)) {
   
   # Merge combinations with the original data
   cohset <- combinations %>%
+
     left_join(cohset %>% filter(CohortType == "Simple intervention"), by = c("Intervention" = "CohortLabel")) %>%
     left_join(cohset %>% filter(CohortType == "Positive control"), by = c("Control" = "CohortLabel"))
   
   data_TvA <- bind_rows(data_TvA, cohset)
 }
+data_AvC$Label <- data_AvC$TreatmentLabel.x
+data_AvC$SortLabel <- "AvC"
+
+##### 3.3 T v A - with sham - possibility of multiple control (A) conditions #####
+data_TvAs <- data.frame()
+
+for (i in 1:nrow(group_characteristics)) {
+  group <- group_characteristics[i, 1]
+  cohset <- data[data$GroupID == as.character(group), ]  
+  cohset <- cohset %>% select(all_of(cols2retain))
+
+  # Create combinations of interventions and positive controls
+  combinations <- expand.grid(
+    Intervention = unique(cohset$CohortLabel [cohset$CohortType == "Simple intervention"]),
+    Control = unique(cohset$CohortLabel [cohset$CohortType == "Positive control"]),
+    Sham = unique(cohset$CohortLabel [cohset$CohortType == "Sham"])
+  )
+  
+  # Merge combinations with the original data
+  cohset <- combinations %>%
+    left_join(cohset %>% filter(CohortType == "Simple intervention"), by = c("Intervention" = "CohortLabel")) %>%
+    left_join(cohset %>% filter(CohortType == "Positive control"), by = c("Control" = "CohortLabel")) %>%
+    left_join(cohset %>% filter(CohortType == "Sham"), by = c("Sham" = "CohortLabel"))
+  
+  data_TvAs <- bind_rows(data_TvAs, cohset)
+  }
+  data_TvAs$Label <- paste0(data_TvAs$TreatmentLabel.x, " v. ", data_TvAs$TreatmentLabel.y)
+  data_TvAs$SortLabel <- "TvA"
+  
+  ##### 3.3 T v A without sham - possibility of multiple control (A) conditions #####
+  data_TvA <- data.frame()
+  
+  for (i in 1:nrow(group_characteristics)) {
+    group <- group_characteristics[i, 1]
+    cohset <- data[data$GroupID == as.character(group), ]  
+    cohset <- cohset %>% select(all_of(cols2retain))
+    
+    # Create combinations of interventions and positive controls
+    combinations <- expand.grid(
+      Intervention = unique(cohset$CohortLabel [cohset$CohortType == "Simple intervention"]),
+      Control = unique(cohset$CohortLabel [cohset$CohortType == "Positive control"])
+    )
+    
+    # Merge combinations with the original data
+    cohset <- combinations %>%
+      left_join(cohset %>% filter(CohortType == "Simple intervention"), by = c("Intervention" = "CohortLabel")) %>%
+      left_join(cohset %>% filter(CohortType == "Positive control"), by = c("Control" = "CohortLabel"))
+    
+    data_TvA <- bind_rows(data_TvA, cohset)
+  }
+  data_TvA$Label <- paste0(data_TvA$TreatmentLabel.x, " v. ", data_TvA$TreatmentLabel.y)
+  data_TvA$SortLabel <- "TvA"
+  
+  
+  ##### 3.4 TA v A - with sham - possibility of multiple control (A) conditions #####
+  data_TAvAs <- data.frame()
+
 
 data_TvA$Label <- paste0(data_TvA$TreatmentLabel.x, " v. ", data_TvA$TreatmentLabel.y)
 data_TvA$SortLabel <- "TvA"
@@ -595,6 +661,7 @@ for (i in 1:nrow(group_characteristics)) {
     }
   }}
 
+
 diag1 <- subset(data_TAvAs, data_TAvAs$TreatmentLabel1.x == data_TAvAs$TreatmentLabel1.y)
 diag2 <- subset(data_TAvAs, data_TAvAs$TreatmentLabel2.x == data_TAvAs$TreatmentLabel1.y)
 diag3 <- subset(data_TAvAs, data_TAvAs$TreatmentLable1.x == data_TAvAs$TreatmentLabel2.y)
@@ -606,12 +673,12 @@ data_TAvAs <- subset(data_TAvAs, !is.na(data_TAvAs$Intervention) & !is.na(data_T
 
 
 ##### 3.4.2 TA v A - without sham - possibility of multiple control (A) conditions #####
+
 data_TAvA <- data.frame()
 
 for (i in 1:nrow(group_characteristics)) {
   group <- group_characteristics[i, 1]
   cohset <- data[data$GroupID == as.character(group), ]  
-  #cohset <- cohset %>% select(all_of(cols2retain))
   
   # Create combinations of interventions and positive controls
   combinations <- expand.grid(
@@ -634,6 +701,7 @@ diag4 <- subset(data_TAvA, data_TAvA$TreatmentLabel2.x == data_TAvA$TreatmentLab
 data_TAvA <- rbind(diag1, diag2, diag3, diag4)
 data_TAvA$Label <- paste0(data_TAvA$TreatmentLabel.x, " v. ", data_TAvA$TreatmentLabel.y)
 data_TAvA$SortLabel <- "TAvA"
+
 data_TAvA <- subset(data_TAvA, !is.na(data_TAvA$Intervention) & !is.na(data_TAvA$Control))
 
 data_sub_TAvA <- subset(data_TAvA, !data_TAvA$GroupID.x %in% data_TAvAs$GroupID.x)
@@ -695,6 +763,7 @@ data2$F_S_m <- as.numeric(data2$OutcomeResult)
 data2$F_S_v <- as.numeric(data2$OutcomeError)
 
 data_all_F <- data2
+
 
 savename_all <- paste0(LSR,'data_all_',Sys.Date(),'.csv')
 

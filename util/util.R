@@ -113,7 +113,9 @@ cixhigher <- model[["ci.ub"]]
     
   } else if (experiment_type == "AvC") {
     mtext("Favours control", side = 1, line = 3, at = (lower_x*0.6), cex = 1.1, col = "red", font = 1)
+
     mtext("Favours conventional \nantipsychotic", side = 1, line = 3, at = (upper_x), cex = 1.1, col = "darkgreen", font = 1)
+
     #addpoly(model, row = 0.25, cex = 0.4, col = "darkred", mlab = "SMD", annotate = FALSE, xvals = c(cixlower, cixhigher))    
     mtext(paste0("SMD: ", round(model$beta, 2), " (", round(model$ci.lb, 2), " to ", round(model$ci.ub, 2), ")"), side = 3, line = -1, cex = 1, font = 2)
     title(paste0("Conventional antipsychotic effect on ", outcome_title, "\nin psychosis (SMD)"))
@@ -389,7 +391,9 @@ SyRCLE_RoB_summary <- function(df, experiment_type, outcome) {
     filter(SortLabel == experiment_type) %>% 
     filter(outcome_type == outcome) 
 
+
 RoB <- unique(df[,c(4,6,12,25:58)])
+
 #change studyId to Author, year
 RoB$StudyId <- toupper(paste0(str_extract(RoB$Authors,"\\b\\w+\\b"),', ',RoB$Year))
 
@@ -436,7 +440,9 @@ SyRCLE_RoB_traffic <- function(df, experiment_type, outcome) {
     filter(SortLabel == experiment_type) %>% 
     filter(outcome_type == outcome) 
   
+
   RoB <- unique(df[,c(4,6,12,25:58)])
+
   #change studyId to Author, year
   RoB$StudyId <- toupper(paste0(str_extract(RoB$Authors,"\\b\\w+\\b"),', ',RoB$Year))
   
@@ -484,7 +490,9 @@ ARRIVE_summary <- function(df, experiment_type, outcome) {
     filter(SortLabel == experiment_type) %>% 
     filter(outcome_type == outcome)
   
+
   RoB <- unique(df[,c(4,6,12,25:58)])
+
   #change studyId to Author, year
   RoB$StudyId <- toupper(paste0(str_extract(RoB$Authors,"\\b\\w+\\b"),', ',RoB$Year))
   
@@ -540,7 +548,9 @@ ARRIVE_traffic <- function(df, experiment_type, outcome) {
   dfa <- subset(df, df$SortLabel == experiment_type)
   dfb <- subset(dfa, dfa$outcome_type == outcome)
 
+
   RoB <- unique(dfb[,c(4,6,12,25:58)])
+
   #change studyId to Author, year
   RoB$StudyId <- toupper(paste0(str_extract(RoB$Authors,"\\b\\w+\\b"),', ',RoB$Year))
   
