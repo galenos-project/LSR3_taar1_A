@@ -435,7 +435,6 @@ data_TvC <- data.frame()
 for (i in 1:nrow(group_characteristics)) {
   group <- group_characteristics[i, 1]
   cohset <- data[data$GroupID == as.character(group), ]  
-  #cohset <- cohset %>% select(all_of(cols2retain))
   
   # Create combinations of interventions and positive controls
   combinations <- expand.grid(
@@ -554,7 +553,6 @@ data_TvA <- data.frame()
 for (i in 1:nrow(group_characteristics)) {
   group <- group_characteristics[i, 1]
   cohset <- data[data$GroupID == as.character(group), ]  
-  #cohset <- cohset %>% select(all_of(cols2retain))
   
   # Create combinations of interventions and positive controls
   combinations <- expand.grid(
@@ -579,7 +577,6 @@ data_TvAs <- data.frame()
 for (i in 1:nrow(group_characteristics)) {
   group <- group_characteristics[i, 1]
   cohset <- data[data$GroupID == as.character(group), ]  
-  cohset <- cohset %>% select(all_of(cols2retain))
 
   # Create combinations of interventions and positive controls
   combinations <- expand.grid(
@@ -605,7 +602,6 @@ for (i in 1:nrow(group_characteristics)) {
   for (i in 1:nrow(group_characteristics)) {
     group <- group_characteristics[i, 1]
     cohset <- data[data$GroupID == as.character(group), ]  
-    cohset <- cohset %>% select(all_of(cols2retain))
     
     # Create combinations of interventions and positive controls
     combinations <- expand.grid(
