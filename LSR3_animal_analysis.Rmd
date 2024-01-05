@@ -1506,3 +1506,4 @@ Egger regression based on `r run_sse_NMD(df)[["k"]]` studies of Simple intervent
 
 ```{r echo=FALSE}
 grateful::cite_packages(output = "paragraph", pkgs = "Session", out.dir = ".")
+```
