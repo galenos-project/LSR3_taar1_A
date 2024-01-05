@@ -716,7 +716,7 @@ data2 <- data2 %>%
 
 
 ###get names (wrangled externally) of columns to delete
-col_data2 <- read_csv("col_data2.csv")
+col_data2 <- read_csv("data/col_data2.csv")
 cols2delete <- as.list(col_data2[,1])
 col_data2 <- as.data.frame(colnames(data2))
 
