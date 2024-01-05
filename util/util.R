@@ -16,6 +16,11 @@ run_ML_SMD <- function(df, experiment, outcome, rho_value) {
   df<-df %>% 
     filter(!is.na(SMDv))
   
+  # Check if data comes from 2 or more unique studies
+  if (n_distinct(df$StudyId) < 2) {
+    stop("Execution halted: Insufficient independent effect sizes for meta-analysis, as all effect sizes originate from a single study")
+  }
+  
   df <- df %>% mutate(effect_id = row_number()) # add effect_id column
   
   #calculate variance-covariance matrix of the sampling errors for dependent effect sizes
