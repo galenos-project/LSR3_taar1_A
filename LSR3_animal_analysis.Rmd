@@ -494,8 +494,6 @@ No studies were excluded on the basis of extreme effect sizes reported.
 
 ### 4.1.1 Outcome 1: Locomotor activity (a primary outcome)
 
-
-
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 SMD_S_LMA <- run_ML_SMD(df, "TvC", "Locomotor activity", 0.5)
 ```
@@ -512,6 +510,7 @@ SMD_S_LMA <- run_ML_SMD(df, "TvC", "Locomotor activity", 0.5)
 `r output_text1`
 
 **`r output_text2`**
+
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=15}
 forest_metafor(SMD_S_LMA, "TvC", "Locomotor activity")
 ```
@@ -544,6 +543,7 @@ if (any(class(SMD_S_cog) == "rma.mv")) {
 ```
 
 **`r output_text1`**
+
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=7}
 forest_metafor(SMD_S_cog, "TvC", "cognition")
 ```
@@ -578,9 +578,11 @@ SMD_S_LMA_H2H <- run_ML_SMD(df, "TvA", "Locomotor activity", 0.5)
   output_text1 <- "Analysis is only performed if outcomes have been reported in more than one publication. There are not sufficient data for this analysis."
 }
 ```
+
 `r output_text1`
 
 **`r output_text2`**
+
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=10}
 forest_metafor(SMD_S_LMA_H2H, "TvA", "locomotor activity")
 ```
@@ -605,7 +607,6 @@ forest_metafor(SMD_S_LMA_H2H, "TvA", "locomotor activity")
 SMD_S_Cog_H2H <- run_ML_SMD(df, "TvA", "Cognition", 0.5)
 ```
 
-
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
  if (any(class(SMD_S_Cog_H2H) == "rma.mv")) {
   output_text1 <- "In Head to Head studies, the effect of administering a TAAR1 agonist on cognitive outcomes in animals using SMD as the effect size is shown in Figure 4.2.2. The pooled estimate for SMD across all individual comparisons is displayed as a diamond shape at the bottom of the plot. Dotted lines indicate the prediction interval of the pooled estimate."
@@ -615,9 +616,11 @@ SMD_S_Cog_H2H <- run_ML_SMD(df, "TvA", "Cognition", 0.5)
   output_text2 <- ""
 }
 ```
+
 `r output_text1`
 
 **`r output_text2`**
+
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=10}
 forest_metafor(SMD_S_Cog_H2H, "TvA","Cognition")
 ```
@@ -653,9 +656,11 @@ SMD_S_LMA_PC <- run_ML_SMD(df, "AvC", "Locomotor activity", 0.5)
   output_text2 <- ""
 }
 ```
+
 `r output_text1`
 
 **`r output_text2`**
+
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=10}
 forest_metafor(SMD_S_LMA_PC, "AvC","Locomotor activity")
 ```
@@ -680,7 +685,7 @@ forest_metafor(SMD_S_LMA_PC, "AvC","Locomotor activity")
 SMD_S_Cog_PC <- run_ML_SMD(df, "AvC", "Cognition", 0.5)
 ```
 
-``` {r echo=FALSE}
+```{r echo=FALSE}
  if (any(class(SMD_S_Cog_PC) == "rma.mv")) {
   output_text1 <- "For positive control experiments, the effect of administering a conventional antipsychotic drug on cognitive outcomes in animals using SMD as the effect size is shown in Figure 4.3.2. The pooled estimate for SMD across all individual comparisons is displayed as a diamond shape at the bottom of the plot. Dotted lines indicate the prediction interval of the pooled estimate."
   output_text2 <- "Figure 4.3.2"
@@ -689,9 +694,11 @@ SMD_S_Cog_PC <- run_ML_SMD(df, "AvC", "Cognition", 0.5)
   output_text2 <- ""
 }
 ```
+
 `r output_text1`
 
 **`r output_text2`**
+
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=10}
 forest_metafor(SMD_S_Cog_PC, "AvC","Cognition")
 ```
@@ -718,7 +725,7 @@ forest_metafor(SMD_S_Cog_PC, "AvC","Cognition")
 SMD_S_LMA_TAA <- run_ML_SMD(df, "TAvA", "Locomotor activity", 0.5)
 ```
 
-``` {r echo=FALSE}
+```{r echo=FALSE}
  if (any(class(SMD_S_LMA_TAA) == "rma.mv")) {
   output_text1 <- "For combination studies, the effect of administering a TAAR1 agonist plus a conventional antipsychotic drug, compared with TAAR1 agonist alone, on locomotor activity in animals using SMD as the effect size is shown in Figure 4.4.1. The pooled estimate for SMD across all individual comparisons is displayed as a diamond shape at the bottom of the plot. Dotted lines indicate the prediction interval of the pooled estimate."
   output_text2 <- "Figure 4.4.1"
@@ -727,9 +734,11 @@ SMD_S_LMA_TAA <- run_ML_SMD(df, "TAvA", "Locomotor activity", 0.5)
   output_text2 <- ""
 }
 ```
+
 `r output_text1`
 
 **`r output_text2`**
+
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=10}
 forest_metafor(SMD_S_LMA_TAA, "TAvA","Locomotor activity")
 ```
@@ -756,7 +765,7 @@ forest_metafor(SMD_S_LMA_TAA, "TAvA","Locomotor activity")
 SMD_S_Cog_TAA <- run_ML_SMD(df, "TAvA", "Cognition", 0.5)
 ```
 
-``` {r echo=FALSE}
+```{r echo=FALSE}
  if (any(class(SMD_S_Cog_TAA) == "rma.mv")) {
   output_text1 <- "For combination studies, the effect of administering a TAAR1 agonist plus a conventional antipsychotic drug, compared with TAAR1 agonist alone, on cognitive function in animals using SMD as the effect size is shown in Figure 4.4.2. The pooled estimate for SMD across all individual comparisons is displayed as a diamond shape at the bottom of the plot. Dotted lines indicate the prediction interval of the pooled estimate."
   output_text2 <- "Figure 4.4.2"
@@ -765,9 +774,11 @@ SMD_S_Cog_TAA <- run_ML_SMD(df, "TAvA", "Cognition", 0.5)
   output_text2 <- ""
 }
 ```
+
 `r output_text1`
 
 **`r output_text2`**
+
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=10}
 forest_metafor(SMD_S_Cog_TAA, "TAvA","Cognition")
 ```
@@ -883,7 +894,35 @@ The pooled SMD estimate for experiments administering the TAAR1 agonist prophyla
 
 ##### 5.1.1.5 Duration of treatment period
 
-In this iteration of the review, all relevant comparisons administered the TAAR1 agonist for \< 1 week. Therefore, no subgroup analyses were conducted for this variable.
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', fig.width=9, fig.height=3}
+SMD_S_LMA_DurRx <- plot_subgroup_analysis(df, "TvC", "Locomotor activity", "TreatmentDurationCategory", 0.5)
+```
+
+```{r echo=FALSE}
+ if (any(class(SMD_S_LMA_DurRx) == "rma.mv")) {
+  output_text1 <- "Figure 5.1.1.5 displays the estimates for the pooled SMD's when comparisons are stratified by duration of treatment. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by whether the intervention was administered prophylactically or therapeutically, is displayed as a diamond shape at the bottom of the plot."
+  output_text2 <- "Figure 5.1.1.5"
+} else {
+  output_text1 <- "In this iteration of the review, all relevant comparisons administered the TAAR1 agonist for < 1 week. Therefore, no subgroup analyses were conducted for this variable."
+  output_text2 <- ""
+}
+```
+
+`r output_text1`
+
+**`r output_text2`**
+
+```{r echo = FALSE}
+ if (any(class(class(SMD_S_LMA_DurRx)) == "rma.mv")) {
+  output_text3 <- paste0(`r SMD_S_LMA_DurRx$subgroup_rma_summary[SMD_S_LMA_DurRx$subgroup_rma_summary$TreatmentDurationCategory == "Less than 1 week", "k"]`,"comparisons administered the TAAR1 agonist for less than one week, ", `r SMD_S_LMA_DurRx$subgroup_rma_summary[SMD_S_LMA_DurRx$subgroup_rma_summary$TreatmentDurationCategory == "Between 1-4 weeks", "k"]`," for between 1 and 4 weeks, and ",`r SMD_S_LMA_DurRx$subgroup_rma_summary[SMD_S_LMA_DurRx$subgroup_rma_summary$TreatmentDurationCategory == "More than 4 weeks", "k"]`," for more than 4 weeks.")
+  output_text4 <- paste0("The pooled SMD estimate for experiments administering the TAAR1 agonist for less than 1 week was ",`r SMD_S_LMA_DurRx$subgroup_rma_summary[SMD_S_LMA_DurRx$subgroup_rma_summary$TreatmentDurationCategory == "Less than 1 week", "SMD"]`," for 1 to 4 weeks was ",`r SMD_S_LMA_DurRx$subgroup_rma_summary[SMD_S_LMA_DurRx$subgroup_rma_summary$TreatmentDurationCategory == "Between 1-4 weeks", "SMD"]`," and for experiments administering the TAAR1 agonist for more than 4 weeks was ",`r SMD_S_LMA_DurRx$subgroup_rma_summary[SMD_S_LMA_DurRx$subgroup_rma_summary$TreatmentDurationCategory == "More than 4 weeks", "SMD"]`,".")
+
+} else {
+  output_text3 <- ""
+  output_text4 <- ""
+}
+
+```
 
 ##### 5.1.1.6 The intervention administered
 
@@ -1608,7 +1647,20 @@ For simple interventions, TAAR1 interventions had a pooled effect on cognition o
 
 ## 8.1 Egger regression
 
-Small studies effects using modified Egger's regression
+Small studies effects using modified Egger's regression.
+
+Because of the relationship between SMD effect sizes and variance inherent in their calculation, where study size is small the standard approach to seeking evidence of small study effects (regression based tests including Egger's regression test for multilevel meta-analysis) can lead to over-estimation of small study effect (see for instance 10.7554/eLife.24260). To address this we offer two approaches using Egger's regression test for multilevel meta-analysis, being (i) Regression of SMD effect size against 1/√N, where N is the total number of animals involved in an experiment; and (ii) Regression of NMD effect size against SE (possible for `r ((df_S_LMA %>% filter(NMD_possible == "TRUE") %>% nrow())/(nrow(df_S_LMA)))*100` % of comparisons).
+
+## 8.1.1 Egger's regression test for multilevel meta-analysis: SMD v 1/√N
+
+```{r warning=FALSE, eval = TRUE, echo = FALSE}
+run_sse_plot_SMD(df)
+#run_sse_NMD(df)
+```
+
+Egger regression based on `r run_sse_SMD(df)[["k"]]` studies of Simple interventions where Locomotor activity was measured showed a coefficient for a small study effect of `r run_sse_SMD(df)[["beta"]][2]` (95% CI: `r run_sse_SMD(df)[["ci.lb"]][2]` to `r run_sse_SMD(df)[["ci.ub"]][2]`; p = `r ifelse(run_sse_SMD(df)[["pval"]][2] < 0.001, "<0.001", sprintf("%.3f", run_sse_SMD(df)[["pval"]][2]))`) in the context of a baseline estimate of effect of `r run_sse_SMD(df)[["beta"]][1]` (95% CI: `r run_sse_SMD(df)[["ci.lb"]][1]` to `r run_sse_SMD(df)[["ci.ub"]][1]`; p = `r ifelse(run_sse_SMD(df)[["pval"]][2] < 0.001, "<0.001", sprintf("%.3f", run_sse_SMD(df)[["pval"]][1]))`).
+
+## 8.1.2 Egger's regression test for multilevel meta-analysis: NMD v SE
 
 ```{r warning=FALSE, eval = TRUE, echo = FALSE}
 run_sse_plot(df)
@@ -1619,11 +1671,43 @@ Egger regression based on `r run_sse_NMD(df)[["k"]]` studies of Simple intervent
 
 # 9. Summary of the evidence
 
-|                                 |                                  |                                                           |                                                         |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |                               |
-|------------|------------|------------|------------|----------------|------------|
-| **Source of evidence**          | **Summary of the association**   | **Bias due to study limitations**                         | **Bias due to reporting bias**                          | **Bias due to indirectedness**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | **Bias due to other reasons** |
-| Animal and pre-clinical studies |                                  | No studies were of low risk of bias or low reporting bias | Egger Regression showed evidence of small study effects | Bias due to indirectness was assessed as follows. The **Initial organism (Homological validity)** We assessed rodents as having moderate validity as a non primate mammalian species, and all experiments included here were conducted in rodents. Further, `r SMD_S_LMA_CatDisInd$subgroup_rma_summary[SMD_S_LMA_CatDisInd$subgroup_rma_summary$CategoryDiseaseInduction == "Genetic (e.g. DISC1 KO, DAT KO, D2R overexpression)", "k"]` studies reporting locomotor activity and `r SMD_S_cog_CatDisInd$subgroup_rma_summary[SMD_S_cog_CatDisInd$subgroup_rma_summary$CategoryDiseaseInduction == "Genetic (e.g. DISC1 KO, DAT KO, D2R overexpression)", "k"]` studies reporting cognition used a genetic manipulation in a gene (DAT) known to be associated with human disease. **Early environment factors inducing transition from initial organism to vulnerable organism (Ontopathogenic validity)** Aside from the genetic models above, no models manipulated early environmental factors. **Triggering factors inducing transition from Vulnerable organism to Pathological organism** were commonly used (e.g. cocaine, amphetamine, PCP) but usually only with short term exposures trigerring increased locomotor activity. It was not possible to assess **Pathological Organism Mechanistic validity** (whether the neurobiological or cognitive mechanisms which operate in human disease could be observed in the animal models used) or **Triggering factors inducing changes in biomarkers (Induction validity)** because these were not assessed. **Therapeutic agents inducing changes in outcome** There was some evidence to support directness in that known antipsychotic drugs had observed efficacy in improving locomotor activity. **Biological markers** There were insufficient studies reporting neuotransmitter levels and no studies reported brain imaging outcomes. **Behavioural manifestations (Ethological validity)** Most studies reported locomotor activity, but `r SMD_S_cog[["k"]]` studies reported some form of cognitive outcome, and in these there was no significant effect of TAAR1 agonists `r SMD_S_cog[["beta"]]` (95% CI: `r SMD_S_cog[["ci.lb"]]` to `r SMD_S_cog[["ci.ub"]]`. |                               |
-| Human studies                   |                                  |                                                           |                                                         |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |                               |
+<table style="width:100%;">
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 13%" />
+<col style="width: 15%" />
+<col style="width: 19%" />
+<col style="width: 27%" />
+<col style="width: 12%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><p><strong>Source of evidence</strong>  </p></td>
+<td><p><strong>Summary of the association</strong>  </p></td>
+<td><p><strong>Bias due to study limitations</strong></p></td>
+<td><p><strong>Bias due to reporting bias</strong></p></td>
+<td><p><strong>Bias due to indirectedness</strong>  </p></td>
+<td><p><strong>Bias due to other reasons</strong></p></td>
+</tr>
+<tr class="even">
+<td><p>Animal and pre-clinical studies</p></td>
+<td></td>
+<td><p>No studies were of low risk of bias or low reporting bias</p></td>
+<td><p>Egger Regression showed conflicting results depending on the approach taken, with the SMD approach suggesting smaller studies report smaller effects, and the NMD approach suggesting smaller studies report larger effects.</p>
+<p>This might occur if smaller studies reporting larger effects were disproportionately represented in those studies for which NMD was not evaluable those which did not report performance in a sham group. </p></td>
+<td><p>Bias due to indirectness was assessed as follows. The <strong>Initial organism Homological validity</strong> We assessed rodents as having moderate validity as a non primate mammalian species, and all experiments included here were conducted in rodents. Further, <code>r SMD_S_LMA_CatDisInd$subgroup_rma_summary[SMD_S_LMA_CatDisInd$subgroup_rma_summary$CategoryDiseaseInduction == "Genetic (e.g. DISC1 KO, DAT KO, D2R overexpression)", "k"]</code> studies reporting locomotor activity and <code>r SMD_S_cog_CatDisInd$subgroup_rma_summary[SMD_S_cog_CatDisInd$subgroup_rma_summary$CategoryDiseaseInduction == "Genetic (e.g. DISC1 KO, DAT KO, D2R overexpression)", "k"]</code> studies reporting cognition used a genetic manipulation in a gene DAT known to be associated with human disease. <strong>Early environment factors inducing transition from initial organism to vulnerable organism Ontopathogenic validity</strong> Aside from the genetic models above, no models manipulated early environmental factors. <strong>Triggering factors inducing transition from Vulnerable organism to Pathological organism</strong> were commonly used e.g. cocaine, amphetamine, PCP but usually only with short term exposures trigerring increased locomotor activity. It was not possible to assess <strong>Pathological Organism Mechanistic validity</strong> whether the neurobiological or cognitive mechanisms which operate in human disease could be observed in the animal models used or <strong>Triggering factors inducing changes in biomarkers Induction validity</strong> because these were not assessed. <strong>Therapeutic agents inducing changes in outcome</strong> There was some evidence to support directness in that known antipsychotic drugs had observed efficacy in improving locomotor activity. <strong>Biological markers</strong> There were insufficient studies reporting neuotransmitter levels and no studies reported brain imaging outcomes. <strong>Behavioural manifestations Ethological validity</strong> Most studies reported locomotor activity, but <code>r SMD_S_cog[["k"]]</code> studies reported some form of cognitive outcome, and in these there was no significant effect of TAAR1 agonists <code>r SMD_S_cog[["beta"]]</code> 95% CI: <code>r SMD_S_cog[["ci.lb"]]</code> to <code>r SMD_S_cog[["ci.ub"]]</code>.</p></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><p>Human studies</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 
 ### Software used
 
