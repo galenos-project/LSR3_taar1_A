@@ -17,9 +17,7 @@ run_ML_SMD <- function(df, experiment, outcome, rho_value) {
     filter(!is.na(SMDv))
   
   # Check if data comes from 2 or more unique studies
-  if (n_distinct(df$StudyId) < 2) {
-    stop("Execution halted: Insufficient independent effect sizes for meta-analysis, as all effect sizes originate from a single study")
-  }
+  if (n_distinct(df$StudyId) > 1) {
   
   df <- df %>% mutate(effect_id = row_number()) # add effect_id column
   
@@ -57,9 +55,11 @@ run_ML_SMD <- function(df, experiment, outcome, rho_value) {
   print(pred_interval)
   
   return(SMD_ML)
-}
+}}
 
 forest_metafor <- function(model, experiment_type, outcome_title){ #outcome title is what you want outcome to be written as, it doesn't have to match outcome type
+  if(!is.null(model)){
+  
   
   lower_x <- floor((min(model[["yi"]])-mean(model[["vi"]])) - 1)
   upper_x <- ceiling((max(model[["yi"]])+mean(model[["vi"]])) + 1)
@@ -131,7 +131,7 @@ cixhigher <- model[["ci.ub"]]
     mtext("Favours TAAR1 agonist", side = 1, line = 3, at = (upper_x*0.4), cex = 1.2, col = "darkgreen", font = 1)
   }
 }
-  
+}
 
 plot_subgroup_analysis <- function(df, experiment_type, outcome, moderator, rho_value) {
   
