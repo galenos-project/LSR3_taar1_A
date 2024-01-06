@@ -831,7 +831,76 @@ check_moderator_levels <- function(df, experiment, outcome) {
   return(x)  # Return the formatted string
 }
 
+run_sse_SMD <- function(df, rho_value = 0.5) {
+  
+  #  df<-filter_experiment_outcome_type(df, experiment, outcome)
+  
+  df<-df %>% 
+    filter(!is.na(SMDv)) %>%
+    filter(outcome_type == "Locomotor activity") %>%
+    filter(SortLabel == "TvC")
+  
+  df <- df %>% mutate(effect_id = row_number()) # add effect_id column
+  df$SMDN <- 1/sqrt(as.numeric(df$NumberOfAnimals_C) + as.numeric(df$NumberOfAnimals_I))
+  
+  #calculate variance-covariance matrix of the sampling errors for dependent effect sizes
+  
+  
+  VCVM_SMD <- vcalc(vi = SMDv,
+                    cluster = StudyId, 
+                    subgroup= ExperimentID_I,
+                    obs=effect_id,
+                    data = df, 
+                    rho = rho_value)
+  
+  SMD_sse <- rma.mv(yi = SMD,
+                    V = VCVM_SMD,
+                    random = ~1 | Strain / StudyId / ExperimentID_I, # nested levels
+                    mods = ~ SMDN, # sampling error (squart root of N);
+                    test = "t", # use t- and F-tests for making inferences
+                    data = df,
+                    dfs="contain",
+                    control=list(optimizer="nlm")
+  )
+  
+  return(SMD_sse)
+}
 
+run_sse_plot_SMD <- function(df, rho_value = 0.5) {
+  
+  #  df<-filter_experiment_outcome_type(df, experiment, outcome)
+  
+  df<-df %>% 
+    filter(!is.na(SMDv)) %>%
+    filter(outcome_type == "Locomotor activity") %>%
+    filter(SortLabel == "TvC")
+  
+  df <- df %>% mutate(effect_id = row_number()) # add effect_id column
+  df$SMDN <- 1/sqrt(as.numeric(df$NumberOfAnimals_C) + as.numeric(df$NumberOfAnimals_I))
+  
+  #calculate variance-covariance matrix of the sampling errors for dependent effect sizes
+  
+  
+  VCVM_SMD <- vcalc(vi = SMDv,
+                    cluster = StudyId, 
+                    subgroup= ExperimentID_I,
+                    obs=effect_id,
+                    data = df, 
+                    rho = rho_value)
+  
+  SMD_sse <- rma.mv(yi = SMD,
+                    V = VCVM_SMD,
+                    random = ~1 | Strain / StudyId / ExperimentID_I, # nested levels
+                    mods = ~ SMDN, # sampling error (squart root of N);
+                    test = "t", # use t- and F-tests for making inferences
+                    data = df,
+                    dfs="contain",
+                    control=list(optimizer="nlm")
+  )
+  
+  plot <- bubble_plot(SMD_sse, mod = "SMDN", group = "StudyId", xlab = "1/SQRT(N) associated with SMD estimate", ylab = "SMD estimate", legend.pos = "none")
+  return(plot)
+}
 
 
 
