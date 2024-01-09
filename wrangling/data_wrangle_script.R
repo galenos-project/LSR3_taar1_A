@@ -703,13 +703,77 @@ data_TAvA <- subset(data_TAvA, !is.na(data_TAvA$Intervention) & !is.na(data_TAvA
 data_sub_TAvA <- subset(data_TAvA, !data_TAvA$GroupID.x %in% data_TAvAs$GroupID.x)
 data_TAvAc <- bind_rows(data_TAvAs, data_sub_TAvA)
 
+
+
+##### TAAR1 KO ######
+
+##### 3.5.1 T v C KO - with sham - possibility of multiple control (A) conditions #####
+
+data_TvCKOs <- data.frame()
+
+for (i in 1:nrow(group_characteristics)) {
+  group <- group_characteristics[i, 1]
+  cohset <- data[data$GroupID == as.character(group), ]  
+  
+  # Create combinations of interventions and positive controls
+  combinations <- expand.grid(
+    Intervention = unique(cohset$CohortLabel[cohset$CohortType == "Intervention for TAAR1KO"]),
+    Control = unique(cohset$CohortLabel[cohset$CohortType == "Negative control for TAAR1KO"]),
+    Sham = unique(cohset$CohortLabel[cohset$CohortType == "Sham for TAAR1KO"])
+  )
+  
+  if (nrow(combinations) > 0) {
+    cohset <- combinations %>%
+      left_join(cohset %>% filter(CohortType == "Intervention for TAAR1KO"), by = c("Intervention" = "CohortLabel")) %>%
+      left_join(cohset %>% filter(CohortType == "Negative control for TAAR1KO"), by = c("Control" = "CohortLabel")) %>%
+      left_join(cohset %>% filter(CohortType == "Sham for TAAR1KO"), by = c("Sham" = "CohortLabel"))
+    
+    if (nrow(cohset) > 0) {
+      data_TvCKOs <- bind_rows(data_TvCKOs, cohset)
+    }
+  }}
+
+data_TvCKOs$Label <- paste0(data_TvCKOs$TreatmentLabel.x, " v. Control: TAAR1 KO")
+data_TvCKOs$SortLabel <- "TvC_KO"
+data_TvCKOs <- subset(data_TvCKOs, !is.na(data_TvCKOs$Intervention) & !is.na(data_TvCKOs$Control) & !is.na(data_TvCKOs$Sham))
+
+
+##### 3.4.2 TA v A - without sham - possibility of multiple control (A) conditions #####
+
+data_TvCKO <- data.frame()
+
+for (i in 1:nrow(group_characteristics)) {
+  group <- group_characteristics[i, 1]
+  cohset <- data[data$GroupID == as.character(group), ]  
+  
+  # Create combinations of interventions and positive controls
+  combinations <- expand.grid(
+    Intervention = unique(cohset$CohortLabel[cohset$CohortType == "Intervention for TAAR1KO"]),
+    Control = unique(cohset$CohortLabel[cohset$CohortType == "Negative control for TAAR1KO"])
+  )
+  
+  # Merge combinations with the original data
+  cohset <- combinations %>%
+    left_join(cohset %>% filter(CohortType == "Intervention for TAAR1KO"), by = c("Intervention" = "CohortLabel")) %>%
+    left_join(cohset %>% filter(CohortType == "Negative control for TAAR1KO"), by = c("Control" = "CohortLabel"))
+  
+  data_TvCKO <- bind_rows(data_TvCKO, cohset)
+}
+
+data_TvCKO$Label <- paste0(data_TvCKO$TreatmentLabel.x, " v. Control: TAAR1 KO")
+data_TvCKO$SortLabel <- "TvC_KO"
+
+data_TvCKO <- subset(data_TvCKO, !is.na(data_TvCKO$Intervention) & !is.na(data_TvCKO$Control))
+
+data_sub_TvCKO <- subset(data_TvCKO, !data_TvCKO$GroupID.x %in% data_TvCKOs$GroupID.x)
+data_TvCKOc <- bind_rows(data_TvCKOs, data_sub_TvCKO)
+
 ##### combine to a single df and merge back to main #####
-data2 <- rbind(data_TvCc, data_AvCc, data_TvAc, data_TAvAc)
+data2 <- rbind(data_TvCc, data_AvCc, data_TvAc, data_TAvAc, data_TvCKOc)
 
 data2 <- data2 %>%
   rename_at(vars(ends_with(".x")), ~str_remove(., "\\.x") %>% paste0("_I")) %>%
   rename_at(vars(ends_with(".y")), ~str_remove(., "\\.y") %>% paste0("_C"))
-
 
 ###get names (wrangled externally) of columns to delete
 col_data2 <- read_csv("data/col_data2.csv")
