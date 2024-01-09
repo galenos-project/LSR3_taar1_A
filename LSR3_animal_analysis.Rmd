@@ -6,7 +6,6 @@ output:
   html_document: 
     fig_width: 9
 bibliography: grateful-refs.bib
-
 editor_options: 
   chunk_output_type: console
 ---
