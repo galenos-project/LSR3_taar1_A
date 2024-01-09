@@ -70,47 +70,48 @@ forest_metafor <- function(model, experiment_type, outcome_title){ #outcome titl
   
          forest_plot <- if(experiment_type == "TvC"){
                                forest(model,
-                                      xlim=c((lower_x-4), (upper_x+2)),
+                                      xlim=c((lower_x-8), (upper_x+3)),
                                       ylim=c(-2, model$k+5), rows=c((model$k+2):3),
                                       mlab="SMD [95% C.I.]", 
                                       alim=c((lower_x-4), (upper_x+2)),
                                       slab=paste(word(Authors, 1), Year, Strain),
                                       at = at_values,
-                                      col = c("darkred","darkred"),
+                                      col = c("grey","grey"),
                                       addfit = TRUE,
                                       addpred = TRUE,
                                       annotate = TRUE,
                                       header = "Study and Strain",
                                       order=StudyId,
                                       xlab = "",
-                                      ilab = cbind(ARRIVEScore, SMD),
-                                      ilab.xpos = c(-3, -2),
+                                      ilab = cbind(ARRIVEScore, Label),
+                                      ilab.xpos = c(-6, -3),
                                       cex = 0.6, 
                                       cex.axis = 1.0, 
                                       cex.lab = 1.2,
                                       efac = c(1,1,2))
-           text(c(-3,-2), model$k+6, c("Reporting\n completeness", "SMD"), cex=0.75, font=2)
+           text(c(-6,-3), model$k+6, c("Reporting\n completeness", "Drug"), cex=0.75, font=2)
          } else {
                                forest(model,
-                                      xlim=c((lower_x-4), (upper_x+2)),
+                                      xlim=c(-15,6),
+                                      ylim=c(-2, model$k+4), rows=c((model$k+1):2),
                                       mlab="SMD [95% C.I.]",
-                                      alim=c((lower_x-4), (upper_x+2)),
+                                      alim=c((lower_x-3), (upper_x+2.5)),
                                       slab=paste(word(Authors, 1), Year, Strain),
                                       at = at_values,
-                                      col = c("darkred","darkred"),
+                                      col = c("grey","grey"),
                                       addfit = TRUE,
                                       addpred = TRUE,
                                       annotate = TRUE,
                                       header = "Study and Strain",
                                       order=StudyId,
                                       xlab = "", 
-                                      ilab = cbind(ARRIVEScore, SMD),
-                                      ilab.xpos = c(-3, -2),
+                                      ilab = cbind(ARRIVEScore, Label),
+                                      ilab.xpos = c(-11, -7),
                                       cex = 0.6, 
                                       cex.axis = 1.0, 
                                       cex.lab = 1.2,
                                       efac = c(1,1,3))
-           text(c(-3,-2), model$k+2, c("Reporting\n completeness", "SMD"), cex=0.75, font=2)
+           text(c(-11,-7), model$k+3, c("Reporting\n completeness", "Comparison"), cex=0.75, font=2)
          }
          
 cixlower <- model[["ci.lb"]]
@@ -120,25 +121,26 @@ cixhigher <- model[["ci.ub"]]
   #mtext(outcome_title, side = 1, line = 3, cex = 1.2, font = 2)
   
   if (experiment_type == "TvA") {
-    mtext("Favours conventional \nantipsychotic", side = 1, line = 3, at = (lower_x*0.6), cex = 1.1, col = "red", font = 1)
-    mtext("Favours TAAR1 \nagonist", side = 1, line = 3, at = (upper_x), cex = 1.1, col = "darkgreen", font = 1)
+    mtext("Favours conventional \nantipsychotic", side = 1, line = 3, at = -4, cex = 1.1, col = "red", font = 1)
+    mtext("Favours TAAR1 \nagonist", side = 1, line = 3, at = 4, cex = 1.1, col = "darkgreen", font = 1)
     #addpoly(model, row = 0.25, cex = 0.4, col = "darkred", mlab = "SMD", annotate = FALSE, xvals = c(cixlower, cixhigher))
-    mtext(paste0("SMD: ", round(model$beta, 2), " (", round(model$ci.lb, 2), " to ", round(model$ci.ub, 2), ")"), side = 3, line = -1, cex = 1, font = 2)
+    #mtext(paste0("SMD: ", round(model$beta, 2), " (", round(model$ci.lb, 2), " to ", round(model$ci.ub, 2), ")"), side = 3, line = -1, cex = 1, font = 2)
     title(paste0("TAAR1 agonists effect on ", outcome_title, " compared with\nconventional antipsychotic in psychosis (SMD)"))
     
   } else if (experiment_type == "AvC") {
-    mtext("Favours control", side = 1, line = 3, at = (lower_x*0.6), cex = 1.1, col = "red", font = 1)
+    mtext("Favours control", side = 1, line = 3, at = -4, cex = 1.1, col = "red", font = 1)
 
-    mtext("Favours conventional \nantipsychotic", side = 1, line = 3, at = (upper_x), cex = 1.1, col = "darkgreen", font = 1)
+    mtext("Favours conventional \nantipsychotic", side = 1, line = 3, at = 4, cex = 1.1, col = "darkgreen", font = 1)
 
     #addpoly(model, row = 0.25, cex = 0.4, col = "darkred", mlab = "SMD", annotate = FALSE, xvals = c(cixlower, cixhigher))    
-    mtext(paste0("SMD: ", round(model$beta, 2), " (", round(model$ci.lb, 2), " to ", round(model$ci.ub, 2), ")"), side = 3, line = -1, cex = 1, font = 2)
+    #mtext(paste0("SMD: ", round(model$beta, 2), " (", round(model$ci.lb, 2), " to ", round(model$ci.ub, 2), ")"), side = 3, line = -1, cex = 1, font = 2)
     title(paste0("Conventional antipsychotic effect on ", outcome_title, "\nin psychosis (SMD)"))
     
   } else {  
     
-    mtext("Favours control", side = 1, line = 3, at = (lower_x*0.7), cex = 1.2, col = "red", font = 1)
-    mtext("Favours TAAR1 agonist", side = 1, line = 3, at = (upper_x*0.4), cex = 1.2, col = "darkgreen", font = 1)
+    mtext("Favours control", side = 1, line = 3, at = -4, cex = 1.2, col = "red", font = 1)
+    mtext("Favours TAAR1 agonist", side = 1, line = 3, at = 4, cex = 1.2, col = "darkgreen", font = 1)
+    title(paste0("Effect of TAAR1 agonist plus antipsychotic v antipsychotic alone on\n ", outcome_title, " in psychosis (SMD)"))
   }
 }
 }
