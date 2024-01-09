@@ -64,12 +64,14 @@ forest_metafor <- function(model, experiment_type, outcome_title){ #outcome titl
   lower_x <- floor((min(model[["yi"]])-mean(model[["vi"]])) - 1)
   upper_x <- ceiling((max(model[["yi"]])+mean(model[["vi"]])) + 1)
   summary_x <- model[["beta"]]
+  model[["data"]][["SMD"]] <- round(model[["data"]][["SMD"]],3)
   
   at_values <- seq(floor(lower_x / 5) * 5, ceiling(upper_x / 5) * 5, by = 5)
   
          forest_plot <- if(experiment_type == "TvC"){
                                forest(model,
                                       xlim=c((lower_x-4), (upper_x+2)),
+                                      ylim=c(-2, model$k+5), rows=c((model$k+2):3),
                                       mlab="SMD [95% C.I.]", 
                                       alim=c((lower_x-4), (upper_x+2)),
                                       slab=paste(word(Authors, 1), Year, Strain),
@@ -86,8 +88,8 @@ forest_metafor <- function(model, experiment_type, outcome_title){ #outcome titl
                                       cex = 0.6, 
                                       cex.axis = 1.0, 
                                       cex.lab = 1.2,
-                                      efac = c(1,1,3))
-           text(c(-3,-2), model$k+2, c("Reporting\n completeness", "SMD"), cex=0.75, font=2)
+                                      efac = c(1,1,2))
+           text(c(-3,-2), model$k+6, c("Reporting\n completeness", "SMD"), cex=0.75, font=2)
          } else {
                                forest(model,
                                       xlim=c((lower_x-4), (upper_x+2)),
