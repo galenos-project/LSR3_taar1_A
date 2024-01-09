@@ -17,48 +17,21 @@ editor_options:
     -   1.1 Description of experiment types
         -   1.1.1 TAAR1 Agonist v Control
 
-2.  Risk of bias and reporting completeness assessment
+2.  Outcome 1: Locomotor activity
 
-    -   2.1 TAAR1 Agonist v Control
+    -   2.1 Risk of bias and reporting completeness assessment
 
-        -   2.1.1 Outcome 1: Locomotor activity
-
-            -   2.1.1.1 Risks of bias
-
-            -   2.1.1.2 Reporting completeness
-
-        -   2.1.2 Outcome 2: Cognition
-
-            -   2.1.2.1 Risks of bias
-
-            -   2.1.2.2 Reporting completeness
-
-3.  Meta-analyses by experiment type and outcome
+        -   2.1.1 Risks of bias
+        
+        -   2.1.2 Reporting completeness
+        
+    -   2.2 Meta-analyses by experiment type and outcome
 
     -   3.1 TAAR1 Agonist v Control
-
-        -   3.1.1 Outcome 1: Locomotor activity
-
-        -   3.1.2 Outcome 2: Cognition
-
     -   3.2 TAAR1 Agonist v known antipsychotic drug
-
-        -   3.2.1 Outcome 1: Locomotor activity
-
-        -   3.2.2 Outcome 2: Cognition
-
     -   3.3 Co-treatment with TAAR1 agonist plus know antipsychotic drug v known antipsychotic drug alone
-
-        -   3.3.1 Outcome 1: Locomotor activity
-
-        -   3.3.2 Outcome 2: Cognition
-
-4.  Subgroup analyses and meta-regression
-
-    -   4.1 TAAR1 Agonist v Control
-
-        -   4.1.1 Outcome 1: Locomotor activity
-
+    
+    4.  Subgroup analyses and meta-regression
             -   4.1.1.1 Sex
 
             -   4.1.1.2 Category of disease induction
@@ -84,10 +57,31 @@ editor_options:
             -   4.1.1.12 ARRIVE reporting completeness guidelines
 
             -   4.1.1.13 Heterogeneity explained by covariates
+            
+            5.  Sensitivity Analyses
 
-        -   4.1.2 Outcome 2: Cognition
+            -   5.1.1.2 Imputed rho values
 
-            -   4.1.2.1 Sex
+            -   5.1.1.3 NMD
+    
+3. Outcome 2: Cognition 
+    -   2.1 Risk of bias and reporting completeness assessment
+
+        -   2.1.1 Risks of bias
+        
+        -   2.1.2 Reporting completeness
+        
+    -   2.2 Meta-analyses by experiment type and outcome
+
+    -   3.1 TAAR1 Agonist v Control
+    -   3.2 TAAR1 Agonist v known antipsychotic drug
+    -   3.3 Co-treatment with TAAR1 agonist plus know antipsychotic drug v known antipsychotic drug alone
+
+
+
+4.  Subgroup analyses and meta-regression
+
+             -   4.1.2.1 Sex
 
             -   4.1.2.2 Category of disease induction
 
@@ -115,19 +109,7 @@ editor_options:
 
 5.  Sensitivity Analyses
 
-    -   5.1 Sensitivity analyses for TAAR1 Agonist v Control
-
-        -   5.1.1 Locomotor activity
-
-            -   5.1.1.1 Studies with low overall risk of bias
-
-            -   5.1.1.2 Imputed rho values
-
-            -   5.1.1.3 NMD
-
         -   5.1.2 Cognition
-
-            -   5.1.2.1 Studies with low overall risk of bias
 
             -   5.1.2.2 Imputed rho values
 
@@ -238,7 +220,7 @@ Each experiment type will be analysed separately. This is because each experimen
 
 ### 1.1.1 **TAAR1 agonist vs control**
 
-In "simple intervention" studies the:
+In such studies the:
 
 -   **Control group** is a group of animals that is (1) subjected to a psychosis model induction paradigm and (2) administered a control treatment (vehicle) or no treatment
 
