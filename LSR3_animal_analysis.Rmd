@@ -1512,7 +1512,7 @@ forest_metafor_NMD(NMD_S_cog, "Cognition")
 
 For TAAR1 Agonist v Control, TAAR1 interventions had a pooled effect on cognition of NMD = `r NMD_S_cog[["beta"]]` (95% CI: `r NMD_S_cog[["ci.lb"]]` to `r NMD_S_cog[["ci.ub"]]`) with a prediction interval of `r predict(NMD_S_cog)$pi.lb` to `r predict(NMD_S_cog)$pi.ub`. For reference the pooled effect size for SMD was `r SMD_S_cog[["beta"]]` (95% CI: `r SMD_S_cog[["ci.lb"]]` to `r SMD_S_cog[["ci.ub"]]`).
 
-# 4 "TAAR1 Agonist v known antipsychotic drug" (TAAR1 Ag v known antipsychotic drugs) experiments
+# 4 TAAR1 Agonist v known antipsychotic drug
 
 ## 4.1 Outcome 1: Locomotor activity (a primary outcome)
 
@@ -1522,8 +1522,8 @@ SMD_S_LMA_H2H <- run_ML_SMD(df, "TvA", "Locomotor activity", 0.5)
 
 ```{r echo=FALSE}
  if (any(class(SMD_S_LMA_H2H) == "rma.mv")) {
-  output_text1 <- "In TAAR1 Agonist v known antipsychotic drug studies, the effect of administering a TAAR1 agonist on Locomotor activity in animals using SMD as the effect size is shown in Figure 4.2.1. The pooled estimate for SMD across all individual comparisons is displayed as a diamond shape at the bottom of the plot. Dotted lines indicate the prediction interval of the pooled estimate."
-  output_text2 <- "Figure 4.2.1"
+  output_text1 <- "In TAAR1 Agonist v known antipsychotic drug studies, the effect of administering a TAAR1 agonist on Locomotor activity in animals using SMD as the effect size is shown in Figure 4.1. The pooled estimate for SMD across all individual comparisons is displayed as a diamond shape at the bottom of the plot. Dotted lines indicate the prediction interval of the pooled estimate."
+  output_text2 <- "Figure 4.1"
 } else {
   output_text1 <- "Analysis is only performed if outcomes have been reported in more than one publication. There are not sufficient data for this analysis."
 }
@@ -1561,8 +1561,8 @@ SMD_S_Cog_H2H <- run_ML_SMD(df, "TvA", "Cognition", 0.5)
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
  if (any(class(SMD_S_Cog_H2H) == "rma.mv")) {
-  output_text1 <- "In TAAR1 Agonist v known antipsychotic drug studies, the effect of administering a TAAR1 agonist on cognitive outcomes in animals using SMD as the effect size is shown in Figure 4.2.2. The pooled estimate for SMD across all individual comparisons is displayed as a diamond shape at the bottom of the plot. Dotted lines indicate the prediction interval of the pooled estimate."
-  output_text2 <- "Figure 4.2.2"
+  output_text1 <- "In TAAR1 Agonist v known antipsychotic drug studies, the effect of administering a TAAR1 agonist on cognitive outcomes in animals using SMD as the effect size is shown in Figure 4.2. The pooled estimate for SMD across all individual comparisons is displayed as a diamond shape at the bottom of the plot. Dotted lines indicate the prediction interval of the pooled estimate."
+  output_text2 <- "Figure 4.2"
 } else {
   output_text1 <- "Analysis is only performed if outcomes have been reported in more than one publication. There are not sufficient data for this analysis."
   output_text2 <- ""
@@ -1603,8 +1603,8 @@ SMD_S_LMA_TAA <- run_ML_SMD(df, "TAvA", "Locomotor activity", 0.5)
 
 ```{r echo=FALSE}
  if (any(class(SMD_S_LMA_TAA) == "rma.mv")) {
-  output_text1 <- "For combination studies, the effect of administering a TAAR1 agonist plus a conventional antipsychotic drug, compared with TAAR1 agonist alone, on locomotor activity in animals using SMD as the effect size is shown in Figure 4.3.1. The pooled estimate for SMD across all individual comparisons is displayed as a diamond shape at the bottom of the plot. Dotted lines indicate the prediction interval of the pooled estimate."
-  output_text2 <- "Figure 4.3.1"
+  output_text1 <- "For combination studies, the effect of administering a TAAR1 agonist plus a conventional antipsychotic drug, compared with TAAR1 agonist alone, on locomotor activity in animals using SMD as the effect size is shown in Figure 5.1. The pooled estimate for SMD across all individual comparisons is displayed as a diamond shape at the bottom of the plot. Dotted lines indicate the prediction interval of the pooled estimate."
+  output_text2 <- "Figure 5.1"
 } else {
   output_text1 <- "Analysis is only performed if outcomes have been reported in more than one publication. There are not sufficient data for this analysis."
   output_text2 <- ""
@@ -1643,8 +1643,8 @@ SMD_S_Cog_TAA <- run_ML_SMD(df, "TAvA", "Cognition", 0.5)
 
 ```{r echo=FALSE}
  if (any(class(SMD_S_Cog_TAA) == "rma.mv")) {
-  output_text1 <- "For combination studies, the effect of administering a TAAR1 agonist plus a conventional antipsychotic drug, compared with TAAR1 agonist alone, on cognitive function in animals using SMD as the effect size is shown in Figure 4.3.2. The pooled estimate for SMD across all individual comparisons is displayed as a diamond shape at the bottom of the plot. Dotted lines indicate the prediction interval of the pooled estimate."
-  output_text2 <- "Figure 4.3.2"
+  output_text1 <- "For combination studies, the effect of administering a TAAR1 agonist plus a conventional antipsychotic drug, compared with TAAR1 agonist alone, on cognitive function in animals using SMD as the effect size is shown in Figure 5.2. The pooled estimate for SMD across all individual comparisons is displayed as a diamond shape at the bottom of the plot. Dotted lines indicate the prediction interval of the pooled estimate."
+  output_text2 <- "Figure 5.2"
 } else {
   output_text1 <- "Analysis is only performed if outcomes have been reported in more than one publication. There are not sufficient data for this analysis."
   output_text2 <- ""
@@ -1674,7 +1674,88 @@ forest_metafor(SMD_S_Cog_TAA, "TAvA","Cognition")
 
 `r output_text4`
 
-# 6. Summary of the evidence
+# 6 Treatment with TAAR1 agonist in TAAR1 Receptor knock-out animals
+
+## 6.1 Outcome 1: Locomotor activity (a primary outcome)
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_LMA_TKO <- run_ML_SMD(df, "TvC_KO", "Locomotor activity", 0.5)
+```
+
+```{r echo=FALSE}
+ if (any(class(SMD_S_LMA_TKO) == "rma.mv")) {
+  output_text1 <- "In TAAR1 Receptor knock-out animals, the effect of administering a TAAR1 agonist on locomotor activity using SMD as the effect size is shown in Figure 6.1. The pooled estimate for SMD across all individual comparisons is displayed as a diamond shape at the bottom of the plot. Dotted lines indicate the prediction interval of the pooled estimate."
+  output_text2 <- "Figure 6.1"
+} else {
+  output_text1 <- "Analysis is only performed if outcomes have been reported in more than one publication. There are not sufficient data for this analysis."
+  output_text2 <- ""
+}
+```
+
+`r output_text1`
+
+**`r output_text2`**
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=10}
+forest_metafor(SMD_S_LMA_TKO, "TvC_KO","Locomotor activity")
+```
+
+```{r echo = FALSE}
+# Check if the object is NULL
+ if (any(class(SMD_S_LMA_TKO) == "rma.mv")) {
+  output_text3 <- paste0("For experiments in TAAR1 Receptor knock-out animals, TAAR1 agonists had a pooled effect on locomotor activity of SMD =", round(SMD_S_LMA_TAA[['beta']], 3), " (95% CI: ", round(SMD_S_LMA_TAA[['ci.lb']], 3), " to ", round(SMD_S_LMA_TAA[['ci.ub']], 3),", with a prediction interval of ", round(predict(SMD_S_LMA_TAA)$pi.lb, 3), " to ", round(predict(SMD_S_LMA_TAA)$pi.ub, 3))
+  output_text4 <- paste0("Between-strain variance was ", round(SMD_S_LMA_TAA$sigma2[1], 3), ", between-study variance was ", round(SMD_S_LMA_TAA$sigma2[2], 3), ", and within-study variance (between experiments) was ", round(SMD_S_LMA_TAA$sigma2[3], 3))
+} else {
+  output_text3 <- ""
+  output_text4 <- ""
+}
+
+```
+
+`r output_text3`
+
+`r output_text4`
+
+## 6.2 Outcome 2: Cognition (a secondary outcome)
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_Cog_TKO <- run_ML_SMD(df, "TvC_KO", "Cognition", 0.5)
+```
+
+```{r echo=FALSE}
+ if (any(class(SMD_S_Cog_TKO) == "rma.mv")) {
+  output_text1 <- "For experiments in TAAR! Receptor knock-out animals, TAAR1 agonists had a pooled effect on cognitive function using SMD as the effect size is shown in Figure 6.2. The pooled estimate for SMD across all individual comparisons is displayed as a diamond shape at the bottom of the plot. Dotted lines indicate the prediction interval of the pooled estimate."
+  output_text2 <- "Figure 6.2"
+} else {
+  output_text1 <- "Analysis is only performed if outcomes have been reported in more than one publication. There are not sufficient data for this analysis."
+  output_text2 <- ""
+}
+```
+
+`r output_text1`
+
+**`r output_text2`**
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=10}
+forest_metafor(SMD_S_Cog_TKO, "TvC_KO","Cognition")
+```
+
+```{r echo = FALSE}
+ if (any(class(SMD_S_Cog_TKO) == "rma.mv")) {
+  output_text3 <- paste0("For combination experiments, TAAR1 agonists with antipsychotic drugs, compared with antipsychotic drugs alone, had a pooled effect on cognition of SMD =", round(SMD_S_Cog_TKO[['beta']], 3), " (95% CI: ", round(SMD_S_Cog_TKO[['ci.lb']], 3), " to ", round(SMD_S_Cog_TKOA[['ci.ub']], 3),", with a prediction interval of ", round(predict(SMD_S_Cog_TKO)$pi.lb, 3), " to ", round(predict(SMD_S_Cog_TKO)$pi.ub, 3))
+  output_text4 <- paste0("Between-strain variance was ", round(SMD_S_Cog_TKO$sigma2[1], 3), ", between-study variance was ", round(SMD_S_Cog_TKO$sigma2[2], 3), ", and within-study variance (between experiments) was ", round(SMD_S_Cog_TKO$sigma2[3], 3))
+} else {
+  output_text3 <- ""
+  output_text4 <- ""
+}
+
+```
+
+`r output_text3`
+
+`r output_text4`
+
+# 7. Summary of the evidence
 
 <table>
 <tbody>
@@ -1706,9 +1787,10 @@ forest_metafor(SMD_S_Cog_TAA, "TAvA","Cognition")
 </tbody>
 </table>
 
-# 7. Software used
+# 8. Software used
 
 <!--# do we need this in the Markdown? -->
+<!--# I'd like to have as little as possible to do outside Markdown; and I think it is good reporting practice -->
 
 ```{r echo=FALSE}
 grateful::cite_packages(output = "paragraph", pkgs = "Session", out.dir = ".")
