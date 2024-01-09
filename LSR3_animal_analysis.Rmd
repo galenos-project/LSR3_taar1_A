@@ -15,7 +15,6 @@ editor_options:
 1.  Flow of study selection and descriptives
 
     -   1.1 Description of experiment types
-        -   1.1.1 TAAR1 Agonist v Control
 
 2.  TAAR1 Agonists v Control: Outcome 1: Locomotor activity
 
@@ -53,15 +52,15 @@ editor_options:
 
         -   2.4.11 SYRCLE RoB assessment
 
-        -   2.4.12 ARRIVE reporting completeness guidelines
+        -   2.4.12 ARRIVE guideline reporting completeness
 
         -   2.4.13 Heterogeneity explained by covariates
         
     -   2.5  Sensitivity Analyses
 
-        -   2.5.1 Imputed rho values
+        -   2.5.1 Sensitivity to different assumprions for imputed rho values
 
-        -   2.5.2 Analysis using NMD rather than SMD
+        -   2.5.2 Sensitivity to analysis using NMD rather than SMD
     
     -   2.6  Reporting bias/small study effects
             
@@ -102,15 +101,15 @@ editor_options:
 
         -   3.4.11 SYRCLE RoB assessment
 
-        -   3.4.12 ARRIVE reporting completeness guidelines
+        -   3.4.12 ARRIVE guideline reporting completeness 
 
         -   3.4.13 Heterogeneity explained by covariates
         
     -   3.5  Sensitivity Analyses
 
-        -   3.5.1 Imputed rho values
+        -   3.5.1 Sensitivity to different assumprions for imputed rho values
 
-        -   3.5.2 Analysis using NMD rather than SMD
+        -   3.5.2 Sensitivity to analysis using NMD rather than SMD
     
     -   3.6  Reporting bias/small study effects
     
@@ -120,7 +119,7 @@ editor_options:
 
 6.  Summary of the evidence
 
-    Software used
+7.  Software used
 
 ```{r setup, message=F, echo=F, include=F}
 ### libraries
@@ -257,112 +256,43 @@ df_S_stereo <- filter_experiment_outcome_type(df, "TvC", "Stereotypy")
 
 Only one publication reported each of prepulse inhibition (a primary outcome), social interaction and stereotypy, and so these are not analysed further.
 
-# 2. Risk of bias and reporting completeness assessment
+# 2.1 Risk of bias and reporting completeness assessment
 
-##### 2.1 Risks of bias
+##### 2.1.1 Risks of bias
 
-Figure 3.1.1.1.1 shows the risk of bias summary for studies investigating the effect of administering a TAAR1 agonist on locomotor activity in animals. The risk of bias assessment was performed using the SYRCLE's RoB tool. Figure 3.1.1.1.2 shows the corresponding traffic light plot.
+Figure 2.1.1a shows the risk of bias summary for studies investigating the effect of administering a TAAR1 agonist on locomotor activity in animals. The risk of bias assessment was performed using the SYRCLE's RoB tool. Figure 2.1.1b shows the corresponding traffic light plot.
 
-**Figure 3.1.1.1.1**
+**Figure 2.1.1a**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE}
 SyRCLE_RoB_summary(df, "TvC", "Locomotor activity")
 ```
 
-**Figure 3.1.1.1.2**
+**Figure 2.1.1b**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE}
 SyRCLE_RoB_traffic(df, "TvC", "Locomotor activity")
 ```
 
-##### 2.1.1.2 Reporting completeness
+##### 2.1.2 Reporting completeness
 
-Figure 3.1.1.2.1 shows the reporting completeness summary for studies investigating the effect of administering a TAAR1 agonist on locomotor activity in animals. The reporting completeness assessment was performed using the ARRIVE guidelines. Figure 3.1.1.2.2 shows the corresponding traffic light plot.
+Figure 2.1.2a shows the reporting completeness summary for studies investigating the effect of administering a TAAR1 agonist on locomotor activity in animals. The reporting completeness assessment was performed using the ARRIVE guidelines. Figure 2.1.2b shows the corresponding traffic light plot.
 
-**Figure 3.1.1.2.1**
+**Figure 2.1.2a**
 
 ```{r warning=FALSE, eval = TRUE, echo = FALSE, fig.height = 7}
 ARRIVE_summary(df, "TvC", "Locomotor activity")
 ```
 
-**Figure 3.1.1.2.2**
+**Figure 2.1.2b**
 
 ```{r message = FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height = 7}
 
 ARRIVE_traffic(df, "TvC", "Locomotor activity")
 ```
 
-```{r echo = FALSE}
-# placeholder, should more studies become available in future iterations
-#### 3.1.2 Outcome 2 : Prepulse inhibition
-#
-##### 3.1.2.1 Risks of bias
-#
-#Figure 3.1.2.1.1 shows the risk of bias summary for studies investigating the effect of administering a TAAR1 agonist on prepulse inhibition in animals. The risk of bias #assessment was performed using the SYRCLE's RoB tool. Figure 3.1.2.1.2 shows the corresponding traffic light plot.
-#
-#**Figure 3.1.2.1.1**
-#
-#{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE}
-#SyRCLE_RoB_summary(df, "TvC", "Prepulse inhibition")
-#
-#
-#**Figure 3.1.2.1.2**
-#
-#{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE}
-#SyRCLE_RoB_traffic(df, "TvC", "Prepulse inhibition")
-#```
-#
-###### 3.1.2.2 Reporting completeness
-#
-#Figure 3.1.2.2.1 shows the reporting completeness summary for studies investigating the effect of administering a TAAR1 agonist on prepulse inhibition in animals. The reporting #completeness assessment was performed using the ARRIVE guidelines. Figure 3.1.2.2.2 shows the corresponding traffic light plot.
-#
-#**Figure 3.1.2.2.1**
-#
-#```{r warning=FALSE, eval = TRUE, echo = FALSE}
-#ARRIVE_summary(df, "TvC", "Prepulse inhibition")
-#```
-#
-#**Figure 3.1.2.2.2**
-#
-#```{r message = FALSE, warning=FALSE, eval = TRUE, echo = FALSE}
-#
-#ARRIVE_traffic(df, "TvC", "Prepulse inhibition")
-```
 
-#### 2.1.2 Outcome 2 : Cognition
 
-##### 2.1.2.1 Risks of bias
-
-Figure 3.1.2.1.1 shows the risk of bias summary for studies investigating the effect of administering a TAAR1 agonist on cognition in animals. The risk of bias assessment was performed using the SYRCLE's RoB tool. Figure 3.1.2.1.2 shows the corresponding traffic light plot.
-
-**Figure 3.1.2.1.1**
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE}
-SyRCLE_RoB_summary(df, "TvC", "Cognition")
-```
-
-**Figure 3.1.2.1.2**
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, height = 7}
-SyRCLE_RoB_traffic(df, "TvC", "Cognition")
-```
-
-##### 2.1.2.2 Reporting completeness
-
-Figure 3.1.2.2.1 shows the reporting completeness summary for studies investigating the effect of administering a TAAR1 agonist on cognition in animals. The reporting completeness assessment was performed using the ARRIVE guidelines. Figure 3.1.2.2.2 shows the corresponding traffic light plot.
-
-**Figure 3.1.2.2.1**
-
-```{r warning=FALSE, eval = TRUE, echo = FALSE, fig.height = 7}
-ARRIVE_summary(df, "TvC", "Cognition")
-```
-
-**Figure 3.1.2.2.2**
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height = 7}
-
-ARRIVE_traffic(df, "TvC", "Cognition")
-```
 
 ```{r echo = FALSE}
 ## placeholder, should more studies become available in future iterations
@@ -1800,35 +1730,35 @@ Egger regression based on `r run_sse_SMD(df)[["k"]]` studies of TAAR1 Agonist v 
 #Egger regression based on `r run_sse_NMD(df)[["k"]]` studies of TAAR1 Agonist v Control where Locomotor activity was measured and NMD was evaluable showed a coefficient for a small study effect of `r #run_sse_NMD(df)[["beta"]][2]` (95% CI: `r run_sse_NMD(df)[["ci.lb"]][2]` to `r run_sse_NMD(df)[["ci.ub"]][2]`; p = `r ifelse(run_sse_NMD(df)[["pval"]][2] < 0.001, "<0.001", sprintf("%.3f", run_sse_NMD(df)[["pval"]][2]))`) in #the context of a baseline estimate of effect of `r run_sse_NMD(df)[["beta"]][1]` (95% CI: `r run_sse_NMD(df)[["ci.lb"]][1]` to `r run_sse_NMD(df)[["ci.ub"]][1]`; p = `r ifelse(run_sse_NMD(df)[["pval"]][2] < 0.001, "<0.001", #sprintf("%.3f", run_sse_NMD(df)[["pval"]][1]))`).
 ```
 
-# 2.1.2 Outcome 2 : Cognition
+# 3.1 Risk of bias and reporting completeness assessment
 
-##### 2.1.2.1 Risks of bias
+##### 3.1.1 Risks of bias
 
-Figure 3.1.2.1.1 shows the risk of bias summary for studies investigating the effect of administering a TAAR1 agonist on cognition in animals. The risk of bias assessment was performed using the SYRCLE's RoB tool. Figure 3.1.2.1.2 shows the corresponding traffic light plot.
+Figure 3.1.1a shows the risk of bias summary for studies investigating the effect of administering a TAAR1 agonist on cognition in animals. The risk of bias assessment was performed using the SYRCLE's RoB tool. Figure 3.1.1b shows the corresponding traffic light plot.
 
-**Figure 3.1.2.1.1**
+**Figure 3.1.1a**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE}
 SyRCLE_RoB_summary(df, "TvC", "Cognition")
 ```
 
-**Figure 3.1.2.1.2**
+**Figure 3.1.1b**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, height = 7}
 SyRCLE_RoB_traffic(df, "TvC", "Cognition")
 ```
 
-##### 2.1.2.2 Reporting completeness
+##### 3.1.2 Reporting completeness
 
-Figure 3.1.2.2.1 shows the reporting completeness summary for studies investigating the effect of administering a TAAR1 agonist on cognition in animals. The reporting completeness assessment was performed using the ARRIVE guidelines. Figure 3.1.2.2.2 shows the corresponding traffic light plot.
+Figure 3.1.2a shows the reporting completeness summary for studies investigating the effect of administering a TAAR1 agonist on cognition in animals. The reporting completeness assessment was performed using the ARRIVE guidelines. Figure 3.1.2b shows the corresponding traffic light plot.
 
-**Figure 3.1.2.2.1**
+**Figure 3.1.2a**
 
 ```{r warning=FALSE, eval = TRUE, echo = FALSE, fig.height = 7}
 ARRIVE_summary(df, "TvC", "Cognition")
 ```
 
-**Figure 3.1.2.2.2**
+**Figure 3.1.2b**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height = 7}
 
