@@ -69,39 +69,47 @@ forest_metafor <- function(model, experiment_type, outcome_title){ #outcome titl
   
          forest_plot <- if(experiment_type == "TvC"){
                                forest(model,
-                                      xlim=c((lower_x-2), (upper_x+2)),
-                                      mlab="SMD",
-                                      slab=NA,
-                                      alim=c((lower_x-2), (upper_x+2)),
+                                      xlim=c((lower_x-4), (upper_x+2)),
+                                      mlab="SMD [95% C.I.]", 
+                                      alim=c((lower_x-4), (upper_x+2)),
+                                      slab=paste(word(Authors, 1), Year, Strain),
                                       at = at_values,
                                       col = c("darkred","darkred"),
                                       addfit = TRUE,
                                       addpred = TRUE,
                                       annotate = TRUE,
-                                      order="obs",
-                                      xlab = "", 
+                                      header = "Study and Strain",
+                                      order=StudyId,
+                                      xlab = "",
+                                      ilab = cbind(ARRIVEScore, SMD),
+                                      ilab.xpos = c(-3, -2),
                                       cex = 0.6, 
                                       cex.axis = 1.0, 
                                       cex.lab = 1.2,
                                       efac = c(1,1,3))
+           text(c(-3,-2), model$k+2, c("Reporting\n completeness", "SMD"), cex=0.75, font=2)
          } else {
                                forest(model,
-                                      xlim=c((lower_x-2), (upper_x+2)),
-                                      mlab="SMD",
-                                      alim=c((lower_x-2), (upper_x+2)),
-                                      slab = Label,
+                                      xlim=c((lower_x-4), (upper_x+2)),
+                                      mlab="SMD [95% C.I.]",
+                                      alim=c((lower_x-4), (upper_x+2)),
+                                      slab=paste(word(Authors, 1), Year, Strain),
                                       at = at_values,
                                       col = c("darkred","darkred"),
                                       addfit = TRUE,
                                       addpred = TRUE,
                                       annotate = TRUE,
-                                      order="obs",
+                                      header = "Study and Strain",
+                                      order=StudyId,
                                       xlab = "", 
+                                      ilab = cbind(ARRIVEScore, SMD),
+                                      ilab.xpos = c(-3, -2),
                                       cex = 0.6, 
                                       cex.axis = 1.0, 
                                       cex.lab = 1.2,
                                       efac = c(1,1,3))
-  }
+           text(c(-3,-2), model$k+2, c("Reporting\n completeness", "SMD"), cex=0.75, font=2)
+         }
          
 cixlower <- model[["ci.lb"]]
 cixhigher <- model[["ci.ub"]]
