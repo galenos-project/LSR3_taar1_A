@@ -894,176 +894,264 @@ The estimate for $\theta$ was `r SMD_S_LMA_potency$metaregression_summary$beta[1
 
 The estimate for $\beta$ was `r SMD_S_LMA_potency$metaregression_summary$beta[2]`. This represents the predicted regression weight for the pEC50 of the intervention.
 
-#### 4.1.1.10 Dose of intervention
+#### 5.1.10 Dose of intervention
 
-In this iteration of the review, the TAAR1 agonists administered in 'simple intervention' experiments (ordered by number of experiments) were; **`r drugs <- df %>% filter(SortLabel == "TvC") %>% filter(outcome_type == "Locomotor activity") %>% group_by(DrugName) %>% summarise(count = n()) %>% arrange(desc(count)) %>% pull(DrugName); if (length(drugs) > 1) {paste(paste(head(drugs, -1), collapse = ", "), "and", tail(drugs, 1))} else {drugs}`**. Meta-regression using the administered dose as an explanatory variable was first conducted individually for each drug/intervention. This approach accounts for varying mechanisms of action, pharmacodynamics, and pharmacokinetics of each drug, ensuring that the dose effect of one intervention is not masked by aggregate data.
+In this iteration of the review, the TAAR1 agonists tested against control for their effect on locomotor activity were; **`r drugs <- df %>% filter(SortLabel == "TvC") %>% filter(outcome_type == "Locomotor activity") %>% group_by(DrugName) %>% summarise(count = n()) %>% arrange(desc(count)) %>% pull(DrugName); if (length(drugs) > 1) {paste(paste(head(drugs, -1), collapse = ", "), "and", tail(drugs, 1))} else {drugs}`**. Meta-regression using the administered dose as an explanatory variable was conducted for each drug where this had been reported in 10 or more experiments from 3 or more publications. Where there are sufficient data, th dashed lines in the plot represents the 95% confidence interval of the regression line and the dotted lines represent the 95% prediction interval. Raw data is plotted with point size adjusted according to effect size precision.
 
-In the following plots, dashed lines represent the 95% confidence interval of the regression line and dotted lines represent the 95% prediction interval. Raw data is plotted with point size adjusted according to effect size precision.
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_LMA_RO5203648_dose <- metaregression_analysis_by_drug(df, "TvC", "Locomotor activity", "RO5203648", "DoseOfIntervention_mgkg", 0.5)
+```
 
-##### 4.1.1.10.1 SEP-363856 (Ultaront)
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+diag1 <- df %>%
+filter(SortLabel == "TvC") %>%
+filter(outcome_type == "Locomotor activity") %>%
+filter(DrugName == "RO5203648") %>%
+filter(!is.na(SMDv)) %>%
+filter(!is.na(!!sym("DoseOfIntervention_mgkg")))
+diag2 <- n_distinct(diag1$StudyId)
+diag3 <- nrow(diag1)
 
-Figure 5.1.1.10.1 provides a visualisation of the meta-regression analysis predicting the response, measured as the Standardized Mean Difference (SMD), in locomotor activity to varying doses of SEP-363856 (in mg/kg).
+output_text0 <- paste0("RO5203648: There were ", diag3, " comparisons from ", diag2, " publication(s).")
+
+```
+
+`r output_text0`
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+   metaregression_plot_by_drug(SMD_S_LMA_RO5203648_dose, df, "TvC", "Locomotor activity","DoseOfIntervention_mgkg", "RO5203648")
+```
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_LMA_RO5263397_dose <- metaregression_analysis_by_drug(df, "TvC", "Locomotor activity", "RO5263397", "DoseOfIntervention_mgkg", 0.5)
+```
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+diag1 <- df %>%
+filter(SortLabel == "TvC") %>%
+filter(outcome_type == "Locomotor activity") %>%
+filter(DrugName == "RO5263397") %>%
+filter(!is.na(SMDv)) %>%
+filter(!is.na(!!sym("DoseOfIntervention_mgkg")))
+diag2 <- n_distinct(diag1$StudyId)
+diag3 <- nrow(diag1)
+
+output_text0 <- paste0("RO5263397: There were ", diag3, " comparisons from ", diag2, " publication(s).")
+
+```
+
+`r output_text0`
+
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+   metaregression_plot_by_drug(SMD_S_LMA_RO5263397_dose, df, "TvC", "Locomotor activity","DoseOfIntervention_mgkg", "RO5263397")
+```
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 SMD_S_LMA_SEP363856_dose <- metaregression_analysis_by_drug(df, "TvC", "Locomotor activity", "SEP-363856", "DoseOfIntervention_mgkg", 0.5)
 ```
 
-**Figure 5.1.1.10.1**
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+diag1 <- df %>%
+filter(SortLabel == "TvC") %>%
+filter(outcome_type == "Locomotor activity") %>%
+filter(DrugName == "SEP-363856") %>%
+filter(!is.na(SMDv)) %>%
+filter(!is.na(!!sym("DoseOfIntervention_mgkg")))
+diag2 <- n_distinct(diag1$StudyId)
+diag3 <- nrow(diag1)
 
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
-SMD_S_LMA_SEP363856_dose$regression_plot
+output_text0 <- paste0("SEP-363856 (Ultaront): There were ", diag3, " comparisons from ", diag2, " publication(s).")
+
 ```
 
-The estimate for $\theta$ was `r SMD_S_LMA_SEP363856_dose$metaregression_summary$beta[1]`. The estimate for $\beta$ was `r SMD_S_LMA_SEP363856_dose$metaregression_summary$beta[2]`.
+`r output_text0`
 
-##### 4.1.1.10.2 RO5203648
-
-Figure 5.1.1.10.2 provides a visualisation of the meta-regression analysis predicting the response, measured as the Standardized Mean Difference (SMD), in locomotor activity to varying doses of RO5203648 (in mg/kg).
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-SMD_S_LMA_RO5203648_dose <- metaregression_analysis_by_drug(df, "TvC", "Locomotor activity", "RO5203648", "DoseOfIntervention_mgkg", 0.5)
-
+   metaregression_plot_by_drug(SMD_S_LMA_SEP363856_dose, df, "TvC", "Locomotor activity","DoseOfIntervention_mgkg", "SEP-363856")
 ```
 
-**Figure 5.1.1.10.2**
 
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
-SMD_S_LMA_RO5203648_dose$regression_plot
-```
 
-The estimate for $\theta$ was `r SMD_S_LMA_RO5203648_dose$metaregression_summary$beta[1]`. The estimate for $\beta$ was `r SMD_S_LMA_RO5203648_dose$metaregression_summary$beta[2]`.
-
-##### 4.1.1.10.3 RO5166017
-
-Figure 5.1.1.10.3 provides a visualisation of the meta-regression analysis predicting the response, measured as the Standardized Mean Difference (SMD), in locomotor activity to varying doses of RO5166017 (in mg/kg).
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 SMD_S_LMA_RO5166017_dose <- metaregression_analysis_by_drug(df, "TvC", "Locomotor activity", "RO5166017", "DoseOfIntervention_mgkg", 0.5)
-
 ```
-
-**Figure 5.1.1.10.3**
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
-SMD_S_LMA_RO5166017_dose$regression_plot
-```
-
-The estimate for $\theta$ was `r SMD_S_LMA_RO5166017_dose$metaregression_summary$beta[1]`. The estimate for $\beta$ was `r SMD_S_LMA_RO5166017_dose$metaregression_summary$beta[2]`.
-
-##### 4.1.1.10.4 RO5263397
-
-Figure 5.1.1.10.4 provides a visualisation of the meta-regression analysis predicting the response, measured as the Standardized Mean Difference (SMD), in locomotor activity to varying doses of RO5263397 (in mg/kg).
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-SMD_S_LMA_RO5263397_dose <- metaregression_analysis_by_drug(df, "TvC", "Locomotor activity", "RO5263397", "DoseOfIntervention_mgkg", 0.5)
+diag1 <- df %>%
+filter(SortLabel == "TvC") %>%
+filter(outcome_type == "Locomotor activity") %>%
+filter(DrugName == "RO5166017") %>%
+filter(!is.na(SMDv)) %>%
+filter(!is.na(!!sym("DoseOfIntervention_mgkg")))
+diag2 <- n_distinct(diag1$StudyId)
+diag3 <- nrow(diag1)
+
+output_text0 <- paste0("RO5166017: There were ", diag3, " comparisons from ", diag2, " publication(s).")
 
 ```
 
-**Figure 5.1.1.10.4**
+`r output_text0`
 
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
-SMD_S_LMA_RO5263397_dose$regression_plot
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+   metaregression_plot_by_drug(SMD_S_LMA_RO5166017_dose, df, "TvC", "Locomotor activity","DoseOfIntervention_mgkg", "RO5166017")
 ```
 
-The estimate for $\theta$ was `r SMD_S_LMA_RO5263397_dose$metaregression_summary$beta[1]`. The estimate for $\beta$ was `r SMD_S_LMA_RO5263397_dose$metaregression_summary$beta[2]`.
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_LMA_LK000764_dose <- metaregression_analysis_by_drug(df, "TvC", "Locomotor activity", "LK000764", "DoseOfIntervention_mgkg", 0.5)
+```
 
-##### 4.1.1.10.5 RO5256390
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+diag1 <- df %>%
+filter(SortLabel == "TvC") %>%
+filter(outcome_type == "Locomotor activity") %>%
+filter(DrugName == "LK000764") %>%
+filter(!is.na(SMDv)) %>%
+filter(!is.na(!!sym("DoseOfIntervention_mgkg")))
+diag2 <- n_distinct(diag1$StudyId)
+diag3 <- nrow(diag1)
 
-Figure 5.1.1.10.5 provides a visualisation of the meta-regression analysis predicting the response, measured as the Standardized Mean Difference (SMD), in locomotor activity to varying doses of RO5256390 (in mg/kg).
+output_text0 <- paste0("LK000764: There were ", diag3 <- nrow(diag1), " comparisons from ", diag2, " publication(s).")
+
+```
+
+`r output_text0`
+
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+   metaregression_plot_by_drug(SMD_S_LMA_LK000764_dose, df, "TvC", "Locomotor activity","DoseOfIntervention_mgkg", "LK000764")
+```
+
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 SMD_S_LMA_RO5256390_dose <- metaregression_analysis_by_drug(df, "TvC", "Locomotor activity", "RO5256390", "DoseOfIntervention_mgkg", 0.5)
 ```
 
-**Figure 5.1.1.10.5**
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+diag1 <- df %>%
+filter(SortLabel == "TvC") %>%
+filter(outcome_type == "Locomotor activity") %>%
+filter(DrugName == "RO5256390") %>%
+filter(!is.na(SMDv)) %>%
+filter(!is.na(!!sym("DoseOfIntervention_mgkg")))
+diag2 <- n_distinct(diag1$StudyId)
+diag3 <- nrow(diag1)
 
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
-SMD_S_LMA_RO5256390_dose$regression_plot
+output_text0 <- paste0("RO5256390: There were ", diag3 <- nrow(diag1), " comparisons from ", diag2, " publication(s).")
+
 ```
 
-##### 4.1.1.10.6 LK000764
+`r output_text0`
 
-Figure 5.1.1.10.6 provides a visualisation of the meta-regression analysis predicting the response, measured as the Standardized Mean Difference (SMD), in locomotor activity to varying doses of LK000764 (in mg/kg).
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-SMD_S_LMA_LK000764_dose <- metaregression_analysis_by_drug(df, "TvC", "Locomotor activity", "LK000764", "DoseOfIntervention_mgkg", 0.5)
-
+   metaregression_plot_by_drug(SMD_S_LMA_RO5256390_dose, df, "TvC", "Locomotor activity","DoseOfIntervention_mgkg", "RO5256390")
 ```
 
-**Figure 5.1.1.10.6**
 
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
-SMD_S_LMA_LK000764_dose$regression_plot
-```
-
-The estimate for $\theta$ was `r SMD_S_LMA_LK000764_dose$metaregression_summary$beta[1]`. The estimate for $\beta$ was `r SMD_S_LMA_LK000764_dose$metaregression_summary$beta[2]`.
-
-##### 4.1.1.10.7 Compound 50B
-
-Figure 5.1.1.10.7 provides a visualisation of the meta-regression analysis predicting the response, measured as the Standardized Mean Difference (SMD), in locomotor activity to varying doses of Compound 50B (in mg/kg).
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 SMD_S_LMA_Compound50B_dose <- metaregression_analysis_by_drug(df, "TvC", "Locomotor activity", "Compound 50B", "DoseOfIntervention_mgkg", 0.5)
 ```
 
-**Figure 5.1.1.10.7**
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+diag1 <- df %>%
+filter(SortLabel == "TvC") %>%
+filter(outcome_type == "Locomotor activity") %>%
+filter(DrugName == "Compound 50B") %>%
+filter(!is.na(SMDv)) %>%
+filter(!is.na(!!sym("DoseOfIntervention_mgkg")))
+diag2 <- n_distinct(diag1$StudyId)
+diag3 <- nrow(diag1)
 
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
-SMD_S_LMA_Compound50B_dose$regression_plot
+output_text0 <- paste0("Compound 50B: There were ", diag3, " comparisons from ", diag2, " publication(s).")
 
 ```
 
-The estimate for $\theta$ was `r SMD_S_LMA_Compound50B_dose$metaregression_summary$beta[1]`. The estimate for $\beta$ was `r SMD_S_LMA_Compound50B_dose$metaregression_summary$beta[2]`.
+`r output_text0`
 
-##### 4.1.1.10.8 Compound 50A
 
-Figure 5.1.1.10.8 provides a visualisation of the meta-regression analysis predicting the response, measured as the Standardized Mean Difference (SMD), in locomotor activity to varying doses of Compound 50A (in mg/kg).
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+   metaregression_plot_by_drug(SMD_S_LMA_Compound50B_dose, df, "TvC", "Locomotor activity","DoseOfIntervention_mgkg", "Compound 50B")
+```
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 SMD_S_LMA_Compound50A_dose <- metaregression_analysis_by_drug(df, "TvC", "Locomotor activity", "Compound 50A", "DoseOfIntervention_mgkg", 0.5)
 ```
 
-**Figure 5.1.1.10.8**
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+diag1 <- df %>%
+filter(SortLabel == "TvC") %>%
+filter(outcome_type == "Locomotor activity") %>%
+filter(DrugName == "Compound 50A") %>%
+filter(!is.na(SMDv)) %>%
+filter(!is.na(!!sym("DoseOfIntervention_mgkg")))
+diag2 <- n_distinct(diag1$StudyId)
+diag3 <- nrow(diag1)
 
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
-SMD_S_LMA_Compound50A_dose$regression_plot
+output_text0 <- paste0("Compound 50A: There were ", diag3, " comparisons from ", diag2, " publication(s).")
 
 ```
 
-The estimate for $\theta$ was `r SMD_S_LMA_Compound50A_dose$metaregression_summary$beta[1]`. The estimate for $\beta$ was `r SMD_S_LMA_Compound50A_dose$metaregression_summary$beta[2]`.
+`r output_text0`
 
-##### 4.1.1.10.9 RO5073012
 
-Figure 5.1.1.10.9 provides a visualisation of the meta-regression analysis predicting the response, measured as the Standardized Mean Difference (SMD), in locomotor activity to varying doses of RO5073012 (in mg/kg).
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+   metaregression_plot_by_drug(SMD_S_LMA_Compound50A_dose, df, "TvC", "Locomotor activity","DoseOfIntervention_mgkg", "Compound 50A")
+```
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 SMD_S_LMA_RO5073012_dose <- metaregression_analysis_by_drug(df, "TvC", "Locomotor activity", "RO5073012", "DoseOfIntervention_mgkg", 0.5)
 ```
 
-**Figure 5.1.1.10.9**
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+diag1 <- df %>%
+filter(SortLabel == "TvC") %>%
+filter(outcome_type == "Locomotor activity") %>%
+filter(DrugName == "RO5073012") %>%
+filter(!is.na(SMDv)) %>%
+filter(!is.na(!!sym("DoseOfIntervention_mgkg")))
+diag2 <- n_distinct(diag1$StudyId)
+diag3 <- nrow(diag1)
 
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
-SMD_S_LMA_RO5073012_dose$regression_plot
+output_text0 <- paste0("RO5073012: There were ", diag3, " comparisons from ", diag2, " publication(s).")
 
 ```
 
-The estimate for $\theta$ was `r SMD_S_LMA_RO5073012_dose$metaregression_summary$beta[1]`. The estimate for $\beta$ was `r SMD_S_LMA_RO5073012_dose$metaregression_summary$beta[2]`.
+`r output_text0`
 
-##### 4.1.1.10.10 AP163
 
-Figure 5.1.1.10.10 provides a visualisation of the meta-regression analysis predicting the response, measured as the Standardized Mean Difference (SMD), in locomotor activity to varying doses of AP163 (in mg/kg).
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+   metaregression_plot_by_drug(SMD_S_LMA_RO5073012_dose, df, "TvC", "Locomotor activity","DoseOfIntervention_mgkg", "RO5073012")
+```
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 SMD_S_LMA_AP163_dose <- metaregression_analysis_by_drug(df, "TvC", "Locomotor activity", "AP163", "DoseOfIntervention_mgkg", 0.5)
 ```
 
-**Figure 5.1.1.10.10**
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+diag1 <- df %>%
+filter(SortLabel == "TvC") %>%
+filter(outcome_type == "Locomotor activity") %>%
+filter(DrugName == "AP163") %>%
+filter(!is.na(SMDv)) %>%
+filter(!is.na(!!sym("DoseOfIntervention_mgkg")))
+diag2 <- n_distinct(diag1$StudyId)
+diag3 <- nrow(diag1)
 
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
-SMD_S_LMA_AP163_dose$regression_plot
+output_text0 <- paste0("AP163: There were ", diag3, " comparisons from ", diag2, " publication(s).")
+
 ```
 
-The estimate for $\theta$ was `r SMD_S_LMA_AP163_dose$metaregression_summary$beta[1]`. The estimate for $\beta$ was `r SMD_S_LMA_AP163_dose$metaregression_summary$beta[2]`.
+`r output_text0`
+
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+   metaregression_plot_by_drug(SMD_S_LMA_AP163_dose, df, "TvC", "Locomotor activity","DoseOfIntervention_mgkg", "AP163")
+```
 
 ##### 4.1.1.10.11 Standardised dose
 
@@ -1284,77 +1372,264 @@ The estimate for $\theta$ was `r SMD_S_cog_potency$metaregression_summary$beta[1
 
 The estimate for $\beta$ was `r SMD_S_cog_potency$metaregression_summary$beta[2]`. This represents the predicted regression weight for the pEC50 of the intervention.
 
-#### 4.1.2.10 Dose of intervention
+#### 5.2.10 Dose of intervention
 
-In this iteration of the review, the TAAR1 agonists administered in 'simple intervention' experiments (ordered by number of experiments) were; **`r drugs <- df %>% filter(SortLabel == "TvC") %>% filter(outcome_type == "Cognition") %>% group_by(DrugName) %>% summarise(count = n()) %>% arrange(desc(count)) %>% pull(DrugName); if (length(drugs) > 1) {paste(paste(head(drugs, -1), collapse = ", "), "and", tail(drugs, 1))} else {drugs}`**. Meta-regression using the administered dose as an explanatory variable was first conducted individually for each drug/intervention. This approach accounts for varying mechanisms of action, pharmacodynamics, and pharmacokinetics of each drug, ensuring that the dose effect of one intervention is not masked by aggregate data.
-
-In the following plots, dashed lines represent the 95% confidence interval of the regression line and dotted lines represent the 95% prediction interval. Raw data is plotted with point size adjusted according to effect size precision.
-
-##### 4.1.2.10.1 SEP-363856 (Ultaront)
-
-Figure 5.1.2.10.1 provides a visualisation of the meta-regression analysis predicting the response, measured as the Standardized Mean Difference (SMD), in Cognition to varying doses of SEP-363856 (in mg/kg).
+In this iteration of the review, the TAAR1 agonists tested against control for their effect on cognition were; **`r drugs <- df %>% filter(SortLabel == "TvC") %>% filter(outcome_type == "Cognition") %>% group_by(DrugName) %>% summarise(count = n()) %>% arrange(desc(count)) %>% pull(DrugName); if (length(drugs) > 1) {paste(paste(head(drugs, -1), collapse = ", "), "and", tail(drugs, 1))} else {drugs}`**. Meta-regression using the administered dose as an explanatory variable was conducted for each drug where this had been reported in 10 or more experiments from 3 or more publications. Where there are sufficient data, the dashed lines in the plot represents the 95% confidence interval of the regression line and the dotted lines represent the 95% prediction interval. Raw data is plotted with point size adjusted according to effect size precision.
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-
-SMD_S_cog_SEP363856_dose <- metaregression_analysis_by_drug(df, "TvC", "Cognition", "SEP-363856", "DoseOfIntervention_mgkg", 0.5)
-
+SMD_S_Cog_RO5203648_dose <- metaregression_analysis_by_drug(df, "TvC", "Cognition", "RO5203648", "DoseOfIntervention_mgkg", 0.5)
 ```
-
-**Figure 5.1.2.10.1**
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
-SMD_S_cog_SEP363856_dose$regression_plot
-```
-
-The estimate for $\theta$ was `r SMD_S_cog_SEP363856_dose$metaregression_summary$beta[1]`. The estimate for $\beta$ was `r SMD_S_cog_SEP363856_dose$metaregression_summary$beta[2]`.
-
-##### 4.1.2.10.2 RO5203648
-
-For 4 comparisons of RO5203648 reporting cognitive outcomes a single dose was used, with outcomes measured at different times, so metaregression is not possible.
-
-##### 4.1.2.10.3 RO5166017
-
-No cognitive outcomes were reported for RO5166017.
-
-##### 4.1.2.10.4 RO5263397
-
-No cognitive outcomes were reported for RO5263397.
-
-##### 4.1.2.10.5 RO5256390
-
-Figure 5.1.2.10.5 provides a visualisation of the meta-regression analysis predicting the response, measured as the Standardized Mean Difference (SMD), in Cognition to varying doses of RO5256390 (in mg/kg).
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+diag1 <- df %>%
+filter(SortLabel == "TvC") %>%
+filter(outcome_type == "Cognition") %>%
+filter(DrugName == "RO5203648") %>%
+filter(!is.na(SMDv)) %>%
+filter(!is.na(!!sym("DoseOfIntervention_mgkg")))
+diag2 <- n_distinct(diag1$StudyId)
+diag3 <- nrow(diag1)
 
-SMD_S_cog_RO5256390_dose <- metaregression_analysis_by_drug(df, "TvC", "Cognition", "RO5256390", "DoseOfIntervention_mgkg", 0.5)
+output_text0 <- paste0("RO5203648: There were ", diag3, " comparisons from ", diag2, " publication(s).")
 
 ```
 
-**Figure 5.1.2.10.5**
+`r output_text0`
 
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
-SMD_S_cog_RO5256390_dose$regression_plot
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+   metaregression_plot_by_drug(SMD_S_Cog_RO5203648_dose, df, "TvC", "Cognition","DoseOfIntervention_mgkg", "RO5203648")
 ```
 
-##### 4.1.2.10.6 LK000764
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_Cog_RO5263397_dose <- metaregression_analysis_by_drug(df, "TvC", "Cognition", "RO5263397", "DoseOfIntervention_mgkg", 0.5)
+```
 
-No cognitive outcomes were reported for LK000764.
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+diag1 <- df %>%
+filter(SortLabel == "TvC") %>%
+filter(outcome_type == "Cognition") %>%
+filter(DrugName == "RO5263397") %>%
+filter(!is.na(SMDv)) %>%
+filter(!is.na(!!sym("DoseOfIntervention_mgkg")))
+diag2 <- n_distinct(diag1$StudyId)
+diag3 <- nrow(diag1)
 
-##### 4.1.2.10.7 Compound 50B
+output_text0 <- paste0("RO5263397: There were ", diag3, " comparisons from ", diag2, " publication(s).")
 
-No cognitive outcomes were reported for Compound 50B.
+```
 
-##### 4.1.2.10.8 Compound 50A
+`r output_text0`
 
-No cognitive outcomes were reported for Compound 50A.
 
-##### 4.1.2.10.9 RO5073012
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+   metaregression_plot_by_drug(SMD_S_Cog_RO5263397_dose, df, "TvC", "Cognition","DoseOfIntervention_mgkg", "RO5263397")
+```
 
-No cognitive outcomes were reported for RO5073012.
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_Cog_SEP363856_dose <- metaregression_analysis_by_drug(df, "TvC", "Cognition", "SEP-363856", "DoseOfIntervention_mgkg", 0.5)
+```
 
-##### 4.1.2.10.10 AP163
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+diag1 <- df %>%
+filter(SortLabel == "TvC") %>%
+filter(outcome_type == "Cognition") %>%
+filter(DrugName == "SEP-363856") %>%
+filter(!is.na(SMDv)) %>%
+filter(!is.na(!!sym("DoseOfIntervention_mgkg")))
+diag2 <- n_distinct(diag1$StudyId)
+diag3 <- nrow(diag1)
 
-No cognitive outcomes were reported for AP163.
+output_text0 <- paste0("SEP-363856 (Ultaront): There were ", diag3, " comparisons from ", diag2, " publication(s).")
+
+```
+
+`r output_text0`
+
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+   metaregression_plot_by_drug(SMD_S_Cog_SEP363856_dose, df, "TvC", "Cognition","DoseOfIntervention_mgkg", "SEP-363856")
+```
+
+
+
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_Cog_RO5166017_dose <- metaregression_analysis_by_drug(df, "TvC", "Cognition", "RO5166017", "DoseOfIntervention_mgkg", 0.5)
+```
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+diag1 <- df %>%
+filter(SortLabel == "TvC") %>%
+filter(outcome_type == "Cognition") %>%
+filter(DrugName == "RO5166017") %>%
+filter(!is.na(SMDv)) %>%
+filter(!is.na(!!sym("DoseOfIntervention_mgkg")))
+diag2 <- n_distinct(diag1$StudyId)
+diag3 <- nrow(diag1)
+
+output_text0 <- paste0("RO5166017: There were ", diag3, " comparisons from ", diag2, " publication(s).")
+
+```
+
+`r output_text0`
+
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+   metaregression_plot_by_drug(SMD_S_Cog_RO5166017_dose, df, "TvC", "Cognition","DoseOfIntervention_mgkg", "RO5166017")
+```
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_Cog_LK000764_dose <- metaregression_analysis_by_drug(df, "TvC", "Cognition", "LK000764", "DoseOfIntervention_mgkg", 0.5)
+```
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+diag1 <- df %>%
+filter(SortLabel == "TvC") %>%
+filter(outcome_type == "Cognition") %>%
+filter(DrugName == "LK000764") %>%
+filter(!is.na(SMDv)) %>%
+filter(!is.na(!!sym("DoseOfIntervention_mgkg")))
+diag2 <- n_distinct(diag1$StudyId)
+diag3 <- nrow(diag1)
+
+output_text0 <- paste0("LK000764: There were ", diag3 <- nrow(diag1), " comparisons from ", diag2, " publication(s).")
+
+```
+
+`r output_text0`
+
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+   metaregression_plot_by_drug(SMD_S_Cog_LK000764_dose, df, "TvC", "Cognition","DoseOfIntervention_mgkg", "LK000764")
+```
+
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_Cog_RO5256390_dose <- metaregression_analysis_by_drug(df, "TvC", "Cognition", "RO5256390", "DoseOfIntervention_mgkg", 0.5)
+```
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+diag1 <- df %>%
+filter(SortLabel == "TvC") %>%
+filter(outcome_type == "Cognition") %>%
+filter(DrugName == "RO5256390") %>%
+filter(!is.na(SMDv)) %>%
+filter(!is.na(!!sym("DoseOfIntervention_mgkg")))
+diag2 <- n_distinct(diag1$StudyId)
+diag3 <- nrow(diag1)
+
+output_text0 <- paste0("RO5256390: There were ", diag3 <- nrow(diag1), " comparisons from ", diag2, " publication(s).")
+
+```
+
+`r output_text0`
+
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+   metaregression_plot_by_drug(SMD_S_Cog_RO5256390_dose, df, "TvC", "Cognition","DoseOfIntervention_mgkg", "RO5256390")
+```
+
+
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_Cog_Compound50B_dose <- metaregression_analysis_by_drug(df, "TvC", "Cognition", "Compound 50B", "DoseOfIntervention_mgkg", 0.5)
+```
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+diag1 <- df %>%
+filter(SortLabel == "TvC") %>%
+filter(outcome_type == "Cognition") %>%
+filter(DrugName == "Compound 50B") %>%
+filter(!is.na(SMDv)) %>%
+filter(!is.na(!!sym("DoseOfIntervention_mgkg")))
+diag2 <- n_distinct(diag1$StudyId)
+diag3 <- nrow(diag1)
+
+output_text0 <- paste0("Compound 50B: There were ", diag3, " comparisons from ", diag2, " publication(s).")
+
+```
+
+`r output_text0`
+
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+   metaregression_plot_by_drug(SMD_S_Cog_Compound50B_dose, df, "TvC", "Cognition","DoseOfIntervention_mgkg", "Compound 50B")
+```
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_Cog_Compound50A_dose <- metaregression_analysis_by_drug(df, "TvC", "Cognition", "Compound 50A", "DoseOfIntervention_mgkg", 0.5)
+```
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+diag1 <- df %>%
+filter(SortLabel == "TvC") %>%
+filter(outcome_type == "Cognition") %>%
+filter(DrugName == "Compound 50A") %>%
+filter(!is.na(SMDv)) %>%
+filter(!is.na(!!sym("DoseOfIntervention_mgkg")))
+diag2 <- n_distinct(diag1$StudyId)
+diag3 <- nrow(diag1)
+
+output_text0 <- paste0("Compound 50A: There were ", diag3, " comparisons from ", diag2, " publication(s).")
+
+```
+
+`r output_text0`
+
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+   metaregression_plot_by_drug(SMD_S_Cog_Compound50A_dose, df, "TvC", "Cognition","DoseOfIntervention_mgkg", "Compound 50A")
+```
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_Cog_RO5073012_dose <- metaregression_analysis_by_drug(df, "TvC", "Cognition", "RO5073012", "DoseOfIntervention_mgkg", 0.5)
+```
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+diag1 <- df %>%
+filter(SortLabel == "TvC") %>%
+filter(outcome_type == "Cognition") %>%
+filter(DrugName == "RO5073012") %>%
+filter(!is.na(SMDv)) %>%
+filter(!is.na(!!sym("DoseOfIntervention_mgkg")))
+diag2 <- n_distinct(diag1$StudyId)
+diag3 <- nrow(diag1)
+
+output_text0 <- paste0("RO5073012: There were ", diag3, " comparisons from ", diag2, " publication(s).")
+
+```
+
+`r output_text0`
+
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+   metaregression_plot_by_drug(SMD_S_Cog_RO5073012_dose, df, "TvC", "Cognition","DoseOfIntervention_mgkg", "RO5073012")
+```
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_Cog_AP163_dose <- metaregression_analysis_by_drug(df, "TvC", "Cognition", "AP163", "DoseOfIntervention_mgkg", 0.5)
+```
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+diag1 <- df %>%
+filter(SortLabel == "TvC") %>%
+filter(outcome_type == "Cognition") %>%
+filter(DrugName == "AP163") %>%
+filter(!is.na(SMDv)) %>%
+filter(!is.na(!!sym("DoseOfIntervention_mgkg")))
+diag2 <- n_distinct(diag1$StudyId)
+diag3 <- nrow(diag1)
+
+output_text0 <- paste0("AP163: There were ", diag3, " comparisons from ", diag2, " publication(s).")
+
+```
+
+`r output_text0`
+
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+   metaregression_plot_by_drug(SMD_S_Cog_AP163_dose, df, "TvC", "Cognition","DoseOfIntervention_mgkg", "AP163")
+```
 
 ##### 4.1.2.10.11 Standardised dose
 
