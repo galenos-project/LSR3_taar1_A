@@ -154,6 +154,7 @@ plot_subgroup_analysis <- function(df, experiment_type, outcome, moderator, rho_
     return(NULL)
   }
   
+  if ((n_distinct(df$StudyId) > 2) & (n_distinct(df$ExperimentID_I) >10)) {
   #df2$RoBScore <- as.numeric(df2$RoBScore)
   #df2$RoBScore <- factor(df2$RoBScore, levels = c(0, 1, 2))
   
@@ -274,7 +275,7 @@ plot_subgroup_analysis <- function(df, experiment_type, outcome, moderator, rho_
   return(list(
     subgroup_analysis = subgroup_analysis,
     subgroup_rma_summary = subgroup_analysis_plotdata))
-}
+}}
 
 metaregression_analysis <- function(df, experiment_type, outcome, moderator, rho_value) {
   
@@ -345,6 +346,10 @@ metaregression_analysis_by_drug <- function(df, experiment_type, outcome, drug_n
     filter(!is.na(SMDv)) %>%
     filter(!is.na(!!sym(moderator))) # Filter out NA values in moderator column
   
+  if ((n_distinct(df2$StudyId) > 2) & (n_distinct(df2) >10)) {
+    
+  
+  
   # Convert moderator back to numeric
   df2[[moderator]] <- as.numeric(df2[[moderator]])
   
@@ -376,9 +381,22 @@ metaregression_analysis_by_drug <- function(df, experiment_type, outcome, drug_n
     dfs = "contain"
   )
   
-  metaregression_summary <- summary(metaregression)
+  return(metaregression)
+  }}
   
-  x <- bubble_plot(metaregression, 
+metaregression_plot_by_drug <- function(x, df, experiment_type, outcome, moderator, drug_name) {
+  
+  moderator <- as.character(moderator)
+  
+  df2 <- df %>% 
+    filter(SortLabel == experiment_type) %>% 
+    filter(outcome_type == outcome) %>% 
+    filter(DrugName == drug_name) %>% #THIS IS ONLY CHANGE
+    filter(!is.na(SMDv)) %>%
+    filter(!is.na(!!sym(moderator))) # Filter out NA values in moderator column
+  
+  if ((n_distinct(df2$StudyId) > 2) & (n_distinct(df2) >10)) {
+  plot <- bubble_plot(x,
                    group = "StudyId",
                    mod = moderator, 
                    xlab = paste0("Dose of ", drug_name, " (mg/kg)"),
@@ -386,9 +404,8 @@ metaregression_analysis_by_drug <- function(df, experiment_type, outcome, drug_n
                    legend.pos = "none", 
                    k = TRUE) 
   
-  return(list(
-    metaregression_summary = metaregression_summary,
-    regression_plot = x))
+  return(plot)
+  }
 }
 
 
