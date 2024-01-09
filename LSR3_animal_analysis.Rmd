@@ -205,7 +205,7 @@ Within the literature we identified distinct categories of experiments and the d
 
 1.  **TAAR1 agonist vs control**. These were experiments investigating the effect of administering a TAAR1 agonist alone, reported in `r nrow(df %>% filter(SortLabel == "TvC"))` experiments from `r nrow(df %>% filter(SortLabel == "TvC") %>% distinct(StudyId))` publications.
 
-2.  **TAAR1 agonist vs 'known' antipsychotic drug**. These were experiments investigating the effect of administering a TAAR1 agonist alongside a currently licensed anti-psychotireported in `r nrow(df %>% filter(SortLabel == "TvA"))` experiments from `r nrow(df %>% filter(SortLabel == "TvA") %>% distinct(StudyId))` publications.
+2.  **TAAR1 agonist vs 'known' antipsychotic drug**. These were experiments investigating the effect of administering a TAAR1 agonist alongside a currently licensed anti-psychotic reported in `r nrow(df %>% filter(SortLabel == "TvA"))` experiments from `r nrow(df %>% filter(SortLabel == "TvA") %>% distinct(StudyId))` publications.
 
 3.  **Co-treatment with TAAR1 agonist plus know antipsychotic drug v known antipsychotic drug alone**, reported in `r nrow(df %>% filter(SortLabel == "TAvA"))` experiments from `r nrow(df %>% filter(SortLabel == "TAvA") %>% distinct(StudyId))` publications.
 
@@ -269,7 +269,7 @@ df_S_stereo <- filter_experiment_outcome_type(df, "TvC", "Stereotypy")
 
 Only one publication reported each of prepulse inhibition (a primary outcome), social interaction and stereotypy, and so these are not analysed further.
 
-#2 TAAR1 Agonists v Control: Outcome 1: Locomotor activity
+# 2 TAAR1 Agonists v Control: Outcome 1: Locomotor activity
 
 ## 2.1 Risk of bias and reporting completeness assessment
 
@@ -279,7 +279,7 @@ Figure 2.1.1a shows the risk of bias summary for studies investigating the effec
 
 **Figure 2.1.1a**
 
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE}
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height = 8}
 SyRCLE_RoB_summary(df, "TvC", "Locomotor activity")
 ```
 
@@ -301,7 +301,7 @@ ARRIVE_summary(df, "TvC", "Locomotor activity")
 
 **Figure 2.1.2b**
 
-```{r message = FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height = 7}
+```{r message = FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height = 8}
 
 ARRIVE_traffic(df, "TvC", "Locomotor activity")
 ```
@@ -535,7 +535,7 @@ The estimate for $\beta$ was `r SMD_S_LMA_potency$metaregression_summary$beta[2]
 
 #### 2.3.10 Dose of intervention
 
-In this iteration of the review, the TAAR1 agonists tested against control for their effect on locomotor activity were; **`r drugs <- df %>% filter(SortLabel == "TvC") %>% filter(outcome_type == "Locomotor activity") %>% group_by(DrugName) %>% summarise(count = n()) %>% arrange(desc(count)) %>% pull(DrugName); if (length(drugs) > 1) {paste(paste(head(drugs, -1), collapse = ", "), "and", tail(drugs, 1))} else {drugs}`**. Meta-regression using the administered dose as an explanatory variable was conducted for each drug where this had been reported in 10 or more experiments from 3 or more publications. Where there are sufficient data, th dashed lines in the plot represents the 95% confidence interval of the regression line and the dotted lines represent the 95% prediction interval. Raw data is plotted with point size adjusted according to effect size precision.
+In this iteration of the review, the TAAR1 agonists tested against control for their effect on locomotor activity were; **`r drugs <- df %>% filter(SortLabel == "TvC") %>% filter(outcome_type == "Locomotor activity") %>% group_by(DrugName) %>% summarise(count = n()) %>% arrange(desc(count)) %>% pull(DrugName); if (length(drugs) > 1) {paste(paste(head(drugs, -1), collapse = ", "), "and", tail(drugs, 1))} else {drugs}`**. Meta-regression using the administered dose as an explanatory variable was conducted for each drug where this had been reported in 10 or more experiments from 3 or more publications. Where there are sufficient data, the dashed lines in the plot represents the 95% confidence interval of the regression line and the dotted lines represent the 95% prediction interval. Raw data is plotted with point size adjusted according to effect size precision.
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 SMD_S_LMA_RO5203648_dose <- metaregression_analysis_by_drug(df, "TvC", "Locomotor activity", "RO5203648", "DoseOfIntervention_mgkg", 0.5)
@@ -897,11 +897,7 @@ The table below shows which of the covariates, if any, explain some of the heter
 options(scipen = 100, digits = 2)
 ```
 
-We examine the robustness of the findings for the primary outcome by performing the following sensitivity analyses:
-
-**2. Imputed rho values of 0.2 and 0.8**
-
-**3. NMD analysis**
+We examine the robustness of the findings for the primary outcome by performing the following sensitivity analyses
 
 
 #### 2.4.1 Imputed rho values of 0.2 and 0.8
@@ -979,7 +975,7 @@ SyRCLE_RoB_summary(df, "TvC", "Cognition")
 
 **Figure 3.1.1b**
 
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, height = 7}
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, height = 5}
 SyRCLE_RoB_traffic(df, "TvC", "Cognition")
 ```
 
@@ -989,7 +985,7 @@ Figure 3.1.2a shows the reporting completeness summary for studies investigating
 
 **Figure 3.1.2a**
 
-```{r warning=FALSE, eval = TRUE, echo = FALSE, fig.height = 7}
+```{r warning=FALSE, eval = TRUE, echo = FALSE, fig.height = 5}
 ARRIVE_summary(df, "TvC", "Cognition")
 ```
 
@@ -1479,7 +1475,8 @@ The table below shows which of the covariates, if any, explain some of the heter
 |                 \-                  |  *16-19 criteria met*   |     `r SMD_S_cog_ARRIVE$subgroup_analysis$beta[3]`      |          `r SMD_S_cog_ARRIVE$subgroup_analysis$ci.lb[3]` - `r SMD_S_cog_ARRIVE$subgroup_analysis$ci.ub[3]`          |                            \-                             |
 
 ## 3.4. Sensitivity Analyses
-#### 3.4.2 Imputed rho values of 0.2 and 0.8
+
+#### 3.4.1 Imputed rho values of 0.2 and 0.8
 
 In the previous analyses for the effect of TAAR1 agonists on cognition, we imputed a $\rho$ value of 0.5. Here, we examine the effect of imputing $\rho$ values of 0.2 and 0.8.
 
