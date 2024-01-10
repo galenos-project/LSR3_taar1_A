@@ -771,12 +771,12 @@ forest_metafor_NMD <- function(model, outcome){
   pred_interval <- predict(model)
   
          forest_plot <- forest(model, 
-                               xlim=c(-500, 250),
+                               xlim=c(-300, 250),
                                ylim=c(-2, model$k+5), rows=c((model$k+2):3),
                                mlab="NMD [95% CI]",
                                alim=c(lower_x-30, upper_x+20),
                                slab=paste(word(Authors, 1), Year, Strain),
-                               at = seq(-200,140,20),
+                               at = seq(-60,140,20),
                                col = c("grey","grey"),
                                addfit = TRUE,
                                addpred = TRUE,
@@ -785,12 +785,12 @@ forest_metafor_NMD <- function(model, outcome){
                                order=StudyId,
                                xlab = "",
                                ilab = cbind(ARRIVEScore, Label),
-                               ilab.xpos = c(-340, -250),
+                               ilab.xpos = c(-165, -90),
                                cex = 0.6, 
                                cex.axis = 1.0, 
                                cex.lab = 1.2,
                                efac = c(1,1,2))
-         text(c(-340,-250), model$k+5, c("Reporting\n completeness", "Drug"), cex=0.75, font=2)
+         text(c(-165,-90), model$k+5, c("Reporting\n completeness", "Drug"), cex=0.75, font=2)
 
   
   #mtext(outcome, side = 1, line = 3, cex = 1.2, font = 2)
