@@ -299,11 +299,11 @@ data <- data%>%
     grepl("SEP-363856", data$`InterventionLabel[1]`) ~ "SEP-363856",
     grepl("SEP-383856", data$`InterventionLabel[1]`) ~ "SEP-363856",
     grepl("SEP-856", data$`InterventionLabel[1]`) ~ "SEP-363856",
-    grepl("SEP", data$`InterventionLabel[1]`) ~ "SEP",
+    grepl("SEP", data$`InterventionLabel[1]`) ~ "SEP-363856",
     grepl("RO5203648", data$`InterventionLabel[1]`) ~ "RO5203648",
     grepl("LK000764", data$`InterventionLabel[1]`) ~ "LK000764",
     grepl("RO5256390", data$`InterventionLabel[1]`) ~ "RO5256390",
-    grepl("SEP-856", data$`InterventionLabel[1]`) ~ "SEP-856",
+    grepl("SEP-856", data$`InterventionLabel[1]`) ~ "SEP-363856",
     grepl("RO5073012", data$`InterventionLabel[1]`) ~ "RO5073012",
     grepl("Compound 50B", data$`InterventionLabel[1]`) ~ "Compound 50B",
     grepl("Compound 50A", data$`InterventionLabel[1]`) ~ "Compound 50A",
@@ -325,13 +325,13 @@ data <- data%>%
     grepl("RO5263397", data$`InterventionLabel[2]`) ~ "RO5263397",
     grepl("olanzepine", data$`InterventionLabel[2]`) ~ "olanzapine",
     grepl("SEP-363856", data$`InterventionLabel[2]`) ~ "SEP-363856",
-    grepl("SEP-383856", data$`InterventionLabel[1]`) ~ "SEP-363856",
+    grepl("SEP-383856", data$`InterventionLabel[2]`) ~ "SEP-363856",
     grepl("SEP-856", data$`InterventionLabel[2]`) ~ "SEP-363856",
-    grepl("SEP", data$`InterventionLabel[2]`) ~ "SEP",
+    grepl("SEP", data$`InterventionLabel[2]`) ~ "SEP-363856",
     grepl("RO5203648", data$`InterventionLabel[2]`) ~ "RO5203648",
     grepl("LK000764", data$`InterventionLabel[2]`) ~ "LK000764",
     grepl("RO5256390", data$`InterventionLabel[2]`) ~ "RO5256390",
-    grepl("SEP-856", data$`InterventionLabel[2]`) ~ "SEP-856",
+    grepl("SEP-856", data$`InterventionLabel[2]`) ~ "SEP-363856",
     grepl("RO5073012", data$`InterventionLabel[2]`) ~ "RO5073012",
     grepl("Compound 50B", data$`InterventionLabel[2]`) ~ "Compound 50B",
     grepl("Compound 50A", data$`InterventionLabel[2]`) ~ "Compound 50A",
@@ -349,25 +349,114 @@ data <- data%>%
     TRUE ~ "Other"
   ))
 
+data$Treatment1Label <- paste0(data$drugname1, ", ", data$`Dose of treatment used:[1]`, ' ', data$`Measurement unit of treatment dose:[1]`)
+data$Treatment2Label <- paste0(data$drugname2, ", ", data$`Dose of treatment used:[2]`, ' ', data$`Measurement unit of treatment dose:[2]`)
+
+diag <- data[,c('drugname1', 'Treatment1Label','InterventionLabel[1]','Dose of treatment used:[1]','Dose of positive control treatment?[1]',
+                'Measurement unit of treatment dose:[1]','drugname2','Treatment2Label','InterventionLabel[2]',
+                'Dose of treatment used:[1]','Dose of positive control treatment?[2]','Measurement unit of treatment dose:[2]', 'GroupID','CohortId')]
+
+dsubset_df1 <- subset(diag, !grepl('mg', diag$Treatment1Label, ignore.case = TRUE))
+dsubset_df1a <- subset(dsubset_df1, !grepl('Other', dsubset_df1$Treatment1Label, ignore.case = TRUE))
+
+dsubset_df2 <- subset(diag, !grepl('mg', diag$Treatment2Label, ignore.case = TRUE))
+dsubset_df2a <- subset(dsubset_df2, !grepl('Other', dsubset_df2$Treatment2Label, ignore.case = TRUE))
+
+dsubset_df1b <- subset(dsubset_df1a, !grepl('Other', dsubset_df1a$Treatment2Label, ignore.case = TRUE))
+
+
+column_name <- 'Measurement unit of treatment dose:[2]'
+condition <- data$GroupID %in% dsubset_df2a$GroupID & data$CohortId %in% dsubset_df2a$CohortId
+data[condition, column_name] <- 'mg/kg'
+
+
+column_name <- 'Measurement unit of treatment dose:[1]'
+condition <- data$GroupID %in% dsubset_df1a$GroupID & data$CohortId %in% dsubset_df1a$CohortId
+data[condition, column_name] <- 'mg/kg'
+
+condition <- data$GroupID %in% dsubset_df1b$GroupID & data$CohortId %in% dsubset_df1b$CohortId
+
+column_name1 <- 'drugname1'
+column_name2 <- 'drugname2'
+column_name3 <- 'Treatment1Label'
+column_name4 <- 'Treatment2Label'
+column_name5 <- 'InterventionLabel[1]'
+column_name6 <- 'InterventionLabel[2]'
+column_name7 <- 'Dose of treatment used:[1]'
+column_name8 <- 'Dose of treatment used:[2]'
+column_name9 <- 'Dose of positive control treatment?[1]'
+column_name10 <- 'Dose of positive control treatment?[2]'
+column_name11 <- 'Measurement unit of treatment dose:[1]'
+column_name12 <- 'Measurement unit of treatment dose:[2]'
+
+temp <- data[condition, column_name1]
+data[condition, column_name1] <- data[condition, column_name2]
+data[condition, column_name2] <- temp
+
+temp <- data[condition, column_name3]
+data[condition, column_name3] <- data[condition, column_name4]
+data[condition, column_name4] <- temp
+
+temp <- data[condition, column_name5]
+data[condition, column_name5] <- data[condition, column_name6]
+data[condition, column_name6] <- temp
+
+temp <- data[condition, column_name7]
+data[condition, column_name7] <- data[condition, column_name8]
+data[condition, column_name8] <- temp
+
+temp <- data[condition, column_name9]
+data[condition, column_name9] <- data[condition, column_name10]
+data[condition, column_name10] <- temp
+
+temp <- data[condition, column_name11]
+data[condition, column_name11] <- data[condition, column_name12]
+data[condition, column_name12] <- temp
+
+columnnmae13 <- "Animal strain?"
+condition <- data$StudyId == '2cfb8de7-b0ad-416f-bfa4-a3771051dc1d'
+data[condition, columnnmae13] <- "Not stated (mouse)"
+
+condition <- data$ExperimentID == '40a5354c-f200-41e7-868e-2f9dbcfc2424'
+data[condition, columnnmae13] <- "C57Bl/6Jx129Sv/J (mouse)"
+
+condition <- data$ExperimentID == '31c009a0-cb80-4457-b529-4e0c52a97b02'
+data[condition, columnnmae13] <- "Not stated (mouse)"
+
+condition <- data$ExperimentID == '459641de-3ba8-4ac6-93c2-b8f7805af682'
+data[condition, columnnmae13] <- "Not stated (mouse)"
+
+condition <- data$StudyId == 'c064173a-747d-4877-ae38-27415dddd81e'
+data[condition, columnnmae13] <- "ICR (mouse)"
+
+condition <- data$ExperimentID == '1c48a8d4-0a37-4256-aa4a-34108731a48b'
+data[condition, columnnmae13] <- "NMRI (mouse)"
+
+condition <- data$ExperimentID == '32c6ccc3-e4e2-4a41-98c2-f36e8984775e'
+data[condition, columnnmae13] <- "NMRI (mouse)"
+
+
 ##### Get names of each cohort as drug, dose, unit ####
 data <- data %>% 
   mutate(TreatmentLabel1 = case_when(
     grepl("Intervention", data$Treatment1Type) ~ paste0(drugname1, ", ", `Dose of treatment used:[1]`, ' ', `Measurement unit of treatment dose:[1]`),
-    (grepl("Positive control", data$Treatment1Type) & is.na(`Dose of positive control treatment?[1]`)) ~ paste0(drugname1, ", ", `Dose of treatment used:[1]`),
-    (grepl("Positive control", data$Treatment1Type) & !is.na(`Dose of positive control treatment?[1]`)) ~ paste0(drugname1, ", ", `Dose of positive control treatment?[1]`)
+    (grepl("Positive control", data$Treatment1Type) & is.na(`Dose of positive control treatment?[1]`)) ~ paste0(drugname1, ", ", `Dose of treatment used:[1]`," ",`Measurement unit of treatment dose:[1]`),
+    (grepl("Positive control", data$Treatment1Type) & !is.na(`Dose of positive control treatment?[1]`)) ~ paste0(drugname1, ", ", `Dose of positive control treatment?[1]`," ",`Measurement unit of treatment dose:[1]`)
   ))
 
 data <- data %>% 
   mutate(TreatmentLabel2 = case_when(
     grepl("Intervention", data$Treatment2Type) ~ paste0(drugname2, ", ", `Dose of treatment used:[2]`, ' ', `Measurement unit of treatment dose:[2]`),
-    (grepl("Positive control", data$Treatment2Type) & is.na(`Dose of positive control treatment?[2]`)) ~ paste0(drugname2, ", ", `Dose of treatment used:[2]`),
-    (grepl("Positive control", data$Treatment2Type) & !is.na(`Dose of positive control treatment?[2]`)) ~ paste0(drugname2, ", ", `Dose of positive control treatment?[2]`)
+    (grepl("Positive control", data$Treatment2Type) & is.na(`Dose of positive control treatment?[2]`)) ~ paste0(drugname2, ", ", `Dose of treatment used:[2]`," ",`Measurement unit of treatment dose:[2]`),
+    (grepl("Positive control", data$Treatment2Type) & !is.na(`Dose of positive control treatment?[2]`)) ~ paste0(drugname2, ", ", `Dose of positive control treatment?[2]`," ",`Measurement unit of treatment dose:[2]`)
   ))
 
 data$TreatmentLabel1 <- gsub("miligrams \\(mg\\) per kg", "mg/kg", data$TreatmentLabel1)
 data$TreatmentLabel2 <- gsub("miligrams \\(mg\\) per kg", "mg/kg", data$TreatmentLabel2)
 data$TreatmentLabel1 <- gsub("Other, NA NA", "", data$TreatmentLabel1)
 data$TreatmentLabel2 <- gsub("Other, NA NA", "", data$TreatmentLabel2)
+data$TreatmentLabel1 <- gsub("mg/kg mg/kg", "mg/kg", data$TreatmentLabel1)
+data$TreatmentLabel2 <- gsub("mg/kg mg/kg", "mg/kg", data$TreatmentLabel2)
 
 
 data <- data %>% 
