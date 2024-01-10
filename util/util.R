@@ -71,7 +71,7 @@ forest_metafor <- function(model, experiment_type, outcome_title){ #outcome titl
          forest_plot <- if(experiment_type == "TvC"){
                                forest(model,
                                       xlim=c((lower_x-8), (upper_x+3)),
-                                      ylim=c(-2, model$k+5), rows=c((model$k+2):3),
+                                      ylim=c(-2, model$k+6), rows=c((model$k+2):3),
                                       mlab="SMD [95% C.I.]", 
                                       alim=c((lower_x-4), (upper_x+2)),
                                       slab=paste(word(Authors, 1), Year, Strain),
@@ -84,18 +84,18 @@ forest_metafor <- function(model, experiment_type, outcome_title){ #outcome titl
                                       order=StudyId,
                                       xlab = "",
                                       ilab = cbind(ARRIVEScore, Label),
-                                      ilab.xpos = c(-6, -3),
+                                      ilab.xpos = c(-5.5, -3),
                                       cex = 0.6, 
                                       cex.axis = 1.0, 
                                       cex.lab = 1.2,
                                       efac = c(1,1,2))
-           text(c(-6,-3), model$k+6, c("Reporting\n completeness", "Drug"), cex=0.75, font=2)
+           text(c(-5.5,-3), model$k+5, c("Reporting\n completeness", "Drug"), cex=0.75, font=2)
          } else {
                                forest(model,
-                                      xlim=c(-15,6),
+                                      xlim=c(-18,6),
                                       ylim=c(-2, model$k+4), rows=c((model$k+1):2),
                                       mlab="SMD [95% C.I.]",
-                                      alim=c((lower_x-3), (upper_x+2.5)),
+                                      alim=c((lower_x-2), (upper_x+2.5)),
                                       slab=paste(word(Authors, 1), Year, Strain),
                                       at = at_values,
                                       col = c("grey","grey"),
@@ -106,12 +106,12 @@ forest_metafor <- function(model, experiment_type, outcome_title){ #outcome titl
                                       order=StudyId,
                                       xlab = "", 
                                       ilab = cbind(ARRIVEScore, Label),
-                                      ilab.xpos = c(-11, -7),
+                                      ilab.xpos = c(-13, -7.7),
                                       cex = 0.6, 
                                       cex.axis = 1.0, 
                                       cex.lab = 1.2,
                                       efac = c(1,1,3))
-           text(c(-11,-7), model$k+3, c("Reporting\n completeness", "Comparison"), cex=0.75, font=2)
+           text(c(-13,-7.7), model$k+3, c("Reporting\n completeness", "Comparison"), cex=0.75, font=2)
          }
          
 cixlower <- model[["ci.lb"]]
@@ -518,7 +518,7 @@ SyRCLE_RoB_traffic <- function(df, experiment_type, outcome) {
   
   
   colnames(SyRCLE) <- c('Study ID','Allocation sequence','Baseline similarity','Concealment of allocation sequence','Random housing','Caregivers blinded','Random selection for outcome assessment','Blinded outcome assessor','Incomplete data reporting addressed','Free from selective outcome reporting','Free of other risks of bias')
-  RoB_TL <- rob_traffic_light(data <- SyRCLE, tool = "Generic", psize = 10, overall = FALSE)
+  RoB_TL <- rob_traffic_light(data <- SyRCLE, tool = "Generic", psize = 6, overall = FALSE)
   
   return(RoB_TL)
 }
@@ -636,7 +636,7 @@ ARRIVE_traffic <- function(df, experiment_type, outcome) {
                         'All species specified','Animal sex specified','Age, weight or developmental stage specified','Timing and frequency of proceedures described',
                         'Any acclimitisation described','Data with variance, or Effect size and CI','Ethical approval with approval number',
                         'Ethical approval with or without approval number','Conflicts of interest statement','Funding sources','Description of any role of funder')
-  Rep_TL <- rob_traffic_light(data = ARRIVE, tool = "Generic", psize = 10, overall = FALSE)
+  Rep_TL <- rob_traffic_light(data = ARRIVE, tool = "Generic", psize = 6, overall = FALSE)
   
   return(Rep_TL)
 }
@@ -717,8 +717,8 @@ run_ML_NMD <- function(df, experiment, outcome, rho_value) {
   
   df<-filter_experiment_outcome_type(df, experiment, outcome) 
   
-  #df<-df %>% 
-    #filter(!is.na(NMDv)) %>% 
+  df<-df %>% 
+    filter(!is.na(NMDv))
     #filter(NMD>-600) %>% 
     #filter(NMD<600) # delete missing values and some weirdly large values, like -15 and 16
   
@@ -770,40 +770,32 @@ forest_metafor_NMD <- function(model, outcome){
   
   pred_interval <- predict(model)
   
-  ifelse(model[["k"]] > 25, 
          forest_plot <- forest(model, 
-                               xlim=c(lower_x-20, upper_x+20),
-                               mlab="NMD",
-                               slab=NA,
-                               alim=c(lower_x-20, upper_x+20),
-                               at = at_values,
-                               col = c("darkred","darkred"),
-                               addfit = TRUE,
-                               addpred = TRUE,
-                               annotate = FALSE,
-                               order="obs",
-                               xlab = "", 
-                               cex = 1.0, 
-                               cex.axis = 1.0, 
-                               cex.lab = 1.2,
-                               efac = c(1,1,3)), 
-         forest_plot <- forest(model, 
-                               xlim=c(lower_x-20, upper_x+20),
-                               mlab="NMD",
-                               slab=NA,
-                               alim=c(lower_x-20, upper_x+20),
-                               at = at_values,
-                               col = c("darkred","darkred"),
+                               xlim=c(-500, 250),
+                               ylim=c(-2, model$k+5), rows=c((model$k+2):3),
+                               mlab="NMD [95% CI]",
+                               alim=c(lower_x-30, upper_x+20),
+                               slab=paste(word(Authors, 1), Year, Strain),
+                               at = seq(-200,140,20),
+                               col = c("grey","grey"),
                                addfit = TRUE,
                                addpred = TRUE,
                                annotate = TRUE,
-                               order="obs",
-                               xlab = ""))
+                               header = "Study and Strain",
+                               order=StudyId,
+                               xlab = "",
+                               ilab = cbind(ARRIVEScore, Label),
+                               ilab.xpos = c(-340, -250),
+                               cex = 0.6, 
+                               cex.axis = 1.0, 
+                               cex.lab = 1.2,
+                               efac = c(1,1,2))
+         text(c(-340,-250), model$k+5, c("Reporting\n completeness", "Drug"), cex=0.75, font=2)
+
   
   #mtext(outcome, side = 1, line = 3, cex = 1.2, font = 2)
-  mtext("Favours control", side = 1, line = 3, at = (lower_x + 30), cex = 1.2, col = "red", font = 1)
-  mtext("Favours TAAR1 agonist", side = 1, line = 3, at = (upper_x - 40), cex = 1.2, col = "darkgreen", font = 1)
-  mtext(paste0("NMD: ", round(model$beta, 2), " (", round(model$ci.lb, 2), " to ", round(model$ci.ub, 2), ")"), side = 2, line = 3, cex = 1.2, font = 2)
+  mtext("Favours control", side = 1, line = 3, at = (-120), cex = 1.2, col = "red", font = 1)
+  mtext("Favours TAAR1 agonist", side = 1, line = 3, at = (120), cex = 1.2, col = "darkgreen", font = 1)
   title(paste0("TAAR1 agonist effect on ", outcome, " in psychosis (NMD)"))
   
 }
