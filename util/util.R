@@ -422,8 +422,8 @@ forest_subgroup <- function(modelsumm, moderator, outcome, moderator_text) {
       coord_cartesian(ylim = c(0, 6), xlim = c(-3, 4)) +
       geom_vline(xintercept = 0, linetype = "solid") +
       geom_vline(xintercept = poly1$SMD, linetype = "dashed") +
-      annotate("text", x = -2, y = 6, label = "TAAR1 Agonist worse") +
-      annotate("text", x = 2, y = 6, label = "TAAR1 Agonist better") +
+      annotate("text", x = -2, y = 6, label = "TAAR1 Agonist\nworse") +
+      annotate("text", x = 2, y = 6, label = "TAAR1 Agonist\nbetter") +
       geom_polygon(data = dfp, aes(x = x, y = y), fill = "grey") +
       theme(axis.line.y = element_blank(),
             axis.ticks.y = element_blank(),
