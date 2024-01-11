@@ -226,7 +226,7 @@ subgroup_analysis <- function(df, experiment_type, outcome, moderator, rho_value
   subgroup_analysis_plotdata$summary <- FALSE
   subgroup_analysis_plotdata$fontfaace <- "plain"
   subgroup_analysis_plotdata$fontsize <- 3.88
-  subgroup_analysis_plotdata=rbind(subgroup_analysis_plotdata, c("Overall estimate",  overall_estimate_rma$k, overall_estimate_rma$beta, overall_estimate_rma$se, overall_estimate_rma$pval, overall_estimate_rma$ci.lb,overall_estimate_rma$ci.ub, 18,15,TRUE,"bold",5)) #overall_estimate_rma_predict$pi.lb, overall_estimate_rma_predict$pi.ub))
+  subgroup_analysis_plotdata=rbind(subgroup_analysis_plotdata, c("Overall estimate",  overall_estimate_rma$k, overall_estimate_rma$beta, overall_estimate_rma$se, overall_estimate_rma$pval, overall_estimate_rma$ci.lb,overall_estimate_rma$ci.ub, 18,1,TRUE,"bold",5)) #overall_estimate_rma_predict$pi.lb, overall_estimate_rma_predict$pi.ub))
 
   
   
@@ -405,8 +405,13 @@ forest_subgroup <- function(modelsumm, moderator, outcome, moderator_text) {
       arrange(order) %>%
       mutate(moderator = factor(model[["moderator"]], levels = unique(model[["moderator"]])))
   lnth <- nrow(model)
-    
-    
+  
+  
+  
+  poly1 <- subset(model, model$moderator == "Overall estimate")
+  upp <- 1 + ((poly1$SMD - poly1$ci_l)/2)
+  lop<- 1 - ((poly1$SMD - poly1$ci_l)/2)
+  dfp <- data.frame(x = c(poly1$SMD, poly1$ci_u, poly1$SMD, poly1$ci_l), y = c(lop, 1, upp, 1))
 
     p_mid <- model %>%
       ggplot(aes(y = fct_rev(moderator))) +
@@ -414,10 +419,12 @@ forest_subgroup <- function(modelsumm, moderator, outcome, moderator_text) {
       geom_point(aes(x = SMD), shape = model$symbol, size = model$size) +
       geom_linerange(aes(xmin = ci_l, xmax = ci_u)) +
       labs(x = "SMD Effect size") +
-      coord_cartesian(ylim = c(0, 6), xlim = c(-2, 4)) +
-      geom_vline(xintercept = 0, linetype = "dashed") +
-      annotate("text", x = -0.8, y = 6, label = "TAAR1 Agonist worse") +
-      annotate("text", x = 1.2, y = 6, label = "TAAR1 Agonist better") +
+      coord_cartesian(ylim = c(0, 6), xlim = c(-3, 4)) +
+      geom_vline(xintercept = 0, linetype = "solid") +
+      geom_vline(xintercept = poly1$SMD, linetype = "dashed") +
+      annotate("text", x = -2, y = 6, label = "TAAR1 Agonist worse") +
+      annotate("text", x = 2, y = 6, label = "TAAR1 Agonist better") +
+      geom_polygon(data = dfp, aes(x = x, y = y), fill = "grey") +
       theme(axis.line.y = element_blank(),
             axis.ticks.y = element_blank(),
             axis.text.y = element_blank(),
