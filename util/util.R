@@ -145,7 +145,7 @@ cixhigher <- model[["ci.ub"]]
 }
 }
 
-plot_subgroup_analysis <- function(df, experiment_type, outcome, moderator, rho_value) {
+subgroup_analysis <- function(df, experiment_type, outcome, moderator, rho_value) {
   
   # Ensure the moderator is a character string for later conversion to symbol
   moderator <- as.character(moderator)
@@ -206,10 +206,12 @@ plot_subgroup_analysis <- function(df, experiment_type, outcome, moderator, rho_
                    random = ~1 | Strain / StudyId / ExperimentID_I, # nested levels
                    test = "t", # use t- and F-tests for making inferences
                    data = df2,
+                   rho = rho_value,
                    dfs="contain", # improve degree of freedom estimation for t- and F-distributions
                    control=list(optimizer="nlm"))
 
   #overall_estimate_rma_predict <- predict(overall_estimate_rma)
+  
   
   k_subgroups <- df2 %>%
     group_by(df2[[moderator]]) %>%
@@ -217,77 +219,309 @@ plot_subgroup_analysis <- function(df, experiment_type, outcome, moderator, rho_
     pull(n)
   
   
-  subgroup_analysis_plotdata <- data.frame(levels(df2[[moderator]]), k_subgroups, subgroup_analysis$beta, subgroup_analysis$se) #subgroup_analysis_predict$pi.lb, subgroup_analysis_predict$pi.ub)
-  colnames(subgroup_analysis_plotdata) <- c(moderator, "k", "SMD", "se") #, "pi.lb", "pi.ub")
-  subgroup_analysis_plotdata=rbind(subgroup_analysis_plotdata, c("Overall estimate",  overall_estimate_rma$k, overall_estimate_rma$beta, overall_estimate_rma$se)) #overall_estimate_rma_predict$pi.lb, overall_estimate_rma_predict$pi.ub))
+  subgroup_analysis_plotdata <- data.frame(levels(df2[[moderator]]), k_subgroups, subgroup_analysis$beta, subgroup_analysis$se, subgroup_analysis$pval, subgroup_analysis$ci.lb, subgroup_analysis$ci.ub)
+  colnames(subgroup_analysis_plotdata) <- c(moderator, "k", "SMD", "se","p", "ci_l", "ci_u") #, "pi.lb", "pi.ub")
+  subgroup_analysis_plotdata$symbol <- 15
+  subgroup_analysis_plotdata$size <- (1/subgroup_analysis_plotdata$se) * 2
+  subgroup_analysis_plotdata$summary <- FALSE
+  subgroup_analysis_plotdata$fontfaace <- "plain"
+  subgroup_analysis_plotdata$fontsize <- 3.88
+  subgroup_analysis_plotdata=rbind(subgroup_analysis_plotdata, c("Overall estimate",  overall_estimate_rma$k, overall_estimate_rma$beta, overall_estimate_rma$se, overall_estimate_rma$pval, overall_estimate_rma$ci.lb,overall_estimate_rma$ci.ub, 18,15,TRUE,"bold",5)) #overall_estimate_rma_predict$pi.lb, overall_estimate_rma_predict$pi.ub))
+
+  
+  
   
   rownames(subgroup_analysis_plotdata) <- 1:nrow(subgroup_analysis_plotdata)
   subgroup_analysis_plotdata$k <- as.numeric(subgroup_analysis_plotdata$k)
   subgroup_analysis_plotdata$SMD <- as.numeric(subgroup_analysis_plotdata$SMD)
   subgroup_analysis_plotdata$se <- as.numeric(subgroup_analysis_plotdata$se)
+  subgroup_analysis_plotdata$ci_l <- as.numeric(subgroup_analysis_plotdata$ci_l)
+  subgroup_analysis_plotdata$ci_u <- as.numeric(subgroup_analysis_plotdata$ci_u)
+  subgroup_analysis_plotdata$p <- as.numeric(subgroup_analysis_plotdata$p)
+  subgroup_analysis_plotdata$symbol <- as.numeric(subgroup_analysis_plotdata$symbol)
+  subgroup_analysis_plotdata$size <- as.numeric(subgroup_analysis_plotdata$size)
+  subgroup_analysis_plotdata$fontsize <- as.numeric(subgroup_analysis_plotdata$fontsize)
   
-  overall_estimate_index <-dim(subgroup_analysis_plotdata)[1]
+  subgroup_analysis_plotdata$d1 <- (subgroup_analysis_plotdata$SMD - subgroup_analysis_plotdata$ci_l)/1.92
+  subgroup_analysis_plotdata$d2 <- subgroup_analysis_plotdata$ci_u - subgroup_analysis_plotdata$SMD
   
-  if (moderator == "ARRIVEScoreCat") {
-    sorted_data <- subgroup_analysis_plotdata[-overall_estimate_index, ]
-    sorted_data <- sorted_data[order(sorted_data[[moderator]]), ]
-  } else {
-    sorted_data <- subgroup_analysis_plotdata[-overall_estimate_index, ]
+  return(subgroup_analysis_plotdata)
   }
-  
-  options(digits=3)
-  
-  meta.all = metagen(TE = sorted_data$SMD, 
-                     seTE = sorted_data$se, 
-                     studlab = sorted_data[[moderator]], 
-                     data = sorted_data, 
-                     sm = "SMD", 
-                     common = F)
-  meta.all$TE.random <- subgroup_analysis_plotdata$SMD[overall_estimate_index]
-  meta.all$seTE.random <- subgroup_analysis_plotdata$se[overall_estimate_index]
+}
 
+plot_subgroup_analysis <- function(df, experiment_type, outcome, moderator, rho_value) {
   
-  if (moderator == "ARRIVEScoreCat") {
-    
-    # forest() call without sortvar
-    x <- forest(meta.all,
-                xlab="SMD",
-                smlab=outcome,
-                just="right",
-                addrow=F,
-                overall=T,
-                overall.hetstat =F,
-                print.pval.Q=F,
-                col.square="black",
-                col.by="black",
-                fill.equi="aliceblue",
-                leftcols = c(moderator, "k"),
-                leftlabs = c(moderator, "Number of experiments")
-    )
-  } else {
-    # forest() call with sortvar=seTE
-    x <- forest(meta.all,
-                xlab="SMD",
-                smlab=outcome,
-                just="right",
-                addrow=F,
-                overall=T,
-                overall.hetstat =F,
-                print.pval.Q=F,
-                col.square="black",
-                sortvar=seTE,
-                col.by="black",
-                fill.equi="aliceblue",
-                leftcols = c(moderator, "k"),
-                leftlabs = c(moderator, "Number of experiments")
-    )
+  # Ensure the moderator is a character string for later conversion to symbol
+  moderator <- as.character(moderator)
+  
+  df2 <- df %>% 
+    filter(SortLabel == experiment_type) %>% 
+    filter(outcome_type == outcome) %>%  
+    filter(!is.na(SMDv)) %>%
+    filter(!is.na(!!sym(moderator))) # Filter out NA values in moderator column
+  
+  # Convert character to factor if necessary
+  if (is.character(df2[[moderator]])) {
+    df2[[moderator]] <- factor(df2[[moderator]])}
+  
+  # Add a check for the number of levels in the moderator variable
+  if (length(levels(df2[[moderator]])) <= 1) {
+    message("In this iteration of the review, there was insufficient data to perform subgroup analysis for this variable (data for one subgroup only)")
+    return(NULL)
   }
   
-  
-  return(list(
-    subgroup_analysis = subgroup_analysis,
-    subgroup_rma_summary = subgroup_analysis_plotdata))
-}}
+  if ((n_distinct(df$StudyId) > 2) & (n_distinct(df$ExperimentID_I) >10)) {
+    #df2$RoBScore <- as.numeric(df2$RoBScore)
+    #df2$RoBScore <- factor(df2$RoBScore, levels = c(0, 1, 2))
+    
+    
+    #df2<-df2 %>% 
+    #filter(SMD>-6) %>% 
+    #filter(SMD<6) # delete missing values and some weirdly large values, like -15 and 16
+    
+    df2 <- df2 %>% mutate(effect_id = row_number()) # add effect_id column
+    
+    #calculate variance-covariance matrix of the sampling errors for dependent effect sizes
+    
+    VCVM_SMD <- vcalc(vi = SMDv,
+                      cluster = StudyId, 
+                      subgroup= ExperimentID_I,
+                      obs=effect_id,
+                      data = df2, 
+                      rho = rho_value) 
+    
+    # ML model on df2 with subgroup
+    subgroup_analysis <- rma.mv(
+      yi = SMD,
+      V = VCVM_SMD,
+      random = ~1 | Strain / StudyId / ExperimentID_I,
+      data = df2,
+      mods = as.formula(paste("~", moderator, "-1")),
+      method = 'REML',
+      test = "t",
+      dfs = "contain"
+    )
+    
+    #subgroup_analysis_predict <- predict(subgroup_analysis)
+    
+    ## ML model on df2 without subgroup
+    overall_estimate_rma <- rma.mv(yi = SMD,
+                                   V = VCVM_SMD,
+                                   random = ~1 | Strain / StudyId / ExperimentID_I, # nested levels
+                                   test = "t", # use t- and F-tests for making inferences
+                                   data = df2,
+                                   dfs="contain", # improve degree of freedom estimation for t- and F-distributions
+                                   control=list(optimizer="nlm"))
+    
+    #overall_estimate_rma_predict <- predict(overall_estimate_rma)
+    
+    k_subgroups <- df2 %>%
+      group_by(df2[[moderator]]) %>%
+      count() %>%
+      pull(n)
+    
+    
+    subgroup_analysis_plotdata <- data.frame(levels(df2[[moderator]]), k_subgroups, subgroup_analysis$beta, subgroup_analysis$se) #subgroup_analysis_predict$pi.lb, subgroup_analysis_predict$pi.ub)
+    colnames(subgroup_analysis_plotdata) <- c(moderator, "k", "SMD", "se") #, "pi.lb", "pi.ub")
+    subgroup_analysis_plotdata=rbind(subgroup_analysis_plotdata, c("Overall estimate",  overall_estimate_rma$k, overall_estimate_rma$beta, overall_estimate_rma$se)) #overall_estimate_rma_predict$pi.lb, overall_estimate_rma_predict$pi.ub))
+    
+    rownames(subgroup_analysis_plotdata) <- 1:nrow(subgroup_analysis_plotdata)
+    subgroup_analysis_plotdata$k <- as.numeric(subgroup_analysis_plotdata$k)
+    subgroup_analysis_plotdata$SMD <- as.numeric(subgroup_analysis_plotdata$SMD)
+    subgroup_analysis_plotdata$se <- as.numeric(subgroup_analysis_plotdata$se)
+    
+    overall_estimate_index <-dim(subgroup_analysis_plotdata)[1]
+    
+    if (moderator == "ARRIVEScoreCat") {
+      sorted_data <- subgroup_analysis_plotdata[-overall_estimate_index, ]
+      sorted_data <- sorted_data[order(sorted_data[[moderator]]), ]
+    } else {
+      sorted_data <- subgroup_analysis_plotdata[-overall_estimate_index, ]
+    }
+    
+    options(digits=3)
+    
+    meta.all = metagen(TE = sorted_data$SMD, 
+                       seTE = sorted_data$se, 
+                       studlab = sorted_data[[moderator]], 
+                       data = sorted_data, 
+                       sm = "SMD", 
+                       common = F)
+    meta.all$TE.random <- subgroup_analysis_plotdata$SMD[overall_estimate_index]
+    meta.all$seTE.random <- subgroup_analysis_plotdata$se[overall_estimate_index]
+    
+    
+    if (moderator == "ARRIVEScoreCat") {
+      
+      # forest() call without sortvar
+      x <- forest(meta.all,
+                  xlab="SMD",
+                  smlab=outcome,
+                  just="right",
+                  addrow=F,
+                  overall=T,
+                  overall.hetstat =F,
+                  print.pval.Q=F,
+                  col.square="black",
+                  col.by="black",
+                  fill.equi="aliceblue",
+                  leftcols = c(moderator, "k"),
+                  leftlabs = c(moderator, "Number of experiments")
+      )
+    } else {
+      # forest() call with sortvar=seTE
+      x <- forest(meta.all,
+                  xlab="SMD",
+                  smlab=outcome,
+                  just="right",
+                  addrow=F,
+                  overall=T,
+                  overall.hetstat =F,
+                  print.pval.Q=F,
+                  col.square="black",
+                  sortvar=seTE,
+                  col.by="black",
+                  fill.equi="aliceblue",
+                  leftcols = c(moderator, "k"),
+                  leftlabs = c(moderator, "Number of experiments")
+      )
+    }
+    
+    
+    return(list(
+      subgroup_analysis = subgroup_analysis,
+      subgroup_rma_summary = subgroup_analysis_plotdata))
+  }}
+
+
+forest_subgroup <- function(modelsumm, moderator, outcome, moderator_text) {
+    title <- paste0("Effect of TAAR1 Agonists on ",outcome, " by ", moderator_text)           
+    
+    model <- modelsumm
+    colnames(model) <- c('moderator','k','SMD','se','p','ci_l','ci_u','symbol','size','summary','fontfaace','fontsize','d1','d2')
+    model$order <- rownames(model)
+    model$estimate_lab = paste0(round(model$SMD,3), " (", round(model$ci_l,3), "-", round(model$ci_u,3),")")
+    model <- model %>%
+      arrange(order) %>%
+      mutate(moderator = factor(model[["moderator"]], levels = unique(model[["moderator"]])))
+  lnth <- nrow(model)
+    
+    
+
+    p_mid <- model %>%
+      ggplot(aes(y = fct_rev(moderator))) +
+      theme_classic() +
+      geom_point(aes(x = SMD), shape = model$symbol, size = model$size) +
+      geom_linerange(aes(xmin = ci_l, xmax = ci_u)) +
+      labs(x = "SMD Effect size") +
+      coord_cartesian(ylim = c(0, 6), xlim = c(-2, 4)) +
+      geom_vline(xintercept = 0, linetype = "dashed") +
+      annotate("text", x = -0.8, y = 6, label = "TAAR1 Agonist worse") +
+      annotate("text", x = 1.2, y = 6, label = "TAAR1 Agonist better") +
+      theme(axis.line.y = element_blank(),
+            axis.ticks.y = element_blank(),
+            axis.text.y = element_blank(),
+            axis.title.y = element_blank())
+
+    p_left <-
+      model %>%
+      ggplot(aes(y = fct_rev(moderator))) +
+      geom_text(aes(x = 0, label = moderator), hjust = 0, size = model$fontsize) +
+      geom_text(aes(x = 3.5, label = k), hjust = 0, size = model$fontsize) +
+      theme_void() +
+      coord_cartesian(ylim = c(0, 6), xlim = c(0, 4))
+    
+    p_right <-
+      model %>%
+      ggplot() +
+      geom_text(aes(x = 2, y = fct_rev(moderator), label = estimate_lab)) +
+      coord_cartesian(ylim = c(0, 6), xlim = c(0, 4)) +
+      theme_void()
+    
+    layout <- c(
+      area(t = 0, l = 0, b = 30, r = 3),
+      area(t = 1, l = 4, b = 30, r = 9),
+      area(t = 0, l = 9, b = 30, r = 11)
+    )
+ 
+    p_left + p_mid + p_right + plot_layout(design = layout) + plot_annotation(title = title, theme = theme(plot.title = element_text(hjust = 0.5)))
+  }
+
+
+
+#overall_estimate_index <-dim(subgroup_analysis_plotdata)[1]
+#  
+#  if (moderator == "ARRIVEScoreCat") {
+#    sorted_data <- subgroup_analysis_plotdata[-overall_estimate_index, ]
+#    sorted_data <- sorted_data[order(sorted_data[[moderator]]), ]
+#  } else {
+#    sorted_data <- subgroup_analysis_plotdata[-overall_estimate_index, ]
+#  }
+#  
+#  options(digits=3)
+#  
+#  meta.all = metagen(TE = sorted_data$SMD, 
+#                     seTE = sorted_data$se, 
+#                     studlab = sorted_data[[moderator]], 
+#                     data = sorted_data, 
+#                     sm = "SMD", 
+#                     common = F)
+#  meta.all$TE.random <- subgroup_analysis_plotdata$SMD[overall_estimate_index]
+#  meta.all$seTE.random <- subgroup_analysis_plotdata$se[overall_estimate_index]
+#  
+#  
+#
+#  
+#  if (moderator == "ARRIVEScoreCat") {
+# 
+#    
+# forest() call without sortvar
+#x <- forest(meta.all,
+#                xlab="SMD",
+#                smlab=outcome,
+#                just="right",
+#                addrow=F,
+#                overall=T,
+#                overall.hetstat =F,
+#                print.pval.Q=F,
+#                col.square="black",
+#                col.by="black",
+#                fill.equi="aliceblue",
+#                leftcols = c(moderator, "k"),
+#                leftlabs = c(moderator, "Number of experiments"),
+#                fontsize = 8,
+#                spacing = 0.5,
+#                squaresize = 0.8
+#    )
+#  } else {
+#    # forest() call with sortvar=seTE
+#    x <- forest(meta.all,
+#                xlab="SMD",
+#                smlab=outcome,
+#                just="right",
+#                addrow=F,
+#                overall=T,
+#                overall.hetstat =F,
+#                print.pval.Q=F,
+#                col.square="black",
+#                sortvar=seTE,
+#                col.by="black",
+#                fill.equi="aliceblue",
+#                leftcols = c(moderator, "k"),
+#                leftlabs = c(moderator, "Number of experiments"),
+#                fontsize = 8,
+#                spacing = 0.5,
+#                squaresize = 0.8
+#    )
+#  }
+#  
+#  
+#  return(list(
+#    subgroup_analysis = subgroup_analysis,
+#    subgroup_rma_summary = subgroup_analysis_plotdata,
+#    x
+#    ))
+#}}
 
 metaregression_analysis <- function(df, experiment_type, outcome, moderator, rho_value) {
   
@@ -923,7 +1157,60 @@ run_sse_plot_SMD <- function(df, rho_value = 0.5) {
   return(plot)
 }
 
-
+subgroup_SMD <- function(df, experiment_type, outcome, moderator, rho_value) {
+  
+  # Ensure the moderator is a character string for later conversion to symbol
+  moderator <- as.character(moderator)
+  
+  df2 <- df %>% 
+    filter(SortLabel == experiment_type) %>% 
+    filter(outcome_type == outcome) %>%  
+    filter(!is.na(SMDv)) %>%
+    filter(!is.na(!!sym(moderator))) # Filter out NA values in moderator column
+  
+  # Convert character to factor if necessary
+  if (is.character(df2[[moderator]])) {
+    df2[[moderator]] <- factor(df2[[moderator]])}
+  
+  # Add a check for the number of levels in the moderator variable
+  if (length(levels(df2[[moderator]])) <= 1) {
+    message("In this iteration of the review, there was insufficient data to perform subgroup analysis for this variable (data for one subgroup only)")
+    return(NULL)
+  }
+  
+  if ((n_distinct(df$StudyId) > 2) & (n_distinct(df$ExperimentID_I) >10)) {
+    #df2$RoBScore <- as.numeric(df2$RoBScore)
+    #df2$RoBScore <- factor(df2$RoBScore, levels = c(0, 1, 2))
+    
+    
+    #df2<-df2 %>% 
+    #filter(SMD>-6) %>% 
+    #filter(SMD<6) # delete missing values and some weirdly large values, like -15 and 16
+    
+    df2 <- df2 %>% mutate(effect_id = row_number()) # add effect_id column
+    
+    #calculate variance-covariance matrix of the sampling errors for dependent effect sizes
+    
+    VCVM_SMD <- vcalc(vi = SMDv,
+                      cluster = StudyId, 
+                      subgroup= ExperimentID_I,
+                      obs=effect_id,
+                      data = df2, 
+                      rho = rho_value) 
+    
+    # ML model on df2 with subgroup
+    subgroup_analysis <- rma.mv(
+      yi = SMD,
+      V = VCVM_SMD,
+      random = ~1 | Strain / StudyId / ExperimentID_I,
+      data = df2,
+      mods = as.formula(paste("~", moderator, "-1")),
+      method = 'REML',
+      test = "t",
+      dfs = "contain"
+    )
+    return(subgroup_analysis)
+  }  }
 
 
 
