@@ -222,7 +222,7 @@ subgroup_analysis <- function(df, experiment_type, outcome, moderator, rho_value
   subgroup_analysis_plotdata <- data.frame(levels(df2[[moderator]]), k_subgroups, subgroup_analysis$beta, subgroup_analysis$se, subgroup_analysis$pval, subgroup_analysis$ci.lb, subgroup_analysis$ci.ub)
   colnames(subgroup_analysis_plotdata) <- c(moderator, "k", "SMD", "se","p", "ci_l", "ci_u") #, "pi.lb", "pi.ub")
   subgroup_analysis_plotdata$symbol <- 15
-  subgroup_analysis_plotdata$size <- (1/subgroup_analysis_plotdata$se) * 2
+  subgroup_analysis_plotdata$size <- (1/subgroup_analysis_plotdata$se)
   subgroup_analysis_plotdata$summary <- FALSE
   subgroup_analysis_plotdata$fontfaace <- "plain"
   subgroup_analysis_plotdata$fontsize <- 3.88
