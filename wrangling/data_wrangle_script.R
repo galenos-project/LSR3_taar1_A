@@ -1052,6 +1052,14 @@ df <- df %>%
 df <- df %>% 
   mutate(drugname2_I = str_replace_all(drugname1_I, "SEP(?!-363856)", "SEP-363856"))
 
+df <- df %>% 
+  mutate(CategoryDiseaseInduction = case_when(
+    CategoryDiseaseInduction == "Genetic (e.g. DISC1 KO, DAT KO, D2R overexpression)" ~ "Genetic", 
+    CategoryDiseaseInduction == "Pharmacological (e.g. psychostimulants, NMDA antagonists)" ~ "Pharmacological",
+    TRUE ~ CategoryDiseaseInduction  # Keep other values unchanged
+  ))
+
+
 # Replace unit of measurements for drugs with abbreviations 
 df <- df %>% 
   mutate(`Measurement unit of treatment dose:[1]` = str_replace_all(`Measurement unit of treatment dose:[1]`, "miligrams \\(mg\\) per kg", "mg/kg"),
