@@ -595,6 +595,7 @@ metaregression_analysis <- function(df, experiment_type, outcome, moderator, rho
               k = TRUE) 
   
   return(list(
+    metaregression = metaregression,
     metaregression_summary = metaregression_summary,
     regression_plot = x))
 }
