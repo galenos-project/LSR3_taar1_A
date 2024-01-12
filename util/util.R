@@ -399,18 +399,30 @@ forest_subgroup <- function(modelsumm, moderator, outcome, moderator_text) {
     
     model <- modelsumm
     colnames(model) <- c('moderator','k','SMD','se','p','ci_l','ci_u','symbol','size','summary','fontfaace','fontsize','d1','d2')
-    model$order <- rownames(model)
+    model$order <- as.numeric(rownames(model))
     model$estimate_lab = paste0(round(model$SMD,3), " (", round(model$ci_l,3), "-", round(model$ci_u,3),")")
     model <- model %>%
       arrange(order) %>%
       mutate(moderator = factor(model[["moderator"]], levels = unique(model[["moderator"]])))
-  lnth <- nrow(model)
+  lnth <- nrow(model)+1
   
+  axis_min <- min(floor(min(model$ci_l, model$ci_u)),-1)
+  axis_max <- max(ceiling(max(model$ci_l, model$ci_u)),1)
+  span2 <- 2 + (axis_max - axis_min)
+  span1 <- span2 * 0.7
+  span3 <- span2 * 0.5
+  r1 <- span1
+  l2 <- span1 + 1
+  r2 <- span1 + span2 + 1
+  l3 <- span1 + span2 + 2
+  r3 <- span1 + span2 + span3 + 2
   
+  cf <- span2/lnth
   
+
   poly1 <- subset(model, model$moderator == "Overall estimate")
-  upp <- 1 + ((poly1$SMD - poly1$ci_l)/2)
-  lop<- 1 - ((poly1$SMD - poly1$ci_l)/2)
+  upp <- 1 + ((poly1$SMD - poly1$ci_l)/(cf *2))
+  lop<- 1 - ((poly1$SMD - poly1$ci_l)/(cf *2))
   dfp <- data.frame(x = c(poly1$SMD, poly1$ci_u, poly1$SMD, poly1$ci_l), y = c(lop, 1, upp, 1))
 
     p_mid <- model %>%
@@ -419,11 +431,11 @@ forest_subgroup <- function(modelsumm, moderator, outcome, moderator_text) {
       geom_point(aes(x = SMD), shape = model$symbol, size = model$size) +
       geom_linerange(aes(xmin = ci_l, xmax = ci_u)) +
       labs(x = "SMD Effect size") +
-      coord_cartesian(ylim = c(0, 6), xlim = c(-3, 4)) +
+      coord_cartesian(ylim = c(0, lnth), xlim = c(axis_min-1, axis_max+1)) +
       geom_vline(xintercept = 0, linetype = "solid") +
       geom_vline(xintercept = poly1$SMD, linetype = "dashed") +
-      annotate("text", x = -2, y = 6, label = "TAAR1 Agonist\nworse") +
-      annotate("text", x = 2, y = 6, label = "TAAR1 Agonist\nbetter") +
+      annotate("text", x = axis_min-1, y = lnth, label = "TAAR1 Agonist\nworse", hjust = 0) +
+      annotate("text", x = axis_max+1, y = lnth, label = "TAAR1 Agonist\nbetter", hjust = 1) +
       geom_polygon(data = dfp, aes(x = x, y = y), fill = "grey") +
       theme(axis.line.y = element_blank(),
             axis.ticks.y = element_blank(),
@@ -434,21 +446,21 @@ forest_subgroup <- function(modelsumm, moderator, outcome, moderator_text) {
       model %>%
       ggplot(aes(y = fct_rev(moderator))) +
       geom_text(aes(x = 0, label = moderator), hjust = 0, size = model$fontsize) +
-      geom_text(aes(x = 3.5, label = k), hjust = 0, size = model$fontsize) +
+      geom_text(aes(x = r1, label = k), hjust = 1, size = model$fontsize) +
       theme_void() +
-      coord_cartesian(ylim = c(0, 6), xlim = c(0, 4))
+      coord_cartesian(ylim = c(0, lnth), xlim = c(0, span1))
     
     p_right <-
       model %>%
       ggplot() +
-      geom_text(aes(x = 2, y = fct_rev(moderator), label = estimate_lab)) +
-      coord_cartesian(ylim = c(0, 6), xlim = c(0, 4)) +
+      geom_text(aes(x = span3, y = fct_rev(moderator), label = estimate_lab),size = model$fontsize, hjust = 1) +
+      coord_cartesian(ylim = c(0, lnth), xlim = c(0, span3)) +
       theme_void()
     
     layout <- c(
-      area(t = 0, l = 0, b = 30, r = 3),
-      area(t = 1, l = 4, b = 30, r = 9),
-      area(t = 0, l = 9, b = 30, r = 11)
+      area(t = 0, l = 0, b = 30, r = r1),
+      area(t = 1, l = l2, b = 30, r = r2),
+      area(t = 0, l = l3, b = 30, r = r3)
     )
  
     p_left + p_mid + p_right + plot_layout(design = layout) + plot_annotation(title = title, theme = theme(plot.title = element_text(hjust = 0.5)))
