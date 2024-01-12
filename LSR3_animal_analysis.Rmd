@@ -522,12 +522,16 @@ Figure 2.3.7 displays the estimates for the pooled SMD's when comparisons are st
 **Figure 2.3.7**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', fig.width=9, fig.height=5}
-SMD_S_LMA_DrugEfficacy <- plot_subgroup_analysis(df, "TvC", "Locomotor activity", "Efficacy", 0.5)
+SMD_S_LMA_DrugEfficacy <- subgroup_analysis(df, "TvC", "Locomotor activity", "Efficacy", 0.5)
 ```
 
-TAAR1 partial agonists were used in `r SMD_S_LMA_DrugEfficacy$subgroup_rma_summary[SMD_S_LMA_DrugEfficacy$subgroup_rma_summary$Efficacy == "TAAR1 partial agonist", "k"]` experiments. TAAR1 full agonists were used in `r SMD_S_LMA_DrugEfficacy$subgroup_rma_summary[SMD_S_LMA_DrugEfficacy$subgroup_rma_summary$Efficacy == "TAAR1 full agonist", "k"]` experiments.
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+forest_subgroup(SMD_S_LMA_DrugEfficacy, "Efficacy", "Locomotor Activity","Full or\n Partial Agonist")
+```
 
-The pooled SMD estimate for experiments administering a TAAR1 partial agonist was `r SMD_S_LMA_DrugEfficacy$subgroup_rma_summary[SMD_S_LMA_DrugEfficacy$subgroup_rma_summary$Efficacy == "TAAR1 partial agonist", "SMD"]` and for those administering a TAAR1 full agonist `r SMD_S_LMA_DrugEfficacy$subgroup_rma_summary[SMD_S_LMA_DrugEfficacy$subgroup_rma_summary$Efficacy == "TAAR1 full agonist", "SMD"]`.
+TAAR1 partial agonists were used in `r SMD_S_LMA_DrugEfficacy[SMD_S_LMA_DrugEfficacy$Efficacy == "TAAR1 partial agonist", "k"]` experiments. TAAR1 full agonists were used in `r SMD_S_LMA_DrugEfficacy[SMD_S_LMA_DrugEfficacy$Efficacy == "TAAR1 full agonist", "k"]` experiments.
+
+The pooled SMD estimate for experiments administering a TAAR1 partial agonist was `r SMD_S_LMA_DrugEfficacy[SMD_S_LMA_DrugEfficacy$Efficacy == "TAAR1 partial agonist", "SMD"]` and for those administering a TAAR1 full agonist `r SMD_S_LMA_DrugEfficacy[SMD_S_LMA_DrugEfficacy$Efficacy == "TAAR1 full agonist", "SMD"]`.
 
 #### 2.3.8 The selectivity of the drug
 
@@ -536,12 +540,16 @@ Figure 2.3.8 displays the estimates for the pooled SMD's when comparisons are st
 **Figure 2.3.8**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', fig.width=9, fig.height=5}
-SMD_S_LMA_DrugSelectivity <- plot_subgroup_analysis(df, "TvC", "Locomotor activity", "Selectivity", 0.5)
+SMD_S_LMA_DrugSelectivity <- subgroup_analysis(df, "TvC", "Locomotor activity", "Selectivity", 0.5)
 ```
 
-TAAR1 agonists with high selectivity were used in `r SMD_S_LMA_DrugSelectivity$subgroup_rma_summary[SMD_S_LMA_DrugSelectivity$subgroup_rma_summary$Selectivity == "High", "k"]` experiments. TAAR1 drugs with additional agonist activity at serotonin 5HT1A receptors were used in `r SMD_S_LMA_DrugSelectivity$subgroup_rma_summary[SMD_S_LMA_DrugEfficacy$subgroup_rma_summary$Selectivity == "Low (5HT1A partial agonism)", "k"]` experiments. The selectivity of the TAAR1 agonist used in `r SMD_S_LMA_DrugSelectivity$subgroup_rma_summary[SMD_S_LMA_DrugEfficacy$subgroup_rma_summary$Selectivity == "Unclear", "k"]` experiments was unclear/remains undetermined.
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+forest_subgroup(SMD_S_LMA_DrugSelectivity, "Selectivity", "Locomotor Activity","High or\nLow Selectivity")
+```
 
-The pooled SMD estimate for experiments administering a TAAR1 agonist with high selectivity was `r SMD_S_LMA_DrugSelectivity$subgroup_rma_summary[SMD_S_LMA_DrugSelectivity$subgroup_rma_summary$Selectivity == "High", "SMD"]`. The estimate for experiments administering a TAAR1 agonist with low selectivity was `r SMD_S_LMA_DrugSelectivity$subgroup_rma_summary[SMD_S_LMA_DrugSelectivity$subgroup_rma_summary$Selectivity == "Low (5HT1A partial agonism)", "SMD"]`, and for those experiments administering a TAAR1 agonist with an unknown selectivity `r SMD_S_LMA_DrugSelectivity$subgroup_rma_summary[SMD_S_LMA_DrugSelectivity$subgroup_rma_summary$Selectivity == "Unclear", "SMD"]`.
+TAAR1 agonists with high selectivity were used in `r SMD_S_LMA_DrugSelectivity[SMD_S_LMA_DrugSelectivity$Selectivity == "High", "k"]` experiments. TAAR1 drugs with additional agonist activity at serotonin 5HT1A receptors were used in `r SMD_S_LMA_DrugSelectivity[SMD_S_LMA_DrugEfficacy$Selectivity == "Low (5HT1A partial agonism)", "k"]` experiments. The selectivity of the TAAR1 agonist used in `r SMD_S_LMA_DrugSelectivity[SMD_S_LMA_DrugEfficacy$Selectivity == "Unclear", "k"]` experiments was unclear/remains undetermined.
+
+The pooled SMD estimate for experiments administering a TAAR1 agonist with high selectivity was `r SMD_S_LMA_DrugSelectivity[SMD_S_LMA_DrugSelectivity$Selectivity == "High", "SMD"]`. The estimate for experiments administering a TAAR1 agonist with low selectivity was `r SMD_S_LMA_DrugSelectivity[SMD_S_LMA_DrugSelectivity$Selectivity == "Low (5HT1A partial agonism)", "SMD"]`, and for those experiments administering a TAAR1 agonist with an unknown selectivity `r SMD_S_LMA_DrugSelectivity[SMD_S_LMA_DrugSelectivity$Selectivity == "Unclear", "SMD"]`.
 
 #### 2.3.9 Potency of intervention
 
@@ -887,7 +895,9 @@ SMD_S_LMA_DurRx <- subgroup_SMD(df, "TvC", "Locomotor activity", "TreatmentDurat
 SMD_S_LMA_Drug <- subgroup_SMD(df, "TvC", "Locomotor activity", "DrugName", 0.5)
 SMD_S_LMA_SYRCLERoB <- subgroup_SMD(df, "TvC", "Locomotor activity", "RoBScore", 0.5)
 SMD_S_LMA_ARRIVE <- subgroup_SMD(df, "TvC", "Locomotor activity", "ARRIVEScoreCat", 0.5)
-
+SMD_S_LMA_Drug <- subgroup_SMD(df, "TvC", "Locomotor activity", "DrugName", 0.5)
+SMD_S_LMA_DrugEfficacy <- subgroup_SMD(df, "TvC", "Locomotor activity", "Efficacy", 0.5)
+SMD_S_LMA_DrugSelectivity <- subgroup_SMD(df, "TvC", "Locomotor activity", "Selectivity", 0.5)
 ```
 
 The table below shows which of the covariates, if any, explain some of the heterogeneity observed in the effect sizes of the effect of TAAR1 agonists on locomotor activity. We present marginal R^2^, which measures the proportion of variance explained by including moderators in the model.
@@ -922,13 +932,13 @@ The table below shows which of the covariates, if any, explain some of the heter
 |                    \-                    |       *RO5256390*       |      `r SMD_S_LMA_Drug$beta[8]`       |            `r SMD_S_LMA_Drug$ci.lb[8]` - `r SMD_S_LMA_Drug$ci.ub[8]`            |                            \-                             |
 |                    \-                    |       *RO5263397*       |      `r SMD_S_LMA_Drug$beta[9]`       |            `r SMD_S_LMA_Drug$ci.lb[9]` - `r SMD_S_LMA_Drug$ci.ub[9]`            |                            \-                             |
 |                    \-                    | *SEP-363856 (Ultaront)* |      `r SMD_S_LMA_Drug$beta[10]`      |           `r SMD_S_LMA_Drug$ci.lb[10]` - `r SMD_S_LMA_Drug$ci.ub[10]`           |                            \-                             |
-|              Drug efficacy               |           \-            |                           \-                            |                                                         \-                                                          |  `r r2_ml(SMD_S_LMA_DrugEfficacy$subgroup_analysis)[1]`   |
-|                    \-                    |     *Full agonist*      |  `r SMD_S_LMA_DrugEfficacy$subgroup_analysis$beta[1]`   |    `r SMD_S_LMA_DrugEfficacy$subgroup_analysis$ci.lb[1]` - `r SMD_S_LMA_DrugEfficacy$subgroup_analysis$ci.ub[1]`    |                            \-                             |
-|                    \-                    |    *Partial agonist*    |  `r SMD_S_LMA_DrugEfficacy$subgroup_analysis$beta[2]`   |    `r SMD_S_LMA_DrugEfficacy$subgroup_analysis$ci.lb[2]` - `r SMD_S_LMA_DrugEfficacy$subgroup_analysis$ci.ub[2]`    |                            \-                             |
-|             Drug selectivity             |           \-            |                           \-                            |                                                         \-                                                          | `r r2_ml(SMD_S_LMA_DrugSelectivity$subgroup_analysis)[1]` |
-|                    \-                    |         *High*          | `r SMD_S_LMA_DrugSelectivity$subgroup_analysis$beta[1]` | `r SMD_S_LMA_DrugSelectivity$subgroup_analysis$ci.lb[1]` - `r SMD_S_LMA_DrugSelectivity$subgroup_analysis$ci.ub[1]` |                            \-                             |
-|                    \-                    |          *Low*          | `r SMD_S_LMA_DrugSelectivity$subgroup_analysis$beta[2]` | `r SMD_S_LMA_DrugSelectivity$subgroup_analysis$ci.lb[2]` - `r SMD_S_LMA_DrugSelectivity$subgroup_analysis$ci.ub[2]` |                            \-                             |
-|                    \-                    |        *Unclear*        | `r SMD_S_LMA_DrugSelectivity$subgroup_analysis$beta[3]` | `r SMD_S_LMA_DrugSelectivity$subgroup_analysis$ci.lb[3]` - `r SMD_S_LMA_DrugSelectivity$subgroup_analysis$ci.ub[3]` |                            \-                             |
+|              Drug efficacy               |           \-            |                           \-                            |                                                         \-                                                          |  `r r2_ml(SMD_S_LMA_DrugEfficacy)[1]`   |
+|                    \-                    |     *Full agonist*      |  `r SMD_S_LMA_DrugEfficacy$beta[1]`   |    `r SMD_S_LMA_DrugEfficacy$ci.lb[1]` - `r SMD_S_LMA_DrugEfficacy$ci.ub[1]`    |                            \-                             |
+|                    \-                    |    *Partial agonist*    |  `r SMD_S_LMA_DrugEfficacy$beta[2]`   |    `r SMD_S_LMA_DrugEfficacy$ci.lb[2]` - `r SMD_S_LMA_DrugEfficacy$ci.ub[2]`    |                            \-                             |
+|             Drug selectivity             |           \-            |                           \-                            |                                                         \-                                                          | `r r2_ml(SMD_S_LMA_DrugSelectivity)[1]` |
+|                    \-                    |         *High*          | `r SMD_S_LMA_DrugSelectivity$beta[1]` | `r SMD_S_LMA_DrugSelectivity$ci.lb[1]` - `r SMD_S_LMA_DrugSelectivity$ci.ub[1]` |                            \-                             |
+|                    \-                    |          *Low*          | `r SMD_S_LMA_DrugSelectivity$beta[2]` | `r SMD_S_LMA_DrugSelectivity$ci.lb[2]` - `r SMD_S_LMA_DrugSelectivity$ci.ub[2]` |                            \-                             |
+|                    \-                    |        *Unclear*        | `r SMD_S_LMA_DrugSelectivity$beta[3]` | `r SMD_S_LMA_DrugSelectivity$ci.lb[3]` - `r SMD_S_LMA_DrugSelectivity$ci.ub[3]` |                            \-                             |
 |               Risk of Bias               |           \-            |                           \-                            |                                                         \-                                                          |    `r r2_ml(SMD_S_LMA_SYRCLERoB)[1]`    |
 |                    \-                    |    *0 criteria met*     |    `r SMD_S_LMA_SYRCLERoB$beta[1]`    |       `r SMD_S_LMA_SYRCLERoB$ci.lb[1]` - `r SMD_S_LMA_SYRCLERoB$ci.ub[1]`       |                            \-                             |
 |                    \-                    |    *1 criteria met*     |    `r SMD_S_LMA_SYRCLERoB$beta[2]`    |       `r SMD_S_LMA_SYRCLERoB$ci.lb[2]` - `r SMD_S_LMA_SYRCLERoB$ci.ub[2]`       |                            \-                             |
@@ -1178,6 +1188,9 @@ Figure 3.3.8 displays the estimates for the pooled SMD's when comparisons are st
 SMD_S_cog_DrugSelectivity <- subgroup_analysis(df, "TvC", "Cognition", "Selectivity", 0.5)
 ```
 
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+forest_subgroup(SMD_S_cog_DrugSelectivity, "Selectivity", "Cognition","High or\nLow Selectivity")
+```
 TAAR1 agonists with high selectivity were used in `r SMD_S_cog_DrugSelectivity[SMD_S_cog_DrugSelectivity$Selectivity == "High", "k"]` experiments. TAAR1 drugs with additional agonist activity at serotonin 5HT1A receptors were used in `r SMD_S_cog_DrugSelectivity[SMD_S_cog_DrugSelectivity$Selectivity == "Low (5HT1A partial agonism)", "k"]` experiments.
 
 The pooled SMD estimate for experiments administering TAAR1 agonists with high selectivity was `r SMD_S_cog_DrugSelectivity[SMD_S_cog_DrugSelectivity$Selectivity == "High", "SMD"]`, and for experiments administering TAAR1 agonists with low selectivity `r SMD_S_cog_DrugSelectivity[SMD_S_cog_DrugSelectivity$Selectivity == "Low (5HT1A partial agonism)", "SMD"]`.
