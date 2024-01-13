@@ -1190,7 +1190,7 @@ df <- df %>%
 # Calculate standardised dose for overall dose-response meta-regression
 df <- df %>% 
   mutate(DoseOfIntervention_mgkg = as.numeric(DoseOfIntervention_mgkg)) %>% 
-  mutate(StandardisedDose = (log(DoseOfIntervention_mgkg))/((MolarMass*1000)*(EC50mM/1000000))) 
+  mutate(StandardisedDose = log((DoseOfIntervention_mgkg/1000)/((MolarMass)*(EC50mM/1000000)))) 
 
 
 ###### For RoB subgroup analysis ######

@@ -408,8 +408,8 @@ forest_subgroup <- function(modelsumm, moderator, outcome, moderator_text) {
   
   axis_min <- min(floor(min(model$ci_l, model$ci_u)),-1)
   axis_max <- max(ceiling(max(model$ci_l, model$ci_u)),1)
-  span2 <- 2 + (axis_max - axis_min)
-  span1 <- span2 * 0.7
+  span2 <- 1 + (axis_max - axis_min)
+  span1 <- span2 * 0.8
   span3 <- span2 * 0.5
   r1 <- span1
   l2 <- span1 + 1
@@ -1177,8 +1177,67 @@ run_sse_plot_SMD <- function(df, rho_value = 0.5) {
   return(plot)
 }
 
+###with intercept, to allow calculation of effect of moderators - returns intercept as B0 for first category, b1 for other categories against intercept 
 subgroup_SMD <- function(df, experiment_type, outcome, moderator, rho_value) {
   
+  # Ensure the moderator is a character string for later conversion to symbol
+  moderator <- as.character(moderator)
+  
+  df2 <- df %>% 
+    filter(SortLabel == experiment_type) %>% 
+    filter(outcome_type == outcome) %>%  
+    filter(!is.na(SMDv)) %>%
+    filter(!is.na(!!sym(moderator))) # Filter out NA values in moderator column
+  
+  # Convert character to factor if necessary
+  if (is.character(df2[[moderator]])) {
+    df2[[moderator]] <- factor(df2[[moderator]])}
+  
+  # Add a check for the number of levels in the moderator variable
+  if (length(levels(df2[[moderator]])) <= 1) {
+    message("In this iteration of the review, there was insufficient data to perform subgroup analysis for this variable (data for one subgroup only)")
+    return(NULL)
+  }
+  
+  if ((n_distinct(df$StudyId) > 2) & (n_distinct(df$ExperimentID_I) >10)) {
+    #df2$RoBScore <- as.numeric(df2$RoBScore)
+    #df2$RoBScore <- factor(df2$RoBScore, levels = c(0, 1, 2))
+    
+    
+    #df2<-df2 %>% 
+    #filter(SMD>-6) %>% 
+    #filter(SMD<6) # delete missing values and some weirdly large values, like -15 and 16
+    
+    df2 <- df2 %>% mutate(effect_id = row_number()) # add effect_id column
+    
+    #calculate variance-covariance matrix of the sampling errors for dependent effect sizes
+    
+    VCVM_SMD <- vcalc(vi = SMDv,
+                      cluster = StudyId, 
+                      subgroup= ExperimentID_I,
+                      obs=effect_id,
+                      data = df2, 
+                      rho = rho_value) 
+    
+    # ML model on df2 with subgroup
+    subgroup_analysis <- rma.mv(
+      yi = SMD,
+      V = VCVM_SMD,
+      random = ~1 | Strain / StudyId / ExperimentID_I,
+      data = df2,
+      mods = as.formula(paste("~", moderator)), #"-1")),
+      method = 'REML',
+      test = "t",
+      dfs = "contain"
+    )
+    return(subgroup_analysis)
+  }  }
+
+subgroup_SMDI <- function(df, experiment_type, outcome, moderator, rho_value) {
+  # this gives beta co-efficients for every moderator variable compared with no effect; 
+  # so is used to report these and their 95% CIs, but not whether or not the effects of 
+  # moderators is significant - for which we use subgroup_SMD, which includes an 
+  # intercept in the model
   # Ensure the moderator is a character string for later conversion to symbol
   moderator <- as.character(moderator)
   
@@ -1231,6 +1290,5 @@ subgroup_SMD <- function(df, experiment_type, outcome, moderator, rho_value) {
     )
     return(subgroup_analysis)
   }  }
-
 
 
