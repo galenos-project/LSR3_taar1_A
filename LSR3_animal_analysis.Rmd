@@ -393,9 +393,11 @@ SMD_S_LMA_sex <- subgroup_analysis(df, "TvC", "Locomotor activity", "Sex", 0.5)
 forest_subgroup(SMD_S_LMA_sex, "Sex", "Locomotor Activity","Sex")
 ```
 
-`r SMD_S_LMA_sex[SMD_S_LMA_sex$Sex == "Not reported", "k"]` comparisons did not report the sex of the animals used within the experimental cohort. `r SMD_S_LMA_sex[SMD_S_LMA_sex$Sex == "Male", "k"]` comparisons used cohorts of only male animals and `r SMD_S_LMA_sex[SMD_S_LMA_sex$Sex == "Female", "k"]` comparisons used cohorts of only female animals. There were `r SMD_S_LMA_sex[SMD_S_LMA_sex$Sex == "Mixed male and female", "k"]` comparisons using cohorts of both male and female animals.
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_LMA_sex_noI <- subgroup_SMD(df, "TvC", "Locomotor activity", "Sex", 0.5)
+```
 
-The pooled SMD estimate for male animals was `r SMD_S_LMA_sex[SMD_S_LMA_sex$Sex == "Male", "SMD"]`, for females `r SMD_S_LMA_sex[SMD_S_LMA_sex$Sex == "Female", "SMD"]`, and for mixed cohorts `r SMD_S_LMA_sex[SMD_S_LMA_sex$Sex == "Mixed male and female", "SMD"]`. The pooled SMD estimate for comparisons not reporting the sex of the animals within the experimental cohort was `r SMD_S_LMA_sex[SMD_S_LMA_sex$Sex == "Not reported", "SMD"]`.
+The p-value for the association between the sex of animal groups used and outcome reported was `r round(SMD_S_LMA_sex_noI$QMp,3)`
 
 #### 2.3.2 Category of disease induction
 
@@ -411,9 +413,11 @@ SMD_S_LMA_CatDisInd <- subgroup_analysis(df, "TvC", "Locomotor activity", "Categ
 forest_subgroup(SMD_S_LMA_CatDisInd, "CategoryDiseaseInduction", "Locomotor Activity","Category of \nDisease Induction")
 ```
 
-`r SMD_S_LMA_CatDisInd[SMD_S_LMA_CatDisInd$CategoryDiseaseInduction == "Pharmacological (e.g. psychostimulants, NMDA antagonists)", "k"]` comparisons used pharmacological methods to induce the disease model. `r SMD_S_LMA_CatDisInd[SMD_S_LMA_CatDisInd$CategoryDiseaseInduction == "Genetic (e.g. DISC1 KO, DAT KO, D2R overexpression)", "k"]` comparisons used genetic methods to induce the disease model.
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_LMA_CatDisInd_noI <- subgroup_SMD(df, "TvC", "Locomotor activity", "CategoryDiseaseInduction", 0.5)
+```
 
-The pooled SMD estimate for comparisons using pharmacological methods to induce the disease model was `r SMD_S_LMA_CatDisInd[SMD_S_LMA_CatDisInd$CategoryDiseaseInduction == "Pharmacological (e.g. psychostimulants, NMDA antagonists)", "SMD"]`, and for comparisons using genetic methods to induce the disease model `r SMD_S_LMA_CatDisInd[SMD_S_LMA_CatDisInd$CategoryDiseaseInduction == "Genetic (e.g. DISC1 KO, DAT KO, D2R overexpression)", "SMD"]`.
+The p-value for the association between whether genetic or pharmacological models were used and outcome reported was `r round(SMD_S_LMA_CatDisInd_noI$QMp,3)`
 
 #### 2.3.3 Route of intervention administration
 
@@ -429,9 +433,11 @@ SMD_S_LMA_AdminRoute <- subgroup_analysis(df, "TvC", "Locomotor activity", "Inte
 forest_subgroup(SMD_S_LMA_AdminRoute, "InterventionAdministrationRoute", "Locomotor Activity","Route of \nAdministration")
 ```
 
-`r SMD_S_LMA_AdminRoute[SMD_S_LMA_AdminRoute$InterventionAdministrationRoute == "Intraperitoneal (IP) injection", "k"]` comparisons administered the TAAR1 agonist intraperitoneally. `r SMD_S_LMA_AdminRoute[SMD_S_LMA_AdminRoute$InterventionAdministrationRoute == "Oral administration/gavage", "k"]` comparisons administered the TAAR1 agonist orally.
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_LMA_AdminRoute_noI <- subgroup_SMD(df, "TvC", "Locomotor activity", "InterventionAdministrationRoute", 0.5)
+```
 
-The pooled SMD estimate for experiments administering the TAAR1 agonist intraperitoneally was `r SMD_S_LMA_AdminRoute[SMD_S_LMA_AdminRoute$InterventionAdministrationRoute == "Intraperitoneal (IP) injection", "SMD"]`, and for experiments administering the TAAR1 agonist orally `r SMD_S_LMA_AdminRoute[SMD_S_LMA_AdminRoute$InterventionAdministrationRoute == "Oral administration/gavage", "SMD"]`.
+The p-value for the association between the route of intervention administration and outcome reported was `r round(SMD_S_LMA_AdminRoute_noI$QMp,3)`
 
 #### 2.3.4 Prophylactic or therapeutic intervention
 
@@ -447,9 +453,11 @@ SMD_S_LMA_ProphThera <- subgroup_analysis(df, "TvC", "Locomotor activity", "Prop
 forest_subgroup(SMD_S_LMA_ProphThera, "ProphylacticOrTherapeutic", "Locomotor Activity","Treatment before \nor after model induction")
 ```
 
-`r SMD_S_LMA_ProphThera[SMD_S_LMA_ProphThera$ProphylacticOrTherapeutic == "Prophylactic", "k"]` comparisons administered the TAAR1 agonist prophylactically. `r SMD_S_LMA_ProphThera[SMD_S_LMA_ProphThera$ProphylacticOrTherapeutic == "Therapeutic", "k"]` comparisons administered the TAAR1 agonist therapeutically.
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_LMA_ProphThera_noI <- subgroup_SMD(df, "TvC", "Locomotor activity", "ProphylacticOrTherapeutic", 0.5)
+```
 
-The pooled SMD estimate for experiments administering the TAAR1 agonist prophylactically was `r SMD_S_LMA_ProphThera[SMD_S_LMA_ProphThera$ProphylacticOrTherapeutic == "Prophylactic", "SMD"]`, and for experiments administering the TAAR1 agonist therapeutically `r SMD_S_LMA_ProphThera[SMD_S_LMA_ProphThera$ProphylacticOrTherapeutic == "Therapeutic", "SMD"]`.
+The p-value for the association between whether the intervention was administered prophylactically or therapeutically and outcome reported was `r round(SMD_S_LMA_ProphThera_noI$QMp,3)`
 
 #### 2.3.5 Duration of treatment period
 
@@ -497,9 +505,11 @@ SMD_S_LMA_Drug <- subgroup_analysis(df, "TvC", "Locomotor activity", "DrugName",
 forest_subgroup(SMD_S_LMA_Drug, "DrugName", "Locomotor Activity","Drug")
 ```
 
-The TAAR1 agonist SEP-363856 (Ultaront) was administered in `r SMD_S_LMA_Drug[SMD_S_LMA_Drug$DrugName == "SEP-363856", "k"]` experiments. `r SMD_S_LMA_Drug[SMD_S_LMA_Drug$DrugName == "RO5203648", "k"]` experiments used the TAAR1 agonist RO5203648, `r SMD_S_LMA_Drug[SMD_S_LMA_Drug$DrugName == "RO5166017", "k"]` used RO5166017, `r SMD_S_LMA_Drug[SMD_S_LMA_Drug$DrugName == "RO5263397", "k"]` used RO5263397, `r SMD_S_LMA_Drug[SMD_S_LMA_Drug$DrugName == "RO5256390", "k"]` used RO5256390, `r SMD_S_LMA_Drug[SMD_S_LMA_Drug$DrugName == "RO5073012", "k"]` used RO5073012. `r SMD_S_LMA_Drug[SMD_S_LMA_Drug$DrugName == "LK000764", "k"]` experiments used the TAAR1 agonist LK000764 and `r SMD_S_LMA_Drug[SMD_S_LMA_Drug$DrugName == "AP163", "k"]` used AP163. `r SMD_S_LMA_Drug[SMD_S_LMA_Drug$DrugName == "Compound 50A", "k"]` experiments assessed the effect of the TAAR1 agonist Compound 50A and `r SMD_S_LMA_Drug[SMD_S_LMA_Drug$DrugName == "Compound 50B", "k"]` experiments assessed that of Compound 50B. Note that Compound 50A and 50B were specific to one study, and chemical registry identifiers were neither provided or able to be found.
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_LMA_Drug_noI <- subgroup_SMD(df, "TvC", "Locomotor activity", "DrugName", 0.5)
+```
 
-The pooled SMD estimate for experiments administering the TAAR1 agonist SEP-363856 was `r SMD_S_LMA_Drug[SMD_S_LMA_Drug$DrugName == "SEP-363856", "SMD"]`. For experiments administering the TAAR1 agonist RO5203648 the pooled estimate was `r SMD_S_LMA_Drug[SMD_S_LMA_Drug$DrugName == "RO5203648", "SMD"]`. For experiments administering the TAAR1 agonist RO5166017 `r SMD_S_LMA_Drug[SMD_S_LMA_Drug$DrugName == "RO5166017", "SMD"]`, for experiments administering the TAAR1 agonist RO5263397 `r SMD_S_LMA_Drug[SMD_S_LMA_Drug$DrugName == "RO5263397", "SMD"]`, for experiments administering the TAAR1 agonist RO5256390 `r SMD_S_LMA_Drug[SMD_S_LMA_Drug$DrugName == "RO5256390", "SMD"]`, for experiments administering the TAAR1 agonist RO5073012 `r SMD_S_LMA_Drug[SMD_S_LMA_Drug$DrugName == "RO5073012", "SMD"]`, for experiments administering the TAAR1 agonist LK000764 `r SMD_S_LMA_Drug[SMD_S_LMA_Drug$DrugName == "LK000764", "SMD"]`, for experiments administering the TAAR1 agonist AP163 `r SMD_S_LMA_Drug[SMD_S_LMA_Drug$DrugName == "AP163", "SMD"]`, for experiments administering the TAAR1 agonist Compound 50A `r SMD_S_LMA_Drug[SMD_S_LMA_Drug$DrugName == "Compound 50A", "SMD"]`, and for experiments administering the TAAR1 agonist Compound 50B `r SMD_S_LMA_Drug[SMD_S_LMA_Drug$DrugName == "Compound 50B", "SMD"]`.
+The p-value for the association between the intervention and outcome reported was `r round(SMD_S_LMA_Drug_noI$QMp,3)`
 
 #### 2.3.7 The efficacy of the drug (i.e. whether the drug is a partial or full agonist)
 
@@ -515,9 +525,11 @@ SMD_S_LMA_DrugEfficacy <- subgroup_analysis(df, "TvC", "Locomotor activity", "Ef
 forest_subgroup(SMD_S_LMA_DrugEfficacy, "Efficacy", "Locomotor Activity","Full or\n Partial Agonist")
 ```
 
-TAAR1 partial agonists were used in `r SMD_S_LMA_DrugEfficacy[SMD_S_LMA_DrugEfficacy$Efficacy == "TAAR1 partial agonist", "k"]` experiments. TAAR1 full agonists were used in `r SMD_S_LMA_DrugEfficacy[SMD_S_LMA_DrugEfficacy$Efficacy == "TAAR1 full agonist", "k"]` experiments.
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_LMA_DrugEfficacy_noI <- subgroup_SMD(df, "TvC", "Locomotor activity", "Efficacy", 0.5)
+```
 
-The pooled SMD estimate for experiments administering a TAAR1 partial agonist was `r SMD_S_LMA_DrugEfficacy[SMD_S_LMA_DrugEfficacy$Efficacy == "TAAR1 partial agonist", "SMD"]` and for those administering a TAAR1 full agonist `r SMD_S_LMA_DrugEfficacy[SMD_S_LMA_DrugEfficacy$Efficacy == "TAAR1 full agonist", "SMD"]`.
+The p-value for the association between whether the drug was a full or partial agonist and outcome reported was `r round(SMD_S_LMA_DrugEfficacy_noI$QMp,3)`
 
 #### 2.3.8 The selectivity of the drug
 
@@ -533,9 +545,11 @@ SMD_S_LMA_DrugSelectivity <- subgroup_analysis(df, "TvC", "Locomotor activity", 
 forest_subgroup(SMD_S_LMA_DrugSelectivity, "Selectivity", "Locomotor Activity","High or\nLow Selectivity")
 ```
 
-TAAR1 agonists with high selectivity were used in `r SMD_S_LMA_DrugSelectivity[SMD_S_LMA_DrugSelectivity$Selectivity == "High", "k"]` experiments. TAAR1 drugs with additional agonist activity at serotonin 5HT1A receptors were used in `r SMD_S_LMA_DrugSelectivity[SMD_S_LMA_DrugEfficacy$Selectivity == "Low (5HT1A partial agonism)", "k"]` experiments. The selectivity of the TAAR1 agonist used in `r SMD_S_LMA_DrugSelectivity[SMD_S_LMA_DrugEfficacy$Selectivity == "Unclear", "k"]` experiments was unclear/remains undetermined.
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_LMA_DrugSelectivity_noI <- subgroup_SMD(df, "TvC", "Locomotor activity", "Selectivity", 0.5)
+```
 
-The pooled SMD estimate for experiments administering a TAAR1 agonist with high selectivity was `r SMD_S_LMA_DrugSelectivity[SMD_S_LMA_DrugSelectivity$Selectivity == "High", "SMD"]`. The estimate for experiments administering a TAAR1 agonist with low selectivity was `r SMD_S_LMA_DrugSelectivity[SMD_S_LMA_DrugSelectivity$Selectivity == "Low (5HT1A partial agonism)", "SMD"]`, and for those experiments administering a TAAR1 agonist with an unknown selectivity `r SMD_S_LMA_DrugSelectivity[SMD_S_LMA_DrugSelectivity$Selectivity == "Unclear", "SMD"]`.
+The p-value for the association between whether the drug was highly selective, or also manifests 5-HT1A effects, and outcome reported was `r round(SMD_S_LMA_DrugSelectivity_noI$QMp,3)`
 
 #### 2.3.9 Potency of intervention
 
@@ -802,15 +816,15 @@ output_text0 <- paste0("AP163: There were ", diag3, " comparisons from ", diag2,
 
 ##### Standardised dose
 
-We then sought evidence of a dose response relationship across all drugs. To do this, we conducted meta-regression using a standardised dose variable. This variable quantifies the administered dose as a multiple of the drug's EC50, indicating how many times the dose administered was greater (or lesser) than the concentration needed to achieve half-maximal effect. For example, if a drug's dose is twice its EC50, the standardized dose would be 2, indicating that the dose is twice the concentration needed to achieve half-maximal effect.
+We then sought evidence of a dose response relationship across all drugs. To do this, we conducted meta-regression using a constructed variable, the 'standardised dose'. The EC50 of a drug is the molar concentration at which 50% of the maximal response occurs. While the drug concentrations achieved at the receptor are unknown, we can approximate this from the dose given (expressed as g/kg), and the molar mass of the drug (g/mol). This relies on an approximation that the drug is equally distributed throughout the animal, and so does not take into account for example first pass metabolism for orally administered drugs, blood brain barrier solubility or differential accumulation in fatty tissues. As such, it should be interpreted with extreme caution; but does provide allow some imputation of whether, across all drugs, there is a dose-response effect. On this measure, a standardised dose of 0 would reflect 50% of maximum effect and a standardised dose of 1 would reflect around 80% of maximum effect
 
-The standardised dose was calculated by dividing the log-transformed dose of the intervention (in mg/kg) by the product of the intervention's EC50 (in moles) and the Molar mass of the drug (in mg/mol):
+The standardised dose was calculated as the logarithm of the dose of the intervention (in g/kg) divided by the product of the intervention's EC50 (in moles) and the Molar mass of the drug (in g/mol):
 
 $$
-\frac{\log(\text{Dose of Intervention (mg/kg)})}{(\text{Molar Mass (g/mol)} \times 1000) \times (\frac{\text{EC50 (micromoles)}}{1000000})}
+\log\frac{(\text{Dose of Intervention (g/kg)})}{(\text{Molar Mass (g/mol)}) \times ({\text{EC50 (mol)}})}
 $$
 
-**This is a simplified approximation based on the reasoning that if drug actions are mediated through the TAAR1 receptor, and drug efficacy is reflected in the respective EC50 values, then theoretically drugs should exhibit similar effects when acting at their respective EC50.**
+**This is a simplified approximation based on the reasoning that if drug actions are mediated through the TAAR1 receptor, and drug efficacy is reflected in the respective EC50 values, then in principal drugs should exhibit similar effects when acting at their respective EC50.**
 
 The actual concentration of a drug at the receptor site is influenced by several variables, including dosage, administration route, elimination half-life, and first-pass metabolism (in case of oral administration). Incorporating all these factors accurately would necessitate a detailed pharmacokinetic model, which falls outside the scope of this review. Consequently, we assume uniformity across experiments in terms of (i) volume of distribution, (ii) first-pass metabolism, (iii) blood-brain barrier permeability, and (iv) experimental design, especially regarding the timing of peak drug concentration (where we assume that experiments were designed to be done at a time when the drug was near peak concentration).
 
@@ -828,7 +842,7 @@ SMD_S_LMA_StandardDose <- metaregression_analysis(df, "TvC", "Locomotor activity
 SMD_S_LMA_StandardDose$regression_plot
 ```
 
-The estimate for $\theta$ was `r SMD_S_LMA_StandardDose$metaregression_summary$beta[1]`. The estimate for $\beta$ was `r SMD_S_LMA_StandardDose$metaregression_summary$beta[2]`.
+The estimate for the change in effect per log unit change in standardised does was`r SMD_S_LMA_StandardDose$metaregression_summary$beta[1]` (p = `r round(SMD_S_LMA_StandardDose[["metaregression"]][["k"]],3)`. 
 
 #### 2.3.11 SYRCLE RoB assessment
 
@@ -844,11 +858,11 @@ SMD_S_LMA_SYRCLERoB <- subgroup_analysis(df, "TvC", "Locomotor activity", "RoBSc
 forest_subgroup(SMD_S_LMA_SYRCLERoB, "RoBScore", "Locomotor Activity","SyRCLE RoB score")
 ```
 
-`r SMD_S_LMA_SYRCLERoB[SMD_S_LMA_SYRCLERoB$RoBScore == "0 criteria met", "k"]` experiments met none of the SYRCLE Risk of Bias criteria. `r SMD_S_LMA_SYRCLERoB[SMD_S_LMA_SYRCLERoB$RoBScore == "1 criteria met", "k"]` experiments met one of the SYRCLE Risk of Bias criteria. `r SMD_S_LMA_SYRCLERoB[SMD_S_LMA_SYRCLERoB$RoBScore == "2 criteria met", "k"]` experiments met two of the SYRCLE Risk of Bias criteria. No experiments met more than two of the SYRCLE Risk of Bias criteria.
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_LMA_SYRCLERoB_noI <- subgroup_SMD(df, "TvC", "Locomotor activity", "RoBScore", 0.5)
+```
 
-The pooled SMD estimate for the effect of TAAR1 agonists on locomotor activity in experiments that met none of the SYRCLE Risk of Bias criteria was `r SMD_S_LMA_SYRCLERoB[SMD_S_LMA_SYRCLERoB$RoBScore == "0 criteria met", "SMD"]`. The estimate for experiments that met one of the SYRCLE Risk of Bias criteria was `r SMD_S_LMA_SYRCLERoB[SMD_S_LMA_SYRCLERoB$RoBScore == "1 criteria met", "SMD"]`, and for those experiments that met two of the SYRCLE Risk of Bias criteria `r SMD_S_LMA_SYRCLERoB[SMD_S_LMA_SYRCLERoB$RoBScore == "2 criteria met", "SMD"]`.
-
-Figure 2.3.11 displays the estimates for the pooled SMD's when comparisons are stratified by this categorisation that the experiment met. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by SyRCLE Risk of Bias score, is displayed as a diamond shape at the bottom of the plot.
+The p-value for the association between SyRCLE Risks of Bias reporting and outcome reported was `r round(SMD_S_LMA_SYRCLERoB_noI$QMp,3)`
 
 #### 2.3.12 ARRIVE reporting completeness guidelines
 
@@ -866,24 +880,26 @@ SMD_S_LMA_ARRIVE <- subgroup_analysis(df, "TvC", "Locomotor activity", "ARRIVESc
 forest_subgroup(SMD_S_LMA_ARRIVE, "ARRIVEScoreCat", "Locomotor Activity","number of\n ARRIVE items met")
 ```
 
-`r SMD_S_LMA_ARRIVE[SMD_S_LMA_ARRIVE$ARRIVEScoreCat == "B: 4-7 criteria met", "k"]` experiments met between 4-7 of the ARRIVE reporting criteria. `r SMD_S_LMA_ARRIVE[SMD_S_LMA_ARRIVE$ARRIVEScoreCat == "C: 8-11 criteria met", "k"]` experiments met between 8-11, `r SMD_S_LMA_ARRIVE[SMD_S_LMA_ARRIVE$ARRIVEScoreCat == "D: 12-15 criteria met", "k"]` experiments met between 12-15, `r SMD_S_LMA_ARRIVE[SMD_S_LMA_ARRIVE$ARRIVEScoreCat == "E: 16-19 criteria met", "k"]` experiments met between 16-19. No experiment met below 4 or above 19 of the ARRIVE reporting criteria.
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_LMA_ARRIVE_noI <- subgroup_SMD(df, "TvC", "Locomotor activity", "ARRIVEScoreCat", 0.5)
+```
 
-The pooled SMD estimate for the effect of TAAR1 agonists on locomotor activity in experiments that met between 4-7 of the ARRIVE reporting completeness criteria was `r SMD_S_LMA_ARRIVE[SMD_S_LMA_ARRIVE$ARRIVEScoreCat == "4-7 criteria met", "SMD"]`. The estimate for experiments that met between 8-11 of the ARRIVE reporting completeness criteria was `r SMD_S_LMA_ARRIVE[SMD_S_LMA_ARRIVE$ARRIVEScoreCat == "8-11 criteria met", "SMD"]`, for those experiments that met between 12-15 of the ARRIVE reporting completeness criteria `r SMD_S_LMA_ARRIVE[SMD_S_LMA_ARRIVE$ARRIVEScoreCat == "12-15 criteria met", "SMD"]`, and for those experiments that met between 16-19 of the ARRIVE reporting completeness criteria `r SMD_S_LMA_ARRIVE[SMD_S_LMA_ARRIVE$ARRIVEScoreCat == "16-19 criteria met", "SMD"]`.
+The p-value for the association between the number of ARRIVE guidelines reporting items and outcome reported  was `r round(SMD_S_LMA_ARRIVE_noI$QMp,3)`
 
 #### 2.3.13 Heterogeneity explained by covariates (TAAR1 Agonist v Control on locomotor activity)
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', out.width = "100%"}
-SMD_S_LMA_sex <- subgroup_SMD(df, "TvC", "Locomotor activity", "Sex", 0.5)
-SMD_S_LMA_CatDisInd <- subgroup_SMD(df, "TvC", "Locomotor activity", "CategoryDiseaseInduction", 0.5)
-SMD_S_LMA_AdminRoute <- subgroup_SMD(df, "TvC", "Locomotor activity", "InterventionAdministrationRoute", 0.5)
-SMD_S_LMA_ProphThera <- subgroup_SMD(df, "TvC", "Locomotor activity", "ProphylacticOrTherapeutic", 0.5)
-SMD_S_LMA_DurRx <- subgroup_SMD(df, "TvC", "Locomotor activity", "TreatmentDurationCategory", 0.5)
-SMD_S_LMA_Drug <- subgroup_SMD(df, "TvC", "Locomotor activity", "DrugName", 0.5)
-SMD_S_LMA_SYRCLERoB <- subgroup_SMD(df, "TvC", "Locomotor activity", "RoBScore", 0.5)
-SMD_S_LMA_ARRIVE <- subgroup_SMD(df, "TvC", "Locomotor activity", "ARRIVEScoreCat", 0.5)
-SMD_S_LMA_Drug <- subgroup_SMD(df, "TvC", "Locomotor activity", "DrugName", 0.5)
-SMD_S_LMA_DrugEfficacy <- subgroup_SMD(df, "TvC", "Locomotor activity", "Efficacy", 0.5)
-SMD_S_LMA_DrugSelectivity <- subgroup_SMD(df, "TvC", "Locomotor activity", "Selectivity", 0.5)
+SMD_S_LMA_sexI <- subgroup_SMDI(df, "TvC", "Locomotor activity", "Sex", 0.5)
+SMD_S_LMA_CatDisIndI <- subgroup_SMDI(df, "TvC", "Locomotor activity", "CategoryDiseaseInduction", 0.5)
+SMD_S_LMA_AdminRouteI <- subgroup_SMDI(df, "TvC", "Locomotor activity", "InterventionAdministrationRoute", 0.5)
+SMD_S_LMA_ProphTheraI <- subgroup_SMDI(df, "TvC", "Locomotor activity", "ProphylacticOrTherapeutic", 0.5)
+SMD_S_LMA_DurRxI <- subgroup_SMDI(df, "TvC", "Locomotor activity", "TreatmentDurationCategory", 0.5)
+SMD_S_LMA_DrugI <- subgroup_SMDI(df, "TvC", "Locomotor activity", "DrugName", 0.5)
+SMD_S_LMA_SYRCLERoBI <- subgroup_SMDI(df, "TvC", "Locomotor activity", "RoBScore", 0.5)
+SMD_S_LMA_ARRIVEI <- subgroup_SMDI(df, "TvC", "Locomotor activity", "ARRIVEScoreCat", 0.5)
+SMD_S_LMA_DrugI <- subgroup_SMDI(df, "TvC", "Locomotor activity", "DrugName", 0.5)
+SMD_S_LMA_DrugEfficacyI <- subgroup_SMDI(df, "TvC", "Locomotor activity", "Efficacy", 0.5)
+SMD_S_LMA_DrugSelectivityI <- subgroup_SMDI(df, "TvC", "Locomotor activity", "Selectivity", 0.5)
 ```
 
 The table below shows which of the covariates, if any, explain some of the heterogeneity observed in the effect sizes of the effect of TAAR1 agonists on locomotor activity. We present marginal R^2^, which measures the proportion of variance explained by including moderators in the model (the % change in the between-studies variance when the covariate is included in the model, in other words the % of the heterogeneity explained by the variable).
@@ -893,49 +909,49 @@ The table below shows which of the covariates, if any, explain some of the heter
 |                Moderator                 |        Category         |                        $\beta$                         |                                                      95% CI                                                       |                          Marginal R^2^ (%)                          |
 |:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|
 |              Overall effect              |           \-            |                 `r SMD_S_LMA$beta[1]`                  |                                     `r SMD_S_LMA$ci.lb` - `r SMD_S_LMA$ci.ub`                                     |                                 \-                                  |
-|                   Sex                    |           \-            |                           \-                           |                                                        \-                                                         |             `r round((r2_ml(SMD_S_LMA_sex)[1]*100),1)`%             |
-|                    \-                    |        *Female*         |               `r SMD_S_LMA_sex$beta[1]`                |                              `r SMD_S_LMA_sex$ci.lb[1]` - `r SMD_S_LMA_sex$ci.ub[1]`                              |                                 \-                                  |
-|                    \-                    |         *Male*          |               `r SMD_S_LMA_sex$beta[2]`                |                              `r SMD_S_LMA_sex$ci.lb[2]` - `r SMD_S_LMA_sex$ci.ub[2]`                              |                                 \-                                  |
-|                    \-                    |         *Mixed*         |               `r SMD_S_LMA_sex$beta[3]`                |                              `r SMD_S_LMA_sex$ci.lb[3]` - `r SMD_S_LMA_sex$ci.ub[3]`                              |                                 \-                                  |
-|                    \-                    |     *Not reported*      |               `r SMD_S_LMA_sex$beta[4]`                |                              `r SMD_S_LMA_sex$ci.lb[4]` - `r SMD_S_LMA_sex$ci.ub[4]`                              |                                 \-                                  |
-|   Category of disease model induction    |           \-            |                           \-                           |                                                        \-                                                         |          `r round((r2_ml(SMD_S_LMA_CatDisInd)[1]*100),1)`%          |
-|                    \-                    |        *Genetic*        |            `r SMD_S_LMA_CatDisInd$beta[1]`             |                        `r SMD_S_LMA_CatDisInd$ci.lb[1]` - `r SMD_S_LMA_CatDisInd$ci.ub[1]`                        |                                 \-                                  |
-|                    \-                    |    *Pharmacological*    |            `r SMD_S_LMA_CatDisInd$beta[2]`             |                        `r SMD_S_LMA_CatDisInd$ci.lb[2]` - `r SMD_S_LMA_CatDisInd$ci.ub[2]`                        |                                 \-                                  |
-|           Administration route           |           \-            |                           \-                           |                                                        \-                                                         |         `r round((r2_ml(SMD_S_LMA_AdminRoute)[1]*100),1)`%          |
-|                    \-                    |    *Intraperitoneal*    |            `r SMD_S_LMA_AdminRoute$beta[1]`            |                       `r SMD_S_LMA_AdminRoute$ci.lb[1]` - `r SMD_S_LMA_AdminRoute$ci.ub[1]`                       |                                 \-                                  |
-|                    \-                    |         *Oral*          |            `r SMD_S_LMA_AdminRoute$beta[2]`            |                       `r SMD_S_LMA_AdminRoute$ci.lb[2]` - `r SMD_S_LMA_AdminRoute$ci.ub[2]`                       |                                 \-                                  |
-| Prophylactic or therapeutic intervention |           \-            |                           \-                           |                                                        \-                                                         |         `r round((r2_ml(SMD_S_LMA_ProphThera)[1]*100),1)`%          |
-|                    \-                    |     *Prophylactic*      |            `r SMD_S_LMA_ProphThera$beta[1]`            |                       `r SMD_S_LMA_ProphThera$ci.lb[1]` - `r SMD_S_LMA_ProphThera$ci.ub[1]`                       |                                 \-                                  |
-|                    \-                    |      *Therapeutic*      |            `r SMD_S_LMA_ProphThera$beta[2]`            |                       `r SMD_S_LMA_ProphThera$ci.lb[2]` - `r SMD_S_LMA_ProphThera$ci.ub[2]`                       |                                 \-                                  |
-|        Intervention administered         |           \-            |                           \-                           |                                                        \-                                                         |            `r round((r2_ml(SMD_S_LMA_Drug)[1]*100),1)`%             |
-|                    \-                    |         *AP163*         |               `r SMD_S_LMA_Drug$beta[1]`               |                             `r SMD_S_LMA_Drug$ci.lb[1]` - `r SMD_S_LMA_Drug$ci.ub[1]`                             |                                 \-                                  |
-|                    \-                    |     *Compound 50A*      |               `r SMD_S_LMA_Drug$beta[2]`               |                             `r SMD_S_LMA_Drug$ci.lb[2]` - `r SMD_S_LMA_Drug$ci.ub[2]`                             |                                 \-                                  |
-|                    \-                    |     *Compound 50B*      |               `r SMD_S_LMA_Drug$beta[3]`               |                             `r SMD_S_LMA_Drug$ci.lb[3]` - `r SMD_S_LMA_Drug$ci.ub[3]`                             |                                 \-                                  |
-|                    \-                    |       *LK000764*        |               `r SMD_S_LMA_Drug$beta[4]`               |                             `r SMD_S_LMA_Drug$ci.lb[4]` - `r SMD_S_LMA_Drug$ci.ub[4]`                             |                                 \-                                  |
-|                    \-                    |       *RO5073012*       |               `r SMD_S_LMA_Drug$beta[5]`               |                             `r SMD_S_LMA_Drug$ci.lb[5]` - `r SMD_S_LMA_Drug$ci.ub[5]`                             |                                 \-                                  |
-|                    \-                    |       *RO5166017*       |               `r SMD_S_LMA_Drug$beta[6]`               |                             `r SMD_S_LMA_Drug$ci.lb[6]` - `r SMD_S_LMA_Drug$ci.ub[6]`                             |                                 \-                                  |
-|                    \-                    |       *RO5203648*       |               `r SMD_S_LMA_Drug$beta[7]`               |                             `r SMD_S_LMA_Drug$ci.lb[7]` - `r SMD_S_LMA_Drug$ci.ub[7]`                             |                                 \-                                  |
-|                    \-                    |       *RO5256390*       |               `r SMD_S_LMA_Drug$beta[8]`               |                             `r SMD_S_LMA_Drug$ci.lb[8]` - `r SMD_S_LMA_Drug$ci.ub[8]`                             |                                 \-                                  |
-|                    \-                    |       *RO5263397*       |               `r SMD_S_LMA_Drug$beta[9]`               |                             `r SMD_S_LMA_Drug$ci.lb[9]` - `r SMD_S_LMA_Drug$ci.ub[9]`                             |                                 \-                                  |
-|                    \-                    | *SEP-363856 (Ultaront)* |              `r SMD_S_LMA_Drug$beta[10]`               |                            `r SMD_S_LMA_Drug$ci.lb[10]` - `r SMD_S_LMA_Drug$ci.ub[10]`                            |                                 \-                                  |
-|              Drug efficacy               |           \-            |                           \-                           |                                                        \-                                                         |        `r round((r2_ml(SMD_S_LMA_DrugEfficacy)[1]*100),1)`%         |
-|                    \-                    |     *Full agonist*      |           `r SMD_S_LMA_DrugEfficacy$beta[1]`           |                     `r SMD_S_LMA_DrugEfficacy$ci.lb[1]` - `r SMD_S_LMA_DrugEfficacy$ci.ub[1]`                     |                                 \-                                  |
-|                    \-                    |    *Partial agonist*    |           `r SMD_S_LMA_DrugEfficacy$beta[2]`           |                     `r SMD_S_LMA_DrugEfficacy$ci.lb[2]` - `r SMD_S_LMA_DrugEfficacy$ci.ub[2]`                     |                                 \-                                  |
-|             Drug selectivity             |           \-            |                           \-                           |                                                        \-                                                         |       `r round((r2_ml(SMD_S_LMA_DrugSelectivity)[1]*100),1)`%       |
-|                    \-                    |         *High*          |         `r SMD_S_LMA_DrugSelectivity$beta[1]`          |                  `r SMD_S_LMA_DrugSelectivity$ci.lb[1]` - `r SMD_S_LMA_DrugSelectivity$ci.ub[1]`                  |                                 \-                                  |
-|                    \-                    |          *Low*          |         `r SMD_S_LMA_DrugSelectivity$beta[2]`          |                  `r SMD_S_LMA_DrugSelectivity$ci.lb[2]` - `r SMD_S_LMA_DrugSelectivity$ci.ub[2]`                  |                                 \-                                  |
-|                    \-                    |        *Unclear*        |         `r SMD_S_LMA_DrugSelectivity$beta[3]`          |                  `r SMD_S_LMA_DrugSelectivity$ci.lb[3]` - `r SMD_S_LMA_DrugSelectivity$ci.ub[3]`                  |                                 \-                                  |
-|               Drug potency               |      per log unit       |      `r SMD_S_LMA_potency$metaregression$beta[2]`      |           `r SMD_S_LMA_potency$metaregression$ci.lb[2]` - `r SMD_S_LMA_potency$metaregression$ci.ub[2]`           |   `r round((r2_ml(SMD_S_LMA_potency$metaregression)[1]*100),1)`%    |
-|          Standardised drug dose          |      per log unit       | `r SMD_S_LMA_StandardDose$metaregression$beta[2]*1000` | `r SMD_S_LMA_StandardDose$metaregression$ci.lb[2]*1000` - `r SMD_S_LMA_StandardDose$metaregression$ci.ub[2]*1000` | `r round((r2_ml(SMD_S_LMA_StandardDose$metaregression)[1]*100),1)`% |
-|               Risk of Bias               |           \-            |                           \-                           |                                                        \-                                                         |          `r round((r2_ml(SMD_S_LMA_SYRCLERoB)[1]*100),1)`%          |
-|                    \-                    |    *0 criteria met*     |            `r SMD_S_LMA_SYRCLERoB$beta[1]`             |                        `r SMD_S_LMA_SYRCLERoB$ci.lb[1]` - `r SMD_S_LMA_SYRCLERoB$ci.ub[1]`                        |                                 \-                                  |
-|                    \-                    |    *1 criteria met*     |            `r SMD_S_LMA_SYRCLERoB$beta[2]`             |                        `r SMD_S_LMA_SYRCLERoB$ci.lb[2]` - `r SMD_S_LMA_SYRCLERoB$ci.ub[2]`                        |                                 \-                                  |
-|                    \-                    |    *2 criteria met*     |            `r SMD_S_LMA_SYRCLERoB$beta[3]`             |                        `r SMD_S_LMA_SYRCLERoB$ci.lb[3]` - `r SMD_S_LMA_SYRCLERoB$ci.ub[3]`                        |                                 \-                                  |
-|          Reporting completeness          |           \-            |                           \-                           |                                                        \-                                                         |           `r round((r2_ml(SMD_S_LMA_ARRIVE)[1]*100),1)`%            |
-|                    \-                    |   *4-7 criteria met*    |              `r SMD_S_LMA_ARRIVE$beta[1]`              |                           `r SMD_S_LMA_ARRIVE$ci.lb[1]` - `r SMD_S_LMA_ARRIVE$ci.ub[1]`                           |                                 \-                                  |
-|                    \-                    |   *8-11 criteria met*   |              `r SMD_S_LMA_ARRIVE$beta[2]`              |                           `r SMD_S_LMA_ARRIVE$ci.lb[2]` - `r SMD_S_LMA_ARRIVE$ci.ub[2]`                           |                                 \-                                  |
-|                    \-                    |  *12-15 criteria met*   |              `r SMD_S_LMA_ARRIVE$beta[3]`              |                           `r SMD_S_LMA_ARRIVE$ci.lb[3]` - `r SMD_S_LMA_ARRIVE$ci.ub[3]`                           |                                 \-                                  |
-|                    \-                    |  *16-19 criteria met*   |              `r SMD_S_LMA_ARRIVE$beta[4]`              |                           `r SMD_S_LMA_ARRIVE$ci.lb[4]` - `r SMD_S_LMA_ARRIVE$ci.ub[4]`                           |                                 \-                                  |
+|                   Sex                    |           \-            |                           \-                           |                                                        \-                                                         |             `r round((r2_ml(SMD_S_LMA_sexI)[1]*100),1)`%             |
+|                    \-                    |        *Female*         |               `r SMD_S_LMA_sexI$beta[1]`                |                              `r SMD_S_LMA_sexI$ci.lb[1]` - `r SMD_S_LMA_sexI$ci.ub[1]`                              |                                 \-                                  |
+|                    \-                    |         *Male*          |               `r SMD_S_LMA_sexI$beta[2]`                |                              `r SMD_S_LMA_sexI$ci.lb[2]` - `r SMD_S_LMA_sexI$ci.ub[2]`                              |                                 \-                                  |
+|                    \-                    |         *Mixed*         |               `r SMD_S_LMA_sexI$beta[3]`                |                              `r SMD_S_LMA_sexI$ci.lb[3]` - `r SMD_S_LMA_sexI$ci.ub[3]`                              |                                 \-                                  |
+|                    \-                    |     *Not reported*      |               `r SMD_S_LMA_sexI$beta[4]`                |                              `r SMD_S_LMA_sexI$ci.lb[4]` - `r SMD_S_LMA_sexI$ci.ub[4]`                              |                                 \-                                  |
+|   Category of disease model induction    |           \-            |                           \-                           |                                                        \-                                                         |          `r round((r2_ml(SMD_S_LMA_CatDisIndI)[1]*100),1)`%          |
+|                    \-                    |        *Genetic*        |            `r SMD_S_LMA_CatDisIndI$beta[1]`             |                        `r SMD_S_LMA_CatDisIndI$ci.lb[1]` - `r SMD_S_LMA_CatDisInd_noI$ci.ub[1]`                        |                                 \-                                  |
+|                    \-                    |    *Pharmacological*    |            `r SMD_S_LMA_CatDisIndI$beta[2]`             |                        `r SMD_S_LMA_CatDisIndI$ci.lb[2]` - `r SMD_S_LMA_CatDisIndI$ci.ub[2]`                        |                                 \-                                  |
+|           Administration route           |           \-            |                           \-                           |                                                        \-                                                         |         `r round((r2_ml(SMD_S_LMA_AdminRouteI)[1]*100),1)`%          |
+|                    \-                    |    *Intraperitoneal*    |            `r SMD_S_LMA_AdminRouteI$beta[1]`            |                       `r SMD_S_LMA_AdminRouteI$ci.lb[1]` - `r SMD_S_LMA_AdminRouteI$ci.ub[1]`                       |                                 \-                                  |
+|                    \-                    |         *Oral*          |            `r SMD_S_LMA_AdminRouteI$beta[2]`            |                       `r SMD_S_LMA_AdminRouteI$ci.lb[2]` - `r SMD_S_LMA_AdminRouteI$ci.ub[2]`                       |                                 \-                                  |
+| Prophylactic or therapeutic intervention |           \-            |                           \-                           |                                                        \-                                                         |         `r round((r2_ml(SMD_S_LMA_ProphTheraI)[1]*100),1)`%          |
+|                    \-                    |     *Prophylactic*      |            `r SMD_S_LMA_ProphTheraI$beta[1]`            |                       `r SMD_S_LMA_ProphTheraI$ci.lb[1]` - `r SMD_S_LMA_ProphTheraI$ci.ub[1]`                       |                                 \-                                  |
+|                    \-                    |      *Therapeutic*      |            `r SMD_S_LMA_ProphTheraI$beta[2]`            |                       `r SMD_S_LMA_ProphTheraI$ci.lb[2]` - `r SMD_S_LMA_ProphTheraI$ci.ub[2]`                       |                                 \-                                  |
+|        Intervention administered         |           \-            |                           \-                           |                                                        \-                                                         |            `r round((r2_ml(SMD_S_LMA_DrugI)[1]*100),1)`%             |
+|                    \-                    |         *AP163*         |               `r SMD_S_LMA_DrugI$beta[1]`               |                             `r SMD_S_LMA_DrugI$ci.lb[1]` - `r SMD_S_LMA_DrugI$ci.ub[1]`                             |                                 \-                                  |
+|                    \-                    |     *Compound 50A*      |               `r SMD_S_LMA_DrugI$beta[2]`               |                             `r SMD_S_LMA_DrugI$ci.lb[2]` - `r SMD_S_LMA_DrugI$ci.ub[2]`                             |                                 \-                                  |
+|                    \-                    |     *Compound 50B*      |               `r SMD_S_LMA_DrugI$beta[3]`               |                             `r SMD_S_LMA_Drug_noI$ci.lb[3]` - `r SMD_S_LMA_Drug_noI$ci.ub[3]`                             |                                 \-                                  |
+|                    \-                    |       *LK000764*        |               `r SMD_S_LMA_DrugI$beta[4]`               |                             `r SMD_S_LMA_DrugI$ci.lb[4]` - `r SMD_S_LMA_DrugI$ci.ub[4]`                             |                                 \-                                  |
+|                    \-                    |       *RO5073012*       |               `r SMD_S_LMA_DrugI$beta[5]`               |                             `r SMD_S_LMA_DrugI$ci.lb[5]` - `r SMD_S_LMA_DrugI$ci.ub[5]`                             |                                 \-                                  |
+|                    \-                    |       *RO5166017*       |               `r SMD_S_LMA_DrugI$beta[6]`               |                             `r SMD_S_LMA_DrugI$ci.lb[6]` - `r SMD_S_LMA_DrugI$ci.ub[6]`                             |                                 \-                                  |
+|                    \-                    |       *RO5203648*       |               `r SMD_S_LMA_DrugI$beta[7]`               |                             `r SMD_S_LMA_DrugI$ci.lb[7]` - `r SMD_S_LMA_DrugI$ci.ub[7]`                             |                                 \-                                  |
+|                    \-                    |       *RO5256390*       |               `r SMD_S_LMA_DrugI$beta[8]`               |                             `r SMD_S_LMA_DrugI$ci.lb[8]` - `r SMD_S_LMA_DrugI$ci.ub[8]`                             |                                 \-                                  |
+|                    \-                    |       *RO5263397*       |               `r SMD_S_LMA_DrugI$beta[9]`               |                             `r SMD_S_LMA_DrugI$ci.lb[9]` - `r SMD_S_LMA_DrugI$ci.ub[9]`                             |                                 \-                                  |
+|                    \-                    | *SEP-363856 (Ultaront)* |              `r SMD_S_LMA_DrugI$beta[10]`               |                            `r SMD_S_LMA_DrugI$ci.lb[10]` - `r SMD_S_LMA_DrugI$ci.ub[10]`                            |                                 \-                                  |
+|              Drug efficacy               |           \-            |                           \-                           |                                                        \-                                                         |        `r round((r2_ml(SMD_S_LMA_DrugEfficacyI)[1]*100),1)`%         |
+|                    \-                    |     *Full agonist*      |           `r SMD_S_LMA_DrugEfficacyI$beta[1]`           |                     `r SMD_S_LMA_DrugEfficacyI$ci.lb[1]` - `r SMD_S_LMA_DrugEfficacyI$ci.ub[1]`                     |                                 \-                                  |
+|                    \-                    |    *Partial agonist*    |           `r SMD_S_LMA_DrugEfficacyI$beta[2]`           |                     `r SMD_S_LMA_DrugEfficacyI$ci.lb[2]` - `r SMD_S_LMA_DrugEfficacyI$ci.ub[2]`                     |                                 \-                                  |
+|             Drug selectivity             |           \-            |                           \-                           |                                                        \-                                                         |       `r round((r2_ml(SMD_S_LMA_DrugSelectivityI)[1]*100),1)`%       |
+|                    \-                    |         *High*          |         `r SMD_S_LMA_DrugSelectivityI$beta[1]`          |                  `r SMD_S_LMA_DrugSelectivityI$ci.lb[1]` - `r SMD_S_LMA_DrugSelectivityI$ci.ub[1]`                  |                                 \-                                  |
+|                    \-                    |          *Low*          |         `r SMD_S_LMA_DrugSelectivityI$beta[2]`          |                  `r SMD_S_LMA_DrugSelectivityI$ci.lb[2]` - `r SMD_S_LMA_DrugSelectivityI$ci.ub[2]`                  |                                 \-                                  |
+|                    \-                    |        *Unclear*        |         `r SMD_S_LMA_DrugSelectivityI$beta[3]`          |                  `r SMD_S_LMA_DrugSelectivityI$ci.lb[3]` - `r SMD_S_LMA_DrugSelectivityI$ci.ub[3]`                  |                                 \-                                  |
+|               Drug potency               |      per log unit       |      `r SMD_S_LMA_potency$metaregressionI$beta[2]`      |           `r SMD_S_LMA_potency$metaregression$ci.lb[2]` - `r SMD_S_LMA_potency$metaregression$ci.ub[2]`           |   `r round((r2_ml(SMD_S_LMA_potency$metaregression)[1]*100),1)`%    |
+|          Standardised drug dose          |      per log unit       | `r SMD_S_LMA_StandardDose$metaregression$beta[2]` | `r SMD_S_LMA_StandardDose$metaregression$ci.lb[2]` - `r SMD_S_LMA_StandardDose$metaregression$ci.ub[2]` | `r round((r2_ml(SMD_S_LMA_StandardDose$metaregression)[1]*100),1)`% |
+|               Risk of Bias               |           \-            |                           \-                           |                                                        \-                                                         |          `r round((r2_ml(SMD_S_LMA_SYRCLERoBI)[1]*100),1)`%          |
+|                    \-                    |    *0 criteria met*     |            `r SMD_S_LMA_SYRCLERoBI$beta[1]`             |                        `r SMD_S_LMA_SYRCLERoBI$ci.lb[1]` - `r SMD_S_LMA_SYRCLERoBI$ci.ub[1]`                        |                                 \-                                  |
+|                    \-                    |    *1 criteria met*     |            `r SMD_S_LMA_SYRCLERoBI$beta[2]`             |                        `r SMD_S_LMA_SYRCLERoBI$ci.lb[2]` - `r SMD_S_LMA_SYRCLERoBI$ci.ub[2]`                        |                                 \-                                  |
+|                    \-                    |    *2 criteria met*     |            `r SMD_S_LMA_SYRCLERoBI$beta[3]`             |                        `r SMD_S_LMA_SYRCLERoBI$ci.lb[3]` - `r SMD_S_LMA_SYRCLERoBI$ci.ub[3]`                        |                                 \-                                  |
+|          Reporting completeness          |           \-            |                           \-                           |                                                        \-                                                         |           `r round((r2_ml(SMD_S_LMA_ARRIVEI)[1]*100),1)`%            |
+|                    \-                    |   *4-7 criteria met*    |              `r SMD_S_LMA_ARRIVEI$beta[1]`              |                           `r SMD_S_LMA_ARRIVEI$ci.lb[1]` - `r SMD_S_LMA_ARRIVEI$ci.ub[1]`                           |                                 \-                                  |
+|                    \-                    |   *8-11 criteria met*   |              `r SMD_S_LMA_ARRIVEI$beta[2]`              |                           `r SMD_S_LMA_ARRIVEI$ci.lb[2]` - `r SMD_S_LMA_ARRIVEI$ci.ub[2]`                           |                                 \-                                  |
+|                    \-                    |  *12-15 criteria met*   |              `r SMD_S_LMA_ARRIVEI$beta[3]`              |                           `r SMD_S_LMA_ARRIVEI$ci.lb[3]` - `r SMD_S_LMA_ARRIVEI$ci.ub[3]`                           |                                 \-                                  |
+|                    \-                    |  *16-19 criteria met*   |              `r SMD_S_LMA_ARRIVEI$beta[4]`              |                           `r SMD_S_LMA_ARRIVEI$ci.lb[4]` - `r SMD_S_LMA_ARRIVEI$ci.ub[4]`                           |                                 \-                                  |
 
 ## 2.4. Sensitivity Analyses
 
@@ -1091,9 +1107,11 @@ SMD_S_cog_sex <- subgroup_analysis(df, "TvC", "Cognition", "Sex", 0.5)
 forest_subgroup(SMD_S_cog_sex, "Sex", "Cognition","Sex")
 ```
 
-`r SMD_S_cog_sex[SMD_S_cog_sex$Sex == "Male", "k"]` comparisons used cohorts of only male animals and `r SMD_S_cog_sex[SMD_S_cog_sex$Sex == "Female", "k"]` comparisons used cohorts of only female animals. There were `r SMD_S_cog_sex[SMD_S_cog_sex$Sex == "Mixed male and female", "k"]` comparisons using cohorts of both male and female animals.
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_cog_sex_noI <- subgroup_SMD(df, "TvC", "Cognition", "Sex", 0.5)
+```
 
-The pooled SMD estimate for male animals was `r SMD_S_cog_sex[SMD_S_cog_sex$Sex == "Male", "SMD"]`, (p = `r round(as.numeric(SMD_S_cog_sex[SMD_S_cog_sex$Sex == "Male", "p"]),3)`), for females `r SMD_S_cog_sex[SMD_S_cog_sex$Sex == "Female", "SMD"]`, (p = `r round(as.numeric(SMD_S_cog_sex[SMD_S_cog_sex$Sex == "Female", "p"]),3)`), and for mixed cohorts `r SMD_S_cog_sex[SMD_S_cog_sex$Sex == "Mixed male and female", "SMD"]`, (p = `r round(as.numeric(SMD_S_cog_sex[SMD_S_cog_sex$Sex == "Mixed male and female", "p"]),3)`).
+The p-value for the association between the sex of animal groups used and outcome reported was `r round(SMD_S_cog_sex_noI$QMp,3)`
 
 #### 3.3.2 Category of disease induction
 
@@ -1109,9 +1127,12 @@ SMD_S_cog_CatDisInd <- subgroup_analysis(df, "TvC", "Cognition", "CategoryDiseas
 forest_subgroup(SMD_S_cog_CatDisInd, "CategoryDiseaseInduction", "Cognition","Category of \nDisease Induction")
 ```
 
-`r SMD_S_cog_CatDisInd[SMD_S_cog_CatDisInd$CategoryDiseaseInduction == "Pharmacological (e.g. psychostimulants, NMDA antagonists)", "k"]` comparisons used pharmacological methods to induce the disease model. `r SMD_S_cog_CatDisInd[SMD_S_cog_CatDisInd$CategoryDiseaseInduction == "Genetic (e.g. DISC1 KO, DAT KO, D2R overexpression)", "k"]` comparisons used genetic methods to induce the disease model.
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_cog_CatDisInd_noI <- subgroup_SMD(df, "TvC", "Cognition", "CategoryDiseaseInduction", 0.5)
+```
 
-The pooled SMD estimate for comparisons using pharmacological methods to induce the disease model was `r SMD_S_cog_CatDisInd[SMD_S_cog_CatDisInd$CategoryDiseaseInduction == "Pharmacological (e.g. psychostimulants, NMDA antagonists)", "SMD"]`, (p = `r round(as.numeric(SMD_S_cog_sex[SMD_S_cog_sex$CategoryDiseaseInduction == "Pharmacological (e.g. psychostimulants, NMDA antagonists)", "p"]),3)`), and for comparisons using genetic methods to induce the disease model `r SMD_S_cog_CatDisInd[SMD_S_cog_CatDisInd$CategoryDiseaseInduction == "Genetic (e.g. DISC1 KO, DAT KO, D2R overexpression)", "SMD"]`, (p = `r round(as.numeric(SMD_S_cog_sex[SMD_S_cog_sex$CategoryDiseaseInduction == "Pharmacological (e.g. psychostimulants, NMDA antagonists)", "p"]),3)`).
+The p-value for the association between whether genetic or pharmacological models were used and outcome reported was `r round(SMD_S_cog_CatDisInd_noI$QMp,3)`
+
 
 #### 3.3.3 Route of intervention administration
 
@@ -1127,9 +1148,11 @@ SMD_S_cog_AdminRoute <- subgroup_analysis(df, "TvC", "Cognition", "InterventionA
 forest_subgroup(SMD_S_cog_AdminRoute, "InterventionAdministrationRoute", "Cognition","Route of \nAdministration")
 ```
 
-`r SMD_S_cog_AdminRoute[SMD_S_cog_AdminRoute$InterventionAdministrationRoute == "Intraperitoneal (IP) injection", "k"]` comparisons administered the TAAR1 agonist intraperitoneally. `r SMD_S_cog_AdminRoute[SMD_S_cog_AdminRoute$InterventionAdministrationRoute == "Oral administration/gavage", "k"]` comparisons administered the TAAR1 agonist orally.
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_cog_AdminRoute_noI <- subgroup_SMD(df, "TvC", "Cognition", "InterventionAdministrationRoute", 0.5)
+```
 
-The pooled SMD estimate for experiments administering the TAAR1 agonist intraperitoneally was `r SMD_S_cog_AdminRoute[SMD_S_cog_AdminRoute$InterventionAdministrationRoute == "Intraperitoneal (IP) injection", "SMD"]`, (p = `r round(as.numeric(SMD_S_cog_sex[SMD_S_cog_sex$InterventionAdministrationRoute == "Intraperitoneal (IP) injection", "p"]),3)`) and for experiments administering the TAAR1 agonist orally `r SMD_S_cog_AdminRoute[SMD_S_cog_AdminRoute$InterventionAdministrationRoute == "Oral administration/gavage", "SMD"]`, (p = `r round(as.numeric(SMD_S_cog_sex[SMD_S_cog_sex$InterventionAdministrationRoute == "Oral administration/gavage", "p"]),3)`), "p"]),3)\`).
+The p-value for the association between whether genetic or pharmacological models were used and outcome reported was `r round(SMD_S_cog_AdminRoute_noI$QMp,3)`
 
 #### 3.3.4 Prophylactic or therapeutic intervention
 
@@ -1153,9 +1176,11 @@ SMD_S_cog_Drug <- subgroup_analysis(df, "TvC", "Cognition", "DrugName", 0.5)
 forest_subgroup(SMD_S_cog_Drug, "DrugName", "Cognition","Drug")
 ```
 
-The TAAR1 agonist SEP-363856 (Ultaront) was administered in `r SMD_S_cog_Drug[SMD_S_cog_Drug$DrugName == "SEP-363856", "k"]` experiments. `r SMD_S_cog_Drug[SMD_S_cog_Drug$DrugName == "RO5203648", "k"]` experiments administered the TAAR1 agonist RO5203648, and `r SMD_S_cog_Drug[SMD_S_cog_Drug$DrugName == "RO5256390", "k"]` experiments administered the TAAR1 agonist RO5256390.
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_cog_Drug_noI <- subgroup_SMD(df, "TvC", "Cognition", "DrugName", 0.5)
+```
 
-The pooled SMD estimate for experiments administering the TAAR1 agonist SEP-363856 was `r SMD_S_cog_Drug[SMD_S_cog_Drug$DrugName == "SEP-363856", "SMD"]`, for experiments administering the TAAR1 agonist RO5203648 `r SMD_S_cog_Drug[SMD_S_cog_Drug$DrugName == "RO5203648", "SMD"]`, and for experiments administering the TAAR1 agonist RO5256390 `r SMD_S_cog_Drug[SMD_S_cog_Drug$DrugName == "RO5256390", "SMD"]`.
+The p-value for the association between the intervention and outcome reported was `r round(SMD_S_cog_Drug_noI$QMp,3)`
 
 #### 3.3.7 The efficacy of the drug (i.e. whether the drug is a partial or full agonist)
 
@@ -1175,9 +1200,11 @@ SMD_S_cog_DrugSelectivity <- subgroup_analysis(df, "TvC", "Cognition", "Selectiv
 forest_subgroup(SMD_S_cog_DrugSelectivity, "Selectivity", "Cognition","High or\nLow Selectivity")
 ```
 
-TAAR1 agonists with high selectivity were used in `r SMD_S_cog_DrugSelectivity[SMD_S_cog_DrugSelectivity$Selectivity == "High", "k"]` experiments. TAAR1 drugs with additional agonist activity at serotonin 5HT1A receptors were used in `r SMD_S_cog_DrugSelectivity[SMD_S_cog_DrugSelectivity$Selectivity == "Low (5HT1A partial agonism)", "k"]` experiments.
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_cog__DrugSelectivity_noI <- subgroup_SMD(df, "TvC", "Cognition", "Selectivity", 0.5)
+```
 
-The pooled SMD estimate for experiments administering TAAR1 agonists with high selectivity was `r SMD_S_cog_DrugSelectivity[SMD_S_cog_DrugSelectivity$Selectivity == "High", "SMD"]`, and for experiments administering TAAR1 agonists with low selectivity `r SMD_S_cog_DrugSelectivity[SMD_S_cog_DrugSelectivity$Selectivity == "Low (5HT1A partial agonism)", "SMD"]`.
+The p-value for the association between whether the drug was highly selective, or also manifests 5-HT1A effects, was `r round(SMD_S_cog__DrugSelectivity_noI$QMp,3)`
 
 #### 3.3.9 Potency of intervention
 
@@ -1487,11 +1514,12 @@ SMD_S_cog_SYRCLERoB <- subgroup_analysis(df, "TvC", "Cognition", "RoBScore", 0.5
 forest_subgroup(SMD_S_cog_SYRCLERoB, "RoBScore", "Cognition","SyRCLE RoB score")
 ```
 
-`r SMD_S_cog_SYRCLERoB[SMD_S_cog_SYRCLERoB$RoBScore == "0 criteria met", "k"]` experiments met none of the SYRCLE Risk of Bias criteria. `r SMD_S_cog_SYRCLERoB[SMD_S_cog_SYRCLERoB$RoBScore == "1 criteria met", "k"]` experiments met one of the SYRCLE Risk of Bias criteria. No studies met more than one of the SYRCLE Risk of Bias criteria.
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_cog_SYRCLERoB_noI <- subgroup_SMD(df, "TvC", "Cognition", "RoBScore", 0.5)
+```
 
-The pooled SMD estimate for experiments that met none of the SYRCLE Risk of Bias criteria was `r SMD_S_cog_SYRCLERoB[SMD_S_cog_SYRCLERoB$RoBScore == "0 criteria met", "SMD"]`, and for experiments that met one of the SYRCLE Risk of Bias criteria `r SMD_S_cog_SYRCLERoB[SMD_S_cog_SYRCLERoB$RoBScore == "1 criteria met", "SMD"]`.
+The p-value for the association between SyRCLE Risks of Bias reporting and outcome reported was `r round(SMD_S_cog_SYRCLERoB_noI$QMp,3)`
 
-Figure 3.3.11 displays the estimates for the pooled SMD's when comparisons are stratified by this categorisation that the experiment met. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by SyRCLE Risk of Bias, is displayed as a diamond shape at the bottom of the plot.
 
 #### 3.3.12 ARRIVE reporting completeness guidelines
 
@@ -1509,20 +1537,23 @@ SMD_S_cog_ARRIVE <- subgroup_analysis(df, "TvC", "Cognition", "ARRIVEScoreCat", 
 forest_subgroup(SMD_S_cog_ARRIVE, "ARRIVEScoreCat", "Cognition","number of\n ARRIVE items met")
 ```
 
-`r SMD_S_cog_ARRIVE[SMD_S_cog_ARRIVE$ARRIVEScoreCat == "C: 8-11 criteria met", "k"]` experiments met between 8-11 of the ARRIVE reporting completeness criteria. No studies met less than 8 or more than 19 of the ARRIVE reporting completeness criteria. `r SMD_S_cog_ARRIVE[SMD_S_cog_ARRIVE$ARRIVEScoreCat == "D: 12-15 criteria met", "k"]` experiments met between 12-15, and `r SMD_S_cog_ARRIVE[SMD_S_cog_ARRIVE$ARRIVEScoreCat == "E: 16-19 criteria met", "k"]` experiments met between 16-19 of the ARRIVE reporting completeness criteria. No studies met less than 8 or more than 19 of the ARRIVE reporting completeness criteria.
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_cog_ARRIVE_noI <- subgroup_SMD(df, "TvC", "Cognition", "ARRIVEScoreCat", 0.5)
+```
 
-The pooled SMD estimate for experiments that met between 8-11 of the ARRIVE reporting completeness criteria was `r SMD_S_cog_ARRIVE[SMD_S_cog_ARRIVE$ARRIVEScoreCat == "C: 8-11 criteria met", "SMD"]`, and for experiments that met between 12-15 of the ARRIVE reporting completeness criteria `r SMD_S_cog_ARRIVE[SMD_S_cog_ARRIVE$ARRIVEScoreCat == "D: 12-15 criteria met", "SMD"]`, and for experiments that met between 16-19 of the ARRIVE reporting completeness criteria `r SMD_S_cog_ARRIVE[SMD_S_cog_ARRIVE$ARRIVEScoreCat == "E: 16-19 criteria met", "SMD"]`.
+The p-value for the association between the number of ARRIVE guidelines reporting items and outcome reported was `r round(SMD_S_cog_ARRIVE_noI$QMp,3)`
+
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', out.width = "100%"}
-SMD_S_cog_sex <- subgroup_SMD(df, "TvC", "Cognition", "Sex", 0.5)
-SMD_S_cog_CatDisInd <- subgroup_SMD(df, "TvC", "Cognition", "CategoryDiseaseInduction", 0.5)
-SMD_S_cog_AdminRoute <- subgroup_SMD(df, "TvC", "Cognition", "InterventionAdministrationRoute", 0.5)
-SMD_S_cog_ProphThera <- subgroup_SMD(df, "TvC", "Cognition", "ProphylacticOrTherapeutic", 0.5)
-SMD_S_cog_DurRx <- subgroup_SMD(df, "TvC", "Cognition", "TreatmentDurationCategory", 0.5)
-SMD_S_cog_Drug <- subgroup_SMD(df, "TvC", "Cognition", "DrugName", 0.5)
-SMD_S_cog_SYRCLERoB <- subgroup_SMD(df, "TvC", "Cognition", "RoBScore", 0.5)
-SMD_S_cog_ARRIVE <- subgroup_SMD(df, "TvC", "Cognition", "ARRIVEScoreCat", 0.5)
-SMD_S_cog_DrugSelectivity <- subgroup_SMD(df, "TvC", "Cognition", "Selectivity", 0.5)
+SMD_S_cog_sexI <- subgroup_SMDI(df, "TvC", "Cognition", "Sex", 0.5)
+SMD_S_cog_CatDisIndI <- subgroup_SMDI(df, "TvC", "Cognition", "CategoryDiseaseInduction", 0.5)
+SMD_S_cog_AdminRouteI <- subgroup_SMDI(df, "TvC", "Cognition", "InterventionAdministrationRoute", 0.5)
+SMD_S_cog_ProphTheraI <- subgroup_SMDI(df, "TvC", "Cognition", "ProphylacticOrTherapeutic", 0.5)
+SMD_S_cog_DurRxI <- subgroup_SMDI(df, "TvC", "Cognition", "TreatmentDurationCategory", 0.5)
+SMD_S_cog_DrugI <- subgroup_SMDI(df, "TvC", "Cognition", "DrugName", 0.5)
+SMD_S_cog_SYRCLERoBI <- subgroup_SMDI(df, "TvC", "Cognition", "RoBScore", 0.5)
+SMD_S_cog_ARRIVEI <- subgroup_SMDI(df, "TvC", "Cognition", "ARRIVEScoreCat", 0.5)
+SMD_S_cog_DrugSelectivityI <- subgroup_SMDI(df, "TvC", "Cognition", "Selectivity", 0.5)
 
 ```
 
@@ -1532,33 +1563,35 @@ The table below shows which of the covariates, if any, explain some of the heter
 
 <!--# add results from potency and doses in the table below -->
 
-|              Moderator              |        Category         |                $\beta$                |                                     95% CI                                      |                   Marginal R^2^ (%)                    |
-|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|
-|           Overall effect            |           \-            |         `r SMD_S_cog$beta[1]`         |                    `r SMD_S_cog$ci.lb` - `r SMD_S_cog$ci.ub`                    |                           \-                           |
-|                 Sex                 |           \-            |                  \-                   |                                       \-                                        |       `r round((r2_ml(SMD_S_cog_sex)[1]*100),1)`       |
-|                 \-                  |        *Female*         |       `r SMD_S_cog_sex$beta[1]`       |             `r SMD_S_cog_sex$ci.lb[1]` - `r SMD_S_cog_sex$ci.ub[1]`             |                           \-                           |
-|                 \-                  |         *Male*          |       `r SMD_S_cog_sex$beta[2]`       |             `r SMD_S_cog_sex$ci.lb[2]` - `r SMD_S_cog_sex$ci.ub[2]`             |                           \-                           |
-|                 \-                  | *Mixed male and female* |       `r SMD_S_cog_sex$beta[3]`       |             `r SMD_S_cog_sex$ci.lb[3]` - `r SMD_S_cog_sex$ci.ub[3]`             |                           \-                           |
-| Category of disease model induction |           \-            |                  \-                   |                                       \-                                        |    `r round((r2_ml(SMD_S_cog_CatDisInd)[1]*100),1)`    |
-|                 \-                  |        *Genetic*        |    `r SMD_S_cog_CatDisInd$beta[1]`    |       `r SMD_S_cog_CatDisInd$ci.lb[1]` - `r SMD_S_cog_CatDisInd$ci.ub[1]`       |                           \-                           |
-|                 \-                  |    *Pharmacological*    |    `r SMD_S_cog_CatDisInd$beta[2]`    |       `r SMD_S_cog_CatDisInd$ci.lb[2]` - `r SMD_S_cog_CatDisInd$ci.ub[2]`       |                           \-                           |
-|        Administration route         |           \-            |                  \-                   |                                       \-                                        |   `r round((r2_ml(SMD_S_cog_AdminRoute)[1]*100),1)`    |
-|                 \-                  |    *Intraperitoneal*    |   `r SMD_S_cog_AdminRoute$beta[1]`    |      `r SMD_S_cog_AdminRoute$ci.lb[1]` - `r SMD_S_cog_AdminRoute$ci.ub[1]`      |                           \-                           |
-|                 \-                  |         *Oral*          |   `r SMD_S_cog_AdminRoute$beta[2]`    |      `r SMD_S_cog_AdminRoute$ci.lb[2]` - `r SMD_S_cog_AdminRoute$ci.ub[2]`      |                           \-                           |
-|      Intervention administered      |           \-            |                  \-                   |                                       \-                                        |      `r round((r2_ml(SMD_S_cog_Drug)[1]*100),1)`       |
-|                 \-                  |       *RO5203648*       |      `r SMD_S_cog_Drug$beta[1]`       |            `r SMD_S_cog_Drug$ci.lb[1]` - `r SMD_S_cog_Drug$ci.ub[1]`            |                           \-                           |
-|                 \-                  |       *RO5256390*       |      `r SMD_S_cog_Drug$beta[2]`       |            `r SMD_S_cog_Drug$ci.lb[2]` - `r SMD_S_cog_Drug$ci.ub[2]`            |                           \-                           |
-|                 \-                  | *SEP-363856 (Ultaront)* |      `r SMD_S_cog_Drug$beta[3]`       |            `r SMD_S_cog_Drug$ci.lb[3]` - `r SMD_S_cog_Drug$ci.ub[3]`            |                           \-                           |
-|          Drug selectivity           |           \-            |                  \-                   |                                       \-                                        | `r round((r2_ml(SMD_S_cog_DrugSelectivity)[1]*100),1)` |
-|                 \-                  |         *High*          | `r SMD_S_cog_DrugSelectivity$beta[1]` | `r SMD_S_cog_DrugSelectivity$ci.lb[1]` - `r SMD_S_cog_DrugSelectivity$ci.ub[1]` |                           \-                           |
-|                 \-                  |          *Low*          | `r SMD_S_cog_DrugSelectivity$beta[2]` | `r SMD_S_cog_DrugSelectivity$ci.lb[2]` - `r SMD_S_cog_DrugSelectivity$ci.ub[2]` |                           \-                           |
-|            Risk of Bias             |           \-            |                  \-                   |                                       \-                                        |    `r round((r2_ml(SMD_S_cog_SYRCLERoB)[1]*100),1)`    |
-|                 \-                  |    *0 criteria met*     |    `r SMD_S_cog_SYRCLERoB$beta[1]`    |       `r SMD_S_cog_SYRCLERoB$ci.lb[1]` - `r SMD_S_cog_SYRCLERoB$ci.ub[1]`       |                           \-                           |
-|                 \-                  |    *1 criteria met*     |    `r SMD_S_cog_SYRCLERoB$beta[2]`    |       `r SMD_S_cog_SYRCLERoB$ci.lb[2]` - `r SMD_S_cog_SYRCLERoB$ci.ub[2]`       |                           \-                           |
-|       Reporting completeness        |           \-            |                  \-                   |                                       \-                                        |     `r round((r2_ml(SMD_S_cog_ARRIVE)[1]*100),1)`      |
-|                 \-                  |   *8-11 criteria met*   |     `r SMD_S_cog_ARRIVE$beta[1]`      |          `r SMD_S_cog_ARRIVE$ci.lb[1]` - `r SMD_S_cog_ARRIVE$ci.ub[1]`          |                           \-                           |
-|                 \-                  |  *12-15 criteria met*   |     `r SMD_S_cog_ARRIVE$beta[2]`      |          `r SMD_S_cog_ARRIVE$ci.lb[2]` - `r SMD_S_cog_ARRIVE$ci.ub[2]`          |                           \-                           |
-|                 \-                  |  *16-19 criteria met*   |     `r SMD_S_cog_ARRIVE$beta[3]`      |          `r SMD_S_cog_ARRIVE$ci.lb[3]` - `r SMD_S_cog_ARRIVE$ci.ub[3]`          |                           \-                           |
+|              Moderator              |        Category         |                        $\beta$                         |                                                      95% CI                                                       |                          Marginal R^2^ (%)                          |                                                              
+|:------------:|:------------:|:------------:|:------------:|:------------:|
+|           Overall effect            |           \-            |                 `r SMD_S_cog$beta[1]`                  |                                     `r SMD_S_cog$ci.lb` - `r SMD_S_cog$ci.ub`                                     |                                 \-                                  |                                                                
+|                 Sex                 |           \-            |                           \-                           |                                                        \-                                                         |             `r round((r2_ml(SMD_S_cog_sexI)[1]*100),1)`%              |
+|                 \-                  |        *Female*         |               `r SMD_S_cog_sexI$beta[1]`                |                              `r SMD_S_cog_sexI$ci.lb[1]` - `r SMD_S_cog_sexI$ci.ub[1]`                              |                                 \-                                  |                                                              
+|                 \-                  |         *Male*          |               `r SMD_S_cog_sexI$beta[2]`                |                              `r SMD_S_cog_sexI$ci.lb[2]` - `r SMD_S_cog_sexI$ci.ub[2]`                              |                                 \-                                  |                                                              
+|                 \-                  | *Mixed male and female* |               `r SMD_S_cog_sexI$beta[3]`                |                              `r SMD_S_cog_sexI$ci.lb[3]` - `r SMD_S_cog_sexI$ci.ub[3]`                              |                                 \-                                  |                                                                
+| Category of disease model induction |           \-            |                           \-                           |                                                        \-                                                         |          `r round((r2_ml(SMD_S_cog_CatDisIndI)[1]*100),1)`%           |
+|                 \-                  |        *Genetic*        |            `r SMD_S_cog_CatDisIndI$beta[1]`             |                        `r SMD_S_cog_CatDisIndI$ci.lb[1]` - `r SMD_S_cog_CatDisIndI$ci.ub[1]`                        |                                 \-                                  |                                                                
+|                 \-                  |    *Pharmacological*    |            `r SMD_S_cog_CatDisIndI$beta[2]`             |                        `r SMD_S_cog_CatDisIndI$ci.lb[2]` - `r SMD_S_cog_CatDisIndI$ci.ub[2]`                        |                                 \-                                  |                                                                
+|        Administration route         |           \-            |                           \-                           |                                                        \-                                                         |          `r round((r2_ml(SMD_S_cog_AdminRouteI)[1]*100),1)`%          |
+|                 \-                  |    *Intraperitoneal*    |            `r SMD_S_cog_AdminRouteI$beta[1]`            |                       `r SMD_S_cog_AdminRouteI$ci.lb[1]` - `r SMD_S_cog_AdminRouteI$ci.ub[1]`                       |                                 \-                                  |                                                                
+|                 \-                  |         *Oral*          |            `r SMD_S_cog_AdminRouteI$beta[2]`            |                       `r SMD_S_cog_AdminRouteI$ci.lb[2]` - `r SMD_S_cog_AdminRouteI$ci.ub[2]`                       |                                 \-                                  |                                                                
+|      Intervention administered      |           \-            |                           \-                           |                                                        \-                                                         |             `r round((r2_ml(SMD_S_cog_DrugI)[1]*100),1)`%             | 
+|                 \-                  |       *RO5203648*       |               `r SMD_S_cog_DrugI$beta[1]`               |                             `r SMD_S_cog_DrugI$ci.lb[1]` - `r SMD_S_cog_DrugI$ci.ub[1]`                             |                                 \-                                  |                                                                
+|                 \-                  |       *RO5256390*       |               `r SMD_S_cog_DrugI$beta[2]`               |                             `r SMD_S_cog_DrugI$ci.lb[2]` - `r SMD_S_cog_DrugI$ci.ub[2]`                             |                                 \-                                  |                                                                
+|                 \-                  | *SEP-363856 (Ultaront)* |               `r SMD_S_cog_DrugI$beta[3]`               |                             `r SMD_S_cog_DrugI$ci.lb[3]` - `r SMD_S_cog_DrugI$ci.ub[3]`                             |                                 \-                                  |                                                                
+|          Drug selectivity           |           \-            |                           \-                           |                                                        \-                                                         |       `r round((r2_ml(SMD_S_cog_DrugSelectivityI)[1]*100),1)`%        | 
+|                 \-                  |         *High*          |         `r SMD_S_cog_DrugSelectivityI$beta[1]`          |                  `r SMD_S_cog_DrugSelectivityI$ci.lb[1]` - `r SMD_S_cog_DrugSelectivityI$ci.ub[1]`                  |                                 \-                                  |                                                                
+|                 \-                  |          *Low*          |         `r SMD_S_cog_DrugSelectivityI$beta[2]`          |                  `r SMD_S_cog_DrugSelectivityI$ci.lb[2]` - `r SMD_S_cog_DrugSelectivityI$ci.ub[2]`                  |                                 \-                                  |                                                                
+|            Drug potency             |      per log unit       |      `r SMD_S_cog_potency$metaregression$beta[2]`      |           `r SMD_S_cog_potency$metaregression$ci.lb[2]` - `r SMD_S_cog_potency$metaregression$ci.ub[2]`           |   `r round((r2_ml(SMD_S_cog_potency$metaregression)[1]*100),1)`%    |     
+|          Standardised dose          |      per log unit       | `r SMD_S_cog_StandardDose$metaregression$beta[2]*1000` | `r SMD_S_cog_StandardDose$metaregression$ci.lb[2]*1000` - `r SMD_S_cog_StandardDose$metaregression$ci.ub[2]*1000` | `r round((r2_ml(SMD_S_cog_StandardDose$metaregression)[1]*100),1)`% |                                               
+|            Risk of Bias             |           \-            |                           \-                           |                                                        \-                                                         |          `r round((r2_ml(SMD_S_cog_SYRCLERoBI)[1]*100),1)`%           |                                                                |     |
+|                 \-                  |    *0 criteria met*     |            `r SMD_S_cog_SYRCLERoBI$beta[1]`             |                        `r SMD_S_cog_SYRCLERoBI$ci.lb[1]` - `r SMD_S_cog_SYRCLERoBI$ci.ub[1]`                        |                                 \-                                  |                                                                
+|                 \-                  |    *1 criteria met*     |            `r SMD_S_cog_SYRCLERoBI$beta[2]`             |                        `r SMD_S_cog_SYRCLERoBI$ci.lb[2]` - `r SMD_S_cog_SYRCLERoBI$ci.ub[2]`                        |                                 \-                                  |                                                                
+|       Reporting completeness        |           \-            |                           \-                           |                                                        \-                                                         |            `r round((r2_ml(SMD_S_cog_ARRIVEI)[1]*100),1)`%            |
+|                 \-                  |   *8-11 criteria met*   |              `r SMD_S_cog_ARRIVEI$beta[1]`              |                           `r SMD_S_cog_ARRIVEI$ci.lb[1]` - `r SMD_S_cog_ARRIVEI$ci.ub[1]`                           |                                 \-                                  |                                                                
+|                 \-                  |  *12-15 criteria met*   |              `r SMD_S_cog_ARRIVEI$beta[2]`              |                           `r SMD_S_cog_ARRIVEI$ci.lb[2]` - `r SMD_S_cog_ARRIVEI$ci.ub[2]`                           |                                 \-                                  |                                                                
+|                 \-                  |  *16-19 criteria met*   |              `r SMD_S_cog_ARRIVEI$beta[3]`              |                           `r SMD_S_cog_ARRIVEI$ci.lb[3]` - `r SMD_S_cog_ARRIVEI$ci.ub[3]`                           |                                 \-                                  |                                                                
 
 ## 3.4. Sensitivity Analyses
 
