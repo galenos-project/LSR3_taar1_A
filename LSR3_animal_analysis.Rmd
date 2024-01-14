@@ -238,7 +238,7 @@ All analyses were conducted allowing for the following hierarchical levels in a 
 
 -   **Level 3: Experiment** - effect sizes measured in the same experiment within a study, where often a control group contributes to several effect sizes
 
-The hierarchical grouping may therefore be considered thus: **Strains** of laboratory animals are included in several **Studies**, each of which can report one or more **Experiments**, and each Experiment is comprised of at least two **Cohorts** which are considered identical except for differing in the experimental manipulation (the **Intervention**) or not being exposed to the disease modelling proceedures (a **Sham** cohort), these only being used to provide a baseline for outcome measures to allow Normalised Mean Difference meta-analysis.
+The hierarchical grouping may therefore be considered thus: **Strains** of laboratory animals are included in several **Studies**, each of which can report one or more **Experiments**, and each Experiment is comprised of at least two **Cohorts** which are considered identical except for differing in the experimental manipulation (the **Intervention**) or not being exposed to the disease modelling procedures (a **Sham** cohort, these only being used to provide a baseline for outcome measures to allow Normalised Mean Difference meta-analysis). An **Experiment** can include several **experimental contrasts**, for instance where different doses of drugs are compared to the same control group.
 
 *NB: We constructed multilevel models without Knapp-Hartung adjustments as these are not available for rma.mv class objects in the metafor package* ([metafor](https://cran.r-project.org/web/packages/metafor/metafor.pdf)). *Instead, the model is set to `test = "t"` to use t- and F-distributions for making inferences, and `dfs="contain"` to improve the method of approximating degrees of freedom of these distributions.*
 
@@ -318,7 +318,7 @@ SMD_S_LMA <- run_ML_SMD(df, "TvC", "Locomotor activity", 0.5)
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
  if (any(class(SMD_S_LMA) == "rma.mv")) {
-  output_text1 <- "The effect of administering a TAAR1 agonist on locomotor activity in animals using SMD as the effect size is shown in Figure 4.1.1. The pooled estimate for SMD across all individual comparisons is displayed as a diamond shape at the bottom of the plot. Dotted lines indicate the prediction interval of the pooled estimate."
+  output_text1 <- "The effect of administering a TAAR1 agonist on locomotor activity in animals using SMD as the effect size is shown in Figure 2.3. The pooled estimate for SMD across all individual comparisons is displayed as a diamond shape at the bottom of the plot. Dotted lines indicate the prediction interval of the pooled estimate."
   output_text2 <- "Figure 2.3"
 } else {
   output_text1 <- "Analysis is only performed if outcomes have been reported in more than one publication. There are not sufficient data for this outcome"
@@ -326,6 +326,8 @@ SMD_S_LMA <- run_ML_SMD(df, "TvC", "Locomotor activity", 0.5)
 ```
 
 `r output_text1`
+
+
 
 **`r output_text2`**
 
@@ -335,17 +337,16 @@ forest_metafor(SMD_S_LMA, "TvC", "Locomotor activity")
 
 ```{r echo=FALSE}
  if (any(class(SMD_S_LMA) == "rma.mv")) {
-  output_text3 <- paste0("For TAAR1 Agonist v Control, TAAR1 interventions had a pooled effect on locomotor activity of SMD = ", round(SMD_S_LMA[['beta']], 3), " (95% CI: ", round(SMD_S_LMA[['ci.lb']], 3), " to ", round(SMD_S_LMA[['ci.ub']], 3), ", with a prediction interval of ", round(predict(SMD_S_LMA)$pi.lb, 3), " to ", round(predict(SMD_S_LMA)$pi.ub, 3))
-  output_text4 <- paste0("Between-strain variance was ", round(SMD_S_LMA$sigma2[1], 3), ", between-study variance was ", round(SMD_S_LMA$sigma2[2], 3), ", and within-study variance (between experiments) was ", round(SMD_S_LMA$sigma2[3], 3))
+  output_text3 <- paste0("For TAAR1 Agonist v Control, TAAR1 interventions had a pooled effect on locomotor activity of SMD = ", round(SMD_S_LMA[['beta']], 3), " (95% CI: ", round(SMD_S_LMA[['ci.lb']], 3), " to ", round(SMD_S_LMA[['ci.ub']], 3), ", with a prediction interval of ", round(predict(SMD_S_LMA)$pi.lb, 3), " to ", round(predict(SMD_S_LMA)$pi.ub, 3),".") 
 } else {
   output_text3 <- ""
-  output_text4 <- ""
+
 }
 ```
 
 `r output_text3`
 
-`r output_text4`
+`r SMD_S_LMA[["k"]]` experimental comparisons were reported in `r SMD_S_LMA[["s.nlevels"]][3]` experiments reported from `r SMD_S_LMA[["s.nlevels"]][2]` publications and involving `r SMD_S_LMA[["s.nlevels"]][1]` different animal strains. The between strain variance was `r SMD_S_LMA$sigma2[1]`, the between study variance `r SMD_S_LMA$sigma2[2]` and the within-experiment variance `r SMD_S_LMA$sigma2[3]`.
 
 ## 2.3 Subgroup analyses and meta-regressions
 
@@ -397,7 +398,7 @@ forest_subgroup(SMD_S_LMA_sex, "Sex", "Locomotor Activity","Sex")
 SMD_S_LMA_sex_noI <- subgroup_SMD(df, "TvC", "Locomotor activity", "Sex", 0.5)
 ```
 
-The p-value for the association between the sex of animal groups used and outcome reported was `r round(SMD_S_LMA_sex_noI$QMp,3)`
+The p-value for the association between the sex of animal groups used and outcome reported was `r round(SMD_S_LMA_sex_noI$QMp,3)`. The between-strain variance was `r SMD_S_LMA_sex_noI$sigma2[1]`, the between-study variance `r SMD_S_LMA_sex_noI$sigma2[2]`, and the within-experiment variance `r SMD_S_LMA_sex_noI$sigma2[3]`.
 
 #### 2.3.2 Category of disease induction
 
@@ -417,7 +418,7 @@ forest_subgroup(SMD_S_LMA_CatDisInd, "CategoryDiseaseInduction", "Locomotor Acti
 SMD_S_LMA_CatDisInd_noI <- subgroup_SMD(df, "TvC", "Locomotor activity", "CategoryDiseaseInduction", 0.5)
 ```
 
-The p-value for the association between whether genetic or pharmacological models were used and outcome reported was `r round(SMD_S_LMA_CatDisInd_noI$QMp,3)`
+The p-value for the association between whether genetic or pharmacological models were used and outcome reported was `r round(SMD_S_LMA_CatDisInd_noI$QMp,3)`. The between-strain variance was `r SMD_S_LMA_CatDisInd_noI$sigma2[1]`, the between-study variance `r SMD_S_LMA_CatDisInd_noI$sigma2[2]`, and the within-experiment variance `r SMD_S_LMA_CatDisInd_noI$sigma2[3]`.
 
 #### 2.3.3 Route of intervention administration
 
@@ -437,7 +438,7 @@ forest_subgroup(SMD_S_LMA_AdminRoute, "InterventionAdministrationRoute", "Locomo
 SMD_S_LMA_AdminRoute_noI <- subgroup_SMD(df, "TvC", "Locomotor activity", "InterventionAdministrationRoute", 0.5)
 ```
 
-The p-value for the association between the route of intervention administration and outcome reported was `r round(SMD_S_LMA_AdminRoute_noI$QMp,3)`
+The p-value for the association between the route of intervention administration and outcome reported was `r round(SMD_S_LMA_AdminRoute_noI$QMp,3)`. The between-strain variance was `r SMD_S_LMA_AdminRoute_noI$sigma2[1]`, the between-study variance `r SMD_S_LMA_AdminRoute_noI$sigma2[2]`, and the within-experiment variance `r SMD_S_LMA_AdminRoute_noI$sigma2[3]`.
 
 #### 2.3.4 Prophylactic or therapeutic intervention
 
@@ -457,7 +458,7 @@ forest_subgroup(SMD_S_LMA_ProphThera, "ProphylacticOrTherapeutic", "Locomotor Ac
 SMD_S_LMA_ProphThera_noI <- subgroup_SMD(df, "TvC", "Locomotor activity", "ProphylacticOrTherapeutic", 0.5)
 ```
 
-The p-value for the association between whether the intervention was administered prophylactically or therapeutically and outcome reported was `r round(SMD_S_LMA_ProphThera_noI$QMp,3)`
+The p-value for the association between whether the intervention was administered prophylactically or therapeutically and outcome reported was `r round(SMD_S_LMA_ProphThera_noI$QMp,3)`. The between-strain variance was `r SMD_S_LMA_ProphThera_noI$sigma2[1]`, the between-study variance `r SMD_S_LMA_ProphThera_noI$sigma2[2]`, and the within-experiment variance `r SMD_S_LMA_ProphThera_noI$sigma2[3]`.
 
 #### 2.3.5 Duration of treatment period
 
@@ -509,7 +510,7 @@ forest_subgroup(SMD_S_LMA_Drug, "DrugName", "Locomotor Activity","Drug")
 SMD_S_LMA_Drug_noI <- subgroup_SMD(df, "TvC", "Locomotor activity", "DrugName", 0.5)
 ```
 
-The p-value for the association between the intervention and outcome reported was `r round(SMD_S_LMA_Drug_noI$QMp,3)`
+The p-value for the association between the intervention and outcome reported was `r round(SMD_S_LMA_Drug_noI$QMp,3)`. The between-strain variance was `r SMD_S_LMA_Drug_noI$sigma2[1]`, the between-study variance `r SMD_S_LMA_Drug_noI$sigma2[2]`, and the within-experiment variance `r SMD_S_LMA_Drug_noI$sigma2[3]`.
 
 #### 2.3.7 The efficacy of the drug (i.e. whether the drug is a partial or full agonist)
 
@@ -529,7 +530,7 @@ forest_subgroup(SMD_S_LMA_DrugEfficacy, "Efficacy", "Locomotor Activity","Full o
 SMD_S_LMA_DrugEfficacy_noI <- subgroup_SMD(df, "TvC", "Locomotor activity", "Efficacy", 0.5)
 ```
 
-The p-value for the association between whether the drug was a full or partial agonist and outcome reported was `r round(SMD_S_LMA_DrugEfficacy_noI$QMp,3)`
+The p-value for the association between whether the drug was a full or partial agonist and outcome reported was `r round(SMD_S_LMA_DrugEfficacy_noI$QMp,3)`. The between-strain variance was `r SMD_S_LMA_DrugEfficacy_noI$sigma2[1]`, the between-study variance `r SMD_S_LMA_DrugEfficacy_noI$sigma2[2]`, and the within-experiment variance `r SMD_S_LMA_DrugEfficacy_noI$sigma2[3]`.
 
 #### 2.3.8 The selectivity of the drug
 
@@ -549,7 +550,7 @@ forest_subgroup(SMD_S_LMA_DrugSelectivity, "Selectivity", "Locomotor Activity","
 SMD_S_LMA_DrugSelectivity_noI <- subgroup_SMD(df, "TvC", "Locomotor activity", "Selectivity", 0.5)
 ```
 
-The p-value for the association between whether the drug was highly selective, or also manifests 5-HT1A effects, and outcome reported was `r round(SMD_S_LMA_DrugSelectivity_noI$QMp,3)`
+The p-value for the association between whether the drug was highly selective, or also manifests 5-HT1A effects, and outcome reported was `r round(SMD_S_LMA_DrugSelectivity_noI$QMp,3)`. The between-strain variance was `r SMD_S_LMA_DrugSelectivity_noI$sigma2[1]`, the between-study variance `r SMD_S_LMA_DrugSelectivity_noI$sigma2[2]`, and the within-experiment variance `r SMD_S_LMA_DrugSelectivity_noI$sigma2[3]`.
 
 #### 2.3.9 Potency of intervention
 
@@ -566,7 +567,7 @@ SMD_S_LMA_potency <- metaregression_analysis(df, "TvC", "Locomotor activity", "p
 SMD_S_LMA_potency$regression_plot
 ```
 
-The estimate for $\beta$ was `r SMD_S_LMA_potency$metaregression_summary$beta[2]` (p = `r  round(SMD_S_LMA_potency$metaregression_summary$pval[2],3)`).
+The estimate for $\beta$ was `r SMD_S_LMA_potency$metaregression_summary$beta[2]` (p = `r  round(SMD_S_LMA_potency$metaregression_summary$pval[2],3)`). The between-strain variance was `r SMD_S_LMA_potency$metaregression_summary$sigma2[1]`, the between-study variance `r SMD_S_LMA_potency$metaregression_summary$sigma2[2]`, and the within-experiment variance `r SMD_S_LMA_potency$metaregression_summary$sigma2[3]`.
 
 #### 2.3.10 Dose of intervention
 
@@ -840,7 +841,7 @@ SMD_S_LMA_StandardDose <- metaregression_analysis(df, "TvC", "Locomotor activity
 SMD_S_LMA_StandardDose$regression_plot
 ```
 
-The estimate for the change in effect per log unit change in standardised does was`r SMD_S_LMA_StandardDose$metaregression_summary$beta[1]` (p = `r round(SMD_S_LMA_StandardDose[["metaregression"]][["k"]],3)`). 
+The estimate for the change in effect per log unit change in standardised does was`r SMD_S_LMA_StandardDose$metaregression_summary$beta[1]` (p = `r round(SMD_S_LMA_StandardDose[["metaregression"]][["k"]],3)`). The between-strain variance was `r SMD_S_LMA_StandardDose$metaregression$sigma2[1]`, the between-study variance `r SMD_S_LMA_StandardDose$metaregression$sigma2[2]`, and the within-experiment variance `r SMD_S_LMA_StandardDose$metaregression$sigma2[3]`.
 
 #### 2.3.11 SYRCLE RoB assessment
 
@@ -860,7 +861,7 @@ forest_subgroup(SMD_S_LMA_SYRCLERoB, "RoBScore", "Locomotor Activity","SyRCLE Ro
 SMD_S_LMA_SYRCLERoB_noI <- subgroup_SMD(df, "TvC", "Locomotor activity", "RoBScore", 0.5)
 ```
 
-The p-value for the association between SyRCLE Risks of Bias reporting and outcome reported was `r round(SMD_S_LMA_SYRCLERoB_noI$QMp,3)`
+The p-value for the association between SyRCLE Risks of Bias reporting and outcome reported was `r round(SMD_S_LMA_SYRCLERoB_noI$QMp,3)`. The between-strain variance was `r SMD_S_LMA_SYRCLERoB_noI$sigma2[1]`, the between-study variance `r SMD_S_LMA_SYRCLERoB_noI$sigma2[2]`, and the within-experiment variance `r SMD_S_LMA_SYRCLERoB_noI$sigma2[3]`.
 
 #### 2.3.12 ARRIVE reporting completeness guidelines
 
@@ -882,7 +883,7 @@ forest_subgroup(SMD_S_LMA_ARRIVE, "ARRIVEScoreCat", "Locomotor Activity","number
 SMD_S_LMA_ARRIVE_noI <- subgroup_SMD(df, "TvC", "Locomotor activity", "ARRIVEScoreCat", 0.5)
 ```
 
-The p-value for the association between the number of ARRIVE guidelines reporting items and outcome reported  was `r round(SMD_S_LMA_ARRIVE_noI$QMp,3)`
+The p-value for the association between the number of ARRIVE guidelines reporting items and outcome reported  was `r round(SMD_S_LMA_ARRIVE_noI$QMp,3)`. The between-strain variance was `r SMD_S_LMA_ARRIVE_noI$sigma2[1]`, the between-study variance `r SMD_S_LMA_ARRIVE_noI$sigma2[2]`, and the within-experiment variance `r SMD_S_LMA_ARRIVE_noI$sigma2[3]`.
 
 #### 2.3.13 Heterogeneity explained by covariates (TAAR1 Agonist v Control on locomotor activity)
 
@@ -1061,8 +1062,8 @@ ARRIVE_traffic(df, "TvC", "Cognition")
 The effect of administering a TAAR1 agonist on cognitive outcomes in animals using SMD as the effect size is shown in Figure 3.2.1. The pooled estimate for SMD across all individual comparisons is displayed as a diamond shape at the bottom of the plot. Dotted lines indicate the prediction interval of the pooled estimate.
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-SMD_S_cog <- run_ML_SMD(df, "TvC", "Cognition", 0.5)
-if (any(class(SMD_S_cog) == "rma.mv")) {
+SMD_S_Cog <- run_ML_SMD(df, "TvC", "Cognition", 0.5)
+if (any(class(SMD_S_Cog) == "rma.mv")) {
   output_text1 <- "Figure 3.2.1"
 } else {
   output_text1 <- ""
@@ -1072,22 +1073,21 @@ if (any(class(SMD_S_cog) == "rma.mv")) {
 **`r output_text1`**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=7}
-forest_metafor(SMD_S_cog, "TvC", "cognition")
+forest_metafor(SMD_S_Cog, "TvC", "cognition")
 ```
 
 ```{r echo=FALSE}
-if (any(class(SMD_S_cog) == "rma.mv")) {
-  output_text3 <- paste0("For TAAR1 Agonist v Control, TAAR1 interventions had a pooled effect on cognitive outcomes of SMD =", round(SMD_S_cog[['beta']], 3), " (95% CI: ", round(SMD_S_cog[['ci.lb']], 3), " to ", round(SMD_S_cog[['ci.ub']], 3), ", with a prediction interval of", round(predict(SMD_S_cog)$pi.lb, 3), " to ", round(predict(SMD_S_cog)$pi.ub, 3),".")
-  output_text4 <- paste0("Between-strain variance was ", round(SMD_S_cog$sigma2[1], 3), ", between-study variance was ", round(SMD_S_cog$sigma2[2], 3), ", and within-study variance (between experiments) was ", round(SMD_S_cog$sigma2[3], 3),".")
+if (any(class(SMD_S_Cog) == "rma.mv")) {
+  output_text3 <- paste0("For TAAR1 Agonist v Control, TAAR1 interventions had a pooled effect on cognitive outcomes of SMD =", round(SMD_S_Cog[['beta']], 3), " (95% CI: ", round(SMD_S_Cog[['ci.lb']], 3), " to ", round(SMD_S_Cog[['ci.ub']], 3), ", with a prediction interval of", round(predict(SMD_S_Cog)$pi.lb, 3), " to ", round(predict(SMD_S_Cog)$pi.ub, 3),".")
 } else {
   output_text3 <- "Analysis is only performed if outcomes have been reported in more than one publication. There are not sufficient data for this analysis."
-  output_text4 <- ""
+
 }
 ```
 
 `r output_text3`
 
-`r output_text4`
+`r SMD_S_Cog[["k"]]` experimental comparisons were reported in `r SMD_S_Cog[["s.nlevels"]][3]` experiments reported from `r SMD_S_Cog[["s.nlevels"]][2]` publications and involving `r SMD_S_Cog[["s.nlevels"]][1]` different animal strains. The between strain variance was `r SMD_S_Cog$sigma2[1]`, the between study variance `r SMD_S_Cog$sigma2[2]` and the within-experiment variance `r SMD_S_Cog$sigma2[3]`.
 
 ## 3.3 Subgroup analyses and meta-regressions
 
@@ -1098,18 +1098,18 @@ Figure 3.3.1 displays the estimates for the pooled SMD's when comparisons are st
 **Figure 3.3.1**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', out.width = "100%"}
-SMD_S_cog_sex <- subgroup_analysis(df, "TvC", "Cognition", "Sex", 0.5)
+SMD_S_Cog_sex <- subgroup_analysis(df, "TvC", "Cognition", "Sex", 0.5)
 ```
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-forest_subgroup(SMD_S_cog_sex, "Sex", "Cognition","Sex")
+forest_subgroup(SMD_S_Cog_sex, "Sex", "Cognition","Sex")
 ```
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-SMD_S_cog_sex_noI <- subgroup_SMD(df, "TvC", "Cognition", "Sex", 0.5)
+SMD_S_Cog_sex_noI <- subgroup_SMD(df, "TvC", "Cognition", "Sex", 0.5)
 ```
 
-The p-value for the association between the sex of animal groups used and outcome reported was `r round(SMD_S_cog_sex_noI$QMp,3)`
+The p-value for the association between the sex of animal groups used and outcome reported was `r round(SMD_S_Cog_sex_noI$QMp,3)`. The between-strain variance was `r SMD_S_Cog_sex_noI$sigma2[1]`, the between-study variance `r SMD_S_Cog_sex_noI$sigma2[2]`, and the within-experiment variance `r SMD_S_Cog_sex_noI$sigma2[3]`.
 
 #### 3.3.2 Category of disease induction
 
@@ -1118,18 +1118,18 @@ Figure 3.3.2 displays the estimates for the pooled SMD's when comparisons are st
 **Figure 3.3.2**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', out.width = "100%"}
-SMD_S_cog_CatDisInd <- subgroup_analysis(df, "TvC", "Cognition", "CategoryDiseaseInduction", 0.5)
+SMD_S_Cog_CatDisInd <- subgroup_analysis(df, "TvC", "Cognition", "CategoryDiseaseInduction", 0.5)
 ```
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-forest_subgroup(SMD_S_cog_CatDisInd, "CategoryDiseaseInduction", "Cognition","Category of \nDisease Induction")
+forest_subgroup(SMD_S_Cog_CatDisInd, "CategoryDiseaseInduction", "Cognition","Category of \nDisease Induction")
 ```
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-SMD_S_cog_CatDisInd_noI <- subgroup_SMD(df, "TvC", "Cognition", "CategoryDiseaseInduction", 0.5)
+SMD_S_Cog_CatDisInd_noI <- subgroup_SMD(df, "TvC", "Cognition", "CategoryDiseaseInduction", 0.5)
 ```
 
-The p-value for the association between whether genetic or pharmacological models were used and outcome reported was `r round(SMD_S_cog_CatDisInd_noI$QMp,3)`
+The p-value for the association between whether genetic or pharmacological models were used and outcome reported was `r round(SMD_S_Cog_CatDisInd_noI$QMp,3)`. The between-strain variance was `r SMD_S_Cog_CatDisInd_noI$sigma2[1]`, the between-study variance `r SMD_S_Cog_CatDisInd_noI$sigma2[2]`, and the within-experiment variance `r SMD_S_Cog_CatDisInd_noI$sigma2[3]`.
 
 
 #### 3.3.3 Route of intervention administration
@@ -1139,18 +1139,18 @@ Figure 3.3.3 displays the estimates for the pooled SMD's when comparisons are st
 **Figure 3.3.3**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', out.width = "100%"}
-SMD_S_cog_AdminRoute <- subgroup_analysis(df, "TvC", "Cognition", "InterventionAdministrationRoute", 0.5)
+SMD_S_Cog_AdminRoute <- subgroup_analysis(df, "TvC", "Cognition", "InterventionAdministrationRoute", 0.5)
 ```
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-forest_subgroup(SMD_S_cog_AdminRoute, "InterventionAdministrationRoute", "Cognition","Route of \nAdministration")
+forest_subgroup(SMD_S_Cog_AdminRoute, "InterventionAdministrationRoute", "Cognition","Route of \nAdministration")
 ```
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-SMD_S_cog_AdminRoute_noI <- subgroup_SMD(df, "TvC", "Cognition", "InterventionAdministrationRoute", 0.5)
+SMD_S_Cog_AdminRoute_noI <- subgroup_SMD(df, "TvC", "Cognition", "InterventionAdministrationRoute", 0.5)
 ```
 
-The p-value for the association between whether genetic or pharmacological models were used and outcome reported was `r round(SMD_S_cog_AdminRoute_noI$QMp,3)`
+The p-value for the association between whether genetic or pharmacological models were used and outcome reported was `r round(SMD_S_Cog_AdminRoute_noI$QMp,3)`. The between-strain variance was `r SMD_S_Cog_AdminRoute_noI$sigma2[1]`, the between-study variance `r SMD_S_Cog_AdminRoute_noI$sigma2[2]`, and the within-experiment variance `r SMD_S_Cog_AdminRoute_noI$sigma2[3]`.
 
 #### 3.3.4 Prophylactic or therapeutic intervention
 
@@ -1167,18 +1167,18 @@ Figure 3.3.6 displays the estimates for the pooled SMD's when comparisons are st
 **Figure 3.3.6**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', out.width = "100%"}
-SMD_S_cog_Drug <- subgroup_analysis(df, "TvC", "Cognition", "DrugName", 0.5)
+SMD_S_Cog_Drug <- subgroup_analysis(df, "TvC", "Cognition", "DrugName", 0.5)
 ```
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-forest_subgroup(SMD_S_cog_Drug, "DrugName", "Cognition","Drug")
+forest_subgroup(SMD_S_Cog_Drug, "DrugName", "Cognition","Drug")
 ```
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-SMD_S_cog_Drug_noI <- subgroup_SMD(df, "TvC", "Cognition", "DrugName", 0.5)
+SMD_S_Cog_Drug_noI <- subgroup_SMD(df, "TvC", "Cognition", "DrugName", 0.5)
 ```
 
-The p-value for the association between the intervention and outcome reported was `r round(SMD_S_cog_Drug_noI$QMp,3)`
+The p-value for the association between the intervention and outcome reported was `r round(SMD_S_Cog_Drug_noI$QMp,3)`. The between-strain variance was `r SMD_S_Cog_Drug_noI$sigma2[1]`, the between-study variance `r SMD_S_Cog_Drug_noI$sigma2[2]`, and the within-experiment variance `r SMD_S_Cog_Drug_noI$sigma2[3]`.
 
 #### 3.3.7 The efficacy of the drug (i.e. whether the drug is a partial or full agonist)
 
@@ -1191,18 +1191,18 @@ Figure 3.3.8 displays the estimates for the pooled SMD's when comparisons are st
 **Figure 3.3.8**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', out.width = "100%"}
-SMD_S_cog_DrugSelectivity <- subgroup_analysis(df, "TvC", "Cognition", "Selectivity", 0.5)
+SMD_S_Cog_DrugSelectivity <- subgroup_analysis(df, "TvC", "Cognition", "Selectivity", 0.5)
 ```
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-forest_subgroup(SMD_S_cog_DrugSelectivity, "Selectivity", "Cognition","High or\nLow Selectivity")
+forest_subgroup(SMD_S_Cog_DrugSelectivity, "Selectivity", "Cognition","High or\nLow Selectivity")
 ```
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-SMD_S_cog__DrugSelectivity_noI <- subgroup_SMD(df, "TvC", "Cognition", "Selectivity", 0.5)
+SMD_S_Cog_DrugSelectivity_noI <- subgroup_SMD(df, "TvC", "Cognition", "Selectivity", 0.5)
 ```
 
-The p-value for the association between whether the drug was highly selective, or also manifests 5-HT1A effects, was `r round(SMD_S_cog__DrugSelectivity_noI$QMp,3)`
+The p-value for the association between whether the drug was highly selective, or also manifests 5-HT1A effects, was `r round(SMD_S_Cog_DrugSelectivity_noI$QMp,3)`. The between-strain variance was `r SMD_S_Cog_DrugSelectivity_noI$sigma2[1]`, the between-study variance `r SMD_S_Cog_DrugSelectivity_noI$sigma2[2]`, and the within-experiment variance `r SMD_S_Cog_DrugSelectivity_noI$sigma2[3]`.
 
 #### 3.3.9 Potency of interventions
 
@@ -1210,17 +1210,17 @@ The pEC50 value of each drug was used to measure potency. The pEC50 value is the
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 
-SMD_S_cog_potency <- metaregression_analysis(df, "TvC", "Cognition", "pE50", 0.5)
+SMD_S_Cog_potency <- metaregression_analysis(df, "TvC", "Cognition", "pE50", 0.5)
 
 ```
 
 **Figure 3.3.9**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
-SMD_S_cog_potency$regression_plot
+SMD_S_Cog_potency$regression_plot
 ```
 
-The estimate for $\beta$ was `r SMD_S_cog_potency$metaregression_summary$beta[2]` (p = `r  round(SMD_S_cog_potency$metaregression_summary$pval[2],3)`).
+The estimate for $\beta$ was `r SMD_S_Cog_potency$metaregression_summary$beta[2]` (p = `r  round(SMD_S_Cog_potency$metaregression_summary$pval[2],3)`). The between-strain variance was `r SMD_S_Cog_potency$metaregression_summary$sigma2[1]`, the between-study variance `r SMD_S_Cog_potency$metaregression_summary$sigma2[2]`, and the within-experiment variance `r SMD_S_Cog_potency$metaregression_summary$sigma2[3]`.
 
 #### 3.3.10 Dose of intervention
 
@@ -1484,17 +1484,17 @@ Figure 5.2.10.1 provides a visualisation of the meta-regression analysis relatio
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 
-SMD_S_cog_StandardDose <- metaregression_analysis(df, "TvC", "Cognition", "StandardisedDose", 0.5)
+SMD_S_Cog_StandardDose <- metaregression_analysis(df, "TvC", "Cognition", "StandardisedDose", 0.5)
 
 ```
 
 **Figure 3.3.10**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
-SMD_S_cog_StandardDose$regression_plot
+SMD_S_Cog_StandardDose$regression_plot
 ```
 
-The estimate for $\theta$ was `r SMD_S_cog_StandardDose$metaregression_summary$beta[1]`. The estimate for $\beta$ was `r SMD_S_cog_StandardDose$metaregression_summary$beta[2]`.
+The estimate for $\theta$ was `r SMD_S_Cog_StandardDose$metaregression_summary$beta[1]`. The estimate for $\beta$ was `r SMD_S_Cog_StandardDose$metaregression_summary$beta[2]`.
 
 #### 3.3.11 SYRCLE RoB assessment
 
@@ -1503,18 +1503,18 @@ Figure 3.3.11 displays the estimates for the pooled SMD's when comparisons are s
 **Figure 3.3.11**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', out.width = "100%"}
-SMD_S_cog_SYRCLERoB <- subgroup_analysis(df, "TvC", "Cognition", "RoBScore", 0.5)
+SMD_S_Cog_SYRCLERoB <- subgroup_analysis(df, "TvC", "Cognition", "RoBScore", 0.5)
 ```
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-forest_subgroup(SMD_S_cog_SYRCLERoB, "RoBScore", "Cognition","SyRCLE RoB score")
+forest_subgroup(SMD_S_Cog_SYRCLERoB, "RoBScore", "Cognition","SyRCLE RoB score")
 ```
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-SMD_S_cog_SYRCLERoB_noI <- subgroup_SMD(df, "TvC", "Cognition", "RoBScore", 0.5)
+SMD_S_Cog_SYRCLERoB_noI <- subgroup_SMD(df, "TvC", "Cognition", "RoBScore", 0.5)
 ```
 
-The p-value for the association between SyRCLE Risks of Bias reporting and outcome reported was `r round(SMD_S_cog_SYRCLERoB_noI$QMp,3)`
+The p-value for the association between SyRCLE Risks of Bias reporting and outcome reported was `r round(SMD_S_Cog_SYRCLERoB_noI$QMp,3)`. The between-strain variance was `r SMD_S_Cog_SYRCLERoB_noI$sigma2[1]`, the between-study variance `r SMD_S_Cog_SYRCLERoB_noI$sigma2[2]`, and the within-experiment variance `r SMD_S_Cog_SYRCLERoB_noI$sigma2[3]`.
 
 
 #### 3.3.12 ARRIVE reporting completeness guidelines
@@ -1526,30 +1526,30 @@ Figure 3.3.12 displays the estimates for the pooled SMD's when comparisons are s
 **Figure 3.3.12**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', out.width = "100%"}
-SMD_S_cog_ARRIVE <- subgroup_analysis(df, "TvC", "Cognition", "ARRIVEScoreCat", 0.5)
+SMD_S_Cog_ARRIVE <- subgroup_analysis(df, "TvC", "Cognition", "ARRIVEScoreCat", 0.5)
 ```
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-forest_subgroup(SMD_S_cog_ARRIVE, "ARRIVEScoreCat", "Cognition","number of\n ARRIVE items met")
+forest_subgroup(SMD_S_Cog_ARRIVE, "ARRIVEScoreCat", "Cognition","number of\n ARRIVE items met")
 ```
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-SMD_S_cog_ARRIVE_noI <- subgroup_SMD(df, "TvC", "Cognition", "ARRIVEScoreCat", 0.5)
+SMD_S_Cog_ARRIVE_noI <- subgroup_SMD(df, "TvC", "Cognition", "ARRIVEScoreCat", 0.5)
 ```
 
-The p-value for the association between the number of ARRIVE guidelines reporting items and outcome reported was `r round(SMD_S_cog_ARRIVE_noI$QMp,3)`
+The p-value for the association between the number of ARRIVE guidelines reporting items and outcome reported was `r round(SMD_S_Cog_ARRIVE_noI$QMp,3)`. The between-strain variance was `r SMD_S_Cog_ARRIVE_noI$sigma2[1]`, the between-study variance `r SMD_S_Cog_ARRIVE_noI$sigma2[2]`, and the within-experiment variance `r SMD_S_Cog_ARRIVE_noI$sigma2[3]`.
 
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', out.width = "100%"}
-SMD_S_cog_sexI <- subgroup_SMDI(df, "TvC", "Cognition", "Sex", 0.5)
-SMD_S_cog_CatDisIndI <- subgroup_SMDI(df, "TvC", "Cognition", "CategoryDiseaseInduction", 0.5)
-SMD_S_cog_AdminRouteI <- subgroup_SMDI(df, "TvC", "Cognition", "InterventionAdministrationRoute", 0.5)
-SMD_S_cog_ProphTheraI <- subgroup_SMDI(df, "TvC", "Cognition", "ProphylacticOrTherapeutic", 0.5)
-SMD_S_cog_DurRxI <- subgroup_SMDI(df, "TvC", "Cognition", "TreatmentDurationCategory", 0.5)
-SMD_S_cog_DrugI <- subgroup_SMDI(df, "TvC", "Cognition", "DrugName", 0.5)
-SMD_S_cog_SYRCLERoBI <- subgroup_SMDI(df, "TvC", "Cognition", "RoBScore", 0.5)
-SMD_S_cog_ARRIVEI <- subgroup_SMDI(df, "TvC", "Cognition", "ARRIVEScoreCat", 0.5)
-SMD_S_cog_DrugSelectivityI <- subgroup_SMDI(df, "TvC", "Cognition", "Selectivity", 0.5)
+SMD_S_Cog_sexI <- subgroup_SMDI(df, "TvC", "Cognition", "Sex", 0.5)
+SMD_S_Cog_CatDisIndI <- subgroup_SMDI(df, "TvC", "Cognition", "CategoryDiseaseInduction", 0.5)
+SMD_S_Cog_AdminRouteI <- subgroup_SMDI(df, "TvC", "Cognition", "InterventionAdministrationRoute", 0.5)
+SMD_S_Cog_ProphTheraI <- subgroup_SMDI(df, "TvC", "Cognition", "ProphylacticOrTherapeutic", 0.5)
+SMD_S_Cog_DurRxI <- subgroup_SMDI(df, "TvC", "Cognition", "TreatmentDurationCategory", 0.5)
+SMD_S_Cog_DrugI <- subgroup_SMDI(df, "TvC", "Cognition", "DrugName", 0.5)
+SMD_S_Cog_SYRCLERoBI <- subgroup_SMDI(df, "TvC", "Cognition", "RoBScore", 0.5)
+SMD_S_Cog_ARRIVEI <- subgroup_SMDI(df, "TvC", "Cognition", "ARRIVEScoreCat", 0.5)
+SMD_S_Cog_DrugSelectivityI <- subgroup_SMDI(df, "TvC", "Cognition", "Selectivity", 0.5)
 
 ```
 
@@ -1561,33 +1561,33 @@ The table below shows which of the covariates, if any, explain some of the heter
 
 |              Moderator              |        Category         |                        $\beta$                         |                                                      95% CI                                                       |                          Marginal R^2^ (%)                          |                                                              
 |:------------:|:------------:|:------------:|:------------:|:------------:|
-|           Overall effect            |           \-            |                 `r SMD_S_cog$beta[1]`                  |                                     `r SMD_S_cog$ci.lb` - `r SMD_S_cog$ci.ub`                                     |                                 \-                                  |                                                                
-|                 Sex                 |           \-            |                           \-                           |                                                        \-                                                         |             `r round((r2_ml(SMD_S_cog_sexI)[1]*100),1)`%              |
-|                 \-                  |        *Female*         |               `r SMD_S_cog_sexI$beta[1]`                |                              `r SMD_S_cog_sexI$ci.lb[1]` - `r SMD_S_cog_sexI$ci.ub[1]`                              |                                 \-                                  |                                                              
-|                 \-                  |         *Male*          |               `r SMD_S_cog_sexI$beta[2]`                |                              `r SMD_S_cog_sexI$ci.lb[2]` - `r SMD_S_cog_sexI$ci.ub[2]`                              |                                 \-                                  |                                                              
-|                 \-                  | *Mixed male and female* |               `r SMD_S_cog_sexI$beta[3]`                |                              `r SMD_S_cog_sexI$ci.lb[3]` - `r SMD_S_cog_sexI$ci.ub[3]`                              |                                 \-                                  |                                                                
-| Category of disease model induction |           \-            |                           \-                           |                                                        \-                                                         |          `r round((r2_ml(SMD_S_cog_CatDisIndI)[1]*100),1)`%           |
-|                 \-                  |        *Genetic*        |            `r SMD_S_cog_CatDisIndI$beta[1]`             |                        `r SMD_S_cog_CatDisIndI$ci.lb[1]` - `r SMD_S_cog_CatDisIndI$ci.ub[1]`                        |                                 \-                                  |                                                                
-|                 \-                  |    *Pharmacological*    |            `r SMD_S_cog_CatDisIndI$beta[2]`             |                        `r SMD_S_cog_CatDisIndI$ci.lb[2]` - `r SMD_S_cog_CatDisIndI$ci.ub[2]`                        |                                 \-                                  |                                                                
-|        Administration route         |           \-            |                           \-                           |                                                        \-                                                         |          `r round((r2_ml(SMD_S_cog_AdminRouteI)[1]*100),1)`%          |
-|                 \-                  |    *Intraperitoneal*    |            `r SMD_S_cog_AdminRouteI$beta[1]`            |                       `r SMD_S_cog_AdminRouteI$ci.lb[1]` - `r SMD_S_cog_AdminRouteI$ci.ub[1]`                       |                                 \-                                  |                                                                
-|                 \-                  |         *Oral*          |            `r SMD_S_cog_AdminRouteI$beta[2]`            |                       `r SMD_S_cog_AdminRouteI$ci.lb[2]` - `r SMD_S_cog_AdminRouteI$ci.ub[2]`                       |                                 \-                                  |                                                                
-|      Intervention administered      |           \-            |                           \-                           |                                                        \-                                                         |             `r round((r2_ml(SMD_S_cog_DrugI)[1]*100),1)`%             | 
-|                 \-                  |       *RO5203648*       |               `r SMD_S_cog_DrugI$beta[1]`               |                             `r SMD_S_cog_DrugI$ci.lb[1]` - `r SMD_S_cog_DrugI$ci.ub[1]`                             |                                 \-                                  |                                                                
-|                 \-                  |       *RO5256390*       |               `r SMD_S_cog_DrugI$beta[2]`               |                             `r SMD_S_cog_DrugI$ci.lb[2]` - `r SMD_S_cog_DrugI$ci.ub[2]`                             |                                 \-                                  |                                                                
-|                 \-                  | *SEP-363856 (Ultaront)* |               `r SMD_S_cog_DrugI$beta[3]`               |                             `r SMD_S_cog_DrugI$ci.lb[3]` - `r SMD_S_cog_DrugI$ci.ub[3]`                             |                                 \-                                  |                                                                
-|          Drug selectivity           |           \-            |                           \-                           |                                                        \-                                                         |       `r round((r2_ml(SMD_S_cog_DrugSelectivityI)[1]*100),1)`%        | 
-|                 \-                  |         *High*          |         `r SMD_S_cog_DrugSelectivityI$beta[1]`          |                  `r SMD_S_cog_DrugSelectivityI$ci.lb[1]` - `r SMD_S_cog_DrugSelectivityI$ci.ub[1]`                  |                                 \-                                  |                                                                
-|                 \-                  |          *Low*          |         `r SMD_S_cog_DrugSelectivityI$beta[2]`          |                  `r SMD_S_cog_DrugSelectivityI$ci.lb[2]` - `r SMD_S_cog_DrugSelectivityI$ci.ub[2]`                  |                                 \-                                  |                                                                
-|            Drug potency             |      per log unit       |      `r SMD_S_cog_potency$metaregression$beta[2]`      |           `r SMD_S_cog_potency$metaregression$ci.lb[2]` - `r SMD_S_cog_potency$metaregression$ci.ub[2]`           |   `r round((r2_ml(SMD_S_cog_potency$metaregression)[1]*100),1)`%    |     
-|          Standardised dose          |      per log unit       | `r SMD_S_cog_StandardDose$metaregression$beta[2]` | `r SMD_S_cog_StandardDose$metaregression$ci.lb[2]` - `r SMD_S_cog_StandardDose$metaregression$ci.ub[2]` | `r round((r2_ml(SMD_S_cog_StandardDose$metaregression)[1]*100),1)`% |                                               
-|            Risk of Bias             |           \-            |                           \-                           |                                                        \-                                                         |          `r round((r2_ml(SMD_S_cog_SYRCLERoBI)[1]*100),1)`%           |                                                                |     |
-|                 \-                  |    *0 criteria met*     |            `r SMD_S_cog_SYRCLERoBI$beta[1]`             |                        `r SMD_S_cog_SYRCLERoBI$ci.lb[1]` - `r SMD_S_cog_SYRCLERoBI$ci.ub[1]`                        |                                 \-                                  |                                                                
-|                 \-                  |    *1 criteria met*     |            `r SMD_S_cog_SYRCLERoBI$beta[2]`             |                        `r SMD_S_cog_SYRCLERoBI$ci.lb[2]` - `r SMD_S_cog_SYRCLERoBI$ci.ub[2]`                        |                                 \-                                  |                                                                
-|       Reporting completeness        |           \-            |                           \-                           |                                                        \-                                                         |            `r round((r2_ml(SMD_S_cog_ARRIVEI)[1]*100),1)`%            |
-|                 \-                  |   *8-11 criteria met*   |              `r SMD_S_cog_ARRIVEI$beta[1]`              |                           `r SMD_S_cog_ARRIVEI$ci.lb[1]` - `r SMD_S_cog_ARRIVEI$ci.ub[1]`                           |                                 \-                                  |                                                                
-|                 \-                  |  *12-15 criteria met*   |              `r SMD_S_cog_ARRIVEI$beta[2]`              |                           `r SMD_S_cog_ARRIVEI$ci.lb[2]` - `r SMD_S_cog_ARRIVEI$ci.ub[2]`                           |                                 \-                                  |                                                                
-|                 \-                  |  *16-19 criteria met*   |              `r SMD_S_cog_ARRIVEI$beta[3]`              |                           `r SMD_S_cog_ARRIVEI$ci.lb[3]` - `r SMD_S_cog_ARRIVEI$ci.ub[3]`                           |                                 \-                                  |                                                                
+|           Overall effect            |           \-            |                 `r SMD_S_Cog$beta[1]`                  |                                     `r SMD_S_Cog$ci.lb` - `r SMD_S_Cog$ci.ub`                                     |                                 \-                                  |                                                                
+|                 Sex                 |           \-            |                           \-                           |                                                        \-                                                         |             `r round((r2_ml(SMD_S_Cog_sexI)[1]*100),1)`%              |
+|                 \-                  |        *Female*         |               `r SMD_S_Cog_sexI$beta[1]`                |                              `r SMD_S_Cog_sexI$ci.lb[1]` - `r SMD_S_Cog_sexI$ci.ub[1]`                              |                                 \-                                  |                                                              
+|                 \-                  |         *Male*          |               `r SMD_S_Cog_sexI$beta[2]`                |                              `r SMD_S_Cog_sexI$ci.lb[2]` - `r SMD_S_Cog_sexI$ci.ub[2]`                              |                                 \-                                  |                                                              
+|                 \-                  | *Mixed male and female* |               `r SMD_S_Cog_sexI$beta[3]`                |                              `r SMD_S_Cog_sexI$ci.lb[3]` - `r SMD_S_Cog_sexI$ci.ub[3]`                              |                                 \-                                  |                                                                
+| Category of disease model induction |           \-            |                           \-                           |                                                        \-                                                         |          `r round((r2_ml(SMD_S_Cog_CatDisIndI)[1]*100),1)`%           |
+|                 \-                  |        *Genetic*        |            `r SMD_S_Cog_CatDisIndI$beta[1]`             |                        `r SMD_S_Cog_CatDisIndI$ci.lb[1]` - `r SMD_S_Cog_CatDisIndI$ci.ub[1]`                        |                                 \-                                  |                                                                
+|                 \-                  |    *Pharmacological*    |            `r SMD_S_Cog_CatDisIndI$beta[2]`             |                        `r SMD_S_Cog_CatDisIndI$ci.lb[2]` - `r SMD_S_Cog_CatDisIndI$ci.ub[2]`                        |                                 \-                                  |                                                                
+|        Administration route         |           \-            |                           \-                           |                                                        \-                                                         |          `r round((r2_ml(SMD_S_Cog_AdminRouteI)[1]*100),1)`%          |
+|                 \-                  |    *Intraperitoneal*    |            `r SMD_S_Cog_AdminRouteI$beta[1]`            |                       `r SMD_S_Cog_AdminRouteI$ci.lb[1]` - `r SMD_S_Cog_AdminRouteI$ci.ub[1]`                       |                                 \-                                  |                                                                
+|                 \-                  |         *Oral*          |            `r SMD_S_Cog_AdminRouteI$beta[2]`            |                       `r SMD_S_Cog_AdminRouteI$ci.lb[2]` - `r SMD_S_Cog_AdminRouteI$ci.ub[2]`                       |                                 \-                                  |                                                                
+|      Intervention administered      |           \-            |                           \-                           |                                                        \-                                                         |             `r round((r2_ml(SMD_S_Cog_DrugI)[1]*100),1)`%             | 
+|                 \-                  |       *RO5203648*       |               `r SMD_S_Cog_DrugI$beta[1]`               |                             `r SMD_S_Cog_DrugI$ci.lb[1]` - `r SMD_S_Cog_DrugI$ci.ub[1]`                             |                                 \-                                  |                                                                
+|                 \-                  |       *RO5256390*       |               `r SMD_S_Cog_DrugI$beta[2]`               |                             `r SMD_S_Cog_DrugI$ci.lb[2]` - `r SMD_S_Cog_DrugI$ci.ub[2]`                             |                                 \-                                  |                                                                
+|                 \-                  | *SEP-363856 (Ultaront)* |               `r SMD_S_Cog_DrugI$beta[3]`               |                             `r SMD_S_Cog_DrugI$ci.lb[3]` - `r SMD_S_Cog_DrugI$ci.ub[3]`                             |                                 \-                                  |                                                                
+|          Drug selectivity           |           \-            |                           \-                           |                                                        \-                                                         |       `r round((r2_ml(SMD_S_Cog_DrugSelectivityI)[1]*100),1)`%        | 
+|                 \-                  |         *High*          |         `r SMD_S_Cog_DrugSelectivityI$beta[1]`          |                  `r SMD_S_Cog_DrugSelectivityI$ci.lb[1]` - `r SMD_S_Cog_DrugSelectivityI$ci.ub[1]`                  |                                 \-                                  |                                                                
+|                 \-                  |          *Low*          |         `r SMD_S_Cog_DrugSelectivityI$beta[2]`          |                  `r SMD_S_Cog_DrugSelectivityI$ci.lb[2]` - `r SMD_S_Cog_DrugSelectivityI$ci.ub[2]`                  |                                 \-                                  |                                                                
+|            Drug potency             |      per log unit       |      `r SMD_S_Cog_potency$metaregression$beta[2]`      |           `r SMD_S_Cog_potency$metaregression$ci.lb[2]` - `r SMD_S_Cog_potency$metaregression$ci.ub[2]`           |   `r round((r2_ml(SMD_S_Cog_potency$metaregression)[1]*100),1)`%    |     
+|          Standardised dose          |      per log unit       | `r SMD_S_Cog_StandardDose$metaregression$beta[2]` | `r SMD_S_Cog_StandardDose$metaregression$ci.lb[2]` - `r SMD_S_Cog_StandardDose$metaregression$ci.ub[2]` | `r round((r2_ml(SMD_S_Cog_StandardDose$metaregression)[1]*100),1)`% |                                               
+|            Risk of Bias             |           \-            |                           \-                           |                                                        \-                                                         |          `r round((r2_ml(SMD_S_Cog_SYRCLERoBI)[1]*100),1)`%           |                                                                |     |
+|                 \-                  |    *0 criteria met*     |            `r SMD_S_Cog_SYRCLERoBI$beta[1]`             |                        `r SMD_S_Cog_SYRCLERoBI$ci.lb[1]` - `r SMD_S_Cog_SYRCLERoBI$ci.ub[1]`                        |                                 \-                                  |                                                                
+|                 \-                  |    *1 criteria met*     |            `r SMD_S_Cog_SYRCLERoBI$beta[2]`             |                        `r SMD_S_Cog_SYRCLERoBI$ci.lb[2]` - `r SMD_S_Cog_SYRCLERoBI$ci.ub[2]`                        |                                 \-                                  |                                                                
+|       Reporting completeness        |           \-            |                           \-                           |                                                        \-                                                         |            `r round((r2_ml(SMD_S_Cog_ARRIVEI)[1]*100),1)`%            |
+|                 \-                  |   *8-11 criteria met*   |              `r SMD_S_Cog_ARRIVEI$beta[1]`              |                           `r SMD_S_Cog_ARRIVEI$ci.lb[1]` - `r SMD_S_Cog_ARRIVEI$ci.ub[1]`                           |                                 \-                                  |                                                                
+|                 \-                  |  *12-15 criteria met*   |              `r SMD_S_Cog_ARRIVEI$beta[2]`              |                           `r SMD_S_Cog_ARRIVEI$ci.lb[2]` - `r SMD_S_Cog_ARRIVEI$ci.ub[2]`                           |                                 \-                                  |                                                                
+|                 \-                  |  *16-19 criteria met*   |              `r SMD_S_Cog_ARRIVEI$beta[3]`              |                           `r SMD_S_Cog_ARRIVEI$ci.lb[3]` - `r SMD_S_Cog_ARRIVEI$ci.ub[3]`                           |                                 \-                                  |                                                                
 
 ## 3.4. Sensitivity Analyses
 
@@ -1596,18 +1596,18 @@ The table below shows which of the covariates, if any, explain some of the heter
 In the previous analyses for the effect of TAAR1 agonists on cognition, we imputed a $\rho$ value of 0.5. Here, we examine the effect of imputing $\rho$ values of 0.2 and 0.8.
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-SMD_S_cog_rho0.2 <- run_ML_SMD(df, "TvC", "Cognition", 0.2)
+SMD_S_Cog_rho0.2 <- run_ML_SMD(df, "TvC", "Cognition", 0.2)
 ```
 
-**When the** $\rho$ value is assumed to be 0.2, the TAAR1 interventions had a pooled effect on cognition of **SMD = `r SMD_S_cog_rho0.2[["beta"]]`** (95% CI: `r SMD_S_cog_rho0.2[["ci.lb"]]` to `r SMD_S_cog_rho0.2[["ci.ub"]]`) with a prediction interval of `r predict(SMD_S_cog_rho0.2)$pi.lb` to `r predict(SMD_S_cog_rho0.2)$pi.ub`.
+**When the** $\rho$ value is assumed to be 0.2, the TAAR1 interventions had a pooled effect on cognition of **SMD = `r SMD_S_Cog_rho0.2[["beta"]]`** (95% CI: `r SMD_S_Cog_rho0.2[["ci.lb"]]` to `r SMD_S_Cog_rho0.2[["ci.ub"]]`) with a prediction interval of `r predict(SMD_S_Cog_rho0.2)$pi.lb` to `r predict(SMD_S_Cog_rho0.2)$pi.ub`.
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-SMD_S_cog_rho0.8 <- run_ML_SMD(df, "TvC", "Cognition", 0.8)
+SMD_S_Cog_rho0.8 <- run_ML_SMD(df, "TvC", "Cognition", 0.8)
 ```
 
-**When the** $\rho$ value is assumed to be 0.8, the TAAR1 interventions had a pooled effect on cognition of **SMD = `r SMD_S_cog_rho0.8[["beta"]]`** (95% CI: `r SMD_S_cog_rho0.8[["ci.lb"]]` to `r SMD_S_cog_rho0.8[["ci.ub"]]`) with a prediction interval of `r predict(SMD_S_cog_rho0.8)$pi.lb` to `r predict(SMD_S_cog_rho0.8)$pi.ub`.
+**When the** $\rho$ value is assumed to be 0.8, the TAAR1 interventions had a pooled effect on cognition of **SMD = `r SMD_S_Cog_rho0.8[["beta"]]`** (95% CI: `r SMD_S_Cog_rho0.8[["ci.lb"]]` to `r SMD_S_Cog_rho0.8[["ci.ub"]]`) with a prediction interval of `r predict(SMD_S_Cog_rho0.8)$pi.lb` to `r predict(SMD_S_Cog_rho0.8)$pi.ub`.
 
-For reference the pooled effect size when rho is assumed to be 0.5 is `r SMD_S_cog[["beta"]]` (95% CI: `r SMD_S_cog[["ci.lb"]]` to `r SMD_S_cog[["ci.ub"]]`).
+For reference the pooled effect size when rho is assumed to be 0.5 is `r SMD_S_Cog[["beta"]]` (95% CI: `r SMD_S_Cog[["ci.lb"]]` to `r SMD_S_Cog[["ci.ub"]]`).
 
 #### 3.4.3 NMD
 
@@ -1625,7 +1625,7 @@ NMD_S_cog <- run_ML_NMD(df, "TvC", "Cognition", 0.5)
 forest_metafor_NMD(NMD_S_cog, "Cognition")
 ```
 
-For TAAR1 Agonist v Control, TAAR1 interventions had a pooled effect on cognition of NMD = `r NMD_S_cog[["beta"]]` (95% CI: `r NMD_S_cog[["ci.lb"]]` to `r NMD_S_cog[["ci.ub"]]`) with a prediction interval of `r predict(NMD_S_cog)$pi.lb` to `r predict(NMD_S_cog)$pi.ub`. For reference the pooled effect size for SMD was `r SMD_S_cog[["beta"]]` (95% CI: `r SMD_S_cog[["ci.lb"]]` to `r SMD_S_cog[["ci.ub"]]`). Between-strain variance was `r round(NMD_S_cog$sigma2[1], 3)`, between-study variance was `r round(NMD_S_cog$sigma2[2], 3)`, and within-study variance (between experiments) was \`r round(NMD_S_cog\$sigma2[3], 3)'
+For TAAR1 Agonist v Control, TAAR1 interventions had a pooled effect on cognition of NMD = `r NMD_S_cog[["beta"]]` (95% CI: `r NMD_S_cog[["ci.lb"]]` to `r NMD_S_cog[["ci.ub"]]`) with a prediction interval of `r predict(NMD_S_cog)$pi.lb` to `r predict(NMD_S_cog)$pi.ub`. For reference the pooled effect size for SMD was `r SMD_S_Cog[["beta"]]` (95% CI: `r SMD_S_Cog[["ci.lb"]]` to `r SMD_S_Cog[["ci.ub"]]`). Between-strain variance was `r round(NMD_S_cog$sigma2[1], 3)`, between-study variance was `r round(NMD_S_cog$sigma2[2], 3)`, and within-study variance (between experiments) was \`r round(NMD_S_cog\$sigma2[3], 3)'
 
 # 4 "TAAR1 Agonist v known antipsychotic drug" (TAAR1 Ag v known antipsychotic drugs) experiments
 
@@ -1655,16 +1655,14 @@ forest_metafor(SMD_S_LMA_H2H, "TvA", "locomotor activity")
 ```{r echo=FALSE}
  if (any(class(SMD_S_LMA_H2H) == "rma.mv")) {
   output_text3 <- paste0("For TAAR1 Agonist v known antipsychotic drug comparisons, TAAR1 interventions had a pooled effect on locomotor activity of SMD =", round(SMD_S_LMA_H2H[['beta']], 3), " (95% CI: ", round(SMD_S_LMA_H2H[['ci.lb']], 3), " to ", round(SMD_S_LMA_H2H[['ci.ub']], 3), ", with a prediction interval of", round(predict(SMD_S_LMA_H2H)$pi.lb, 3), " to ", round(predict(SMD_S_LMA_H2H)$pi.ub, 3))
-  output_text4 <- paste0("Between-strain variance was ", round(SMD_S_LMA_H2H$sigma2[1], 3), ", between-study variance was ", round(SMD_S_LMA_H2H$sigma2[2], 3), ", and within-study variance (between experiments) was ", round(SMD_S_LMA_H2H$sigma2[3], 3))
 } else {
   output_text3 <- ""
-  output_text4 <- ""
 }
 ```
 
 `r output_text3`
 
-`r output_text4`
+`r SMD_S_LMA_H2H[["k"]]` experimental comparisons were reported in `r SMD_S_LMA_H2H[["s.nlevels"]][3]` experiments reported from `r SMD_S_LMA_H2H[["s.nlevels"]][2]` publications and involving `r SMD_S_LMA_H2H[["s.nlevels"]][1]` different animal strains. The between strain variance was `r SMD_S_LMA_H2H$sigma2[1]`, the between study variance `r SMD_S_LMA_H2H$sigma2[2]` and the within-experiment variance `r SMD_S_LMA_H2H$sigma2[3]`.
 
 ## 4.2 Outcome 2: Cognition (a secondary outcome)
 
@@ -1693,16 +1691,14 @@ forest_metafor(SMD_S_Cog_H2H, "TvA","Cognition")
 ```{r echo=FALSE}
  if (any(class(SMD_S_Cog_H2H) == "rma.mv")) {
   output_text3 <- paste0("For TAAR1 Agonist v known antipsychotic drug comparisons, TAAR1 interventions had a pooled effect on cognitive outcomes of SMD = `r SMD_S_Cog_H2H[['beta']]` (95% CI: `r SMD_S_Cog_H2H[['ci.lb']]` to `r SMD_S_Cog_H2H[['ci.ub']]`) with a prediction interval of `r predict(SMD_S_Cog_H2H)$pi.lb` to `r predict(SMD_S_Cog_H2H)$pi.ub`.")
-  output_text4 <- paste0("Between-strain variance was `r SMD_S_Cog_H2H$sigma2[1]`, between-study variance was `r SMD_S_Cog_H2H$sigma2[2]`, and within-study variance (between experiments) was `r SMD_S_Cog_H2H$sigma2[3]`")
 } else {
   output_text3 <- ""
-  output_text4 <- ""
 }
 ```
 
 `r output_text3`
 
-`r output_text4`
+`r SMD_S_Cog_H2H[["k"]]` experimental comparisons were reported in `r SMD_S_Cog_H2H[["s.nlevels"]][3]` experiments reported from `r SMD_S_Cog_H2H[["s.nlevels"]][2]` publications and involving `r SMD_S_Cog_H2H[["s.nlevels"]][1]` different animal strains. The between strain variance was `r SMD_S_Cog_H2H$sigma2[1]`, the between study variance `r SMD_S_Cog_H2H$sigma2[2]` and the within-experiment variance `r SMD_S_Cog_H2H$sigma2[3]`.
 
 # 5 Co-treatment with TAAR1 agonist plus know antipsychotic drug v known antipsychotic drug alone
 
@@ -1734,17 +1730,15 @@ forest_metafor(SMD_S_LMA_TAA, "TAvA","Locomotor activity")
 # Check if the object is NULL
  if (any(class(SMD_S_LMA_TAA) == "rma.mv")) {
   output_text3 <- paste0("For combination experiments, TAAR1 agonists with antipsychotic drugs, compared with antipsychotic drugs alone, had a pooled effect on locomotor activity of SMD =", round(SMD_S_LMA_TAA[['beta']], 3), " (95% CI: ", round(SMD_S_LMA_TAA[['ci.lb']], 3), " to ", round(SMD_S_LMA_TAA[['ci.ub']], 3),", with a prediction interval of ", round(predict(SMD_S_LMA_TAA)$pi.lb, 3), " to ", round(predict(SMD_S_LMA_TAA)$pi.ub, 3))
-  output_text4 <- paste0("Between-strain variance was ", round(SMD_S_LMA_TAA$sigma2[1], 3), ", between-study variance was ", round(SMD_S_LMA_TAA$sigma2[2], 3), ", and within-study variance (between experiments) was ", round(SMD_S_LMA_TAA$sigma2[3], 3))
 } else {
   output_text3 <- ""
-  output_text4 <- ""
 }
 
 ```
 
 `r output_text3`
 
-`r output_text4`
+`r SMD_S_LMA_TAA[["k"]]` experimental comparisons were reported in `r SMD_S_LMA_TAA[["s.nlevels"]][3]` experiments reported from `r SMD_S_LMA_TAA[["s.nlevels"]][2]` publications and involving `r SMD_S_LMA_TAA[["s.nlevels"]][1]` different animal strains. The between strain variance was `r SMD_S_LMA_TAA$sigma2[1]`, the between study variance `r SMD_S_LMA_TAA$sigma2[2]` and the within-experiment variance `r SMD_S_LMA_TAA$sigma2[3]`.
 
 ## 5.2 Outcome 2: Cognition (a secondary outcome)
 
@@ -1772,50 +1766,40 @@ forest_metafor(SMD_S_Cog_TAA, "TAvA","Cognition")
 
 ```{r echo = FALSE}
  if (any(class(SMD_S_Cog_TAA) == "rma.mv")) {
-  output_text3 <- paste0("For combination experiments, TAAR1 agonists with antipsychotic drugs, compared with antipsychotic drugs alone, had a pooled effect on cognition of SMD =", round(SMD_S_LMA_TAA[['beta']], 3), " (95% CI: ", round(SMD_S_LMA_TAA[['ci.lb']], 3), " to ", round(SMD_S_LMA_TAA[['ci.ub']], 3),", with a prediction interval of ", round(predict(SMD_S_LMA_TAA)$pi.lb, 3), " to ", round(predict(SMD_S_LMA_TAA)$pi.ub, 3))
-  output_text4 <- paste0("Between-strain variance was ", round(SMD_S_LMA_TAA$sigma2[1], 3), ", between-study variance was ", round(SMD_S_LMA_TAA$sigma2[2], 3), ", and within-study variance (between experiments) was ", round(SMD_S_LMA_TAA$sigma2[3], 3))
+  output_text3 <- paste0("For combination experiments, TAAR1 agonists with antipsychotic drugs, compared with antipsychotic drugs alone, had a pooled effect on cognition of SMD =", round(SMD_S_Cog_TAA[['beta']], 3), " (95% CI: ", round(SMD_S_Cog_TAA[['ci.lb']], 3), " to ", round(SMD_S_Cog_TAA[['ci.ub']], 3),", with a prediction interval of ", round(predict(SMD_S_Cog_TAA)$pi.lb, 3), " to ", round(predict(SMD_S_Cog_TAA)$pi.ub, 3))
 } else {
   output_text3 <- ""
-  output_text4 <- ""
 }
 
 ```
 
 `r output_text3`
 
-`r output_text4`
+`r SMD_S_Cog_TAA[["k"]]` experimental comparisons were reported in `r SMD_S_Cog_TAA[["s.nlevels"]][3]` experiments reported from `r SMD_S_Cog_TAA[["s.nlevels"]][2]` publications and involving `r SMD_S_Cog_TAA[["s.nlevels"]][1]` different animal strains. The between strain variance was `r SMD_S_Cog_TAA$sigma2[1]`, the between study variance `r SMD_S_Cog_TAA$sigma2[2]` and the within-experiment variance `r SMD_S_Cog_TAA$sigma2[3]`.
 
-# 6. Summary of the evidence
+# 6. Effect of TAAR1 agonists in TAAR1 receptor knockout animals
 
-<table>
-<tbody>
-<tr class="odd">
-<td><p><strong>Source of evidence</strong>  </p></td>
-<td><p><strong>Summary of the association</strong>  </p></td>
-<td><p><strong>Bias due to study limitations</strong></p></td>
-<td><p><strong>Bias due to reporting bias</strong></p></td>
-<td><p><strong>Bias due to indirectedness</strong>  </p></td>
-<td><p><strong>Bias due to other reasons</strong></p></td>
-</tr>
-<tr class="even">
-<td><p>Animal and pre-clinical studies</p></td>
-<td></td>
-<td><p>No studies were of low risk of bias or low reporting bias</p></td>
-<td><p>Egger Regression suggested that smaller studies report larger effects.</p>
-<p>This might occur if smaller studies reporting larger effects were disproportionately represented in those studies for which NMD was not evaluable those which did not report performance in a sham group.</p></td>
-<td><p>Bias due to indirectness was assessed as follows. The <strong>Initial organism Homological validity</strong> We assessed rodents as having moderate validity as a non primate mammalian species, and all experiments included here were conducted in rodents. Further, r SMD_S_LMA_CatDisIndSMD_S_LMA_CatDisInd$CategoryDiseaseInduction == Genetic e.g. DISC1 KO, DAT KO, D2R overexpression k experiments reporting locomotor activity and r SMD_S_cog_CatDisIndSMD_S_cog_CatDisInd$CategoryDiseaseInduction == Genetic e.g. DISC1 KO, DAT KO, D2R overexpression, k experiments reporting cognition used a genetic manipulation in a gene DAT known to be associated with human disease. <strong>Early environment factors inducing transition from initial organism to vulnerable organism Ontopathogenic validity</strong> Aside from the genetic models above, no models manipulated early environmental factors. <strong>Triggering factors inducing transition from Vulnerable organism to Pathological organism</strong> were commonly used e.g. cocaine, amphetamine, PCP but usually only with short term exposures trigerring increased locomotor activity. It was not possible to assess <strong>Pathological Organism Mechanistic validity</strong> whether the neurobiological or cognitive mechanisms which operate in human disease could be observed in the animal models used or <strong>Triggering factors inducing changes in biomarkers Induction validity</strong> because these were not assessed. <strong>Therapeutic agents inducing changes in outcome</strong> There was some evidence to support directness in that known antipsychotic drugs had observed efficacy in improving locomotor activity. <strong>Biological markers</strong> There were insufficient studies reporting neuotransmitter levels and no studies reported brain imaging outcomes. <strong>Behavioural manifestations Ethological validity</strong> Most experiments reported locomotor activity, but r SMD_S_cogk experiments reported some form of cognitive outcome, and in these there was no significant effect of TAAR1 agonists r SMD_S_cogbeta 95% CI: r SMD_S_cogci.lb to r SMD_S_cogci.ub.</p></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td><p>Human studies</p></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=10}
+SMD_S_LMA_KO <- run_ML_SMD(df, "TvC_KO","Locomotor activity",0.5 )
+```
+
+`r SMD_S_LMA_KO[["k"]]` experimental comparisons were reported in `r SMD_S_LMA_KO[["s.nlevels"]][3]` experiments reported from `r SMD_S_LMA_KO[["s.nlevels"]][2]` publications and involving `r SMD_S_LMA_KO[["s.nlevels"]][1]` different animal strains.
+
+Given the small number of studies, meta-analysis was not performed.
+
+
+# 7. Summary of the evidence
+
+
+Animal and pre-clinical studies
+
+No studies were of low risk of bias or low reporting bias
+Egger Regression suggested that smaller studies report larger effects.
+<p>This might occur if smaller studies reporting larger effects were disproportionately represented in those studies for which NMD was not evaluable those which did not report performance in a sham group.
+Bias due to indirectness was assessed as follows. The <strong>Initial organism Homological validity</strong> We assessed rodents as having moderate validity as a non primate mammalian species, and all experiments included here were conducted in rodents. Further, `r SMD_S_LMA_CatDisInd %>% filter(CategoryDiseaseInduction == "Genetic") %>% pull(k)` experiments reporting locomotor activity and `r SMD_S_Cog_CatDisInd %>% filter(CategoryDiseaseInduction == "Genetic") %>% pull(k)` experiments reporting cognition used a genetic manipulation in a gene DAT known to be associated with human disease. <strong>Early environment factors inducing transition from initial organism to vulnerable organism Ontopathogenic validity</strong> Aside from the genetic models above, no models manipulated early environmental factors. <strong>Triggering factors inducing transition from Vulnerable organism to Pathological organism</strong> were commonly used e.g. cocaine, amphetamine, PCP but usually only with short term exposures trigerring increased locomotor activity. It was not possible to assess <strong>Pathological Organism Mechanistic validity</strong> whether the neurobiological or cognitive mechanisms which operate in human disease could be observed in the animal models used or <strong>Triggering factors inducing changes in biomarkers Induction validity</strong> because these were not assessed. <strong>Therapeutic agents inducing changes in outcome</strong> There was some evidence to support directness in that known antipsychotic drugs had observed efficacy in improving locomotor activity. <strong>Biological markers</strong> There were insufficient studies reporting neuotransmitter levels and no studies reported brain imaging outcomes. <strong>Behavioural manifestations Ethological validity</strong> Most experiments reported locomotor activity, but `r SMD_S_Cog[["k"]]` experiments reported some form of cognitive outcome, and in these there was no significant effect of TAAR1 agonists (`r SMD_S_Cog$beta`), 95% CI: `r SMD_S_Cog$ci.lb` to `r SMD_S_Cog$ci.ub`.
+
+Human studies
+
 
 # 7. Software used
 
@@ -1824,3 +1808,7 @@ forest_metafor(SMD_S_Cog_TAA, "TAvA","Cognition")
 ```{r echo=FALSE}
 grateful::cite_packages(output = "paragraph", pkgs = "Session", out.dir = ".")
 ```
+
+
+SMD_S_cog_CatDisInd[SMD_S_cog_CatDisInd$CategoryDiseaseInduction == "Genetic"][["k"]]
+
