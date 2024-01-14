@@ -1,7 +1,7 @@
 ---
 title: "LSR3 analysis: effects of TAAR1 agonists in animal models of psychosis"
 author: "Francesca Tinsdeall, Fiona Ramage, Virginia Chiocchia and Malcolm Macleod"
-date: "2023-12-19"
+date: "2024-01-14"
 output: 
   html_document: 
     fig_width: 9
@@ -48,7 +48,7 @@ editor_options:
 
         -   2.3.10 Dose of intervention
 
-        -   2.3.11 SYRCLE RoB assessment
+        -   2.3.11 SyRCLE RoB assessment
 
         -   2.3.12 ARRIVE guideline reporting completeness
 
@@ -94,7 +94,7 @@ editor_options:
 
         -   3.3.10 Dose of intervention
 
-        -   3.3.11 SYRCLE RoB assessment
+        -   3.3.11 SyRCLE RoB assessment
 
         -   3.3.12 ARRIVE guideline reporting completeness
 
@@ -279,7 +279,7 @@ Only one publication reported each of prepulse inhibition (a primary outcome), s
 
 ##### 2.1.1 Risks of bias
 
-Figure 2.1.1a shows the risk of bias summary for studies investigating the effect of administering a TAAR1 agonist on locomotor activity in animals. The risk of bias assessment was performed using the SYRCLE's RoB tool. Figure 2.1.1b shows the corresponding traffic light plot.
+Figure 2.1.1a shows the risk of bias summary for studies investigating the effect of administering a TAAR1 agonist on locomotor activity in animals. The risk of bias assessment was performed using the SyRCLE's RoB tool. Figure 2.1.1b shows the corresponding traffic light plot.
 
 **Figure 2.1.1a**
 
@@ -376,7 +376,7 @@ For each outcome, the covariates of interest for subgroup analysesand meta-regre
 
 -   **Dose of intervention**
 
-We also conducted subgroup analyses using **(1) SYRCLE Risk of Bias** and **(2) ARRIVE reporting completeness** assessment scores as covariates to evaluate their influence on effect size estimates. These were not specified in the study protocol, but evaluation of risk of bias is required for the Summary of Evidence table, and no studies were considered at low risk of bias or high reporting completeness to allow such a sensitivity analysis
+We also conducted subgroup analyses using **(1) SyRCLE Risk of Bias** and **(2) ARRIVE reporting completeness** assessment scores as covariates to evaluate their influence on effect size estimates. These were not specified in the study protocol, but evaluation of risk of bias is required for the Summary of Evidence table, and no studies were considered at low risk of bias or high reporting completeness to allow such a sensitivity analysis
 
 Note that in this iteration of the review, insufficient data was available to conduct subgroup analysis for the following variables, as only one subgroup level was present: `r check_moderator_levels(df, "TvC", "Locomotor activity")`
 
@@ -843,25 +843,25 @@ SMD_S_LMA_StandardDose$regression_plot
 
 The estimate for the change in effect per log unit change in standardised does was`r SMD_S_LMA_StandardDose$metaregression_summary$beta[1]` (p = `r round(SMD_S_LMA_StandardDose[["metaregression"]][["k"]],3)`). The between-strain variance was `r SMD_S_LMA_StandardDose$metaregression$sigma2[1]`, the between-study variance `r SMD_S_LMA_StandardDose$metaregression$sigma2[2]`, and the within-experiment variance `r SMD_S_LMA_StandardDose$metaregression$sigma2[3]`.
 
-#### 2.3.11 SYRCLE RoB assessment
+#### 2.3.11 SyRCLE RoB assessment
 
-Figure 2.3.11 displays the estimates for the pooled SMD's when comparisons are stratified by how many of the SYRCLE risk of bias assessment criteria (of which there are 10) that the experiment met. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by SYRCLE Risk of Bias, is displayed as a diamond shape at the bottom of the plot.
+Figure 2.3.11 displays the estimates for the pooled SMD's when comparisons are stratified by how many of the SyRCLE risk of bias assessment criteria (of which there are 10) that the experiment met. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by SyRCLE Risk of Bias, is displayed as a diamond shape at the bottom of the plot.
 
 **Figure 2.3.11**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', out.width = "100%"}
-SMD_S_LMA_SYRCLERoB <- subgroup_analysis(df, "TvC", "Locomotor activity", "RoBScore", 0.5)
+SMD_S_LMA_SyRCLERoB <- subgroup_analysis(df, "TvC", "Locomotor activity", "RoBScore", 0.5)
 ```
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-forest_subgroup(SMD_S_LMA_SYRCLERoB, "RoBScore", "Locomotor Activity","SyRCLE RoB score")
+forest_subgroup(SMD_S_LMA_SyRCLERoB, "RoBScore", "Locomotor Activity","SyRCLE RoB score")
 ```
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-SMD_S_LMA_SYRCLERoB_noI <- subgroup_SMD(df, "TvC", "Locomotor activity", "RoBScore", 0.5)
+SMD_S_LMA_SyRCLERoB_noI <- subgroup_SMD(df, "TvC", "Locomotor activity", "RoBScore", 0.5)
 ```
 
-The p-value for the association between SyRCLE Risks of Bias reporting and outcome reported was `r round(SMD_S_LMA_SYRCLERoB_noI$QMp,3)`. The between-strain variance was `r SMD_S_LMA_SYRCLERoB_noI$sigma2[1]`, the between-study variance `r SMD_S_LMA_SYRCLERoB_noI$sigma2[2]`, and the within-experiment variance `r SMD_S_LMA_SYRCLERoB_noI$sigma2[3]`.
+The p-value for the association between SyRCLE Risks of Bias reporting and outcome reported was `r round(SMD_S_LMA_SyRCLERoB_noI$QMp,3)`. The between-strain variance was `r SMD_S_LMA_SyRCLERoB_noI$sigma2[1]`, the between-study variance `r SMD_S_LMA_SyRCLERoB_noI$sigma2[2]`, and the within-experiment variance `r SMD_S_LMA_SyRCLERoB_noI$sigma2[3]`.
 
 #### 2.3.12 ARRIVE reporting completeness guidelines
 
@@ -894,7 +894,7 @@ SMD_S_LMA_AdminRouteI <- subgroup_SMDI(df, "TvC", "Locomotor activity", "Interve
 SMD_S_LMA_ProphTheraI <- subgroup_SMDI(df, "TvC", "Locomotor activity", "ProphylacticOrTherapeutic", 0.5)
 SMD_S_LMA_DurRxI <- subgroup_SMDI(df, "TvC", "Locomotor activity", "TreatmentDurationCategory", 0.5)
 SMD_S_LMA_DrugI <- subgroup_SMDI(df, "TvC", "Locomotor activity", "DrugName", 0.5)
-SMD_S_LMA_SYRCLERoBI <- subgroup_SMDI(df, "TvC", "Locomotor activity", "RoBScore", 0.5)
+SMD_S_LMA_SyRCLERoBI <- subgroup_SMDI(df, "TvC", "Locomotor activity", "RoBScore", 0.5)
 SMD_S_LMA_ARRIVEI <- subgroup_SMDI(df, "TvC", "Locomotor activity", "ARRIVEScoreCat", 0.5)
 SMD_S_LMA_DrugI <- subgroup_SMDI(df, "TvC", "Locomotor activity", "DrugName", 0.5)
 SMD_S_LMA_DrugEfficacyI <- subgroup_SMDI(df, "TvC", "Locomotor activity", "Efficacy", 0.5)
@@ -942,10 +942,10 @@ The table below shows which of the covariates, if any, explain some of the heter
 |                    \-                    |        *Unclear*        |         `r SMD_S_LMA_DrugSelectivityI$beta[3]`          |                  `r SMD_S_LMA_DrugSelectivityI$ci.lb[3]` - `r SMD_S_LMA_DrugSelectivityI$ci.ub[3]`                  |                                 \-                                  |
 |               Drug potency               |      per log unit       |      `r SMD_S_LMA_potency$metaregression$beta[2]`      |           `r SMD_S_LMA_potency$metaregression$ci.lb[2]` - `r SMD_S_LMA_potency$metaregression$ci.ub[2]`           |   `r round((r2_ml(SMD_S_LMA_potency$metaregression)[1]*100),1)`%    |
 |          Standardised drug dose          |      per log unit       | `r SMD_S_LMA_StandardDose$metaregression$beta[2]` | `r SMD_S_LMA_StandardDose$metaregression$ci.lb[2]` - `r SMD_S_LMA_StandardDose$metaregression$ci.ub[2]` | `r round((r2_ml(SMD_S_LMA_StandardDose$metaregression)[1]*100),1)`% |
-|               Risk of Bias               |           \-            |                           \-                           |                                                        \-                                                         |          `r round((r2_ml(SMD_S_LMA_SYRCLERoBI)[1]*100),1)`%          |
-|                    \-                    |    *0 criteria met*     |            `r SMD_S_LMA_SYRCLERoBI$beta[1]`             |                        `r SMD_S_LMA_SYRCLERoBI$ci.lb[1]` - `r SMD_S_LMA_SYRCLERoBI$ci.ub[1]`                        |                                 \-                                  |
-|                    \-                    |    *1 criteria met*     |            `r SMD_S_LMA_SYRCLERoBI$beta[2]`             |                        `r SMD_S_LMA_SYRCLERoBI$ci.lb[2]` - `r SMD_S_LMA_SYRCLERoBI$ci.ub[2]`                        |                                 \-                                  |
-|                    \-                    |    *2 criteria met*     |            `r SMD_S_LMA_SYRCLERoBI$beta[3]`             |                        `r SMD_S_LMA_SYRCLERoBI$ci.lb[3]` - `r SMD_S_LMA_SYRCLERoBI$ci.ub[3]`                        |                                 \-                                  |
+|               Risk of Bias               |           \-            |                           \-                           |                                                        \-                                                         |          `r round((r2_ml(SMD_S_LMA_SyRCLERoBI)[1]*100),1)`%          |
+|                    \-                    |    *0 criteria met*     |            `r SMD_S_LMA_SyRCLERoBI$beta[1]`             |                        `r SMD_S_LMA_SyRCLERoBI$ci.lb[1]` - `r SMD_S_LMA_SyRCLERoBI$ci.ub[1]`                        |                                 \-                                  |
+|                    \-                    |    *1 criteria met*     |            `r SMD_S_LMA_SyRCLERoBI$beta[2]`             |                        `r SMD_S_LMA_SyRCLERoBI$ci.lb[2]` - `r SMD_S_LMA_SyRCLERoBI$ci.ub[2]`                        |                                 \-                                  |
+|                    \-                    |    *2 criteria met*     |            `r SMD_S_LMA_SyRCLERoBI$beta[3]`             |                        `r SMD_S_LMA_SyRCLERoBI$ci.lb[3]` - `r SMD_S_LMA_SyRCLERoBI$ci.ub[3]`                        |                                 \-                                  |
 |          Reporting completeness          |           \-            |                           \-                           |                                                        \-                                                         |           `r round((r2_ml(SMD_S_LMA_ARRIVEI)[1]*100),1)`%            |
 |                    \-                    |   *4-7 criteria met*    |              `r SMD_S_LMA_ARRIVEI$beta[1]`              |                           `r SMD_S_LMA_ARRIVEI$ci.lb[1]` - `r SMD_S_LMA_ARRIVEI$ci.ub[1]`                           |                                 \-                                  |
 |                    \-                    |   *8-11 criteria met*   |              `r SMD_S_LMA_ARRIVEI$beta[2]`              |                           `r SMD_S_LMA_ARRIVEI$ci.lb[2]` - `r SMD_S_LMA_ARRIVEI$ci.ub[2]`                           |                                 \-                                  |
@@ -962,7 +962,7 @@ We examine the robustness of the findings for the primary outcome by performing 
 
 #### 2.4.1 Imputed rho values of 0.2 and 0.8
 
-In the previous analyses for the effect of TAAR1 agonists on locomotor activity, we imputed a $\rho$ value of 0.5. Here, we examine the effect of imputing $\rho$ values of 0.2 and 0.8.
+In the previous analyses for the effect of TAAR1 agonists on locomotor activity, we imputed a $\rho$ value - the imputed within-study correlation between observed effect sizes - of 0.5. Here, we examine the effect of imputing $\rho$ values of 0.2 and 0.8.
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 SMD_S_LMA_rho0.2 <- run_ML_SMD(df, "TvC", "Locomotor activity", 0.2)
@@ -1026,7 +1026,7 @@ Egger regression based on `r run_sse_SMD(df)[["k"]]` studies of TAAR1 Agonist v 
 
 ##### 3.1.1 Risks of bias
 
-Figure 3.1.1a shows the risk of bias summary for studies investigating the effect of administering a TAAR1 agonist on cognition in animals. The risk of bias assessment was performed using the SYRCLE's RoB tool. Figure 3.1.1b shows the corresponding traffic light plot.
+Figure 3.1.1a shows the risk of bias summary for studies investigating the effect of administering a TAAR1 agonist on cognition in animals. The risk of bias assessment was performed using the SyRCLE's RoB tool. Figure 3.1.1b shows the corresponding traffic light plot.
 
 **Figure 3.1.1a**
 
@@ -1468,17 +1468,7 @@ output_text0 <- paste0("AP163: There were ", diag3, " comparisons from ", diag2,
 
 ##### Standardised dose
 
-We then sought evidence of a dose response relationship across all drugs. To do this, we conducted meta-regression using a standardised dose variable. This variable quantifies the administered dose as a multiple of the drug's EC50, indicating how many times the dose administered was greater (or lesser) than the concentration needed to achieve half-maximal effect. For example, if a drug's dose is twice its EC50, the standardized dose would be 2, indicating that the dose is twice the concentration needed to achieve half-maximal effect.
-
-The standardised dose was calculated by dividing the log-transformed dose of the intervention (in mg/kg) by the product of the intervention's EC50 (in moles) and the Molar mass of the drug (in mg/mol):
-
-$$
-\frac{\log(\text{Dose of Intervention (mg/kg)})}{(\text{Molar Mass (g/mol)} \times 1000) \times (\frac{\text{EC50 (micromoles)}}{1000000})}
-$$
-
-**This is a simplified approximation based on the reasoning that if drug actions are mediated through the TAAR1 receptor, and drug efficacy is reflected in the respective EC50 values, then theoretically drugs should exhibit similar effects when acting at their respective EC50.**
-
-The actual concentration of a drug at the receptor site is influenced by several variables, including dosage, administration route, elimination half-life, and first-pass metabolism (in case of oral administration). Incorporating all these factors accurately would necessitate a detailed pharmacokinetic model, which falls outside the scope of this review. Consequently, we assume uniformity across experiments in terms of (i) volume of distribution, (ii) first-pass metabolism, (iii) blood-brain barrier permeability, and (iv) experimental design, especially regarding the timing of peak drug concentration (where we assume that experiments were designed to be done at a time when the drug was near peak concentration).
+We then sought evidence of a dose response relationship across all drugs using the approach described for locomotor activity.
 
 Figure 5.2.10.1 provides a visualisation of the meta-regression analysis relationship between standardised doses of TAAR1 agonists and the Standardized Mean Difference (SMD) change in cognition. As before, dashed lines represent the 95% confidence interval of the regression line and dotted lines represent the 95% prediction interval. Raw data is plotted with point size adjusted according to effect size precision.
 
@@ -1496,25 +1486,25 @@ SMD_S_Cog_StandardDose$regression_plot
 
 The estimate for $\theta$ was `r SMD_S_Cog_StandardDose$metaregression_summary$beta[1]`. The estimate for $\beta$ was `r SMD_S_Cog_StandardDose$metaregression_summary$beta[2]`.
 
-#### 3.3.11 SYRCLE RoB assessment
+#### 3.3.11 SyRCLE RoB assessment
 
-Figure 3.3.11 displays the estimates for the pooled SMD's when comparisons are stratified by how many of the SYRCLE risk of bias assessment criteria (of which there are 10) that the experiment met. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by SYRCLE RoB assessment, is displayed as a diamond shape at the bottom of the plot.
+Figure 3.3.11 displays the estimates for the pooled SMD's when comparisons are stratified by how many of the SyRCLE risk of bias assessment criteria (of which there are 10) that the experiment met. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by SyRCLE RoB assessment, is displayed as a diamond shape at the bottom of the plot.
 
 **Figure 3.3.11**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', out.width = "100%"}
-SMD_S_Cog_SYRCLERoB <- subgroup_analysis(df, "TvC", "Cognition", "RoBScore", 0.5)
+SMD_S_Cog_SyRCLERoB <- subgroup_analysis(df, "TvC", "Cognition", "RoBScore", 0.5)
 ```
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-forest_subgroup(SMD_S_Cog_SYRCLERoB, "RoBScore", "Cognition","SyRCLE RoB score")
+forest_subgroup(SMD_S_Cog_SyRCLERoB, "RoBScore", "Cognition","SyRCLE RoB score")
 ```
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-SMD_S_Cog_SYRCLERoB_noI <- subgroup_SMD(df, "TvC", "Cognition", "RoBScore", 0.5)
+SMD_S_Cog_SyRCLERoB_noI <- subgroup_SMD(df, "TvC", "Cognition", "RoBScore", 0.5)
 ```
 
-The p-value for the association between SyRCLE Risks of Bias reporting and outcome reported was `r round(SMD_S_Cog_SYRCLERoB_noI$QMp,3)`. The between-strain variance was `r SMD_S_Cog_SYRCLERoB_noI$sigma2[1]`, the between-study variance `r SMD_S_Cog_SYRCLERoB_noI$sigma2[2]`, and the within-experiment variance `r SMD_S_Cog_SYRCLERoB_noI$sigma2[3]`.
+The p-value for the association between SyRCLE Risks of Bias reporting and outcome reported was `r round(SMD_S_Cog_SyRCLERoB_noI$QMp,3)`. The between-strain variance was `r SMD_S_Cog_SyRCLERoB_noI$sigma2[1]`, the between-study variance `r SMD_S_Cog_SyRCLERoB_noI$sigma2[2]`, and the within-experiment variance `r SMD_S_Cog_SyRCLERoB_noI$sigma2[3]`.
 
 
 #### 3.3.12 ARRIVE reporting completeness guidelines
@@ -1547,7 +1537,7 @@ SMD_S_Cog_AdminRouteI <- subgroup_SMDI(df, "TvC", "Cognition", "InterventionAdmi
 SMD_S_Cog_ProphTheraI <- subgroup_SMDI(df, "TvC", "Cognition", "ProphylacticOrTherapeutic", 0.5)
 SMD_S_Cog_DurRxI <- subgroup_SMDI(df, "TvC", "Cognition", "TreatmentDurationCategory", 0.5)
 SMD_S_Cog_DrugI <- subgroup_SMDI(df, "TvC", "Cognition", "DrugName", 0.5)
-SMD_S_Cog_SYRCLERoBI <- subgroup_SMDI(df, "TvC", "Cognition", "RoBScore", 0.5)
+SMD_S_Cog_SyRCLERoBI <- subgroup_SMDI(df, "TvC", "Cognition", "RoBScore", 0.5)
 SMD_S_Cog_ARRIVEI <- subgroup_SMDI(df, "TvC", "Cognition", "ARRIVEScoreCat", 0.5)
 SMD_S_Cog_DrugSelectivityI <- subgroup_SMDI(df, "TvC", "Cognition", "Selectivity", 0.5)
 
@@ -1581,9 +1571,9 @@ The table below shows which of the covariates, if any, explain some of the heter
 |                 \-                  |          *Low*          |         `r SMD_S_Cog_DrugSelectivityI$beta[2]`          |                  `r SMD_S_Cog_DrugSelectivityI$ci.lb[2]` - `r SMD_S_Cog_DrugSelectivityI$ci.ub[2]`                  |                                 \-                                  |                                                                
 |            Drug potency             |      per log unit       |      `r SMD_S_Cog_potency$metaregression$beta[2]`      |           `r SMD_S_Cog_potency$metaregression$ci.lb[2]` - `r SMD_S_Cog_potency$metaregression$ci.ub[2]`           |   `r round((r2_ml(SMD_S_Cog_potency$metaregression)[1]*100),1)`%    |     
 |          Standardised dose          |      per log unit       | `r SMD_S_Cog_StandardDose$metaregression$beta[2]` | `r SMD_S_Cog_StandardDose$metaregression$ci.lb[2]` - `r SMD_S_Cog_StandardDose$metaregression$ci.ub[2]` | `r round((r2_ml(SMD_S_Cog_StandardDose$metaregression)[1]*100),1)`% |                                               
-|            Risk of Bias             |           \-            |                           \-                           |                                                        \-                                                         |          `r round((r2_ml(SMD_S_Cog_SYRCLERoBI)[1]*100),1)`%           |                                                                |     |
-|                 \-                  |    *0 criteria met*     |            `r SMD_S_Cog_SYRCLERoBI$beta[1]`             |                        `r SMD_S_Cog_SYRCLERoBI$ci.lb[1]` - `r SMD_S_Cog_SYRCLERoBI$ci.ub[1]`                        |                                 \-                                  |                                                                
-|                 \-                  |    *1 criteria met*     |            `r SMD_S_Cog_SYRCLERoBI$beta[2]`             |                        `r SMD_S_Cog_SYRCLERoBI$ci.lb[2]` - `r SMD_S_Cog_SYRCLERoBI$ci.ub[2]`                        |                                 \-                                  |                                                                
+|            Risk of Bias             |           \-            |                           \-                           |                                                        \-                                                         |          `r round((r2_ml(SMD_S_Cog_SyRCLERoBI)[1]*100),1)`%           |                                                                |     |
+|                 \-                  |    *0 criteria met*     |            `r SMD_S_Cog_SyRCLERoBI$beta[1]`             |                        `r SMD_S_Cog_SyRCLERoBI$ci.lb[1]` - `r SMD_S_Cog_SyRCLERoBI$ci.ub[1]`                        |                                 \-                                  |                                                                
+|                 \-                  |    *1 criteria met*     |            `r SMD_S_Cog_SyRCLERoBI$beta[2]`             |                        `r SMD_S_Cog_SyRCLERoBI$ci.lb[2]` - `r SMD_S_Cog_SyRCLERoBI$ci.ub[2]`                        |                                 \-                                  |                                                                
 |       Reporting completeness        |           \-            |                           \-                           |                                                        \-                                                         |            `r round((r2_ml(SMD_S_Cog_ARRIVEI)[1]*100),1)`%            |
 |                 \-                  |   *8-11 criteria met*   |              `r SMD_S_Cog_ARRIVEI$beta[1]`              |                           `r SMD_S_Cog_ARRIVEI$ci.lb[1]` - `r SMD_S_Cog_ARRIVEI$ci.ub[1]`                           |                                 \-                                  |                                                                
 |                 \-                  |  *12-15 criteria met*   |              `r SMD_S_Cog_ARRIVEI$beta[2]`              |                           `r SMD_S_Cog_ARRIVEI$ci.lb[2]` - `r SMD_S_Cog_ARRIVEI$ci.ub[2]`                           |                                 \-                                  |                                                                
