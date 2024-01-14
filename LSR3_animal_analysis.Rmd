@@ -566,9 +566,7 @@ SMD_S_LMA_potency <- metaregression_analysis(df, "TvC", "Locomotor activity", "p
 SMD_S_LMA_potency$regression_plot
 ```
 
-The estimate for $\theta$ was `r SMD_S_LMA_potency$metaregression_summary$beta[1]`. This gives the predicted SMD when the pEC50 of the intervention is 0. Note that this should be interpreted with caution; since the logarithm of zero is undefined (it tends towards negative infinity), a pEC50 value cannot be 0 unless the EC50 is 1 mol/L. The estimate for $\theta$ can be interpreted as the estimated SMD when the EC50 is 1 mol/L (1000mM), which signifies extremely low potency.
-
-The estimate for $\beta$ was `r SMD_S_LMA_potency$metaregression_summary$beta[2]`. This represents the predicted regression weight for the pEC50 of the intervention.
+The estimate for $\beta$ was `r SMD_S_LMA_potency$metaregression_summary$beta[2]` (p = `r  round(SMD_S_LMA_potency$metaregression_summary$pval[2],3)`).
 
 #### 2.3.10 Dose of intervention
 
@@ -842,7 +840,7 @@ SMD_S_LMA_StandardDose <- metaregression_analysis(df, "TvC", "Locomotor activity
 SMD_S_LMA_StandardDose$regression_plot
 ```
 
-The estimate for the change in effect per log unit change in standardised does was`r SMD_S_LMA_StandardDose$metaregression_summary$beta[1]` (p = `r round(SMD_S_LMA_StandardDose[["metaregression"]][["k"]],3)`. 
+The estimate for the change in effect per log unit change in standardised does was`r SMD_S_LMA_StandardDose$metaregression_summary$beta[1]` (p = `r round(SMD_S_LMA_StandardDose[["metaregression"]][["k"]],3)`). 
 
 #### 2.3.11 SYRCLE RoB assessment
 
@@ -941,7 +939,7 @@ The table below shows which of the covariates, if any, explain some of the heter
 |                    \-                    |         *High*          |         `r SMD_S_LMA_DrugSelectivityI$beta[1]`          |                  `r SMD_S_LMA_DrugSelectivityI$ci.lb[1]` - `r SMD_S_LMA_DrugSelectivityI$ci.ub[1]`                  |                                 \-                                  |
 |                    \-                    |          *Low*          |         `r SMD_S_LMA_DrugSelectivityI$beta[2]`          |                  `r SMD_S_LMA_DrugSelectivityI$ci.lb[2]` - `r SMD_S_LMA_DrugSelectivityI$ci.ub[2]`                  |                                 \-                                  |
 |                    \-                    |        *Unclear*        |         `r SMD_S_LMA_DrugSelectivityI$beta[3]`          |                  `r SMD_S_LMA_DrugSelectivityI$ci.lb[3]` - `r SMD_S_LMA_DrugSelectivityI$ci.ub[3]`                  |                                 \-                                  |
-|               Drug potency               |      per log unit       |      `r SMD_S_LMA_potency$metaregressionI$beta[2]`      |           `r SMD_S_LMA_potency$metaregression$ci.lb[2]` - `r SMD_S_LMA_potency$metaregression$ci.ub[2]`           |   `r round((r2_ml(SMD_S_LMA_potency$metaregression)[1]*100),1)`%    |
+|               Drug potency               |      per log unit       |      `r SMD_S_LMA_potency$metaregression$beta[2]`      |           `r SMD_S_LMA_potency$metaregression$ci.lb[2]` - `r SMD_S_LMA_potency$metaregression$ci.ub[2]`           |   `r round((r2_ml(SMD_S_LMA_potency$metaregression)[1]*100),1)`%    |
 |          Standardised drug dose          |      per log unit       | `r SMD_S_LMA_StandardDose$metaregression$beta[2]` | `r SMD_S_LMA_StandardDose$metaregression$ci.lb[2]` - `r SMD_S_LMA_StandardDose$metaregression$ci.ub[2]` | `r round((r2_ml(SMD_S_LMA_StandardDose$metaregression)[1]*100),1)`% |
 |               Risk of Bias               |           \-            |                           \-                           |                                                        \-                                                         |          `r round((r2_ml(SMD_S_LMA_SYRCLERoBI)[1]*100),1)`%          |
 |                    \-                    |    *0 criteria met*     |            `r SMD_S_LMA_SYRCLERoBI$beta[1]`             |                        `r SMD_S_LMA_SYRCLERoBI$ci.lb[1]` - `r SMD_S_LMA_SYRCLERoBI$ci.ub[1]`                        |                                 \-                                  |
@@ -1206,7 +1204,7 @@ SMD_S_cog__DrugSelectivity_noI <- subgroup_SMD(df, "TvC", "Cognition", "Selectiv
 
 The p-value for the association between whether the drug was highly selective, or also manifests 5-HT1A effects, was `r round(SMD_S_cog__DrugSelectivity_noI$QMp,3)`
 
-#### 3.3.9 Potency of intervention
+#### 3.3.9 Potency of interventions
 
 The pEC50 value of each drug was used to measure potency. The pEC50 value is the negative logarithm (to base 10) of the EC50 value. Higher pEC50 values indicate higher potency (as they indicate a lower EC50). Figure x displays a visualisation of the meta-regression using the pEC50 value as an explanatory variable. Dashed lines represent the 95% confidence interval of the regression line. The dotted lines represent the 95% prediction interval. Raw data is plotted with 'bubble' size adjusted according to effect size precision.
 
@@ -1222,9 +1220,7 @@ SMD_S_cog_potency <- metaregression_analysis(df, "TvC", "Cognition", "pE50", 0.5
 SMD_S_cog_potency$regression_plot
 ```
 
-The estimate for $\theta$ was `r SMD_S_cog_potency$metaregression_summary$beta[1]`. This gives the predicted SMD when the pEC50 of the intervention is 0. Note that this should be interpreted with caution; since the logarithm of zero is undefined (it tends towards negative infinity), a pEC50 value cannot be 0 unless the EC50 is 1 mol/L. The estimate for $\theta$ can be interpreted as the estimated SMD when the EC50 is 1 mol/L (1000mM), which signifies extremely low potency.
-
-The estimate for $\beta$ was `r SMD_S_cog_potency$metaregression_summary$beta[2]`. This represents the predicted regression weight for the pEC50 of the intervention.
+The estimate for $\beta$ was `r SMD_S_cog_potency$metaregression_summary$beta[2]` (p = `r  round(SMD_S_cog_potency$metaregression_summary$pval[2],3)`).
 
 #### 3.3.10 Dose of intervention
 
@@ -1584,7 +1580,7 @@ The table below shows which of the covariates, if any, explain some of the heter
 |                 \-                  |         *High*          |         `r SMD_S_cog_DrugSelectivityI$beta[1]`          |                  `r SMD_S_cog_DrugSelectivityI$ci.lb[1]` - `r SMD_S_cog_DrugSelectivityI$ci.ub[1]`                  |                                 \-                                  |                                                                
 |                 \-                  |          *Low*          |         `r SMD_S_cog_DrugSelectivityI$beta[2]`          |                  `r SMD_S_cog_DrugSelectivityI$ci.lb[2]` - `r SMD_S_cog_DrugSelectivityI$ci.ub[2]`                  |                                 \-                                  |                                                                
 |            Drug potency             |      per log unit       |      `r SMD_S_cog_potency$metaregression$beta[2]`      |           `r SMD_S_cog_potency$metaregression$ci.lb[2]` - `r SMD_S_cog_potency$metaregression$ci.ub[2]`           |   `r round((r2_ml(SMD_S_cog_potency$metaregression)[1]*100),1)`%    |     
-|          Standardised dose          |      per log unit       | `r SMD_S_cog_StandardDose$metaregression$beta[2]*1000` | `r SMD_S_cog_StandardDose$metaregression$ci.lb[2]*1000` - `r SMD_S_cog_StandardDose$metaregression$ci.ub[2]*1000` | `r round((r2_ml(SMD_S_cog_StandardDose$metaregression)[1]*100),1)`% |                                               
+|          Standardised dose          |      per log unit       | `r SMD_S_cog_StandardDose$metaregression$beta[2]` | `r SMD_S_cog_StandardDose$metaregression$ci.lb[2]` - `r SMD_S_cog_StandardDose$metaregression$ci.ub[2]` | `r round((r2_ml(SMD_S_cog_StandardDose$metaregression)[1]*100),1)`% |                                               
 |            Risk of Bias             |           \-            |                           \-                           |                                                        \-                                                         |          `r round((r2_ml(SMD_S_cog_SYRCLERoBI)[1]*100),1)`%           |                                                                |     |
 |                 \-                  |    *0 criteria met*     |            `r SMD_S_cog_SYRCLERoBI$beta[1]`             |                        `r SMD_S_cog_SYRCLERoBI$ci.lb[1]` - `r SMD_S_cog_SYRCLERoBI$ci.ub[1]`                        |                                 \-                                  |                                                                
 |                 \-                  |    *1 criteria met*     |            `r SMD_S_cog_SYRCLERoBI$beta[2]`             |                        `r SMD_S_cog_SYRCLERoBI$ci.lb[2]` - `r SMD_S_cog_SYRCLERoBI$ci.ub[2]`                        |                                 \-                                  |                                                                
