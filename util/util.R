@@ -10,7 +10,8 @@ filter_experiment_outcome_type <- function(df, experiment_type, outcome) {
 }
 
 run_ML_SMD <- function(df, experiment, outcome, rho_value) {
-
+# this returns an rma.mv object representing the meta-analysis of 
+  
   df<-filter_experiment_outcome_type(df, experiment, outcome)
 
   df<-df %>% 
@@ -58,6 +59,9 @@ run_ML_SMD <- function(df, experiment, outcome, rho_value) {
 }}
 
 forest_metafor <- function(model, experiment_type, outcome_title){ #outcome title is what you want outcome to be written as, it doesn't have to match outcome type
+  
+  # this tests whetehr the model exists; and if so, returns the forest plot from the rma.mv object
+  
   if(!is.null(model)){
   
   
@@ -146,6 +150,8 @@ cixhigher <- model[["ci.ub"]]
 }
 
 subgroup_analysis <- function(df, experiment_type, outcome, moderator, rho_value) {
+  # this returns a table of efefct sizes etc by moderator, for passing to 'forest_subgroup'
+  # for plotting
   
   # Ensure the moderator is a character string for later conversion to symbol
   moderator <- as.character(moderator)
@@ -395,6 +401,8 @@ plot_subgroup_analysis <- function(df, experiment_type, outcome, moderator, rho_
 
 
 forest_subgroup <- function(modelsumm, moderator, outcome, moderator_text) {
+   # this uses GGplot2 to draw a forest plot for the subgroup analyses, and returns the plot 
+  
     title <- paste0("Effect of TAAR1 Agonists on ",outcome, " by ", moderator_text)           
     
     model <- modelsumm
@@ -1177,8 +1185,11 @@ run_sse_plot_SMD <- function(df, rho_value = 0.5) {
   return(plot)
 }
 
-###with intercept, to allow calculation of effect of moderators - returns intercept as B0 for first category, b1 for other categories against intercept 
 subgroup_SMD <- function(df, experiment_type, outcome, moderator, rho_value) {
+  # with intercept, to allow calculation of effect of moderators - returns intercept 
+  # as beta-coefficient for first category, and beta coefficients for other categories 
+  # compared with the intercept. We do not use for plotting or tabulating ES and CIs,
+  # but do use it to calculate whether the efefct of moderators is significant
   
   # Ensure the moderator is a character string for later conversion to symbol
   moderator <- as.character(moderator)
@@ -1291,4 +1302,61 @@ subgroup_SMDI <- function(df, experiment_type, outcome, moderator, rho_value) {
     return(subgroup_analysis)
   }  }
 
+metaregression_analysisI <- function(df, experiment_type, outcome, moderator, rho_value) {
+  
+  # Ensure the moderator is a character string for evaluation in sym() function (can't convert numerics to symbol)
+  moderator <- as.character(moderator)
+  
+  df2 <- df %>% 
+    filter(SortLabel == experiment_type) %>% 
+    filter(outcome_type == outcome) %>%  
+    filter(!is.na(SMDv)) %>%
+    filter(!is.na(!!sym(moderator))) # Filter out NA values in moderator column
+  
+  # Convert moderator back to numeric
+  df2[[moderator]] <- as.numeric(df2[[moderator]])
+  
+  #df2<-df2 %>% 
+  #filter(SMD>-6) %>% 
+  #filter(SMD<6) # delete missing values and some weirdly large values, like -15 and 16
+  
+  df2 <- df2 %>% mutate(effect_id = row_number()) # add effect_id column
+  
+  #calculate variance-covariance matrix of the sampling errors for dependent effect sizes
+  
+  VCVM_SMD <- vcalc(vi = SMDv,
+                    cluster = StudyId, 
+                    subgroup= ExperimentID_I,
+                    obs=effect_id,
+                    data = df2, 
+                    rho = rho_value) 
+  
+  # Metaregression
+  
+  metaregression <- rma.mv(
+    yi = SMD,
+    V = VCVM_SMD,
+    random = ~1 | Strain / StudyId / ExperimentID_I,
+    data = df2,
+    mods = as.formula(paste("~", moderator, "-1")),
+    method = 'REML',
+    test = "t",
+    dfs = "contain"
+  )
+  
+  metaregression_summary <- summary(metaregression)
+  
+  x <- bubble_plot(metaregression, 
+                   group = "StudyId",
+                   mod = moderator, 
+                   xlab = moderator, 
+                   ylab = "SMD", 
+                   legend.pos = "none", 
+                   k = TRUE) 
+  
+  return(list(
+    metaregression = metaregression,
+    metaregression_summary = metaregression_summary,
+    regression_plot = x))
+}
 
