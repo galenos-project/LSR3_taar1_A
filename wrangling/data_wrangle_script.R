@@ -1201,10 +1201,24 @@ df <- df %>%
 
 df <- df %>%
   rowwise() %>%
+  mutate(RoSBScoreAny = sum(c_across(contains("RoB")) == "Yes", na.rm = TRUE)) %>%
+  ungroup()
+
+df <- df %>%
+  rowwise() %>%
   mutate(RoBScore = sum(c_across(contains("RoB")) == "Yes", na.rm = TRUE)) %>%
   ungroup() %>% 
   mutate(RoBScore = paste0(RoBScore, " criteria met"))
 
+
+df$RoSBScoreAny <- as.numeric(df$RoSBScoreAny)
+
+df$RoBTF <- 'No low RoB items'
+for(i in 1:nrow(df)) {
+  if(df[i, "RoSBScoreAny"] > 0) {
+    df[i,'RoBTF'] <- 'Some low RoB items'
+  }
+}
 ##### For reporting quality subgroup analysis #####
 
 df <- df %>% 
