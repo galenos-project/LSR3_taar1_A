@@ -150,7 +150,7 @@ cixhigher <- model[["ci.ub"]]
 }
 
 subgroup_analysis <- function(df, experiment_type, outcome, moderator, rho_value) {
-  # this returns a table of efefct sizes etc by moderator, for passing to 'forest_subgroup'
+  # this returns a table of effect sizes etc by moderator, for passing to 'forest_subgroup'
   # for plotting
   
   # Ensure the moderator is a character string for later conversion to symbol
@@ -167,13 +167,13 @@ subgroup_analysis <- function(df, experiment_type, outcome, moderator, rho_value
     df2[[moderator]] <- factor(df2[[moderator]])}
   
   # Add a check for the number of levels in the moderator variable
-  if (length(levels(df2[[moderator]])) <= 1) {
-    message("In this iteration of the review, there was insufficient data to perform subgroup analysis for this variable (data for one subgroup only)")
-    return(NULL)
-  }
+  if (length(levels(df2[[moderator]])) >= 1) {
+  #  message("In this iteration of the review, there was insufficient data to perform subgroup analysis for this variable (data for one subgroup only)")
+  #  return(NULL)
+  #}
   
-  if ((n_distinct(df$StudyId) > 2) & (n_distinct(df$ExperimentID_I) >10)) {
-  #df2$RoBScore <- as.numeric(df2$RoBScore)
+  #if ((n_distinct(df2$StudyId) > 2) & (n_distinct(df2$ExperimentID_I) >10)) {
+  #df2$RoB <- as.numeric(df2$RoBScore)
   #df2$RoBScore <- factor(df2$RoBScore, levels = c(0, 1, 2))
   
   
@@ -414,7 +414,7 @@ forest_subgroup <- function(modelsumm, moderator, outcome, moderator_text) {
       mutate(moderator = factor(model[["moderator"]], levels = unique(model[["moderator"]])))
   lnth <- nrow(model)+1
   
-  axis_min <- min(floor(min(model$ci_l, model$ci_u)),-1)
+  axis_min <- min(floor(min(model$ci_l, model$ci_u)),-2)
   axis_max <- max(ceiling(max(model$ci_l, model$ci_u)),1)
   span2 <- 1 + (axis_max - axis_min)
   span1 <- span2 * 0.8
@@ -779,7 +779,7 @@ SyRCLE_RoB_traffic <- function(df, experiment_type, outcome) {
   SyRCLE <- mutate_all(SyRCLE, list(~ ifelse(. == 'No', 'High', .)))
   
   
-  colnames(SyRCLE) <- c('Study ID','Allocation sequence','Baseline similarity','Concealment of allocation sequence','Random housing','Caregivers blinded','Random selection for outcome assessment','Blinded outcome assessor','Incomplete data reporting addressed','Free from selective outcome reporting','Free of other risks of bias')
+  colnames(SyRCLE) <- c('Study','Allocation sequence','Baseline similarity','Concealment of allocation sequence','Random housing','Caregivers blinded','Random selection for outcome assessment','Blinded outcome assessor','Incomplete data reporting addressed','Free from selective outcome reporting','Free of other risks of bias')
   RoB_TL <- rob_traffic_light(data <- SyRCLE, tool = "Generic", psize = 6, overall = FALSE)
   
   return(RoB_TL)
