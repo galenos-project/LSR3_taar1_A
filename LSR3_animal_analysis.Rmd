@@ -143,8 +143,8 @@ library(tibble)
 library(tidyr)
 library(tools)
 library(rlang)
-devtools::install_github("mcguinlu/robvis")
-install_github("mcguinlu/robvis")
+#devtools::install_github("mcguinlu/robvis")
+#install_github("mcguinlu/robvis")
 library(robvis)
 library(PRISMA2020)
 library(grateful)
@@ -378,7 +378,7 @@ For each outcome, the covariates of interest for subgroup analysesand meta-regre
 
 We also conducted subgroup analyses using **(1) SyRCLE Risk of Bias** and **(2) ARRIVE reporting completeness** assessment scores as covariates to evaluate their influence on effect size estimates. These were not specified in the study protocol, but evaluation of risk of bias is required for the Summary of Evidence table, and no studies were considered at low risk of bias or high reporting completeness to allow such a sensitivity analysis
 
-Note that in this iteration of the review, insufficient data was available to conduct subgroup analysis for the following variables, as only one subgroup level was present: `r check_moderator_levels(df, "TvC", "Locomotor activity")`
+The significance (p value) reported is that for a test of whether the moderators are significantly different one from another, rather than whether the effect is significantly different from 0. Note that in this iteration of the review, insufficient data was available to conduct subgroup analysis for the following variables, as only one subgroup level was present: `r check_moderator_levels(df, "TvC", "Locomotor activity")`
 
 #### 2.3.1 Sex
 
@@ -863,6 +863,28 @@ SMD_S_LMA_SyRCLERoB_noI <- subgroup_SMD(df, "TvC", "Locomotor activity", "RoBSco
 
 The p-value for the association between SyRCLE Risks of Bias reporting and outcome reported was `r round(SMD_S_LMA_SyRCLERoB_noI$QMp,3)`. The between-strain variance was `r SMD_S_LMA_SyRCLERoB_noI$sigma2[1]`, the between-study variance `r SMD_S_LMA_SyRCLERoB_noI$sigma2[2]`, and the within-experiment variance `r SMD_S_LMA_SyRCLERoB_noI$sigma2[3]`.
 
+#### alt SyRCLE 
+#### 2.3.11b ALternative SyRCLE RoB assessment
+
+Figure 2.3.11b displays the estimates for the pooled SMD's when comparisons are stratified by whether of not any of the SyRCLE Risk of bias domains were rated as low risk of bias. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by SyRCLE Risk of Bias, is displayed as a diamond shape at the bottom of the plot.
+
+**Figure 2.3.11b**
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', out.width = "100%"}
+SMD_S_LMA_SyRCLERoBTF <- subgroup_analysis(df, "TvC", "Locomotor activity", "RoBTF", 0.5)
+```
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+forest_subgroup(SMD_S_LMA_SyRCLERoBTF, "RoBTF", "Locomotor Activity","RoB score")
+```
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_LMA_SyRCLERoBTF_noI <- subgroup_SMD(df, "TvC", "Locomotor activity", "RoBTF", 0.5)
+```
+
+The p-value for the association between low SyRCLE Risks of Bias reporting and outcome reported was `r round(SMD_S_LMA_SyRCLERoBTF_noI$QMp,3)`. The between-strain variance was `r SMD_S_LMA_SyRCLERoBTF_noI$sigma2[1]`, the between-study variance `r SMD_S_LMA_SyRCLERoBTF_noI$sigma2[2]`, and the within-experiment variance `r SMD_S_LMA_SyRCLERoBTF_noI$sigma2[3]`.
+
+
 #### 2.3.12 ARRIVE reporting completeness guidelines
 
 Experiments were categorised based on the number of ARRIVE guidelines (of which there are 23) met. The categorisation was as follows: Experiments meeting 3 or fewer criteria were labeled as "A: \< 3 criteria met"; those meeting 4 to 7 criteria were labeled "B: 4-7 criteria met"; for 8 to 11 criteria, "C: 8-11 criteria met"; for 12 to 15 criteria, "D: 12-15 criteria met"; for 16 to 19 criteria, "E: 16-19 criteria met"; and experiments meeting more than 19 criteria were labeled as "F: \> 20 criteria met".
@@ -885,6 +907,24 @@ SMD_S_LMA_ARRIVE_noI <- subgroup_SMD(df, "TvC", "Locomotor activity", "ARRIVESco
 
 The p-value for the association between the number of ARRIVE guidelines reporting items and outcome reported  was `r round(SMD_S_LMA_ARRIVE_noI$QMp,3)`. The between-strain variance was `r SMD_S_LMA_ARRIVE_noI$sigma2[1]`, the between-study variance `r SMD_S_LMA_ARRIVE_noI$sigma2[2]`, and the within-experiment variance `r SMD_S_LMA_ARRIVE_noI$sigma2[3]`.
 
+#### alt ARRIVE ####
+#### 2.3.12b Alternative evaluation of ARRIVE reporting guidelines performance
+
+As an alternative to a categorical consideration of ARRIVE reporting guideline performance, we also present a metaregression where the number of ARRIVE items met is considered as a continuous variable.
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_LMA_ARR2 <- metaregression_analysis(df, "TvC", "Locomotor activity", "ARRIVEScore", 0.5)
+
+```
+
+**Figure 2.3.12b**
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
+SMD_S_LMA_ARR2$regression_plot
+```
+
+The estimate for $\beta$ was `r SMD_S_LMA_ARR2$metaregression_summary$beta[2]` (p = `r  round(SMD_S_LMA_ARR2$metaregression_summary$pval[2],3)`). The between-strain variance was `r SMD_S_LMA_ARR2$metaregression_summary$sigma2[1]`, the between-study variance `r SMD_S_LMA_ARR2$metaregression_summary$sigma2[2]`, and the within-experiment variance `r SMD_S_LMA_ARR2$metaregression_summary$sigma2[3]`.
+
 #### 2.3.13 Heterogeneity explained by covariates (TAAR1 Agonist v Control on locomotor activity)
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', out.width = "100%"}
@@ -901,7 +941,7 @@ SMD_S_LMA_DrugEfficacyI <- subgroup_SMDI(df, "TvC", "Locomotor activity", "Effic
 SMD_S_LMA_DrugSelectivityI <- subgroup_SMDI(df, "TvC", "Locomotor activity", "Selectivity", 0.5)
 ```
 
-The table below shows which of the covariates, if any, explain some of the heterogeneity observed in the effect sizes of the effect of TAAR1 agonists on locomotor activity. We present marginal R^2^, which measures the proportion of variance explained by including moderators in the model (the % change in the between-studies variance when the covariate is included in the model, in other words the % of the heterogeneity explained by the variable).
+The table below shows which of the covariates, if any, explain some of the heterogeneity observed in the effect sizes of the effect of TAAR1 agonists on locomotor activity. We present marginal R^2^, which measures the proportion of variance explained by including moderators in the model (the % change in the between-studies variance when the covariate is included in the model, in other words the % of the heterogeneity explained by the variable). The co-efficients are derived form an RMA model fitted with an intercept (and so represent, for each category, the point estimate and 95% CIs of the effect in that category).
 
 <!--# need to also add the results from potency and doses in the table below -->
 
@@ -996,7 +1036,7 @@ forest_metafor_NMD(NMD_S_LMA, "locomotor hyperactivity")
 
 For TAAR1 Agonist v Control, TAAR1 interventions had a pooled effect on locomotor activity of NMD = `r NMD_S_LMA[["beta"]]` (95% CI: `r NMD_S_LMA[["ci.lb"]]` to `r NMD_S_LMA[["ci.ub"]]`) with a prediction interval of `r predict(NMD_S_LMA)$pi.lb` to `r predict(NMD_S_LMA)$pi.ub`. For reference the pooled effect size for SMD was `r SMD_S_LMA[["beta"]]` (95% CI: `r SMD_S_LMA[["ci.lb"]]` to `r SMD_S_LMA[["ci.ub"]]`).
 
-Between-strain variance was `r round(NMD_S_LMA$sigma2[1], 3)`, between-study variance was `r round(NMD_S_LMA$sigma2[2], 3)`, and within-study variance (between experiments) was `r round(NMD_S_LMA$sigma2[3], 3)`.
+`r NMD_S_LMA[["k"]` experimental comparisons were reported in `r NMD_S_LMA[["s.nlevels"]][3]` experiments reported from `r NMD_S_LMA[["s.nlevels"]][2]` publications and involving `r NMD_S_LMA[["s.nlevels"]][1]` different animal strains.Between-strain variance was `r round(NMD_S_LMA$sigma2[1], 3)`, between-study variance was `r round(NMD_S_LMA$sigma2[2], 3)`, and within-study variance (between experiments) was `r round(NMD_S_LMA$sigma2[3], 3)`.
 
 ## 2.5. Reporting bias/small-study effects
 
@@ -1102,7 +1142,7 @@ SMD_S_Cog_sex <- subgroup_analysis(df, "TvC", "Cognition", "Sex", 0.5)
 ```
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-forest_subgroup(SMD_S_Cog_sex, "Sex", "Cognition","Sex")
+  forest_subgroup(SMD_S_Cog_sex, "Sex", "Cognition","Sex")
 ```
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
@@ -1507,6 +1547,27 @@ SMD_S_Cog_SyRCLERoB_noI <- subgroup_SMD(df, "TvC", "Cognition", "RoBScore", 0.5)
 The p-value for the association between SyRCLE Risks of Bias reporting and outcome reported was `r round(SMD_S_Cog_SyRCLERoB_noI$QMp,3)`. The between-strain variance was `r SMD_S_Cog_SyRCLERoB_noI$sigma2[1]`, the between-study variance `r SMD_S_Cog_SyRCLERoB_noI$sigma2[2]`, and the within-experiment variance `r SMD_S_Cog_SyRCLERoB_noI$sigma2[3]`.
 
 
+#### 2.3.11b ALternative SyRCLE RoB assessment
+
+Figure 2.3.11b displays the estimates for the pooled SMD's when comparisons are stratified by whether of not any of the SyRCLE Risk of bias domains were rated as low risk of bias. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by SyRCLE Risk of Bias, is displayed as a diamond shape at the bottom of the plot.
+
+**Figure 2.3.11b**
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', out.width = "100%"}
+SMD_S_cog_SyRCLERoBTF <- subgroup_analysis(df, "TvC", "Cognition", "RoBTF", 0.5)
+```
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+forest_subgroup(SMD_S_cog_SyRCLERoBTF, "RoBTF", "Cognition","RoB score")
+```
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_cog_SyRCLERoBTF_noI <- subgroup_SMD(df, "TvC", "Cognition", "RoBTF", 0.5)
+```
+
+The p-value for the association between low SyRCLE Risks of Bias reporting and outcome reported was `r round(SMD_S_cog_SyRCLERoBTF_noI$QMp,3)`. The between-strain variance was `r SMD_S_cog_SyRCLERoBTF_noI$sigma2[1]`, the between-study variance `r SMD_S_cog_SyRCLERoBTF_noI$sigma2[2]`, and the within-experiment variance `r SMD_S_cog_SyRCLERoBTF_noI$sigma2[3]`.
+
+
 #### 3.3.12 ARRIVE reporting completeness guidelines
 
 Experiments were categorised based on the number of ARRIVE guidelines (of which there are 23) met. The categorisation was as follows: Experiments meeting 3 or fewer criteria were labeled as "A: \< 3 criteria met"; those meeting 4 to 7 criteria were labeled "B: 4-7 criteria met"; for 8 to 11 criteria, "C: 8-11 criteria met"; for 12 to 15 criteria, "D: 12-15 criteria met"; for 16 to 19 criteria, "E: 16-19 criteria met"; and experiments meeting more than 19 criteria were labeled as "F: \> 20 criteria met".
@@ -1542,6 +1603,25 @@ SMD_S_Cog_ARRIVEI <- subgroup_SMDI(df, "TvC", "Cognition", "ARRIVEScoreCat", 0.5
 SMD_S_Cog_DrugSelectivityI <- subgroup_SMDI(df, "TvC", "Cognition", "Selectivity", 0.5)
 
 ```
+
+#### 3.3.12b Alternative evaluation of ARRIVE reporting guidelines performance
+
+As an alternative to a categorical consideration of ARRIVE reporting guideline performance, we also present a metaregression where the number of ARRIVE items met is considered as a continuous variable.
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_cog_ARR2 <- metaregression_analysis(df, "TvC", "Cognition", "ARRIVEScore", 0.5)
+
+```
+
+**Figure 3.3.12b**
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
+SMD_S_cog_ARR2$regression_plot
+```
+
+The estimate for $\beta$ was `r SMD_S_cog_ARR2$metaregression_summary$beta[2]` (p = `r  round(SMD_S_cog_ARR2$metaregression_summary$pval[2],3)`). The between-strain variance was `r SMD_S_cog_ARR2$metaregression_summary$sigma2[1]`, the between-study variance `r SMD_S_cog_ARR2$metaregression_summary$sigma2[2]`, and the within-experiment variance `r SMD_S_cog_ARR2$metaregression_summary$sigma2[3]`.
+
+
 
 #### 3.3.13 Heterogeneity explained by covariates (TAAR1 Agonist v Control on cognition)
 
@@ -1609,13 +1689,15 @@ The effect of administering a TAAR1 agonist on cognition in animals using NMD as
 NMD_S_cog <- run_ML_NMD(df, "TvC", "Cognition", 0.5)
 ```
 
-**Figure x**
+**Figure 3.4.3**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE}
 forest_metafor_NMD(NMD_S_cog, "Cognition")
 ```
 
-For TAAR1 Agonist v Control, TAAR1 interventions had a pooled effect on cognition of NMD = `r NMD_S_cog[["beta"]]` (95% CI: `r NMD_S_cog[["ci.lb"]]` to `r NMD_S_cog[["ci.ub"]]`) with a prediction interval of `r predict(NMD_S_cog)$pi.lb` to `r predict(NMD_S_cog)$pi.ub`. For reference the pooled effect size for SMD was `r SMD_S_Cog[["beta"]]` (95% CI: `r SMD_S_Cog[["ci.lb"]]` to `r SMD_S_Cog[["ci.ub"]]`). Between-strain variance was `r round(NMD_S_cog$sigma2[1], 3)`, between-study variance was `r round(NMD_S_cog$sigma2[2], 3)`, and within-study variance (between experiments) was \`r round(NMD_S_cog\$sigma2[3], 3)'
+For TAAR1 Agonist v Control, TAAR1 interventions had a pooled effect on cognition of NMD = `r NMD_S_cog[["beta"]]` (95% CI: `r NMD_S_cog[["ci.lb"]]` to `r NMD_S_cog[["ci.ub"]]`) with a prediction interval of `r predict(NMD_S_cog)$pi.lb` to `r predict(NMD_S_cog)$pi.ub`. For reference the pooled effect size for SMD was `r SMD_S_Cog[["beta"]]` (95% CI: `r SMD_S_Cog[["ci.lb"]]` to `r SMD_S_Cog[["ci.ub"]]`). 
+
+`r NMD_S_cog[["k"]]` experimental comparisons were reported in `r NMD_S_cog[["s.nlevels"]][3]` experiments reported from `r NMD_S_cog[["s.nlevels"]][2]` publications and involving `r NMD_S_cog[["s.nlevels"]][1]` different animal strains.Between-strain variance was `r round(NMD_S_cog$sigma2[1], 3)`, between-study variance was `r round(NMD_S_cog$sigma2[2], 3)`, and within-study variance (between experiments) was `r round(NMD_S_cog$sigma2[3], 3)`.
 
 # 4 "TAAR1 Agonist v known antipsychotic drug" (TAAR1 Ag v known antipsychotic drugs) experiments
 
