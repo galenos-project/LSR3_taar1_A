@@ -451,12 +451,21 @@ data <- data %>%
     (grepl("Positive control", data$Treatment2Type) & !is.na(`Dose of positive control treatment?[2]`)) ~ paste0(drugname2, ", ", `Dose of positive control treatment?[2]`," ",`Measurement unit of treatment dose:[2]`)
   ))
 
-data$TreatmentLabel1 <- gsub("miligrams \\(mg\\) per kg", "mg/kg", data$TreatmentLabel1)
-data$TreatmentLabel2 <- gsub("miligrams \\(mg\\) per kg", "mg/kg", data$TreatmentLabel2)
-data$TreatmentLabel1 <- gsub("Other, NA NA", "", data$TreatmentLabel1)
-data$TreatmentLabel2 <- gsub("Other, NA NA", "", data$TreatmentLabel2)
-data$TreatmentLabel1 <- gsub("mg/kg mg/kg", "mg/kg", data$TreatmentLabel1)
-data$TreatmentLabel2 <- gsub("mg/kg mg/kg", "mg/kg", data$TreatmentLabel2)
+#### for table
+
+data <- data %>% 
+  mutate(DrugLabel1 = case_when(
+    grepl("Intervention", data$Treatment1Type) ~ drugname1,
+    (grepl("Positive control", data$Treatment1Type) & is.na(`Dose of positive control treatment?[1]`)) ~ drugname1, 
+    (grepl("Positive control", data$Treatment1Type) & !is.na(`Dose of positive control treatment?[1]`)) ~ drugname1, 
+  ))
+
+data <- data %>% 
+  mutate(DrugLabel2 = case_when(
+    grepl("Intervention", data$Treatment2Type) ~ drugname2, 
+    (grepl("Positive control", data$Treatment2Type) & is.na(`Dose of positive control treatment?[2]`)) ~ drugname2,
+    (grepl("Positive control", data$Treatment2Type) & !is.na(`Dose of positive control treatment?[2]`)) ~ drugname2, 
+  ))
 
 
 data <- data %>% 
@@ -465,6 +474,16 @@ data <- data %>%
       !is.na(TreatmentLabel1) & !is.na(TreatmentLabel2) ~ paste(TreatmentLabel1, "&", TreatmentLabel2),
       !is.na(TreatmentLabel1) ~ TreatmentLabel1,
       !is.na(TreatmentLabel2) ~ TreatmentLabel2,
+      TRUE ~ NA_character_
+    )
+  )
+
+data <- data %>% 
+  mutate(
+    DrugLabel = case_when(
+      !is.na(DrugLabel1) & !is.na(DrugLabel2) ~ paste(DrugLabel1, "&", DrugLabel2),
+      !is.na(DrugLabel1) ~ DrugLabel1,
+      !is.na(DrugLabel2) ~ DrugLabel2,
       TRUE ~ NA_character_
     )
   )
