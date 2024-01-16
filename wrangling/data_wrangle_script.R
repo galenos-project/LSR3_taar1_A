@@ -1253,7 +1253,9 @@ df <- df %>%
                                     ARRIVEScore > 15 & ARRIVEScore <= 19 ~ "E: 16-19 criteria met",
                                     ARRIVEScore > 19 ~ "F: > 20 criteria met")) 
 
-
+df <- df %>% 
+  mutate(Label = str_replace_all(Label, "miligrams \\(mg\\) per kg", "mg/kg"),
+  ) 
 
 # SAVE FILE
 savefile_output <- paste0(LSR,'_','clean_data_',Sys.Date(),'.csv')

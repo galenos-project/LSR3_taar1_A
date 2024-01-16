@@ -74,7 +74,7 @@ forest_metafor <- function(model, experiment_type, outcome_title){ #outcome titl
   
          forest_plot <- if(experiment_type == "TvC"){
                                forest(model,
-                                      xlim=c((lower_x-8), (upper_x+3)),
+                                      xlim=c((lower_x-10), (upper_x+3)),
                                       ylim=c(-2, model$k+6), rows=c((model$k+2):3),
                                       mlab="SMD [95% C.I.]", 
                                       alim=c((lower_x-4), (upper_x+2)),
@@ -88,15 +88,15 @@ forest_metafor <- function(model, experiment_type, outcome_title){ #outcome titl
                                       order=StudyId,
                                       xlab = "",
                                       ilab = cbind(ARRIVEScore, Label),
-                                      ilab.xpos = c(-5.5, -3),
+                                      ilab.xpos = c(-7.5, -4.5),
                                       cex = 0.6, 
                                       cex.axis = 1.0, 
                                       cex.lab = 1.2,
                                       efac = c(1,1,2))
-           text(c(-5.5,-3), model$k+5, c("Reporting\n completeness", "Drug"), cex=0.75, font=2)
+           text(c(-7.5,-4.5), model$k+5, c("Reporting\n completeness", "Drug"), cex=0.75, font=2)
          } else {
                                forest(model,
-                                      xlim=c(-18,6),
+                                      xlim=c(-30,10),
                                       ylim=c(-2, model$k+4), rows=c((model$k+1):2),
                                       mlab="SMD [95% C.I.]",
                                       alim=c((lower_x-2), (upper_x+2.5)),
@@ -110,12 +110,12 @@ forest_metafor <- function(model, experiment_type, outcome_title){ #outcome titl
                                       order=StudyId,
                                       xlab = "", 
                                       ilab = cbind(ARRIVEScore, Label),
-                                      ilab.xpos = c(-13, -7.7),
+                                      ilab.xpos = c(-22, -12),
                                       cex = 0.6, 
                                       cex.axis = 1.0, 
                                       cex.lab = 1.2,
                                       efac = c(1,1,3))
-           text(c(-13,-7.7), model$k+3, c("Reporting\n completeness", "Comparison"), cex=0.75, font=2)
+           text(c(-22,-12), model$k+3, c("Reporting\n completeness", "Comparison"), cex=0.75, font=2)
          }
          
 cixlower <- model[["ci.lb"]]
@@ -142,8 +142,8 @@ cixhigher <- model[["ci.ub"]]
     
   } else {  
     
-    mtext("Favours control", side = 1, line = 3, at = -4, cex = 1.2, col = "red", font = 1)
-    mtext("Favours TAAR1 agonist", side = 1, line = 3, at = 4, cex = 1.2, col = "darkgreen", font = 1)
+    mtext("Favours control", side = 1, line = 3, at = -10, cex = 1.2, col = "red", font = 1)
+    mtext("Favours TAAR1 agonist", side = 1, line = 3, at = 5, cex = 1.2, col = "darkgreen", font = 1)
     title(paste0("Effect of TAAR1 agonist plus antipsychotic v antipsychotic alone on\n ", outcome_title, " in psychosis (SMD)"))
   }
 }
