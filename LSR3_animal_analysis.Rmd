@@ -199,6 +199,65 @@ PRISMA_flowdiagram(dfp, interactive=FALSE, previous=FALSE, other=FALSE,
 ## what about reasons for exclusions of records? don't we have info on them?
 ```
 
+The table below gives a summary of the included studies, the model and species used, the intervention tested, and the outcome measured. N represents an aggregate of animals contributing to outcomes reported from control and treatment groups, and if the same control group has contributed to more than one experiment, it will be counted twice.
+```{r Included studies, eval = TRUE, echo = FALSE, warning=FALSE, message=FALSE}
+RoB <- unique(df[,c(4,6,12)])
+
+#change studyId to Author, year
+RoB$Study <- RoB$StudyId
+RoB$StudyId <- toupper(paste0(str_extract(RoB$Authors,"\\b\\w+\\b"),', ',RoB$Year))
+
+# fix >1 publication per first author in a year
+
+# Assuming your data frame is named RoB and the column is named StudyId
+unique_study_ids <- unique(RoB$StudyId)
+suffix_list <- character(length = nrow(RoB))
+
+for (study_id in unique_study_ids) {
+  indices <- RoB$StudyId == study_id
+  if (sum(indices) > 1) {
+    suffix_list[indices] <- letters[seq_along(suffix_list[indices])]
+  }
+}
+
+RoB$suffix <- suffix_list
+
+# Add the suffix to the original column
+RoB$StudyId <- paste(RoB$StudyId, RoB$suffix, sep = "")
+
+# Remove the 'suffix' column if you no longer need it
+RoB <- select(RoB, -suffix)
+RoB <- RoB[order(RoB$StudyId),]
+
+colnames(RoB) <- c('Study', 'Authors', 'Year', 'StudyId')
+
+colnamesdf <- c('StudyId', 'Authors','Year','Strain', 'CategoryDiseaseInduction', 'DrugLabel_I', 'DrugLabel_C', 'outcome_type',
+                'NumberOfAnimals', 'NumberOfAnimals_C', 'NumberOfAnimals_I', 'SortLabel')
+df3 <- df[,colnamesdf]
+df3$N <- as.numeric(df3$NumberOfAnimals_C) + as.numeric(df3$NumberOfAnimals_I)
+df3 <- subset(df3, !df3$SortLabel=='AvC')
+df3 <- df3 %>%
+  mutate(DrugLabel_C = ifelse(is.na(DrugLabel_C), 'Vehicle', DrugLabel_C))
+df3$CompLable <- paste0(df3$DrugLabel_I,' v ',df3$DrugLabel_C)
+
+trow <- merge(df3, RoB, by = 'StudyId')
+tab1 <- trow[,c(15,5,4,14,8,13)]
+tab2 <- tab1 %>%
+  group_by(Study, CategoryDiseaseInduction, Strain, CompLable, outcome_type) %>%
+  summarise(subjects_sum = sum(N))
+
+
+colnames(tab2) <- c("Study", "Model", "Strain", "Comparison", "Outcome","N")
+
+tab2 <- tab2 %>%
+  arrange(Study, Model, Strain, Comparison, Outcome)
+
+write.csv(tab2, 'tab2.csv')
+# process csv offline
+tab2 <- read_csv("data/tab2.csv")
+kable(tab2, format = "markdown") %>%
+  kable_styling(full_width = FALSE)
+```
 References of included studies are located in the appendix. Included studies used `r length(table(df$ModelID))` unique disease model induction procedures.
 
 ## 1.1 Description of experiment types and methodological approach
