@@ -114,9 +114,13 @@ editor_options:
 
 5.  Co-treatment with TAAR1 agonist plus know antipsychotic drug v known antipsychotic drug alone
 
-6.  Summary of the evidence
+6.  Effect of TAAR1 agonists in TAAR1 receptor knockout animals
 
-7.  Software used
+7.  Attrition bias and adverse efefcts of treatment
+
+8.  Summary of the evidence
+
+9.  Software used
 
 ```{r setup, message=F, echo=F, include=F}
 ### libraries
@@ -1167,11 +1171,11 @@ For TAAR1 Agonist v Control, TAAR1 interventions had a pooled effect on locomoto
 Because of the relationship between SMD effect sizes and variance inherent in their calculation, where study size is small the standard approach to seeking evidence of small-study effects (regression based tests including Egger's regression test for multilevel meta-analysis) can lead to over-estimation of small-study effect (see for instance 10.7554/eLife.24260). To address this we used Egger's regression test for multilevel meta-analysis, with regression of SMD effect size against 1/√N, where N is the total number of animals involved in an experiment.
 
 ```{r warning=FALSE, eval = TRUE, echo = FALSE}
-run_sse_plot_SMD(df)
+run_sse_plot_SMD_L(df)
 #run_sse_NMD(df)
 ```
 
-Egger regression based on `r run_sse_SMD(df)[["k"]]` studies of TAAR1 Agonist v Control where Locomotor activity was measured showed a coefficient for a small study effect of `r run_sse_SMD(df)[["beta"]][2]` (95% CI: `r run_sse_SMD(df)[["ci.lb"]][2]` to `r run_sse_SMD(df)[["ci.ub"]][2]`; p = `r ifelse(run_sse_SMD(df)[["pval"]][2] < 0.001, "<0.001", sprintf("%.3f", run_sse_SMD(df)[["pval"]][2]))`) in the context of a baseline estimate of effect of `r run_sse_SMD(df)[["beta"]][1]` (95% CI: `r run_sse_SMD(df)[["ci.lb"]][1]` to `r run_sse_SMD(df)[["ci.ub"]][1]`; p = `r ifelse(run_sse_SMD(df)[["pval"]][2] < 0.001, "<0.001", sprintf("%.3f", run_sse_SMD(df)[["pval"]][1]))`).
+Egger regression based on `r run_sse_SMD_L(df)[["k"]]` studies of TAAR1 Agonist v Control where Locomotor activity was measured showed a coefficient for a small study effect of `r run_sse_SMD_L(df)[["beta"]][2]` (95% CI: `r run_sse_SMD_L(df)[["ci.lb"]][2]` to `r run_sse_SMD_L(df)[["ci.ub"]][2]`; p = `r ifelse(run_sse_SMD_L(df)[["pval"]][2] < 0.001, "<0.001", sprintf("%.3f", run_sse_SMD_L(df)[["pval"]][2]))`) in the context of a baseline estimate of effect of `r run_sse_SMD_L(df)[["beta"]][1]` (95% CI: `r run_sse_SMD_L(df)[["ci.lb"]][1]` to `r run_sse_SMD_L(df)[["ci.ub"]][1]`; p = `r ifelse(run_sse_SMD_L(df)[["pval"]][2] < 0.001, "<0.001", sprintf("%.3f", run_sse_SMD_L(df)[["pval"]][1]))`).
 
 ```{r echo = FALSE}
 ## 8.1.2 Egger's regression test for multilevel meta-analysis: NMD v SE
@@ -1816,6 +1820,17 @@ forest_metafor_NMD(NMD_S_cog, "Cognition")
 For TAAR1 Agonist v Control, TAAR1 interventions had a pooled effect on cognition of NMD = `r NMD_S_cog[["beta"]][1]` (95% CI: `r NMD_S_cog[["ci.lb"]]` to `r NMD_S_cog[["ci.ub"]]`) with a prediction interval of `r predict(NMD_S_cog)$pi.lb` to `r predict(NMD_S_cog)$pi.ub`. For reference the pooled effect size for SMD was `r SMD_S_Cog[["beta"]]` (95% CI: `r SMD_S_Cog[["ci.lb"]]` to `r SMD_S_Cog[["ci.ub"]]`).
 
 `r NMD_S_cog[["k"]]` experimental comparisons were reported in `r NMD_S_cog[["s.nlevels"]][3]` experiments reported from `r NMD_S_cog[["s.nlevels"]][2]` publications and involving `r NMD_S_cog[["s.nlevels"]][1]` different animal strains.Between-strain variance was `r round(NMD_S_cog$sigma2[1], 3)`, between-study variance was `r round(NMD_S_cog$sigma2[2], 3)`, and within-study variance (between experiments) was `r round(NMD_S_cog$sigma2[3], 3)`.
+
+## 3.5. Reporting bias/small-study effects
+
+Because of the relationship between SMD effect sizes and variance inherent in their calculation, where study size is small the standard approach to seeking evidence of small-study effects (regression based tests including Egger's regression test for multilevel meta-analysis) can lead to over-estimation of small-study effect (see for instance 10.7554/eLife.24260). To address this we used Egger's regression test for multilevel meta-analysis, with regression of SMD effect size against 1/√N, where N is the total number of animals involved in an experiment.
+
+```{r warning=FALSE, eval = TRUE, echo = FALSE}
+run_sse_plot_SMD_C(df)
+#run_sse_NMD(df)
+```
+
+Egger regression based on `r run_sse_SMD_C(df)[["k"]]` studies of TAAR1 Agonist v Control where Locomotor activity was measured showed a coefficient for a small study effect of `r run_sse_SMD_C(df)[["beta"]][2]` (95% CI: `r run_sse_SMD_C(df)[["ci.lb"]][2]` to `r run_sse_SMD_C(df)[["ci.ub"]][2]`; p = `r ifelse(run_sse_SMD_C(df)[["pval"]][2] < 0.001, "<0.001", sprintf("%.3f", run_sse_SMD_C(df)[["pval"]][2]))`) in the context of a baseline estimate of effect of `r run_sse_SMD_C(df)[["beta"]][1]` (95% CI: `r run_sse_SMD_C(df)[["ci.lb"]][1]` to `r run_sse_SMD_C(df)[["ci.ub"]][1]`; p = `r ifelse(run_sse_SMD_C(df)[["pval"]][2] < 0.001, "<0.001", sprintf("%.3f", run_sse_SMD_C(df)[["pval"]][1]))`).
 
 # 4 "TAAR1 Agonist v known antipsychotic drug" (TAAR1 Ag v known antipsychotic drugs) experiments
 
