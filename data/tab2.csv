@@ -35,7 +35,7 @@ Study,Model,Strain,Comparison,Outcome,N
 """","""",Long-evans (rat),RO5256390 v Vehicle,Cognition,48
 """","""","Not""stated (mouse)",RO5256390 v Vehicle,Locomotor activity,80
 """","""","""",RO5263397 v Vehicle,Locomotor activity,128
-"SAARINEN, 2022",Pharmacological,"Not""stated (mouse)",SEP-363856 v Vehicle,Locomotor activity,56
+"SAARINEN, 2022",Pharmacological,Not stated (mouse),SEP-363856 v Vehicle,Locomotor activity,56
 """","""","""","""",Prepulse inhibition,60
 "WANG, 2023",Pharmacological,C57BL/6J (mouse),Compound 50A v Vehicle,Locomotor activity,72
 """","""","""",Compound 50B v Vehicle,Locomotor activity,90
