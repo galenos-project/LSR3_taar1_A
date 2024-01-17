@@ -84,9 +84,12 @@ editor_options:
 
 5.  Effect of TAAR1 agonists in TAAR1 receptor knockout animals
 
-6.  Summary of the evidence
+6.  Attrition bias and adverse efefcts of treatment
 
-7.  Software used
+7.  Summary of the evidence
+
+8.  Software used
+
 
 ```{r setup, message=F, echo=F, include=F}
 ### libraries
@@ -169,7 +172,6 @@ PRISMA_flowdiagram(dfp, interactive=FALSE, previous=FALSE, other=FALSE,
                     title_colour="Goldenrod1", greybox_colour="Gainsboro", main_colour="Black",
                     arrow_colour="Black", arrow_head="normal", arrow_tail="none", side_boxes=TRUE )
 
-## what about reasons for exclusions of records? don't we have info on them?
 ```
 
 The table below gives a summary of the included studies, the model and species used, the intervention tested, and the outcome measured. N represents an aggregate of animals contributing to outcomes reported from control and treatment groups, and if the same control group has contributed to more than one experiment, it will be counted twice.
@@ -282,6 +284,7 @@ No studies were excluded on the basis of extreme effect sizes reported.
 
 # 2 TAAR1 Agonists v Control
 
+
 ```{r # Split df by experiment and outcome type into dataframes to simply inline code below - TAAR1 Agonist v Control, eval = TRUE, echo = FALSE}
 df_S <- filter(df, SortLabel == "TvC")
 df_S_LMA <- filter_experiment_outcome_type(df, "TvC", "Locomotor activity")
@@ -292,6 +295,7 @@ df_S_stereo <- filter_experiment_outcome_type(df, "TvC", "Stereotypy")
 ```
 
 `r length(table(df_S$StudyId))` studies (`r nrow(df%>%filter(SortLabel == "TvC"))` comparisons) investigated the effects of TAAR1 Agonist versus Control. The number of studies and individual effect sizes for each outcome were:
+
 
 -   Locomotor activity\*: `r length(table(df_S_LMA$StudyId))` studies and `r nrow(df_S_LMA)` comparisons in `r {strains <- unique(df_S_LMA$Strain); if (length(strains) > 1) paste(length(strains), "strains") else paste(length(strains), "strain")}`
 
@@ -305,6 +309,7 @@ df_S_stereo <- filter_experiment_outcome_type(df, "TvC", "Stereotypy")
 
 \* These outcomes were identified in the study protocol as primary outcomes of interest.
 
+
 Only one publication reported each of prepulse inhibition (a primary outcome), social interaction, and stereotypy, and so these outcomes are not analysed further.
 
 ## 2.1 Outcome 1: Locomotor Activity
@@ -314,6 +319,7 @@ Only one publication reported each of prepulse inhibition (a primary outcome), s
 Figure 2.1.1a shows the risk of bias summary for studies investigating the effect of administering a TAAR1 agonist on locomotor activity in animals. The risk of bias assessment was performed using the SyRCLE's RoB tool. Figure 2.1.1b shows the corresponding traffic light plot.
 
 **Figure 2.1.1a**
+
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height = 8}
 SyRCLE_RoB_summary(df, "TvC", "Locomotor activity")
@@ -326,6 +332,7 @@ SyRCLE_RoB_traffic(df, "TvC", "Locomotor activity")
 ```
 
 ### 2.1.2 Reporting completeness
+
 
 Figure 2.1.2a shows the reporting completeness summary for studies investigating the effect of administering a TAAR1 agonist on locomotor activity in animals. The reporting completeness assessment was performed using the ARRIVE guidelines. Figure 2.1.2b shows the corresponding traffic light plot.
 
@@ -344,6 +351,7 @@ ARRIVE_traffic(df, "TvC", "Locomotor activity")
 
 ### 2.1.3 Meta-analysis
 
+
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 SMD_S_LMA <- run_ML_SMD(df, "TvC", "Locomotor activity", 0.5)
 ```
@@ -352,6 +360,7 @@ SMD_S_LMA <- run_ML_SMD(df, "TvC", "Locomotor activity", 0.5)
  if (any(class(SMD_S_LMA) == "rma.mv")) {
   output_text1 <- "The effect of administering a TAAR1 agonist on locomotor activity in animals using SMD as the effect size is shown in Figure 2.1.3. The pooled estimate for SMD across all individual comparisons is displayed as a diamond shape at the bottom of the plot. Dotted lines indicate the prediction interval of the pooled estimate."
   output_text2 <- "Figure 2.1.3"
+
 } else {
   output_text1 <- "Analysis is only performed if outcomes have been reported in more than one publication. There are not sufficient data for this outcome"
 }
@@ -368,6 +377,7 @@ forest_metafor(SMD_S_LMA, "TvC", "Locomotor activity")
 ```{r echo=FALSE}
  if (any(class(SMD_S_LMA) == "rma.mv")) {
   output_text3 <- paste0("For TAAR1 Agonist v Control, TAAR1 interventions had a pooled effect on locomotor activity of SMD = ", round(SMD_S_LMA[['beta']], 3), " (95% CI: ", round(SMD_S_LMA[['ci.lb']], 3), " to ", round(SMD_S_LMA[['ci.ub']], 3), ", with a prediction interval of ", round(predict(SMD_S_LMA)$pi.lb, 3), " to ", round(predict(SMD_S_LMA)$pi.ub, 3),").") 
+
 } else {
   output_text3 <- ""
 
@@ -379,6 +389,7 @@ forest_metafor(SMD_S_LMA, "TvC", "Locomotor activity")
 `r SMD_S_LMA[["k"]]` experimental comparisons were reported in `r SMD_S_LMA[["s.nlevels"]][3]` experiments reported from `r SMD_S_LMA[["s.nlevels"]][2]` publications and involving `r SMD_S_LMA[["s.nlevels"]][1]` different animal strains. The between strain variance was `r SMD_S_LMA$sigma2[1]`, the between study variance `r SMD_S_LMA$sigma2[2]` and the within-experiment variance `r SMD_S_LMA$sigma2[3]`.
 
 ### 2.1.4 Subgroup analyses and meta-regressions
+
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 options(scipen=100, digits=3)
@@ -416,6 +427,7 @@ Figure 2.1.4.1 displays the estimates for the pooled SMD's when comparisons are 
 
 **Figure 2.1.4.1**
 
+
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 SMD_S_LMA_sex <- subgroup_analysis(df, "TvC", "Locomotor activity", "Sex", 0.5)
 ```
@@ -435,6 +447,7 @@ The p-value for the association between the sex of animal groups used and outcom
 Figure 2.1.4.2 displays the estimates for the pooled SMD's when comparisons are stratified by the category of disease induction. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by category of disease induction, is displayed as a diamond shape at the bottom of the plot.
 
 **Figure 2.1.4.2**
+
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', fig.width=20, fig.height=4}
 SMD_S_LMA_CatDisInd <- subgroup_analysis(df, "TvC", "Locomotor activity", "CategoryDiseaseInduction", 0.5)
@@ -475,6 +488,7 @@ The p-value for the association between the route of intervention administration
 Figure 2.1.4.4 displays the estimates for the pooled SMD's when comparisons are stratified by whether the intervention was administered prophylactically or therapeutically. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by whether the intervention was administered prophylactically or therapeutically, is displayed as a diamond shape at the bottom of the plot.
 
 **Figure 2.1.4.4**
+
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', fig.width=9, fig.height=3}
 SMD_S_LMA_ProphThera <- subgroup_analysis(df, "TvC", "Locomotor activity", "ProphylacticOrTherapeutic", 0.5)
@@ -1070,22 +1084,13 @@ For TAAR1 Agonist v Control, TAAR1 interventions had a pooled effect on locomoto
 Because of the relationship between SMD effect sizes and variance inherent in their calculation, where study size is small the standard approach to seeking evidence of small-study effects (regression based tests including Egger's regression test for multilevel meta-analysis) can lead to over-estimation of small-study effect (see for instance 10.7554/eLife.24260). To address this we used Egger's regression test for multilevel meta-analysis, with regression of SMD effect size against 1/√N, where N is the total number of animals involved in an experiment.
 
 ```{r warning=FALSE, eval = TRUE, echo = FALSE}
-run_sse_plot_SMD(df)
+run_sse_plot_SMD_L(df)
 #run_sse_NMD(df)
 ```
 
 Egger regression based on `r run_sse_SMD(df)[["k"]]` studies of TAAR1 Agonist v Control where Locomotor activity was measured showed a coefficient for a small study effect of `r run_sse_SMD(df)[["beta"]][2]` (95% CI: `r run_sse_SMD(df)[["ci.lb"]][2]` to `r run_sse_SMD(df)[["ci.ub"]][2]`; p = `r ifelse(run_sse_SMD(df)[["pval"]][2] < 0.001, "<0.001", sprintf("%.3f", run_sse_SMD(df)[["pval"]][2]))`) in the context of a baseline estimate of effect of `r run_sse_SMD(df)[["beta"]][1]` (95% CI: `r run_sse_SMD(df)[["ci.lb"]][1]` to `r run_sse_SMD(df)[["ci.ub"]][1]`; p = `r ifelse(run_sse_SMD(df)[["pval"]][2] < 0.001, "<0.001", sprintf("%.3f", run_sse_SMD(df)[["pval"]][1]))`).
 
-```{r echo = FALSE}
-## 8.1.2 Egger's regression test for multilevel meta-analysis: NMD v SE
-#
-#```{r warning=FALSE, eval = TRUE, echo = FALSE}
-#run_sse_plot(df)
-#run_sse_NMD(df)
-#```
-#
-#Egger regression based on `r run_sse_NMD(df)[["k"]]` studies of TAAR1 Agonist v Control where Locomotor activity was measured and NMD was evaluable showed a coefficient for a small study effect of `r #run_sse_NMD(df)[["beta"]][2]` (95% CI: `r run_sse_NMD(df)[["ci.lb"]][2]` to `r run_sse_NMD(df)[["ci.ub"]][2]`; p = `r ifelse(run_sse_NMD(df)[["pval"]][2] < 0.001, "<0.001", sprintf("%.3f", run_sse_NMD(df)[["pval"]][2]))`) in #the context of a baseline estimate of effect of `r run_sse_NMD(df)[["beta"]][1]` (95% CI: `r run_sse_NMD(df)[["ci.lb"]][1]` to `r run_sse_NMD(df)[["ci.ub"]][1]`; p = `r ifelse(run_sse_NMD(df)[["pval"]][2] < 0.001, "<0.001", #sprintf("%.3f", run_sse_NMD(df)[["pval"]][1]))`).
-```
+
 
 ## 2.2 Outcome 2: Cognitive function
 
@@ -1279,7 +1284,6 @@ SMD_S_Cog_potency <- metaregression_analysis(df, "TvC", "Cognition", "pE50", 0.5
 ```
 
 **Figure 2.2.4.6**
-
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
 SMD_S_Cog_potency$regression_plot
 ```
@@ -1705,7 +1709,7 @@ The effect of administering a TAAR1 agonist on cognition in animals using NMD as
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 NMD_S_cog <- run_ML_NMD(df, "TvC", "Cognition", 0.5)
 ```
-
+ia
 **Figure 2.2.5**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE}
@@ -1876,7 +1880,49 @@ SMD_S_LMA_KO <- run_ML_SMD(df, "TvC_KO","Locomotor activity",0.5 )
 
 Given the small number of studies, meta-analysis was not performed.
 
-# 6 Summary of the evidence
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE}
+#### calculate non completion rate
+c1 <- which(colnames(df) == "n allocated to group at experiment start?")
+c2 <- which(colnames(df) == "n allocated to group at experiment start?_C")
+c3 <- which(colnames(df) == "n allocated to group at experiment start?_I")
+c4 <- which(colnames(df) == "F_S_n")
+c5 <- which(colnames(df) == "F_C_n")
+c6 <- which(colnames(df) == "F_T_n")
+
+Nsdf <- df[,c(c2,c3,c5,c6)]
+Nsdf <- subset(Nsdf, !Nsdf$`n allocated to group at experiment start?_C` == 999)
+Nsdf <- subset(Nsdf, !Nsdf$`n allocated to group at experiment start?_C` == 9999)
+Nsdf$closs <- Nsdf$`n allocated to group at experiment start?_C` - Nsdf$F_C_n
+Nsdf$tloss <- Nsdf$`n allocated to group at experiment start?_I` - Nsdf$F_T_n
+
+Nsdf$cprop <- Nsdf$closs/Nsdf$`n allocated to group at experiment start?_C`
+Nsdf$tprop <- Nsdf$closs/Nsdf$`n allocated to group at experiment start?_I`
+
+
+ctot <- sum(Nsdf$`n allocated to group at experiment start?_C`)
+ttot <- sum(Nsdf$`n allocated to group at experiment start?_I`)
+cltot <- sum(Nsdf$closs)
+tltot <- sum(Nsdf$tloss)
+closs <- cltot/ctot
+tloss <- tltot/ttot
+
+dfi1 <- subset(df, !is.na(df$`Treatment dosing regime[1]_I`))
+dfi2 <- subset(df, !is.na(df$`Treatment dosing regime[2]_I`))
+dfi1a <- as.data.frame(dfi1$`Treatment dosing regime[1]_I`)
+dfi2a <- as.data.frame(dfi2$`Treatment dosing regime[2]_I`)
+colnames(dfi1a) <- colnames(dfi2a) <- "Regime"
+dfi <- rbind(dfi1a, dfi2a)
+dfis <- subset(dfi, dfi$Regime == "Single dose")
+dfisn <- nrow(dfis)
+dfin <- nrow(dfi)
+dfiper <- (dfisn/dfin)*100
+
+```
+
+# 6. Attrition bias and adverse efefcts of treatment
+`r closs*100`% of `r ctot` animals in Control cohorts and `r tloss*100`% of `r ttot` animals in Intervention cohorts 'dropped out' between allocation to group and outcome measurement. Given that `r dfisn` of `r dfin` interventions (`r dfiper`%) were administered as a single dose, treatment emergent adverse effects likely to lead to withdrawal of an animal from the study would be unusual, and technical failure or attrition is more likely. This analysis is based on full reporting of animals excluded from analyses, and it may be that group sizes were specified 'after the event', or that there was unreported replacement of animals excluded during the experiment, so these data should be interpreted with caution.
+
+# 7. Summary of the evidence
 
 Animal and pre-clinical studies
 
@@ -1888,7 +1934,8 @@ This might occur if smaller studies reporting larger effects were disproportiona
 
 Human studies
 
-# 7 Software used
+# 8. Software used
+
 
 ```{r echo=FALSE}
 grateful::cite_packages(output = "paragraph", pkgs = "Session", out.dir = ".")

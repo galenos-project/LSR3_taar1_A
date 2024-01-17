@@ -96,7 +96,7 @@ forest_metafor <- function(model, experiment_type, outcome_title){ #outcome titl
            text(c(-5.5,-3), model$k+5, c("Reporting\n completeness", "Drug"), cex=0.75, font=2)
          } else {
                                forest(model,
-                                      xlim=c(-18,6),
+                                      xlim=c(-30,10),
                                       ylim=c(-2, model$k+4), rows=c((model$k+1):2),
                                       mlab="SMD [95% C.I.]",
                                       alim=c((lower_x-2), (upper_x+2.5)),
@@ -110,12 +110,12 @@ forest_metafor <- function(model, experiment_type, outcome_title){ #outcome titl
                                       order=StudyId,
                                       xlab = "", 
                                       ilab = cbind(ARRIVEScore, Label),
-                                      ilab.xpos = c(-13, -7.7),
+                                      ilab.xpos = c(-22, -12),
                                       cex = 0.6, 
                                       cex.axis = 1.0, 
                                       cex.lab = 1.2,
                                       efac = c(1,1,3))
-           text(c(-13,-7.7), model$k+3, c("Reporting\n completeness", "Comparison"), cex=0.75, font=2)
+           text(c(-22,-12), model$k+3, c("Reporting\n completeness", "Comparison"), cex=0.75, font=2)
          }
          
 cixlower <- model[["ci.lb"]]
@@ -142,8 +142,8 @@ cixhigher <- model[["ci.ub"]]
     
   } else {  
     
-    mtext("Favours control", side = 1, line = 3, at = -4, cex = 1.2, col = "red", font = 1)
-    mtext("Favours TAAR1 agonist", side = 1, line = 3, at = 4, cex = 1.2, col = "darkgreen", font = 1)
+    mtext("Favours control", side = 1, line = 3, at = -10, cex = 1.2, col = "red", font = 1)
+    mtext("Favours TAAR1 agonist", side = 1, line = 3, at = 5, cex = 1.2, col = "darkgreen", font = 1)
     title(paste0("Effect of TAAR1 agonist plus antipsychotic v antipsychotic alone on\n ", outcome_title, " in psychosis (SMD)"))
   }
 }
@@ -1114,7 +1114,8 @@ check_moderator_levels <- function(df, experiment, outcome) {
   return(x)  # Return the formatted string
 }
 
-run_sse_SMD <- function(df, rho_value = 0.5) {
+
+run_sse_SMD_L <- function(df, rho_value = 0.5) {
   
   #  df<-filter_experiment_outcome_type(df, experiment, outcome)
   
@@ -1149,13 +1150,84 @@ run_sse_SMD <- function(df, rho_value = 0.5) {
   return(SMD_sse)
 }
 
-run_sse_plot_SMD <- function(df, rho_value = 0.5) {
+run_sse_SMD_C <- function(df, rho_value = 0.5) {
+  
+  #  df<-filter_experiment_outcome_type(df, experiment, outcome)
+  
+  df<-df %>% 
+    filter(!is.na(SMDv)) %>%
+    filter(outcome_type == "Cognition") %>%
+    filter(SortLabel == "TvC")
+  
+  df <- df %>% mutate(effect_id = row_number()) # add effect_id column
+  df$SMDN <- 1/sqrt(as.numeric(df$NumberOfAnimals_C) + as.numeric(df$NumberOfAnimals_I))
+  
+  #calculate variance-covariance matrix of the sampling errors for dependent effect sizes
+  
+  
+  VCVM_SMD <- vcalc(vi = SMDv,
+                    cluster = StudyId, 
+                    subgroup= ExperimentID_I,
+                    obs=effect_id,
+                    data = df, 
+                    rho = rho_value)
+  
+  SMD_sse <- rma.mv(yi = SMD,
+                    V = VCVM_SMD,
+                    random = ~1 | Strain / StudyId / ExperimentID_I, # nested levels
+                    mods = ~ SMDN, # sampling error (squart root of N);
+                    test = "t", # use t- and F-tests for making inferences
+                    data = df,
+                    dfs="contain",
+                    control=list(optimizer="nlm")
+  )
+  
+  return(SMD_sse)
+}
+
+run_sse_plot_SMD_L <- function(df, rho_value = 0.5) {
   
   #  df<-filter_experiment_outcome_type(df, experiment, outcome)
   
   df<-df %>% 
     filter(!is.na(SMDv)) %>%
     filter(outcome_type == "Locomotor activity") %>%
+    filter(SortLabel == "TvC")
+  
+  df <- df %>% mutate(effect_id = row_number()) # add effect_id column
+  df$SMDN <- 1/sqrt(as.numeric(df$NumberOfAnimals_C) + as.numeric(df$NumberOfAnimals_I))
+  
+  #calculate variance-covariance matrix of the sampling errors for dependent effect sizes
+  
+  
+  VCVM_SMD <- vcalc(vi = SMDv,
+                    cluster = StudyId, 
+                    subgroup= ExperimentID_I,
+                    obs=effect_id,
+                    data = df, 
+                    rho = rho_value)
+  
+  SMD_sse <- rma.mv(yi = SMD,
+                    V = VCVM_SMD,
+                    random = ~1 | Strain / StudyId / ExperimentID_I, # nested levels
+                    mods = ~ SMDN, # sampling error (squart root of N);
+                    test = "t", # use t- and F-tests for making inferences
+                    data = df,
+                    dfs="contain",
+                    control=list(optimizer="nlm")
+  )
+  
+  plot <- bubble_plot(SMD_sse, mod = "SMDN", group = "StudyId", xlab = "1/SQRT(N) associated with SMD estimate", ylab = "SMD estimate", legend.pos = "none")
+  return(plot)
+}
+
+run_sse_plot_SMD_C <- function(df, rho_value = 0.5) {
+  
+  #  df<-filter_experiment_outcome_type(df, experiment, outcome)
+  
+  df<-df %>% 
+    filter(!is.na(SMDv)) %>%
+    filter(outcome_type == "Cognition") %>%
     filter(SortLabel == "TvC")
   
   df <- df %>% mutate(effect_id = row_number()) # add effect_id column

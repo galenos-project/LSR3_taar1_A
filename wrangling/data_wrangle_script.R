@@ -686,6 +686,7 @@ for (i in 1:nrow(group_characteristics)) {
   group <- group_characteristics[i, 1]
   cohset <- data[data$GroupID == as.character(group), ]  
   
+
   # Create combinations of interventions and positive controls
   combinations <- expand.grid(
     Intervention = unique(cohset$CohortLabel [cohset$CohortType == "Simple intervention"]),
@@ -707,25 +708,25 @@ data_TvAs$SortLabel <- "TvA"
 ##### 3.3 T v A without sham - possibility of multiple control (A) conditions #####
 data_TvA <- data.frame()
 
-for (i in 1:nrow(group_characteristics)) {
-  group <- group_characteristics[i, 1]
-  cohset <- data[data$GroupID == as.character(group), ]  
-  
-  # Create combinations of interventions and positive controls
-  combinations <- expand.grid(
-    Intervention = unique(cohset$CohortLabel [cohset$CohortType == "Simple intervention"]),
-    Control = unique(cohset$CohortLabel [cohset$CohortType == "Positive control"])
-  )
-  
-  # Merge combinations with the original data
-  cohset <- combinations %>%
-    left_join(cohset %>% filter(CohortType == "Simple intervention"), by = c("Intervention" = "CohortLabel")) %>%
-    left_join(cohset %>% filter(CohortType == "Positive control"), by = c("Control" = "CohortLabel"))
-  
-  data_TvA <- bind_rows(data_TvA, cohset)
-}
-data_TvA$Label <- paste0(data_TvA$TreatmentLabel.x, " v. ", data_TvA$TreatmentLabel.y)
-data_TvA$SortLabel <- "TvA"
+  for (i in 1:nrow(group_characteristics)) {
+    group <- group_characteristics[i, 1]
+    cohset <- data[data$GroupID == as.character(group), ]  
+    
+    # Create combinations of interventions and positive controls
+    combinations <- expand.grid(
+      Intervention = unique(cohset$CohortLabel [cohset$CohortType == "Simple intervention"]),
+      Control = unique(cohset$CohortLabel [cohset$CohortType == "Positive control"])
+    )
+    
+    # Merge combinations with the original data
+    cohset <- combinations %>%
+      left_join(cohset %>% filter(CohortType == "Simple intervention"), by = c("Intervention" = "CohortLabel")) %>%
+      left_join(cohset %>% filter(CohortType == "Positive control"), by = c("Control" = "CohortLabel"))
+    
+    data_TvA <- bind_rows(data_TvA, cohset)
+  }
+  data_TvA$Label <- paste0(data_TvA$TreatmentLabel.x, " v. ", data_TvA$TreatmentLabel.y)
+  data_TvA$SortLabel <- "TvA"
 
 
 ##### 3.4 TA v A - with sham - possibility of multiple control (A) conditions #####
