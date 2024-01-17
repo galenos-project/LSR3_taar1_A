@@ -68,13 +68,13 @@ forest_metafor <- function(model, experiment_type, outcome_title){ #outcome titl
   lower_x <- floor((min(model[["yi"]])-mean(model[["vi"]])) - 1)
   upper_x <- ceiling((max(model[["yi"]])+mean(model[["vi"]])) + 1)
   summary_x <- model[["beta"]]
-  model[["data"]][["SMD"]] <- round(model[["data"]][["SMD"]],3)
+  model[["data"]][["SMD"]] <- round(model[["data"]][["SMD"]],2)
   
   at_values <- seq(floor(lower_x / 5) * 5, ceiling(upper_x / 5) * 5, by = 5)
   
          forest_plot <- if(experiment_type == "TvC"){
                                forest(model,
-                                      xlim=c((lower_x-10), (upper_x+3)),
+                                      xlim=c((lower_x-8), (upper_x+3)),
                                       ylim=c(-2, model$k+6), rows=c((model$k+2):3),
                                       mlab="SMD [95% C.I.]", 
                                       alim=c((lower_x-4), (upper_x+2)),
@@ -88,12 +88,12 @@ forest_metafor <- function(model, experiment_type, outcome_title){ #outcome titl
                                       order=StudyId,
                                       xlab = "",
                                       ilab = cbind(ARRIVEScore, Label),
-                                      ilab.xpos = c(-7.5, -4.5),
+                                      ilab.xpos = c(-5.5, -3),
                                       cex = 0.6, 
                                       cex.axis = 1.0, 
                                       cex.lab = 1.2,
                                       efac = c(1,1,2))
-           text(c(-7.5,-4.5), model$k+5, c("Reporting\n completeness", "Drug"), cex=0.75, font=2)
+           text(c(-5.5,-3), model$k+5, c("Reporting\n completeness", "Drug"), cex=0.75, font=2)
          } else {
                                forest(model,
                                       xlim=c(-30,10),
@@ -408,7 +408,7 @@ forest_subgroup <- function(modelsumm, moderator, outcome, moderator_text) {
     model <- modelsumm
     colnames(model) <- c('moderator','k','SMD','se','p','ci_l','ci_u','symbol','size','summary','fontfaace','fontsize','d1','d2')
     model$order <- as.numeric(rownames(model))
-    model$estimate_lab = paste0(round(model$SMD,3), " (", round(model$ci_l,3), "-", round(model$ci_u,3),")")
+    model$estimate_lab = paste0(round(model$SMD,2), " (", round(model$ci_l,2), "-", round(model$ci_u,2),")")
     model <- model %>%
       arrange(order) %>%
       mutate(moderator = factor(model[["moderator"]], levels = unique(model[["moderator"]])))
@@ -1114,6 +1114,7 @@ check_moderator_levels <- function(df, experiment, outcome) {
   return(x)  # Return the formatted string
 }
 
+
 run_sse_SMD_L <- function(df, rho_value = 0.5) {
   
   #  df<-filter_experiment_outcome_type(df, experiment, outcome)
@@ -1255,6 +1256,7 @@ run_sse_plot_SMD_C <- function(df, rho_value = 0.5) {
   plot <- bubble_plot(SMD_sse, mod = "SMDN", group = "StudyId", xlab = "1/SQRT(N) associated with SMD estimate", ylab = "SMD estimate", legend.pos = "none")
   return(plot)
 }
+
 subgroup_SMD <- function(df, experiment_type, outcome, moderator, rho_value) {
   # with intercept, to allow calculation of effect of moderators - returns intercept 
   # as beta-coefficient for first category, and beta coefficients for other categories 

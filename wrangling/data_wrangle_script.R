@@ -44,7 +44,7 @@ LSR3_reconciled <- LSR3_SyRFOutcomes %>%
          `Dose of pharmacological induction (units)` = `Dose of pharmacological induction...62`)
 
 ## first pass for removing duplicate reconciliations
-  recent_reconciledID <- LSR3_reconciled %>%
+recent_reconciledID <- LSR3_reconciled %>%
   arrange(desc(DateTimeDataEntered)) %>%
   group_by(StudyId) %>%
   slice(1) %>%
@@ -175,7 +175,7 @@ reconciled_cohort_type <- reconciled_cohort_label %>%
   mutate(CohortType = case_when(
     IsDiseaseModelControl == FALSE & 
       ((Treatment1Type == "TAAR1KO" & (Treatment2Type == "Negative control"| is.na(Treatment2Type))) |
-       (Treatment2Type == "TAAR1KO" & (Treatment1Type == "Negative control"| is.na(Treatment1Type)))) ~ "Negative control for TAAR1KO",
+         (Treatment2Type == "TAAR1KO" & (Treatment1Type == "Negative control"| is.na(Treatment1Type)))) ~ "Negative control for TAAR1KO",
     
     IsDiseaseModelControl == FALSE & 
       ((Treatment1Type == "Negative control"| is.na(Treatment1Type)) & (Treatment2Type == "Negative control"| is.na(Treatment2Type))) ~ "Negative control",
@@ -203,7 +203,7 @@ reconciled_cohort_type <- reconciled_cohort_label %>%
     IsDiseaseModelControl == FALSE & 
       ((Treatment1Type == "Intervention" & Treatment2Type == "Positive control") | 
          (Treatment2Type == "Intervention" & Treatment1Type == "Positive control")) ~ "Combination intervention",
-
+    
     
     IsDiseaseModelControl == TRUE & 
       ((Treatment1Type == "Intervention" & Treatment2Type == "Positive control") | 
@@ -233,10 +233,10 @@ reconciled_cohort_type <- reconciled_cohort_label %>%
     IsDiseaseModelControl == TRUE & 
       ((Treatment1Type == "TAAR1KO" & (Treatment2Type == "Negative control"| is.na(Treatment2Type))) |
          (Treatment2Type == "TAAR1KO" & (Treatment1Type == "Negative control"| is.na(Treatment1Type)))) ~ "Sham for TAAR1KO",
-
-
+    
+    
     IsDiseaseModelControl == TRUE ~ "Sham"
-      )) %>% 
+  )) %>% 
   relocate(CohortType, .after = `InterventionID[2]`) %>% 
   relocate(c(Treatment1Type, Treatment2Type), .after = `InterventionLabel[2]`) %>% 
   relocate(IsDiseaseModelControl, .after = ModelID)
@@ -513,7 +513,7 @@ data_TvCs <- data.frame()
 for (i in 1:nrow(group_characteristics)) {
   group <- group_characteristics[i, 1]
   cohset <- data[data$GroupID == as.character(group), ]  
-
+  
   
   # Create combinations of interventions and positive controls
   combinations <- expand.grid(
@@ -522,16 +522,16 @@ for (i in 1:nrow(group_characteristics)) {
     Sham = unique(cohset$CohortLabel [cohset$CohortType == "Sham"])
   )
   
-if (nrow(combinations) > 0) {
+  if (nrow(combinations) > 0) {
     cohset <- combinations %>%
       left_join(cohset %>% filter(CohortType == "Simple intervention"), by = c("Intervention" = "CohortLabel")) %>%
       left_join(cohset %>% filter(CohortType == "Negative control"), by = c("Control" = "CohortLabel")) %>%
       left_join(cohset %>% filter(CohortType == "Sham"), by = c("Sham" = "CohortLabel"))
     
     if (nrow(cohset) > 0) {
-       data_TvCs <- bind_rows(data_TvCs, cohset)
+      data_TvCs <- bind_rows(data_TvCs, cohset)
     }}}
-    
+
 data_TvCs$Label <- data_TvCs$TreatmentLabel.x
 data_TvCs$SortLabel <- "TvC"
 data_TvCs <- subset(data_TvCs, !is.na(data_TvCs$Intervention) & !is.na(data_TvCs$Control) & !is.na(data_TvCs$Sham))
@@ -582,7 +582,7 @@ for (i in 1:nrow(group_characteristics)) {
       left_join(cohset %>% filter(CohortType == "Sham"), by = c("Sham" = "CohortLabel"))
     
     if (nrow(cohset) > 0) {
-    data_AvCs <- bind_rows(data_AvCs, cohset)
+      data_AvCs <- bind_rows(data_AvCs, cohset)
     }}}
 
 data_AvCs$Label <- data_AvCs$TreatmentLabel.x
@@ -601,13 +601,13 @@ for (i in 1:nrow(group_characteristics)) {
   combinations <- expand.grid(
     Intervention = unique(cohset$CohortLabel [cohset$CohortType == "Positive control"]),
     Control = unique(cohset$CohortLabel [cohset$CohortType == "Negative control"])
-
+    
   )
   
   # Merge combinations with the original data
   cohset <- combinations %>%
     left_join(cohset %>% filter(CohortType == "Positive control"), by = c("Intervention" = "CohortLabel")) %>%
-
+    
     left_join(cohset %>% filter(CohortType == "Negative control"), by = c("Control" = "CohortLabel"))
   
   data_AvC <- bind_rows(data_AvC, cohset)
@@ -647,7 +647,7 @@ for (i in 1:nrow(group_characteristics)) {
     if (nrow(cohset) > 0) {
       data_TvAs <- bind_rows(data_TvAs, cohset)
     }
-}}
+  }}
 
 
 data_TvAs$Label <- paste0(data_TvAs$TreatmentLabel.x, " v. ", data_TvAs$TreatmentLabel.y)
@@ -670,7 +670,7 @@ for (i in 1:nrow(group_characteristics)) {
   
   # Merge combinations with the original data
   cohset <- combinations %>%
-
+    
     left_join(cohset %>% filter(CohortType == "Simple intervention"), by = c("Intervention" = "CohortLabel")) %>%
     left_join(cohset %>% filter(CohortType == "Positive control"), by = c("Control" = "CohortLabel"))
   
@@ -685,6 +685,7 @@ data_TvAs <- data.frame()
 for (i in 1:nrow(group_characteristics)) {
   group <- group_characteristics[i, 1]
   cohset <- data[data$GroupID == as.character(group), ]  
+  
 
   # Create combinations of interventions and positive controls
   combinations <- expand.grid(
@@ -700,13 +701,13 @@ for (i in 1:nrow(group_characteristics)) {
     left_join(cohset %>% filter(CohortType == "Sham"), by = c("Sham" = "CohortLabel"))
   
   data_TvAs <- bind_rows(data_TvAs, cohset)
-  }
-  data_TvAs$Label <- paste0(data_TvAs$TreatmentLabel.x, " v. ", data_TvAs$TreatmentLabel.y)
-  data_TvAs$SortLabel <- "TvA"
-  
-  ##### 3.3 T v A without sham - possibility of multiple control (A) conditions #####
-  data_TvA <- data.frame()
-  
+}
+data_TvAs$Label <- paste0(data_TvAs$TreatmentLabel.x, " v. ", data_TvAs$TreatmentLabel.y)
+data_TvAs$SortLabel <- "TvA"
+
+##### 3.3 T v A without sham - possibility of multiple control (A) conditions #####
+data_TvA <- data.frame()
+
   for (i in 1:nrow(group_characteristics)) {
     group <- group_characteristics[i, 1]
     cohset <- data[data$GroupID == as.character(group), ]  
@@ -726,10 +727,10 @@ for (i in 1:nrow(group_characteristics)) {
   }
   data_TvA$Label <- paste0(data_TvA$TreatmentLabel.x, " v. ", data_TvA$TreatmentLabel.y)
   data_TvA$SortLabel <- "TvA"
-  
-  
-  ##### 3.4 TA v A - with sham - possibility of multiple control (A) conditions #####
-  data_TAvAs <- data.frame()
+
+
+##### 3.4 TA v A - with sham - possibility of multiple control (A) conditions #####
+data_TAvAs <- data.frame()
 
 
 data_TvA$Label <- paste0(data_TvA$TreatmentLabel.x, " v. ", data_TvA$TreatmentLabel.y)
@@ -738,7 +739,7 @@ data_TvA <- subset(data_TvA, !is.na(data_TvA$Intervention) & !is.na(data_TvA$Con
 
 data_sub_TvA <- subset(data_TvA, !data_TvA$GroupID.x %in% data_TvAs$GroupID.x)
 data_TvAc <- bind_rows(data_TvAs, data_sub_TvA)
-  
+
 ##### 3.4.1 TA v A - with sham - possibility of multiple control (A) conditions #####
 
 data_TAvAs <- data.frame()
@@ -753,15 +754,15 @@ for (i in 1:nrow(group_characteristics)) {
     Control = unique(cohset$CohortLabel[cohset$CohortType == "Positive control"]),
     Sham = unique(cohset$CohortLabel[cohset$CohortType == "Sham"])
   )
-
+  
   if (nrow(combinations) > 0) {
-      cohset <- combinations %>%
+    cohset <- combinations %>%
       left_join(cohset %>% filter(CohortType == "Combination intervention"), by = c("Intervention" = "CohortLabel")) %>%
       left_join(cohset %>% filter(CohortType == "Positive control"), by = c("Control" = "CohortLabel")) %>%
       left_join(cohset %>% filter(CohortType == "Sham"), by = c("Sham" = "CohortLabel"))
-
+    
     if (nrow(cohset) > 0) {
-     data_TAvAs <- bind_rows(data_TAvAs, cohset)
+      data_TAvAs <- bind_rows(data_TAvAs, cohset)
     }
   }}
 
@@ -1083,7 +1084,7 @@ df <- df %>%
 df <- df %>% 
   mutate(`Measurement unit of treatment dose:[1]` = str_replace_all(`Measurement unit of treatment dose:[1]`, "miligrams \\(mg\\) per kg", "mg/kg"),
          `Measurement unit of treatment dose:[2]` = str_replace_all(`Measurement unit of treatment dose:[2]`, "miligrams \\(mg\\) per kg", "mg/kg")
-         ) 
+  ) 
 
 ### Duration of treatment (categorical)
 
@@ -1260,4 +1261,3 @@ df <- df %>%
 # SAVE FILE
 savefile_output <- paste0(LSR,'_','clean_data_',Sys.Date(),'.csv')
 write.csv(df, savefile_output, row.names = FALSE)
-
