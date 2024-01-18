@@ -81,10 +81,7 @@ run_ML_SMD <- function(df, experiment, outcome, rho_value) {
 }
 
 
-forest_metafor <- function(model, experiment_type, outcome_title){ #outcome title is what you want outcome to be written as, it doesn't have to match outcome type
-  
-  # this tests whetehr the model exists; and if so, returns the forest plot from the rma.mv object
-  
+forest_metafor <- function(model, experiment_type, outcome_title) {
   if(!is.null(model)){
   
   
@@ -116,7 +113,7 @@ forest_metafor <- function(model, experiment_type, outcome_title){ #outcome titl
                                       cex.axis = 1.0, 
                                       cex.lab = 1.2,
                                       efac = c(1,1,2))
-           text(c(-5.5,-3), model$k+5, c("Reporting\n completeness", "Drug"), cex=0.75, font=2)
+           text(c(-5.5,-3), model$k+6, c("Reporting\n completeness", "Drug"), cex=0.75, font=2)
          } else {
                                forest(model,
                                       xlim=c(-30,10),
@@ -154,23 +151,27 @@ cixhigher <- model[["ci.ub"]]
     #mtext(paste0("SMD: ", round(model$beta, 2), " (", round(model$ci.lb, 2), " to ", round(model$ci.ub, 2), ")"), side = 3, line = -1, cex = 1, font = 2)
     title(paste0("TAAR1 agonists effect on ", outcome_title, " compared with\nconventional antipsychotic in psychosis (SMD)"))
     
-  } else if (experiment_type == "AvC") {
+  } else if (experiment_type == "TvC_KO") {
     mtext("Favours control", side = 1, line = 3, at = -4, cex = 1.1, col = "red", font = 1)
 
-    mtext("Favours conventional \nantipsychotic", side = 1, line = 3, at = 4, cex = 1.1, col = "darkgreen", font = 1)
+    mtext("Favours treatment", side = 1, line = 3, at = 4, cex = 1.1, col = "darkgreen", font = 1)
 
     #addpoly(model, row = 0.25, cex = 0.4, col = "darkred", mlab = "SMD", annotate = FALSE, xvals = c(cixlower, cixhigher))    
     #mtext(paste0("SMD: ", round(model$beta, 2), " (", round(model$ci.lb, 2), " to ", round(model$ci.ub, 2), ")"), side = 3, line = -1, cex = 1, font = 2)
-    title(paste0("Conventional antipsychotic effect on ", outcome_title, "\nin psychosis (SMD)"))
+    title(paste0("Effect (SMD) of TAAR1 agonists on ", outcome_title, "\nin the context of TAAR1 receptor knockout "))
     
-  } else {  
+  } else if (experiment_type == "TAvA") {  
     
     mtext("Favours control", side = 1, line = 3, at = -10, cex = 1.2, col = "red", font = 1)
     mtext("Favours TAAR1 agonist", side = 1, line = 3, at = 5, cex = 1.2, col = "darkgreen", font = 1)
     title(paste0("Effect of TAAR1 agonist plus antipsychotic v antipsychotic alone on\n ", outcome_title, " in psychosis (SMD)"))
-  }
+  } else {
+    mtext("Favours control", side = 1, line = 3, at = -5, cex = 1.2, col = "red", font = 1)
+mtext("Favours TAAR1 agonist", side = 1, line = 3, at = 5, cex = 1.2, col = "darkgreen", font = 1)
+title(paste0("Effect of TAAR1 agonist on\n ", outcome_title, " in psychosis (SMD)"))
+
 }
-}
+}}
 
 subgroup_analysis <- function(df, experiment_type, outcome, moderator, rho_value) {
   # this returns a table of effect sizes etc by moderator, for passing to 'forest_subgroup'
@@ -1455,7 +1456,7 @@ metaregression_analysisI <- function(df, experiment_type, outcome, moderator, rh
     regression_plot = x))
 }
 
-### straigh MA: SMD, REML
+### straight MA: SMD, REML
 
 run_SMD <- function(df, experiment, outcome) {
   df <- filter_experiment_outcome_type(df, experiment, outcome)
@@ -1482,8 +1483,3 @@ run_SMD <- function(df, experiment, outcome) {
   
   return(SMD_ML)
 }
-
-
-
-
-
