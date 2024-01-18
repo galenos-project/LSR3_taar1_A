@@ -592,7 +592,7 @@ The p-value for the association between whether the drug was highly selective, o
 
 #### Potency of intervention
 
-The pEC50 value of each drug was used to measure potency. The pEC50 value is the negative logarithm (to base 10) of the EC50 value. Higher pEC50 values indicate higher potency (as they indicate a lower EC50). Figure x displays a visualisation of the meta-regression using the pEC50 value as an explanatory variable. Dashed lines represent the 95% confidence interval of the regression line. The dotted lines represent the 95% prediction interval. Raw data is plotted with 'bubble' size adjusted according to effect size precision.
+The pEC50 value of each drug was used to measure potency. The pEC50 value is the negative logarithm (to base 10) of the EC50 value. Higher pEC50 values indicate higher potency (as they indicate a lower EC50). Figure x displays a visualisation of the meta-regression using the pEC50 value as an explanatory variable. Dashed lines represent the 95% confidence interval of the regression line. The dotted lines represent the 95% prediction interval. Raw data are plotted with 'bubble' size adjusted according to effect size precision.
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 SMD_S_LMA_potency <- metaregression_analysis(df, "TvC", "Locomotor activity", "pE50", 0.5)
@@ -609,7 +609,7 @@ The estimate for $\beta$ was `r SMD_S_LMA_potency$metaregression_summary$beta[2]
 
 #### Dose of intervention
 
-In this iteration of the review, the TAAR1 agonists tested against control for their effect on locomotor activity were: **`r drugs <- df %>% filter(SortLabel == "TvC") %>% filter(outcome_type == "Locomotor activity") %>% group_by(DrugName) %>% summarise(count = n()) %>% arrange(desc(count)) %>% pull(DrugName); if (length(drugs) > 1) {paste(paste(head(drugs, -1), collapse = ", "), "and", tail(drugs, 1))} else {drugs}`**. Meta-regression using the administered dose as an explanatory variable was conducted for each drug where this had been reported in 10 or more experiments from 3 or more publications. Where there are sufficient data, the dashed lines in the plot represents the 95% confidence interval of the regression line and the dotted lines represent the 95% prediction interval. Raw data is plotted with point size adjusted according to effect size precision.
+In this iteration of the review, the TAAR1 agonists tested against control for their effect on locomotor activity were: **`r drugs <- df %>% filter(SortLabel == "TvC") %>% filter(outcome_type == "Locomotor activity") %>% group_by(DrugName) %>% summarise(count = n()) %>% arrange(desc(count)) %>% pull(DrugName); if (length(drugs) > 1) {paste(paste(head(drugs, -1), collapse = ", "), "and", tail(drugs, 1))} else {drugs}`**. Meta-regression using the administered dose as an explanatory variable was conducted for each drug where this had been reported in 10 or more experiments from 3 or more publications. Where there are sufficient data, the dashed lines in the plot represents the 95% confidence interval of the regression line and the dotted lines represent the 95% prediction interval. Raw data are plotted with point size adjusted according to effect size precision.
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 SMD_S_LMA_RO5203648_dose <- metaregression_analysis_by_drug(df, "TvC", "Locomotor activity", "RO5203648", "DoseOfIntervention_mgkg", 0.5)
@@ -865,7 +865,7 @@ $$
 
 The actual concentration of a drug at the receptor site is influenced by several variables, including dosage, administration route, elimination half-life, and first-pass metabolism (in case of oral administration). Incorporating all these factors accurately would necessitate a detailed pharmacokinetic model, which falls outside the scope of this review. Consequently, we assume uniformity across experiments in terms of (i) volume of distribution, (ii) first-pass metabolism, (iii) blood-brain barrier permeability, and (iv) experimental design, especially regarding the timing of peak drug concentration (where we assume that experiments were designed to be done at a time when the drug was near peak concentration).
 
-Figure 2.1.4.9 provides a visualisation of the meta-regression analysis relationship between standardised doses of TAAR1 agonists and the Standardized Mean Difference (SMD) change in Locomotor activity. As before, dashed lines represent the 95% confidence interval of the regression line and dotted lines represent the 95% prediction interval. Raw data is plotted with point size adjusted according to effect size precision.
+Figure 2.1.4.9 provides a visualisation of the meta-regression analysis relationship between standardised doses of TAAR1 agonists and the Standardized Mean Difference (SMD) change in Locomotor activity. As before, dashed lines represent the 95% confidence interval of the regression line and dotted lines represent the 95% prediction interval. Raw data are plotted with point size adjusted according to effect size precision.
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 
@@ -1269,7 +1269,7 @@ The p-value for the association between whether the drug was highly selective, o
 
 #### Potency of interventions
 
-The pEC50 value of each drug was used to measure potency. The pEC50 value is the negative logarithm (to base 10) of the EC50 value. Higher pEC50 values indicate higher potency (as they indicate a lower EC50). Figure x displays a visualisation of the meta-regression using the pEC50 value as an explanatory variable. Dashed lines represent the 95% confidence interval of the regression line. The dotted lines represent the 95% prediction interval. Raw data is plotted with 'bubble' size adjusted according to effect size precision.
+The pEC50 value of each drug was used to measure potency. The pEC50 value is the negative logarithm (to base 10) of the EC50 value. Higher pEC50 values indicate higher potency (as they indicate a lower EC50). Figure x displays a visualisation of the meta-regression using the pEC50 value as an explanatory variable. Dashed lines represent the 95% confidence interval of the regression line. The dotted lines represent the 95% prediction interval. Raw data are plotted with 'bubble' size adjusted according to effect size precision.
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 
@@ -1286,7 +1286,7 @@ The estimate for $\beta$ was `r SMD_S_Cog_potency$metaregression_summary$beta[2]
 
 #### Dose of intervention
 
-In this iteration of the review, the TAAR1 agonists tested against control for their effect on cognition were; **`r drugs <- df %>% filter(SortLabel == "TvC") %>% filter(outcome_type == "Cognition") %>% group_by(DrugName) %>% summarise(count = n()) %>% arrange(desc(count)) %>% pull(DrugName); if (length(drugs) > 1) {paste(paste(head(drugs, -1), collapse = ", "), "and", tail(drugs, 1))} else {drugs}`**. Meta-regression using the administered dose as an explanatory variable was conducted for each drug where this had been reported in 10 or more experiments from 3 or more publications. Where there are sufficient data, the dashed lines in the plot represents the 95% confidence interval of the regression line and the dotted lines represent the 95% prediction interval. Raw data is plotted with point size adjusted according to effect size precision.
+In this iteration of the review, the TAAR1 agonists tested against control for their effect on cognition were; **`r drugs <- df %>% filter(SortLabel == "TvC") %>% filter(outcome_type == "Cognition") %>% group_by(DrugName) %>% summarise(count = n()) %>% arrange(desc(count)) %>% pull(DrugName); if (length(drugs) > 1) {paste(paste(head(drugs, -1), collapse = ", "), "and", tail(drugs, 1))} else {drugs}`**. Meta-regression using the administered dose as an explanatory variable was conducted for each drug where this had been reported in 10 or more experiments from 3 or more publications. Where there are sufficient data, the dashed lines in the plot represents the 95% confidence interval of the regression line and the dotted lines represent the 95% prediction interval. Raw data are plotted with point size adjusted according to effect size precision.
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 SMD_S_Cog_RO5203648_dose <- metaregression_analysis_by_drug(df, "TvC", "Cognition", "RO5203648", "DoseOfIntervention_mgkg", 0.5)
@@ -1532,7 +1532,7 @@ output_text0 <- paste0("AP163: There were ", diag3, " comparisons from ", diag2,
 
 We then sought evidence of a dose response relationship across all drugs using the approach described for locomotor activity.
 
-Figure 2.2.4.7 provides a visualisation of the meta-regression analysis relationship between standardised doses of TAAR1 agonists and the Standardized Mean Difference (SMD) change in cognition. As before, dashed lines represent the 95% confidence interval of the regression line and dotted lines represent the 95% prediction interval. Raw data is plotted with point size adjusted according to effect size precision.
+Figure 2.2.4.7 provides a visualisation of the meta-regression analysis relationship between standardised doses of TAAR1 agonists and the Standardized Mean Difference (SMD) change in cognition. As before, dashed lines represent the 95% confidence interval of the regression line and dotted lines represent the 95% prediction interval. Raw data are plotted with point size adjusted according to effect size precision.
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 
@@ -1979,13 +1979,17 @@ if (any(df$SortLabel == "TvC_KO" & df$outcome_type == "Cognition")) {
 ```
 
 ```{r echo=FALSE}
- if (any(class(SMD_S_Cog_KO) == "rma.mv")) {
+ if (any(df$SortLabel == "TvC_KO" & df$outcome_type == "Cognition")) {
+   if (any(class(SMD_S_Cog_KO) == "rma.mv")) {
   output_text1 <- "For combination studies, the effect of administering a TAAR1 agonist plus a conventional antipsychotic drug, compared with TAAR1 agonist alone, on cognitive function in animals using SMD as the effect size is shown in Figure 4.2. The pooled estimate for SMD across all individual comparisons is displayed as a diamond shape at the bottom of the plot. Dotted lines indicate the prediction interval of the pooled estimate."
   output_text2 <- "Figure 5.1"
 } else {
   output_text1 <- "Multilevel analysis is only performed if there are 5 levels or more for at least one of Strain, Study and Experiment, and that is not the case here. We provide a conventional univariate random effects model to illustrate the data"
   output_text2 <- ""
 }
+     output_text1 <- "No studies reported cognitive outcomes in TAAR1 knockout animals"
+  output_text2 <- ""
+ }
 ```
 
 `r output_text1`
@@ -1999,16 +2003,20 @@ if (any(df$SortLabel == "TvC_KO" & df$outcome_type == "Cognition")) {
 ```
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=10}
- if (!any(class(SMD_S_Cog_KO) == "rma.mv")) {
-   if (any(df$SortLabel == "TvC_KO" & df$outcome_type == "Cognition")) {
+    if (any(df$SortLabel == "TvC_KO" & df$outcome_type == "Cognition")) {
+      if (!any(class(SMD_S_Cog_KO) == "rma.mv")) {
    forest_metafor(SMD_Cog_KO, "TvC_KO","Cognition") }}
 ```
 
 ```{r echo = FALSE}
+   if (any(df$SortLabel == "TvC_KO" & df$outcome_type == "Cognition")) {
  if (any(class(SMD_S_Cog_KO) == "rma.mv")) {
   output_text3 <- paste0("For combination experiments, TAAR1 agonists with antipsychotic drugs, compared with antipsychotic drugs alone, had a pooled effect on cognition of SMD =", round(SMD_S_Cog_TAA[['beta']], 3), " (95% CI: ", round(SMD_S_Cog_TAA[['ci.lb']], 3), " to ", round(SMD_S_Cog_TAA[['ci.ub']], 3),", with a prediction interval of ", round(predict(SMD_S_Cog_TAA)$pi.lb, 3), " to ", round(predict(SMD_S_Cog_TAA)$pi.ub, 3), ").")
     output_text4 <- paste0(`r SMD_S_Cog_TAA$k`," experimental comparisons were reported in ",`r SMD_S_Cog_TAA$s.nlevels[3]`," experiments reported from ",`r SMD_S_Cog_TAA$s.nlevels[2]`," publications and involving ",`r SMD_S_Cog_TAA$s.nlevels[1]`," different animal strains. The between strain variance was ",`r SMD_S_Cog_TAA$sigma2[1]`,", the between study variance ",`r SMD_S_Cog_TAA$sigma2[2]`," and the within-experiment variance ",`r SMD_S_Cog_TAA$sigma2[3]`,".")
 } else {
+  output_text3 <- ""
+  output_text4 <- ""
+}
   output_text3 <- ""
   output_text4 <- ""
 }
