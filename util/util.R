@@ -9,40 +9,62 @@ filter_experiment_outcome_type <- function(df, experiment_type, outcome) {
   return(df_by_experiment_outcome)
 }
 
-run_ML_SMD <- function(df, experiment, outcome, rho_value) {
-# this returns an rma.mv object representing the meta-analysis of 
+create_formula <- function(factor_names, data) {
+  distinct_levels <- sapply(factor_names, function(factor) n_distinct(data[[factor]]))
   
-  df<-filter_experiment_outcome_type(df, experiment, outcome)
+  if (all(distinct_levels < 5)) {
+    # If all factors have fewer than 5 distinct levels, return NULL
+    return(NULL)
+  }
+  
+  selected_factors <- factor_names[distinct_levels >= 5]
+  
+  if (length(selected_factors) == 0) {
+    # If none of the factors has enough levels, use a default grouping variable
+    formula_str <- "~1"
+  } else {
+    formula_str <- paste("~ 1 |", paste(selected_factors, collapse = "/"))
+  }
+  
+  formula_obj <- as.formula(formula_str)
+  return(formula_obj)
+}
 
-  df<-df %>% 
-    filter(!is.na(SMDv))
   
-  # Check if data comes from 2 or more unique studies
-  if (n_distinct(df$StudyId) > 1) {
+run_ML_SMD <- function(df, experiment, outcome, rho_value) {
+  df <- filter_experiment_outcome_type(df, experiment, outcome)
+  df <- df %>% filter(!is.na(SMDv))
+  
+  # List of factors to consider
+  factors_to_consider <- c("Strain", "StudyId", "ExperimentID_I")
+  
+  # Create the random effects formula
+  random_formula <- create_formula(factors_to_consider, df)
+  
+  if (is.null(random_formula)) {
+    cat("Insufficient levels for random effects grouping. Skipping meta-analysis.\n")
+    return(NULL)
+  }
   
   df <- df %>% mutate(effect_id = row_number()) # add effect_id column
   
-  #calculate variance-covariance matrix of the sampling errors for dependent effect sizes
-  
+  # calculate variance-covariance matrix of the sampling errors for dependent effect sizes
   VCVM_SMD <- vcalc(vi = SMDv,
                     cluster = StudyId, 
-                    subgroup= ExperimentID_I,
-                    obs=effect_id,
+                    subgroup = ExperimentID_I,
+                    obs = effect_id,
                     data = df, 
                     rho = rho_value)
   
+  # Use the formula in your rma.mv model
   SMD_ML <- rma.mv(yi = SMD,
                    V = VCVM_SMD,
-                   random = ~1 | Strain / StudyId / ExperimentID_I, # nested levels
-                   test = "t", # use t- and F-tests for making inferences
+                   random = random_formula,
+                   test = "t",
                    data = df,
-                   dfs="contain",
-                   control=list(optimizer="nlm")
+                   dfs = "contain",
+                   control = list(optimizer = "nlm")
   )
-  
-  #if (length(unique(df$StudyId)) > 1) {
-    #SMD_ML <- robust(SMD_ML, cluster = StudyId, clubSandwich = FALSE)
-  #}
   
   cat("Meta analysis summary:\n")
   print(summary(SMD_ML))
@@ -56,7 +78,8 @@ run_ML_SMD <- function(df, experiment, outcome, rho_value) {
   print(pred_interval)
   
   return(SMD_ML)
-}}
+}
+
 
 forest_metafor <- function(model, experiment_type, outcome_title){ #outcome title is what you want outcome to be written as, it doesn't have to match outcome type
   
@@ -1431,4 +1454,36 @@ metaregression_analysisI <- function(df, experiment_type, outcome, moderator, rh
     metaregression_summary = metaregression_summary,
     regression_plot = x))
 }
+
+### straigh MA: SMD, REML
+
+run_SMD <- function(df, experiment, outcome) {
+  df <- filter_experiment_outcome_type(df, experiment, outcome)
+  df <- df %>% filter(!is.na(SMDv))
+  df$SMD <- as.numeric(df$SMD)
+  df$SMDv <- as.numeric(df$SMDv)
+  
+  SMD_ML <- rma.uni(yi = SMD,
+                    vi = SMDv,
+                    method = "REML",
+                    test = "t",
+                    data = df)
+  
+  cat("Meta analysis summary:\n")
+  print(summary(SMD_ML))
+  
+  cat("\n-------------------------\n")
+  
+  cat("Prediction Interval:\n")
+  
+  pred_interval <- predict(SMD_ML)
+  
+  print(pred_interval)
+  
+  return(SMD_ML)
+}
+
+
+
+
 
