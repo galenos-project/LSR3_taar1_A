@@ -1739,7 +1739,7 @@ SMD_S_LMA_H2H <- run_ML_SMD(df, "TvA", "Locomotor activity", 0.5)
   output_text1 <- "In TAAR1 Agonist v known antipsychotic drug studies, the effect of administering a TAAR1 agonist on Locomotor activity in animals using SMD as the effect size is shown in Figure 3.1. The pooled estimate for SMD across all individual comparisons is displayed as a diamond shape at the bottom of the plot. Dotted lines indicate the prediction interval of the pooled estimate."
   output_text2 <- "Figure 3.1"
 } else {
-  output_text1 <- "Analysis is only performed if outcomes have been reported in more than one publication. There are not sufficient data for this analysis."
+  output_text1 <- "Multilevel analysis is only performed if there are 5 levels or more for at least one of Strain, Study and Experiment, and that is not the case here."
 }
 ```
 
@@ -1749,6 +1749,11 @@ SMD_S_LMA_H2H <- run_ML_SMD(df, "TvA", "Locomotor activity", 0.5)
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=10}
 forest_metafor(SMD_S_LMA_H2H, "TvA", "locomotor activity")
+```
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=10}
+ if (!any(class(SMD_S_LMA_H2H) == "rma.mv")) {
+   forest_metafor(SMD_LMA_H2H, "TAvA","Locomotor activity")}
 ```
 
 ```{r echo=FALSE}
@@ -1770,11 +1775,15 @@ SMD_S_Cog_H2H <- run_ML_SMD(df, "TvA", "Cognition", 0.5)
 ```
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_Cog_H2H <- run_SMD(df, "TvA", "Cognition")
+```
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
  if (any(class(SMD_S_Cog_H2H) == "rma.mv")) {
   output_text1 <- "In TAAR1 Agonist v known antipsychotic drug studies, the effect of administering a TAAR1 agonist on cognitive outcomes in animals using SMD as the effect size is shown in Figure 3.2. The pooled estimate for SMD across all individual comparisons is displayed as a diamond shape at the bottom of the plot. Dotted lines indicate the prediction interval of the pooled estimate."
   output_text2 <- "Figure 3.2"
 } else {
-  output_text1 <- "Analysis is only performed if outcomes have been reported in more than one publication. There are not sufficient data for this analysis."
+  output_text1 <- "Multilevel analysis is only performed if there are 5 levels or more for at least one of Strain, Study and Experiment, and that is not the case here. We provide a conventional univariate random effects model to illustrate the data"
   output_text2 <- ""
 }
 ```
@@ -1784,20 +1793,27 @@ SMD_S_Cog_H2H <- run_ML_SMD(df, "TvA", "Cognition", 0.5)
 **`r output_text2`**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=10}
-forest_metafor(SMD_S_Cog_H2H, "TvA","Cognition")
+forest_metafor(SMD_S_Cog_H2H, "TvA", "Cognition")
+```
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=10}
+ if (!any(class(SMD_S_Cog_H2H) == "rma.mv")) {
+   forest_metafor(SMD_Cog_H2H, "TAvA","Cognition")}
 ```
 
 ```{r echo=FALSE}
  if (any(class(SMD_S_Cog_H2H) == "rma.mv")) {
   output_text3 <- paste0("For TAAR1 Agonist v known antipsychotic drug comparisons, TAAR1 interventions had a pooled effect on cognitive outcomes of SMD = `r SMD_S_Cog_H2H[['beta']]` (95% CI: `r SMD_S_Cog_H2H[['ci.lb']]` to `r SMD_S_Cog_H2H[['ci.ub']]`) with a prediction interval of `r predict(SMD_S_Cog_H2H)$pi.lb` to `r predict(SMD_S_Cog_H2H)$pi.ub`).")
+  output_text4 <- paste0(`r SMD_S_Cog_H2H$k`," experimental comparisons were reported in ",`r SMD_S_Cog_H2H$s.nlevels"[3]`," experiments reported from ",`r SMD_S_Cog_H2H$s.nlevels[2]`," publications and involving ",`r SMD_S_Cog_H2Hs.nlevels[1]`," different animal strains. The between strain variance was ",`r SMD_S_Cog_H2H$sigma2[1]`,", the between study variance ",`r SMD_S_Cog_H2H$sigma2[2]`," and the within-experiment variance ",`r SMD_S_Cog_H2H$sigma2[3]`,".")
 } else {
   output_text3 <- ""
+  output_text4 <- ""
 }
 ```
 
 `r output_text3`
 
-<!-- `r SMD_S_Cog_H2H[["k"]]` experimental comparisons were reported in `r SMD_S_Cog_H2H[["s.nlevels"]][3]` experiments reported from `r SMD_S_Cog_H2H[["s.nlevels"]][2]` publications and involving `r SMD_S_Cog_H2H[["s.nlevels"]][1]` different animal strains. The between strain variance was `r SMD_S_Cog_H2H$sigma2[1]`, the between study variance `r SMD_S_Cog_H2H$sigma2[2]` and the within-experiment variance `r SMD_S_Cog_H2H$sigma2[3]`. -->
+`r output_text4`
 
 # 4 Co-treatment with TAAR1 agonist plus know antipsychotic drug v known antipsychotic drug alone
 
@@ -1807,12 +1823,16 @@ forest_metafor(SMD_S_Cog_H2H, "TvA","Cognition")
 SMD_S_LMA_TAA <- run_ML_SMD(df, "TAvA", "Locomotor activity", 0.5)
 ```
 
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_LMA_TAA <- run_SMD(df, "TAvA", "Locomotor activity")
+```
+
 ```{r echo=FALSE}
  if (any(class(SMD_S_LMA_TAA) == "rma.mv")) {
   output_text1 <- "For combination studies, the effect of administering a TAAR1 agonist plus a conventional antipsychotic drug, compared with TAAR1 agonist alone, on locomotor activity in animals using SMD as the effect size is shown in Figure 4.1. The pooled estimate for SMD across all individual comparisons is displayed as a diamond shape at the bottom of the plot. Dotted lines indicate the prediction interval of the pooled estimate."
   output_text2 <- "Figure 4.1"
 } else {
-  output_text1 <- "Analysis is only performed if outcomes have been reported in more than one publication. There are not sufficient data for this analysis."
+  output_text1 <- "Multilevel analysis is only performed if there are 5 levels or more for at least one of Strain, Study and Experiment, and that is not the case here. We provide a conventional univariate random effects model to illustrate the data"
   output_text2 <- ""
 }
 ```
@@ -1825,10 +1845,17 @@ SMD_S_LMA_TAA <- run_ML_SMD(df, "TAvA", "Locomotor activity", 0.5)
 forest_metafor(SMD_S_LMA_TAA, "TAvA","Locomotor activity")
 ```
 
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=10}
+ if (!any(class(SMD_S_LMA_TAA) == "rma.mv")) {
+   forest_metafor(SMD_LMA_TAA, "TAvA","Locomotor activity")}
+```
+
+
 ```{r echo = FALSE}
 # Check if the object is NULL
  if (any(class(SMD_S_LMA_TAA) == "rma.mv")) {
   output_text3 <- paste0("For combination experiments, TAAR1 agonists with antipsychotic drugs, compared with antipsychotic drugs alone, had a pooled effect on locomotor activity of SMD =", round(SMD_S_LMA_TAA[['beta']], 3), " (95% CI: ", round(SMD_S_LMA_TAA[['ci.lb']], 3), " to ", round(SMD_S_LMA_TAA[['ci.ub']], 3),", with a prediction interval of ", round(predict(SMD_S_LMA_TAA)$pi.lb, 3), " to ", round(predict(SMD_S_LMA_TAA)$pi.ub, 3), ").")
+  output_text4 <- paste0(`r SMD_S_LMA_TAA$k`," experimental comparisons were reported in ",`r SMD_S_LMA_TAA$s.nlevels[3]`," experiments reported from ",`r SMD_S_LMA_TAA$s.nlevels[2]`," publications and involving ",`r SMD_S_LMA_TAA$s.nlevels[1]`," different animal strains. The between strain variance was ",`r SMD_S_LMA_TAA$sigma2[1]`,", the between study variance ",`r SMD_S_LMA_TAA$sigma2[2]`," and the within-experiment variance ",`r SMD_S_LMA_TAA$sigma2[3]`,".")
 } else {
   output_text3 <- ""
 }
@@ -1837,12 +1864,14 @@ forest_metafor(SMD_S_LMA_TAA, "TAvA","Locomotor activity")
 
 `r output_text3`
 
-`r SMD_S_LMA_TAA[["k"]]` experimental comparisons were reported in `r SMD_S_LMA_TAA[["s.nlevels"]][3]` experiments reported from `r SMD_S_LMA_TAA[["s.nlevels"]][2]` publications and involving `r SMD_S_LMA_TAA[["s.nlevels"]][1]` different animal strains. The between strain variance was `r SMD_S_LMA_TAA$sigma2[1]`, the between study variance `r SMD_S_LMA_TAA$sigma2[2]` and the within-experiment variance `r SMD_S_LMA_TAA$sigma2[3]`.
-
 ## 4.2 Outcome 2: Cognition
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 SMD_S_Cog_TAA <- run_ML_SMD(df, "TAvA", "Cognition", 0.5)
+```
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_Cog_TAA <- run_SMD(df, "TAvA", "Cognition")
 ```
 
 ```{r echo=FALSE}
@@ -1850,7 +1879,7 @@ SMD_S_Cog_TAA <- run_ML_SMD(df, "TAvA", "Cognition", 0.5)
   output_text1 <- "For combination studies, the effect of administering a TAAR1 agonist plus a conventional antipsychotic drug, compared with TAAR1 agonist alone, on cognitive function in animals using SMD as the effect size is shown in Figure 4.2. The pooled estimate for SMD across all individual comparisons is displayed as a diamond shape at the bottom of the plot. Dotted lines indicate the prediction interval of the pooled estimate."
   output_text2 <- "Figure 4.2"
 } else {
-  output_text1 <- "Analysis is only performed if outcomes have been reported in more than one publication. There are not sufficient data for this analysis."
+  output_text1 <- "Multilevel analysis is only performed if there are 5 levels or more for at least one of Strain, Study and Experiment, and that is not the case here. We provide a conventional univariate random effects model to illustrate the data"
   output_text2 <- ""
 }
 ```
@@ -1863,28 +1892,132 @@ SMD_S_Cog_TAA <- run_ML_SMD(df, "TAvA", "Cognition", 0.5)
 forest_metafor(SMD_S_Cog_TAA, "TAvA","Cognition")
 ```
 
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=10}
+ if (!any(class(SMD_S_Cog_TAA) == "rma.mv")) {
+   forest_metafor(SMD_Cog_TAA, "TAvA","Cognition")}
+```
+
 ```{r echo = FALSE}
  if (any(class(SMD_S_Cog_TAA) == "rma.mv")) {
   output_text3 <- paste0("For combination experiments, TAAR1 agonists with antipsychotic drugs, compared with antipsychotic drugs alone, had a pooled effect on cognition of SMD =", round(SMD_S_Cog_TAA[['beta']], 3), " (95% CI: ", round(SMD_S_Cog_TAA[['ci.lb']], 3), " to ", round(SMD_S_Cog_TAA[['ci.ub']], 3),", with a prediction interval of ", round(predict(SMD_S_Cog_TAA)$pi.lb, 3), " to ", round(predict(SMD_S_Cog_TAA)$pi.ub, 3), ").")
+    output_text4 <- paste0(`r SMD_S_Cog_TAA$k`," experimental comparisons were reported in ",`r SMD_S_Cog_TAA$s.nlevels[3]`," experiments reported from ",`r SMD_S_Cog_TAA$s.nlevels[2]`," publications and involving ",`r SMD_S_Cog_TAA$s.nlevels[1]`," different animal strains. The between strain variance was ",`r SMD_S_Cog_TAA$sigma2[1]`,", the between study variance ",`r SMD_S_Cog_TAA$sigma2[2]`," and the within-experiment variance ",`r SMD_S_Cog_TAA$sigma2[3]`,".")
 } else {
   output_text3 <- ""
+  output_text4 <- ""
 }
 
 ```
 
 `r output_text3`
 
-<!-- `r SMD_S_Cog_TAA[["k"]]` experimental comparisons were reported in `r SMD_S_Cog_TAA[["s.nlevels"]][3]` experiments reported from `r SMD_S_Cog_TAA[["s.nlevels"]][2]` publications and involving `r SMD_S_Cog_TAA[["s.nlevels"]][1]` different animal strains. The between strain variance was `r SMD_S_Cog_TAA$sigma2[1]`, the between study variance `r SMD_S_Cog_TAA$sigma2[2]` and the within-experiment variance `r SMD_S_Cog_TAA$sigma2[3]`. -->
+`r output_text4`
+
 
 # 5 Effect of TAAR1 agonists in TAAR1 receptor knockout animals
 
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=10}
+## 5.2 Outcome 1: Locomotor activity
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, message = FALSE, fig.height=10}
 SMD_S_LMA_KO <- run_ML_SMD(df, "TvC_KO","Locomotor activity",0.5 )
 ```
 
-<!-- `r SMD_S_LMA_KO[["k"]]` experimental comparisons were reported in `r SMD_S_LMA_KO[["s.nlevels"]][3]` experiments reported from `r SMD_S_LMA_KO[["s.nlevels"]][2]` publications and involving `r SMD_S_LMA_KO[["s.nlevels"]][1]` different animal strains. -->
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_LMA_KO <- run_SMD(df, "TvC_KO","Locomotor activity")
+```
 
-Given the small number of studies, meta-analysis was not performed.
+```{r echo=FALSE}
+ if (any(class(SMD_S_LMA_KO) == "rma.mv")) {
+  output_text1 <- "For combination studies, the effect of administering a TAAR1 agonist plus a conventional antipsychotic drug, compared with TAAR1 agonist alone, on cognitive function in animals using SMD as the effect size is shown in Figure 4.2. The pooled estimate for SMD across all individual comparisons is displayed as a diamond shape at the bottom of the plot. Dotted lines indicate the prediction interval of the pooled estimate."
+  output_text2 <- "Figure 5.1"
+} else {
+  output_text1 <- "Multilevel analysis is only performed if there are 5 levels or more for at least one of Strain, Study and Experiment, and that is not the case here. We provide a conventional univariate random effects model to illustrate the data"
+  output_text2 <- ""
+}
+```
+
+`r output_text1`
+
+**`r output_text2`**
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=10}
+forest_metafor(SMD_S_LMA_KO, "TvC_KO","Locomotor activity")
+```
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=10}
+ if (!any(class(SMD_S_LMA_KO) == "rma.mv")) {
+   forest_metafor(SMD_LMA_KO, "TvC_KO","Locomotor activity") }
+```
+
+```{r echo = FALSE}
+ if (any(class(SMD_S_LMA_KO) == "rma.mv")) {
+  output_text3 <- paste0("For combination experiments, TAAR1 agonists with antipsychotic drugs, compared with antipsychotic drugs alone, had a pooled effect on cognition of SMD =", round(SMD_S_Cog_TAA[['beta']], 3), " (95% CI: ", round(SMD_S_Cog_TAA[['ci.lb']], 3), " to ", round(SMD_S_Cog_TAA[['ci.ub']], 3),", with a prediction interval of ", round(predict(SMD_S_Cog_TAA)$pi.lb, 3), " to ", round(predict(SMD_S_Cog_TAA)$pi.ub, 3), ").")
+    output_text4 <- paste0(`r SMD_S_Cog_TAA$k`," experimental comparisons were reported in ",`r SMD_S_Cog_TAA$s.nlevels[3]`," experiments reported from ",`r SMD_S_Cog_TAA$s.nlevels[2]`," publications and involving ",`r SMD_S_Cog_TAA$s.nlevels[1]`," different animal strains. The between strain variance was ",`r SMD_S_Cog_TAA$sigma2[1]`,", the between study variance ",`r SMD_S_Cog_TAA$sigma2[2]`," and the within-experiment variance ",`r SMD_S_Cog_TAA$sigma2[3]`,".")
+} else {
+  output_text3 <- ""
+  output_text4 <- ""
+}
+
+```
+
+`r output_text3`
+
+`r output_text4`
+
+## 5.2 Outcome 2: Cognition
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, message = FALSE, fig.height=10}
+if (any(df$SortLabel == "TvC_KO" & df$outcome_type == "Cognition")) {
+  SMD_S_Cog_KO <- run_ML_SMD(df, "TvC_KO","Cognition",0.5 )
+}
+```
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, message + false, echo = FALSE, results='hide'}
+if (any(df$SortLabel == "TvC_KO" & df$outcome_type == "Cognition")) {
+  SMD_Cog_KO <- run_SMD(df, "TvC_KO", "Cognition")
+}
+
+```
+
+```{r echo=FALSE}
+ if (any(class(SMD_S_Cog_KO) == "rma.mv")) {
+  output_text1 <- "For combination studies, the effect of administering a TAAR1 agonist plus a conventional antipsychotic drug, compared with TAAR1 agonist alone, on cognitive function in animals using SMD as the effect size is shown in Figure 4.2. The pooled estimate for SMD across all individual comparisons is displayed as a diamond shape at the bottom of the plot. Dotted lines indicate the prediction interval of the pooled estimate."
+  output_text2 <- "Figure 5.1"
+} else {
+  output_text1 <- "Multilevel analysis is only performed if there are 5 levels or more for at least one of Strain, Study and Experiment, and that is not the case here. We provide a conventional univariate random effects model to illustrate the data"
+  output_text2 <- ""
+}
+```
+
+`r output_text1`
+
+**`r output_text2`**
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=10}
+if (any(df$SortLabel == "TvC_KO" & df$outcome_type == "Cognition")) {
+  forest_metafor(SMD_S_Cog_KO, "TvC_KO","Cognition")
+}
+```
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=10}
+ if (!any(class(SMD_S_Cog_KO) == "rma.mv")) {
+   if (any(df$SortLabel == "TvC_KO" & df$outcome_type == "Cognition")) {
+   forest_metafor(SMD_Cog_KO, "TvC_KO","Cognition") }}
+```
+
+```{r echo = FALSE}
+ if (any(class(SMD_S_Cog_KO) == "rma.mv")) {
+  output_text3 <- paste0("For combination experiments, TAAR1 agonists with antipsychotic drugs, compared with antipsychotic drugs alone, had a pooled effect on cognition of SMD =", round(SMD_S_Cog_TAA[['beta']], 3), " (95% CI: ", round(SMD_S_Cog_TAA[['ci.lb']], 3), " to ", round(SMD_S_Cog_TAA[['ci.ub']], 3),", with a prediction interval of ", round(predict(SMD_S_Cog_TAA)$pi.lb, 3), " to ", round(predict(SMD_S_Cog_TAA)$pi.ub, 3), ").")
+    output_text4 <- paste0(`r SMD_S_Cog_TAA$k`," experimental comparisons were reported in ",`r SMD_S_Cog_TAA$s.nlevels[3]`," experiments reported from ",`r SMD_S_Cog_TAA$s.nlevels[2]`," publications and involving ",`r SMD_S_Cog_TAA$s.nlevels[1]`," different animal strains. The between strain variance was ",`r SMD_S_Cog_TAA$sigma2[1]`,", the between study variance ",`r SMD_S_Cog_TAA$sigma2[2]`," and the within-experiment variance ",`r SMD_S_Cog_TAA$sigma2[3]`,".")
+} else {
+  output_text3 <- ""
+  output_text4 <- ""
+}
+
+```
+
+`r output_text3`
+
+`r output_text4`
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE}
 #### calculate non completion rate
