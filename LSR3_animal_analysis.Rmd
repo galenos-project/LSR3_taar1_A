@@ -274,6 +274,8 @@ The scales and units used to measure outcomes in preclinical studies often diffe
 
 No studies were excluded on the basis of extreme effect sizes reported.
 
+For some experimental contrasts, more than one locomotor or cognitive outcome - for instance both horizontal and vertical climbing activity - was measured in the same cohort of animals. Alternatively, some publications used the same drug doses with the same outcome measures in different experiments. For these reasons, some of the forest plots may appear to include 'duplicate' Study - Drug - Dose combinations with different outcomes. For the later, these are accounted for in the heirarchical analysis, but for the former there were insufficient levels of the different locomotor or cognitive outcome measureds to allow for hierachical analysis and so this was not performed. 
+
 # 2 TAAR1 Agonists v Control
 
 ```{r # Split df by experiment and outcome type into dataframes to simply inline code below - TAAR1 Agonist v Control, eval = TRUE, echo = FALSE}
