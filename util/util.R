@@ -90,7 +90,7 @@ forest_metafor <- function(model, experiment_type, outcome_title) {
   summary_x <- model[["beta"]]
   model[["data"]][["SMD"]] <- round(model[["data"]][["SMD"]],2)
   
-  at_values <- seq(floor(lower_x / 5) * 5, ceiling(upper_x / 5) * 5, by = 5)
+  at_values <- seq(floor(lower_x / 5) * 5, ceiling(upper_x / 5) * 5, by = 2.5)
   
          forest_plot <- if(experiment_type == "TvC"){
                                forest(model,
@@ -109,6 +109,7 @@ forest_metafor <- function(model, experiment_type, outcome_title) {
                                       xlab = "",
                                       ilab = cbind(ARRIVEScore, Label),
                                       ilab.xpos = c(-5.5, -3),
+                                      lty = c("solid","solid","solid"),
                                       cex = 0.6, 
                                       cex.axis = 1.0, 
                                       cex.lab = 1.2,
@@ -134,6 +135,7 @@ forest_metafor <- function(model, experiment_type, outcome_title) {
                                       cex = 0.6, 
                                       cex.axis = 1.0, 
                                       cex.lab = 1.2,
+                                      lty = c("solid","solid","solid"),
                                       efac = c(1,1,3))
            text(c(-22,-12), model$k+3, c("Reporting\n completeness", "Comparison"), cex=0.75, font=2)
          }

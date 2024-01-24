@@ -90,7 +90,6 @@ editor_options:
 
 8.  Software used
 
-
 ```{r setup, message=F, echo=F, include=F}
 ### libraries
 library(ggplot2)
@@ -173,7 +172,6 @@ PRISMA_flowdiagram(dfp, interactive=FALSE, previous=FALSE, other=FALSE,
                     arrow_colour="Black", arrow_head="normal", arrow_tail="none", side_boxes=TRUE )
 
 ```
-
 
 The table below gives a summary of the included studies, the model and species used, the intervention tested, and the outcome measured. N represents an aggregate of animals contributing to outcomes reported from control and treatment groups, and if the same control group has contributed to more than one experiment, it will be counted twice.
 
@@ -276,8 +274,9 @@ The scales and units used to measure outcomes in preclinical studies often diffe
 
 No studies were excluded on the basis of extreme effect sizes reported.
 
-# 2 TAAR1 Agonists v Control
+For some experimental contrasts, more than one locomotor or cognitive outcome - for instance both horizontal and vertical climbing activity - was measured in the same cohort of animals. Alternatively, some publications used the same drug doses with the same outcome measures in different experiments. For these reasons, some of the forest plots may appear to include 'duplicate' Study - Drug - Dose combinations with different outcomes. For the later, these are accounted for in the heirarchical analysis, but for the former there were insufficient levels of the different locomotor or cognitive outcome measureds to allow for hierachical analysis and so this was not performed. 
 
+# 2 TAAR1 Agonists v Control
 
 ```{r # Split df by experiment and outcome type into dataframes to simply inline code below - TAAR1 Agonist v Control, eval = TRUE, echo = FALSE}
 df_S <- filter(df, SortLabel == "TvC")
@@ -289,7 +288,6 @@ df_S_stereo <- filter_experiment_outcome_type(df, "TvC", "Stereotypy")
 ```
 
 `r length(table(df_S$StudyId))` studies (`r nrow(df%>%filter(SortLabel == "TvC"))` comparisons) investigated the effects of TAAR1 Agonist versus Control. The number of studies and individual effect sizes for each outcome were:
-
 
 -   Locomotor activity\*: `r length(table(df_S_LMA$StudyId))` studies and `r nrow(df_S_LMA)` comparisons in `r {strains <- unique(df_S_LMA$Strain); if (length(strains) > 1) paste(length(strains), "strains") else paste(length(strains), "strain")}`
 
@@ -303,7 +301,6 @@ df_S_stereo <- filter_experiment_outcome_type(df, "TvC", "Stereotypy")
 
 \* These outcomes were identified in the study protocol as primary outcomes of interest.
 
-
 Only one publication reported each of prepulse inhibition (a primary outcome), social interaction, and stereotypy, and so these outcomes are not analysed further.
 
 ## 2.1 Outcome 1: Locomotor Activity
@@ -313,7 +310,6 @@ Only one publication reported each of prepulse inhibition (a primary outcome), s
 Figure 2.1.1a shows the risk of bias summary for studies investigating the effect of administering a TAAR1 agonist on locomotor activity in animals. The risk of bias assessment was performed using the SyRCLE's RoB tool. Figure 2.1.1b shows the corresponding traffic light plot.
 
 **Figure 2.1.1a**
-
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height = 8}
 SyRCLE_RoB_summary(df, "TvC", "Locomotor activity")
@@ -326,7 +322,6 @@ SyRCLE_RoB_traffic(df, "TvC", "Locomotor activity")
 ```
 
 ### 2.1.2 Reporting completeness
-
 
 Figure 2.1.2a shows the reporting completeness summary for studies investigating the effect of administering a TAAR1 agonist on locomotor activity in animals. The reporting completeness assessment was performed using the ARRIVE guidelines. Figure 2.1.2b shows the corresponding traffic light plot.
 
@@ -344,7 +339,6 @@ ARRIVE_traffic(df, "TvC", "Locomotor activity")
 ```
 
 ### 2.1.3 Meta-analysis
-
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 SMD_S_LMA <- run_ML_SMD(df, "TvC", "Locomotor activity", 0.5)
@@ -384,7 +378,6 @@ forest_metafor(SMD_S_LMA, "TvC", "Locomotor activity")
 
 ### 2.1.4 Subgroup analyses and meta-regressions
 
-
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 options(scipen=100, digits=3)
 ```
@@ -421,7 +414,6 @@ Figure 2.1.4.1 displays the estimates for the pooled SMD's when comparisons are 
 
 **Figure 2.1.4.1**
 
-
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 SMD_S_LMA_sex <- subgroup_analysis(df, "TvC", "Locomotor activity", "Sex", 0.5)
 ```
@@ -441,7 +433,6 @@ The p-value for the association between the sex of animal groups used and outcom
 Figure 2.1.4.2 displays the estimates for the pooled SMD's when comparisons are stratified by the category of disease induction. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by category of disease induction, is displayed as a diamond shape at the bottom of the plot.
 
 **Figure 2.1.4.2**
-
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', fig.width=20, fig.height=4}
 SMD_S_LMA_CatDisInd <- subgroup_analysis(df, "TvC", "Locomotor activity", "CategoryDiseaseInduction", 0.5)
@@ -482,7 +473,6 @@ The p-value for the association between the route of intervention administration
 Figure 2.1.4.4 displays the estimates for the pooled SMD's when comparisons are stratified by whether the intervention was administered prophylactically or therapeutically. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by whether the intervention was administered prophylactically or therapeutically, is displayed as a diamond shape at the bottom of the plot.
 
 **Figure 2.1.4.4**
-
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', fig.width=9, fig.height=3}
 SMD_S_LMA_ProphThera <- subgroup_analysis(df, "TvC", "Locomotor activity", "ProphylacticOrTherapeutic", 0.5)
@@ -1084,8 +1074,6 @@ run_sse_plot_SMD_L(df)
 
 Egger regression based on `r run_sse_SMD_L(df)[["k"]]` studies of TAAR1 Agonist v Control where Locomotor activity was measured showed a coefficient for a small study effect of `r run_sse_SMD_L(df)[["beta"]][2]` (95% CI: `r run_sse_SMD_L(df)[["ci.lb"]][2]` to `r run_sse_SMD_L(df)[["ci.ub"]][2]`; p = `r ifelse(run_sse_SMD_L(df)[["pval"]][2] < 0.001, "<0.001", sprintf("%.3f", run_sse_SMD_L(df)[["pval"]][2]))`) in the context of a baseline estimate of effect of `r run_sse_SMD_L(df)[["beta"]][1]` (95% CI: `r run_sse_SMD_L(df)[["ci.lb"]][1]` to `r run_sse_SMD_L(df)[["ci.ub"]][1]`; p = `r ifelse(run_sse_SMD_L(df)[["pval"]][2] < 0.001, "<0.001", sprintf("%.3f", run_sse_SMD_L(df)[["pval"]][1]))`).
 
-
-
 ## 2.2 Outcome 2: Cognitive function
 
 ### 2.2.1 Risks of bias
@@ -1278,6 +1266,7 @@ SMD_S_Cog_potency <- metaregression_analysis(df, "TvC", "Cognition", "pE50", 0.5
 ```
 
 **Figure 2.2.4.6**
+
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
 SMD_S_Cog_potency$regression_plot
 ```
@@ -1703,7 +1692,7 @@ The effect of administering a TAAR1 agonist on cognition in animals using NMD as
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 NMD_S_cog <- run_ML_NMD(df, "TvC", "Cognition", 0.5)
 ```
-ia
+
 **Figure 2.2.5**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE}
@@ -1724,7 +1713,6 @@ run_sse_plot_SMD_C(df)
 ```
 
 Egger regression based on `r run_sse_SMD_C(df)[["k"]]` studies of TAAR1 Agonist v Control where Locomotor activity was measured showed a coefficient for a small study effect of `r run_sse_SMD_C(df)[["beta"]][2]` (95% CI: `r run_sse_SMD_C(df)[["ci.lb"]][2]` to `r run_sse_SMD_C(df)[["ci.ub"]][2]`; p = `r ifelse(run_sse_SMD_C(df)[["pval"]][2] < 0.001, "<0.001", sprintf("%.3f", run_sse_SMD_C(df)[["pval"]][2]))`) in the context of a baseline estimate of effect of `r run_sse_SMD_C(df)[["beta"]][1]` (95% CI: `r run_sse_SMD_C(df)[["ci.lb"]][1]` to `r run_sse_SMD_C(df)[["ci.ub"]][1]`; p = `r ifelse(run_sse_SMD_C(df)[["pval"]][2] < 0.001, "<0.001", sprintf("%.3f", run_sse_SMD_C(df)[["pval"]][1]))`).
-
 
 # 3 TAAR1 Agonist v known antipsychotic drug
 
@@ -1850,7 +1838,6 @@ forest_metafor(SMD_S_LMA_TAA, "TAvA","Locomotor activity")
    forest_metafor(SMD_LMA_TAA, "TAvA","Locomotor activity")}
 ```
 
-
 ```{r echo = FALSE}
 # Check if the object is NULL
  if (any(class(SMD_S_LMA_TAA) == "rma.mv")) {
@@ -1912,12 +1899,11 @@ forest_metafor(SMD_S_Cog_TAA, "TAvA","Cognition")
 
 `r output_text4`
 
-
 # 5 Effect of TAAR1 agonists in TAAR1 receptor knockout animals
 
 ## 5.2 Outcome 1: Locomotor activity
 
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, message = FALSE, fig.height=10}
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 SMD_S_LMA_KO <- run_ML_SMD(df, "TvC_KO","Locomotor activity",0.5 )
 ```
 
@@ -1987,7 +1973,8 @@ if (any(df$SortLabel == "TvC_KO" & df$outcome_type == "Cognition")) {
   output_text1 <- "Multilevel analysis is only performed if there are 5 levels or more for at least one of Strain, Study and Experiment, and that is not the case here. We provide a conventional univariate random effects model to illustrate the data"
   output_text2 <- ""
 }
-     output_text1 <- "No studies reported cognitive outcomes in TAAR1 knockout animals"
+   } else {
+  output_text1 <- "No studies reported cognitive outcomes in TAAR1 knockout animals"
   output_text2 <- ""
  }
 ```
@@ -2066,23 +2053,41 @@ dfiper <- (dfisn/dfin)*100
 
 ```
 
-# 6. Attrition bias and adverse efefcts of treatment
+# 6. Attrition bias and adverse effects of treatment
+
 `r closs*100`% of `r ctot` animals in Control cohorts and `r tloss*100`% of `r ttot` animals in Intervention cohorts 'dropped out' between allocation to group and outcome measurement. Given that `r dfisn` of `r dfin` interventions (`r dfiper`%) were administered as a single dose, treatment emergent adverse effects likely to lead to withdrawal of an animal from the study would be unusual, and technical failure or attrition is more likely. This analysis is based on full reporting of animals excluded from analyses, and it may be that group sizes were specified 'after the event', or that there was unreported replacement of animals excluded during the experiment, so these data should be interpreted with caution.
 
 # 7. Summary of the evidence
 
-Animal and pre-clinical studies
+No studies were of low risk of bias or low reporting bias. Egger Regression suggested that smaller studies report larger effects.
 
-No studies were of low risk of bias or low reporting bias Egger Regression suggested that smaller studies report larger effects.
+This might occur if smaller studies reporting larger effects were disproportionately represented in those studies for which NMD was not evaluable those which did not report performance in a sham group.
 
-<p>
+Bias due to indirectness was assessed as follows.
 
-This might occur if smaller studies reporting larger effects were disproportionately represented in those studies for which NMD was not evaluable those which did not report performance in a sham group. Bias due to indirectness was assessed as follows. The <strong>Initial organism Homological validity</strong> We assessed rodents as having moderate validity as a non primate mammalian species, and all experiments included here were conducted in rodents. Further, `r SMD_S_LMA_CatDisInd %>% filter(CategoryDiseaseInduction == "Genetic") %>% pull(k)` experiments reporting locomotor activity and `r SMD_S_Cog_CatDisInd %>% filter(CategoryDiseaseInduction == "Genetic") %>% pull(k)` experiments reporting cognition used a genetic manipulation in a gene DAT known to be associated with human disease. <strong>Early environment factors inducing transition from initial organism to vulnerable organism Ontopathogenic validity</strong> Aside from the genetic models above, no models manipulated early environmental factors. <strong>Triggering factors inducing transition from Vulnerable organism to Pathological organism</strong> were commonly used e.g. cocaine, amphetamine, PCP but usually only with short term exposures trigerring increased locomotor activity. It was not possible to assess <strong>Pathological Organism Mechanistic validity</strong> whether the neurobiological or cognitive mechanisms which operate in human disease could be observed in the animal models used or <strong>Triggering factors inducing changes in biomarkers Induction validity</strong> because these were not assessed. <strong>Therapeutic agents inducing changes in outcome</strong> There was some evidence to support directness in that known antipsychotic drugs had observed efficacy in improving locomotor activity. <strong>Biological markers</strong> There were insufficient studies reporting neuotransmitter levels and no studies reported brain imaging outcomes. <strong>Behavioural manifestations Ethological validity</strong> Most experiments reported locomotor activity, but `r SMD_S_Cog[["k"]]` experiments reported some form of cognitive outcome, and in these there was no significant effect of TAAR1 agonists (`r SMD_S_Cog$beta`), 95% CI: `r SMD_S_Cog$ci.lb` to `r SMD_S_Cog$ci.ub`.
+The <strong>Initial organism Homological validity</strong>
 
-Human studies
+We assessed rodents as having moderate validity as a non primate mammalian species, and all experiments included here were conducted in rodents. Further, `r SMD_S_LMA_CatDisInd %>% filter(CategoryDiseaseInduction == "Genetic") %>% pull(k)` experiments reporting locomotor activity and `r SMD_S_Cog_CatDisInd %>% filter(CategoryDiseaseInduction == "Genetic") %>% pull(k)` experiments reporting cognition used a genetic manipulation in a gene DAT known to be associated with human disease.
+
+<strong>Early environment factors inducing transition from initial organism to vulnerable organism Ontopathogenic validity</strong>
+
+Aside from the genetic models above, no models manipulated early environmental factors.
+
+<strong>Triggering factors inducing transition from Vulnerable organism to Pathological organism</strong> were commonly used e.g. cocaine, amphetamine, PCP but usually only with short term exposures trigerring increased locomotor activity. It was not possible to assess <strong>Pathological Organism Mechanistic validity</strong> whether the neurobiological or cognitive mechanisms which operate in human disease could be observed in the animal models used or <strong>Triggering factors inducing changes in biomarkers Induction validity</strong> because these were not assessed.
+
+<strong>Therapeutic agents inducing changes in outcome</strong>
+
+There was some evidence to support directness in that known antipsychotic drugs had observed efficacy in improving locomotor activity.
+
+<strong>Biological markers</strong>
+
+There were insufficient studies reporting neuotransmitter levels and no studies reported brain imaging outcomes.
+
+<strong>Behavioural manifestations Ethological validity</strong>
+
+Most experiments reported locomotor activity, but `r SMD_S_Cog[["k"]]` experiments reported some form of cognitive outcome, and in these there was no significant effect of TAAR1 agonists (`r SMD_S_Cog$beta`), 95% CI: `r SMD_S_Cog$ci.lb` to `r SMD_S_Cog$ci.ub`.
 
 # 8. Software used
-
 
 ```{r echo=FALSE}
 grateful::cite_packages(output = "paragraph", pkgs = "Session", out.dir = ".")
