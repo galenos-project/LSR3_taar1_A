@@ -879,7 +879,7 @@ SMD_S_LMA_StandardDose <- metaregression_analysis(df, "TvC", "Locomotor activity
 SMD_S_LMA_StandardDose$regression_plot
 ```
 
-The estimate for the change in effect per log unit change in standardised does was`r SMD_S_LMA_StandardDose$metaregression_summary$beta[1]` (p = `r round(SMD_S_LMA_StandardDose[["metaregression"]][["k"]],3)`). The between-strain variance was `r SMD_S_LMA_StandardDose$metaregression$sigma2[1]`, the between-study variance `r SMD_S_LMA_StandardDose$metaregression$sigma2[2]`, and the within-experiment variance `r SMD_S_LMA_StandardDose$metaregression$sigma2[3]`.
+The estimate for the change in effect per log unit change in standardised dose was `r SMD_S_LMA_StandardDose$metaregression_summary$beta[1]` (p = `r round(SMD_S_LMA_StandardDose[["metaregression"]][["k"]],3)`). The between-strain variance was `r SMD_S_LMA_StandardDose$metaregression$sigma2[1]`, the between-study variance `r SMD_S_LMA_StandardDose$metaregression$sigma2[2]`, and the within-experiment variance `r SMD_S_LMA_StandardDose$metaregression$sigma2[3]`.
 
 #### SyRCLE RoB assessment
 
