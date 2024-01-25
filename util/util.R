@@ -114,11 +114,11 @@ forest_metafor <- function(model, experiment_type, outcome_title) {
                                       cex.axis = 0.8, 
                                       cex.lab = 1.2,
                                       efac = c(1,1,2))
-           text(c(-5.5,-3), model$k+5, c("Reporting\n completeness", "Drug"), cex=0.75, font=2)
+           text(c(-5.5,-3), model$k+5, c("Reporting completeness", "Drug"), cex=0.75, font=2)
          } else {
                                forest(model,
-                                      xlim=c(-30,10),
-                                      ylim=c(-2, model$k+4), rows=c((model$k+1):2),
+                                      xlim=c((lower_x-27),(upper_x+5)),
+                                      ylim=c(-2, model$k+4), #rows=c((model$k+1):2),
                                       mlab="SMD [95% C.I.]",
                                       alim=c((lower_x-2), (upper_x+2.5)),
                                       slab=paste(word(Authors, 1), Year, Strain),
@@ -131,13 +131,13 @@ forest_metafor <- function(model, experiment_type, outcome_title) {
                                       order=StudyId,
                                       xlab = "", 
                                       ilab = cbind(ARRIVEScore, Label),
-                                      ilab.xpos = c(-22, -12),
+                                      ilab.xpos = c(-20.5, -10.5),
                                       cex = 0.8, 
                                       cex.axis = 0.8, 
                                       cex.lab = 1.2,
                                       lty = c("solid","dashed","solid"),
                                       efac = c(1,1,3))
-           text(c(-22,-12), model$k+3, c("Reporting\n completeness", "Comparison"), cex=0.75, font=2)
+           text(c(-20.5,-10.5), model$k+3, c("Reporting\n completeness", "Comparison"), cex=0.8, font=2)
          }
          
 cixlower <- model[["ci.lb"]]

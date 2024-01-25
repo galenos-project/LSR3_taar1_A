@@ -346,7 +346,7 @@ SMD_S_LMA <- run_ML_SMD(df, "TvC", "Locomotor activity", 0.5)
 
 **`r output_text2`**
 
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=20, fig.width=12}
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=22, fig.width=12}
 forest_metafor(SMD_S_LMA, "TvC", "Locomotor activity")
 ```
 
@@ -957,7 +957,7 @@ SMD_S_LMA_DrugSelectivityI <- subgroup_SMDI(df, "TvC", "Locomotor activity", "Se
 The table below shows which of the covariates, if any, explain some of the heterogeneity observed in the effect sizes of the effect of TAAR1 agonists on locomotor activity. We present marginal R^2^, which measures the proportion of variance explained by including moderators in the model (the % change in the between-studies variance when the covariate is included in the model, in other words the % of the heterogeneity explained by the variable). The coefficients are derived form an RMA model fitted with an intercept (and so represent, for each category, the point estimate and 95% CIs of the effect in that category).
 
 |                Moderator                 |        Category         |                      $\beta$                      |                                                 95% CI                                                  |                          Marginal R^2^ (%)                          |
-|:-----------:|:-----------:|:-----------:|:------------------:|:-----------:|
+|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|
 |              Overall effect              |           \-            |               `r SMD_S_LMA$beta[1]`               |                                `r SMD_S_LMA$ci.lb` - `r SMD_S_LMA$ci.ub`                                |                                 \-                                  |
 |                   Sex                    |           \-            |                        \-                         |                                                   \-                                                    |            `r round((r2_ml(SMD_S_LMA_sexI)[1]*100),1)`%             |
 |                    \-                    |        *Female*         |            `r SMD_S_LMA_sexI$beta[1]`             |                        `r SMD_S_LMA_sexI$ci.lb[1]` - `r SMD_S_LMA_sexI$ci.ub[1]`                        |                                 \-                                  |
@@ -1049,6 +1049,17 @@ For TAAR1 Agonist v Control, TAAR1 interventions had a pooled effect on locomoto
 
 `r NMD_S_LMA[["k"]]` experimental comparisons were reported in `r NMD_S_LMA[["s.nlevels"]][3]` experiments reported from `r NMD_S_LMA[["s.nlevels"]][2]` publications and involving `r NMD_S_LMA[["s.nlevels"]][1]` different animal strains. Between-strain variance was `r round(NMD_S_LMA$sigma2[1], 3)`, between-study variance was `r round(NMD_S_LMA$sigma2[2], 3)`, and within-study variance (between experiments) was `r round(NMD_S_LMA$sigma2[3], 3)`.
 
+#### Robust variance estimator (RVE)
+
+```{r warning=FALSE, eval = TRUE, echo = FALSE}
+SMD_S_LMA_RVE <- robust(SMD_S_LMA, cluster = Strain, clubSandwich=T, verbose=T)
+```
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=20, fig.width=12}
+forest_metafor(SMD_S_LMA_RVE, "TvC", "Locomotor activity")
+
+```
+
 ### 2.1.6 Reporting bias/small-study effects
 
 Because of the relationship between SMD effect sizes and variance inherent in their calculation, where study size is small the standard approach to seeking evidence of small-study effects (regression based tests including Egger's regression test for multilevel meta-analysis) can lead to over-estimation of small-study effect (see for instance 10.7554/eLife.24260). To address this we used Egger's regression test for multilevel meta-analysis, with regression of SMD effect size against 1/√N, where N is the total number of animals involved in an experiment.
@@ -1110,7 +1121,7 @@ if (any(class(SMD_S_Cog) == "rma.mv")) {
 
 **`r output_text1`**
 
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=7}
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=7, fig.width=10}
 forest_metafor(SMD_S_Cog, "TvC", "cognition")
 ```
 
@@ -1119,7 +1130,6 @@ if (any(class(SMD_S_Cog) == "rma.mv")) {
   output_text3 <- paste0("For TAAR1 Agonist v Control, TAAR1 interventions had a pooled effect on cognitive outcomes of SMD =", round(SMD_S_Cog[['beta']], 3), " (95% CI: ", round(SMD_S_Cog[['ci.lb']], 3), " to ", round(SMD_S_Cog[['ci.ub']], 3), ", with a prediction interval of", round(predict(SMD_S_Cog)$pi.lb, 3), " to ", round(predict(SMD_S_Cog)$pi.ub, 3),").")
 } else {
   output_text3 <- "Analysis is only performed if outcomes have been reported in more than one publication. There are not sufficient data for this analysis."
-
 }
 ```
 
@@ -1620,7 +1630,7 @@ The estimate for $\beta$ was `r SMD_S_cog_ARR2$metaregression_summary$beta[2]` (
 The table below shows which of the covariates, if any, explain some of the heterogeneity observed in the effect sizes of the effect of TAAR1 agonists on cognition. We present marginal R^2^, which measures the proportion of variance explained by including moderators in the model.
 
 |              Moderator              |        Category         |                      $\beta$                      |                                                 95% CI                                                  |                          Marginal R^2^ (%)                          |
-|:-----------:|:-----------:|:-----------:|:-------------------:|:-----------:|
+|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|
 |           Overall effect            |           \-            |               `r SMD_S_Cog$beta[1]`               |                                `r SMD_S_Cog$ci.lb` - `r SMD_S_Cog$ci.ub`                                |                                 \-                                  |
 |                 Sex                 |           \-            |                        \-                         |                                                   \-                                                    |            `r round((r2_ml(SMD_S_Cog_sexI)[1]*100),1)`%             |
 |                 \-                  |        *Female*         |            `r SMD_S_Cog_sexI$beta[1]`             |                        `r SMD_S_Cog_sexI$ci.lb[1]` - `r SMD_S_Cog_sexI$ci.ub[1]`                        |                                 \-                                  |
@@ -1681,7 +1691,7 @@ NMD_S_cog <- run_ML_NMD(df, "TvC", "Cognition", 0.5)
 
 **Figure 2.2.5 - Forest plot of TAAR1 agonist vs control on cognitive function using NMD**
 
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE}
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=9, fig.width=11}
 forest_metafor_NMD(NMD_S_cog, "Cognition")
 ```
 
@@ -1721,11 +1731,11 @@ SMD_S_LMA_H2H <- run_ML_SMD(df, "TvA", "Locomotor activity", 0.5)
 
 **`r output_text2`**
 
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=10, fig.width=12}
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=9, fig.width=12}
 forest_metafor(SMD_S_LMA_H2H, "TvA", "locomotor activity")
 ```
 
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=10, fig.width=12}
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=9, fig.width=12}
  if (!any(class(SMD_S_LMA_H2H) == "rma.mv")) {
    forest_metafor(SMD_LMA_H2H, "TvA","Locomotor activity")}
 ```
@@ -1766,11 +1776,11 @@ SMD_Cog_H2H <- run_SMD(df, "TvA", "Cognition")
 
 **`r output_text2`**
 
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=9, fig.width=11}
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=6, fig.width=10}
 forest_metafor(SMD_S_Cog_H2H, "TvA", "Cognition")
 ```
 
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=9, fig.width=11}
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=6, fig.width=10}
  if (!any(class(SMD_S_Cog_H2H) == "rma.mv")) {
    forest_metafor(SMD_Cog_H2H, "TvA","Cognition")}
 ```
@@ -1815,11 +1825,11 @@ SMD_LMA_TAA <- run_SMD(df, "TAvA", "Locomotor activity")
 
 **`r output_text2`**
 
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=10, fig.width=12}
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=9, fig.width=12}
 forest_metafor(SMD_S_LMA_TAA, "TAvA","Locomotor activity")
 ```
 
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=10, fig.width=12}
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=9, fig.width=12}
  if (!any(class(SMD_S_LMA_TAA) == "rma.mv")) {
    forest_metafor(SMD_LMA_TAA, "TAvA","Locomotor activity")}
 ```
@@ -1861,11 +1871,11 @@ SMD_Cog_TAA <- run_SMD(df, "TAvA", "Cognition")
 
 **`r output_text2`**
 
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=9, fig.width=11}
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=7, fig.width=11}
 forest_metafor(SMD_S_Cog_TAA, "TAvA","Cognition")
 ```
 
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=9, fig.width=11}
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=7, fig.width=11}
  if (!any(class(SMD_S_Cog_TAA) == "rma.mv")) {
    forest_metafor(SMD_Cog_TAA, "TAvA","Cognition")}
 ```
@@ -1911,11 +1921,11 @@ SMD_LMA_KO <- run_SMD(df, "TvC_KO","Locomotor activity")
 
 **`r output_text2`**
 
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=8, fig.width=11}
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=8, fig.width=10}
 forest_metafor(SMD_S_LMA_KO, "TvC_KO","Locomotor activity")
 ```
 
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=8, fig.width=11}
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=8, fig.width=10}
  if (!any(class(SMD_S_LMA_KO) == "rma.mv")) {
    forest_metafor(SMD_LMA_KO, "TvC_KO","Locomotor activity") }
 ```
