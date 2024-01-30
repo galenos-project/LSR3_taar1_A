@@ -256,13 +256,11 @@ All analyses were conducted allowing for the following hierarchical levels in a 
 
 The hierarchical grouping may therefore be considered thus: **Strains** of laboratory animals are included in several **Studies**, each of which can report one or more **Experiments**, and each Experiment is comprised of at least two **Cohorts** which are considered identical except for differing in the experimental manipulation (the **Intervention**) or not being exposed to the disease modelling procedures (a **Sham** cohort, these only being used to provide a baseline for outcome measures to allow Normalised Mean Difference meta-analysis). An **Experiment** can include several **experimental contrasts**, for instance where different doses of drugs are compared to the same control group.
 
-*NB: We constructed multilevel models without Knapp-Hartung adjustments as these are not available for rma.mv class objects in the metafor package* ([metafor](https://cran.r-project.org/web/packages/metafor/metafor.pdf)). *Instead, the model is set to `test = "t"` to use t- and F-distributions for making inferences, and `dfs="contain"` to improve the method of approximating degrees of freedom of these distributions.*
+*We constructed multilevel models without Knapp-Hartung adjustments as these are not available for rma.mv class objects in the metafor package* ([metafor](https://cran.r-project.org/web/packages/metafor/metafor.pdf)). *Instead, the model is set to `test = "t"` to use t- and F-distributions for making inferences, and `dfs="contain"` to improve the method of approximating degrees of freedom of these distributions.*
 
-The scales and units used to measure outcomes in preclinical studies often differ between studies although they may measure the same undrlying biological construct. The primary effect size used for meta-analysis of preclinical studies is therefore the standardised mean difference (SMD, Hedge's g). We also present a sensitivity analysis using normalised mean difference (NMD), where there are sufficient data for sham proceedures to allow this.
+The scales and units used to measure outcomes in preclinical studies often differ between studies although they may measure the same underlying biological construct. The primary effect size used for meta-analysis of preclinical studies is therefore the standardised mean difference (SMD, Hedge's g). We also present a sensitivity analysis using normalised mean difference (NMD), where there are sufficient data for sham procedures to allow this.
 
-No studies were excluded on the basis of extreme effect sizes reported.
-
-For some experimental contrasts, more than one locomotor or cognitive outcome - for instance both horizontal and vertical climbing activity - was measured in the same cohort of animals. Alternatively, some publications used the same drug doses with the same outcome measures in different experiments. For these reasons, some of the forest plots may appear to include 'duplicate' Study - Drug - Dose combinations with different outcomes. For the later, these are accounted for in the heirarchical analysis, but for the former there were insufficient levels of the different locomotor or cognitive outcome measureds to allow for hierachical analysis and so this was not performed.
+For some experimental contrasts, more than one locomotor or cognitive outcome - for instance both horizontal and vertical climbing activity - was measured in the same cohort of animals. Alternatively, some publications used the same drug doses with the same outcome measures in different experiments. For these reasons, some of the forest plots may appear to include 'duplicate' Study - Drug - Dose combinations with different outcomes. For the later, these are accounted for in the heirarchical analysis, but for the former there were insufficient levels of the different locomotor or cognitive outcome measures to allow for hierachical analysis and so this was not performed.
 
 # 2 TAAR1 Agonists v Control
 
@@ -295,15 +293,9 @@ Only one publication reported each of prepulse inhibition (a primary outcome), s
 
 ### 2.1.1 Risks of bias
 
-Figure 2.1.1a shows the risk of bias summary for studies investigating the effect of administering a TAAR1 agonist on locomotor activity in animals. The risk of bias assessment was performed using the SyRCLE's RoB tool. Figure 2.1.1b shows the corresponding traffic light plot.
+Figure 2.1.1 shows the risk of bias summary for studies investigating the effect of administering a TAAR1 agonist on locomotor activity in animals. The risk of bias assessment was performed using the SyRCLE's RoB tool.
 
-**Figure 2.1.1a - SyRCLE risk of bias summary for locomotor activity**
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height = 8}
-SyRCLE_RoB_summary(df, "TvC", "Locomotor activity")
-```
-
-**Figure 2.1.1b - Traffic light plot of the risk of bias for locomotor activity**
+**Figure 2.1.1 - Traffic light plot of the risk of bias for locomotor activity**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE}
 SyRCLE_RoB_traffic(df, "TvC", "Locomotor activity")
@@ -311,15 +303,9 @@ SyRCLE_RoB_traffic(df, "TvC", "Locomotor activity")
 
 ### 2.1.2 Reporting completeness
 
-Figure 2.1.2a shows the reporting completeness summary for studies investigating the effect of administering a TAAR1 agonist on locomotor activity in animals. The reporting completeness assessment was performed using the ARRIVE guidelines. Figure 2.1.2b shows the corresponding traffic light plot.
+Figure 2.1.2 shows the reporting completeness summary for studies investigating the effect of administering a TAAR1 agonist on locomotor activity in animals. The reporting completeness assessment was performed using the ARRIVE guidelines.
 
-**Figure 2.1.2a - Reporting completeness summary based on ARRIVE guidelines for locomotor activity**
-
-```{r warning=FALSE, eval = TRUE, echo = FALSE, fig.height = 7}
-ARRIVE_summary(df, "TvC", "Locomotor activity")
-```
-
-**Figure 2.1.2b - Traffic light plot of the reporting completeness for locomotor activity**
+**Figure 2.1.2 - Traffic light plot of the reporting completeness for locomotor activity**
 
 ```{r message = FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height = 8}
 
@@ -577,7 +563,7 @@ SMD_S_LMA_potency <- metaregression_analysis(df, "TvC", "Locomotor activity", "p
 
 ```
 
-**Figure 2.1.4.9 - Subgroup analysis of TAAR1 agonist vs control on locomotor activity by potency of intervention**
+**Figure 2.1.4.9 - Meta-regression of TAAR1 agonist vs control on locomotor activity by potency of intervention**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
 SMD_S_LMA_potency$regression_plot
@@ -901,36 +887,16 @@ The p-value for the association between low SyRCLE Risks of Bias reporting and o
 
 #### ARRIVE reporting completeness guidelines
 
-Experiments were categorised based on the number of ARRIVE guidelines (of which there are 23) met. The categorisation was as follows: Experiments meeting 3 or fewer criteria were labeled as "A: \< 3 criteria met"; those meeting 4 to 7 criteria were labeled "B: 4-7 criteria met"; for 8 to 11 criteria, "C: 8-11 criteria met"; for 12 to 15 criteria, "D: 12-15 criteria met"; for 16 to 19 criteria, "E: 16-19 criteria met"; and experiments meeting more than 19 criteria were labeled as "F: \> 20 criteria met".
+Experiments were categorised based on the number of ARRIVE guidelines items (of which there are 23) met.
 
-Figure 2.1.4.13 displays the estimates for the pooled SMD's when comparisons are stratified by this categorisation that the experiment met. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by ARRIVE reporting completeness guidelines, is displayed as a diamond shape at the bottom of the plot.
-
-**Figure 2.1.4.13 - Subgroup analysis of TAAR1 agonist vs control on locomotor activity by ARRIVE criteria met**
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', out.width = "100%"}
-SMD_S_LMA_ARRIVE <- subgroup_analysis(df, "TvC", "Locomotor activity", "ARRIVEScoreCat", 0.5)
-```
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-forest_subgroup(SMD_S_LMA_ARRIVE, "ARRIVEScoreCat", "Locomotor Activity","number of\n ARRIVE items met")
-```
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-SMD_S_LMA_ARRIVE_noI <- subgroup_SMD(df, "TvC", "Locomotor activity", "ARRIVEScoreCat", 0.5)
-```
-
-The p-value for the association between the number of ARRIVE guidelines reporting items and outcome reported was `r round(SMD_S_LMA_ARRIVE_noI$QMp,3)`. The between-strain variance was `r SMD_S_LMA_ARRIVE_noI$sigma2[1]`, the between-study variance `r SMD_S_LMA_ARRIVE_noI$sigma2[2]`, and the within-experiment variance `r SMD_S_LMA_ARRIVE_noI$sigma2[3]`.
-
-#### Alternative evaluation of ARRIVE reporting guidelines performance
-
-As an alternative to a categorical consideration of ARRIVE reporting guideline performance, we also present a metaregression where the number of ARRIVE items met is considered as a continuous variable.
+Figure 2.1.4.13 displays a visualisation of the meta-regression using the number of ARRIVE items met as an explanatory variable. Dashed lines represent the 95% confidence interval of the regression line. The dotted lines represent the 95% prediction interval. Raw data are plotted with 'bubble' size adjusted according to effect size precision.
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 SMD_S_LMA_ARR2 <- metaregression_analysis(df, "TvC", "Locomotor activity", "ARRIVEScore", 0.5)
 
 ```
 
-**Figure 2.1.4.14 - Meta regression of number of ARRIVE items met for TAAR1 agonist vs control on locomotor activity**
+**Figure 2.1.4.13 - Meta-regression of number of ARRIVE items met for TAAR1 agonist vs control on locomotor activity**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
 SMD_S_LMA_ARR2$regression_plot
@@ -954,7 +920,7 @@ SMD_S_LMA_DrugEfficacyI <- subgroup_SMDI(df, "TvC", "Locomotor activity", "Effic
 SMD_S_LMA_DrugSelectivityI <- subgroup_SMDI(df, "TvC", "Locomotor activity", "Selectivity", 0.5)
 ```
 
-The table below shows which of the covariates, if any, explain some of the heterogeneity observed in the effect sizes of the effect of TAAR1 agonists on locomotor activity. We present marginal R^2^, which measures the proportion of variance explained by including moderators in the model (the % change in the between-studies variance when the covariate is included in the model, in other words the % of the heterogeneity explained by the variable). The coefficients are derived form an RMA model fitted with an intercept (and so represent, for each category, the point estimate and 95% CIs of the effect in that category).
+The table below shows which of the covariates, if any, explain some of the heterogeneity observed in the effect sizes of the effect of TAAR1 agonists on locomotor activity. We present marginal R^2^, which measures the proportion of variance explained by including moderators in the model (the % change in the between-studies variance when the covariate is included in the model). The coefficients are derived form an RMA model fitted with an intercept (and so represent, for each category, the point estimate and 95% CIs of the effect in that category).
 
 |                Moderator                 |        Category         |                      $\beta$                      |                                                 95% CI                                                  |                          Marginal R^2^ (%)                          |
 |:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|
@@ -1011,7 +977,7 @@ options(scipen = 100, digits = 2)
 
 We examine the robustness of the findings for the primary outcome by performing the following sensitivity analyses
 
-#### Imputed rho values of 0.2 and 0.8
+#### Imputed 𝞺 values of 0.2 and 0.8
 
 In the previous analyses for the effect of TAAR1 agonists on locomotor activity, we imputed a $\rho$ value - the imputed within-study correlation between observed effect sizes - of 0.5. Here, we examine the effect of imputing $\rho$ values of 0.2 and 0.8.
 
@@ -1019,15 +985,15 @@ In the previous analyses for the effect of TAAR1 agonists on locomotor activity,
 SMD_S_LMA_rho0.2 <- run_ML_SMD(df, "TvC", "Locomotor activity", 0.2)
 ```
 
-When the $\rho$ value is assumed to be 0.2, the TAAR1 interventions had a pooled effect on locomotor activity of **SMD = `r SMD_S_LMA_rho0.2[["beta"]]`** (95% CI: `r SMD_S_LMA_rho0.2[["ci.lb"]]` to `r SMD_S_LMA_rho0.2[["ci.ub"]]`) with a prediction interval of `r predict(SMD_S_LMA_rho0.2)$pi.lb` to `r predict(SMD_S_LMA_rho0.2)$pi.ub`).
+When the $\rho$ value is assumed to be 0.2, the TAAR1 interventions had a larger effect on locomotor activity of **SMD = `r SMD_S_LMA_rho0.2[["beta"]]`** (95% CI: `r SMD_S_LMA_rho0.2[["ci.lb"]]` to `r SMD_S_LMA_rho0.2[["ci.ub"]]`) with a prediction interval of `r predict(SMD_S_LMA_rho0.2)$pi.lb` to `r predict(SMD_S_LMA_rho0.2)$pi.ub`).
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 SMD_S_LMA_rho0.8 <- run_ML_SMD(df, "TvC", "Locomotor activity", 0.8)
 ```
 
-When the $\rho$ value is assumed to be 0.8, the TAAR1 interventions had a pooled effect on locomotor activity of **SMD = `r SMD_S_LMA_rho0.8[["beta"]]`** (95% CI: `r SMD_S_LMA_rho0.8[["ci.lb"]]` to `r SMD_S_LMA_rho0.8[["ci.ub"]]`) with a prediction interval of `r predict(SMD_S_LMA_rho0.8)$pi.lb` to `r predict(SMD_S_LMA_rho0.8)$pi.ub`).
+When the $\rho$ value is assumed to be 0.8, the TAAR1 interventions had a smaller and more imprecise effect on locomotor activity of **SMD = `r SMD_S_LMA_rho0.8[["beta"]]`** (95% CI: `r SMD_S_LMA_rho0.8[["ci.lb"]]` to `r SMD_S_LMA_rho0.8[["ci.ub"]]`) with a prediction interval of `r predict(SMD_S_LMA_rho0.8)$pi.lb` to `r predict(SMD_S_LMA_rho0.8)$pi.ub`).
 
-For reference the pooled effect size when rho is assumed to be 0.5 is `r SMD_S_LMA[["beta"]]` (95% CI: `r SMD_S_LMA[["ci.lb"]]` to `r SMD_S_LMA[["ci.ub"]]`).
+For reference the pooled effect size when rho is assumed to be 0.5 is `r SMD_S_LMA[["beta"]]` (95% CI: `r SMD_S_LMA[["ci.lb"]]` to `r SMD_S_LMA[["ci.ub"]]`). Therefore, the effect is very sensitive to imputed within-study correlation between effect sizes.
 
 #### Normalised Mean Difference (NMD)
 
@@ -1051,14 +1017,13 @@ For TAAR1 Agonist v Control, TAAR1 interventions had a pooled effect on locomoto
 
 #### Robust variance estimator (RVE)
 
+Here, we examine the robustness of results when using a sandwich-type estimator to obtain cluster-robust tests and confidence intervals of the model coefficients. The variance-covariance matrix is estimated using the 'bias-reduced linearization' for small-sample adjustment and Strain as a clustering variable.
+
 ```{r warning=FALSE, eval = TRUE, echo = FALSE}
 SMD_S_LMA_RVE <- robust(SMD_S_LMA, cluster = Strain, clubSandwich=T, verbose=T)
 ```
 
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=20, fig.width=12}
-forest_metafor(SMD_S_LMA_RVE, "TvC", "Locomotor activity")
-
-```
+When using the robust variance estimator, TAAR1 interventions had a pooled effect on locomotor activity of SMD = `r SMD_S_LMA_RVE[["beta"]][1]` (95% CI: `r SMD_S_LMA_RVE[["ci.lb"]]` to `r SMD_S_LMA_RVE[["ci.ub"]]` with a prediction interval of `r predict(SMD_S_LMA_RVE)$pi.lb` to `r predict(SMD_S_LMA_RVE)$pi.ub`). For reference the pooled effect size for SMD was `r SMD_S_LMA[["beta"]][1]` (95% CI: `r SMD_S_LMA[["ci.lb"]]` to `r SMD_S_LMA[["ci.ub"]]`), so the using a robust variance estimator does not substantially change the results.
 
 ### 2.1.6 Reporting bias/small-study effects
 
@@ -1069,21 +1034,15 @@ run_sse_plot_SMD_L(df)
 #run_sse_NMD(df)
 ```
 
-Egger regression based on `r run_sse_SMD_L(df)[["k"]]` studies of TAAR1 Agonist v Control where Locomotor activity was measured showed a coefficient for a small study effect of `r run_sse_SMD_L(df)[["beta"]][2]` (95% CI: `r run_sse_SMD_L(df)[["ci.lb"]][2]` to `r run_sse_SMD_L(df)[["ci.ub"]][2]`; p = `r ifelse(run_sse_SMD_L(df)[["pval"]][2] < 0.001, "<0.001", sprintf("%.3f", run_sse_SMD_L(df)[["pval"]][2]))`) in the context of a baseline estimate of effect of `r run_sse_SMD_L(df)[["beta"]][1]` (95% CI: `r run_sse_SMD_L(df)[["ci.lb"]][1]` to `r run_sse_SMD_L(df)[["ci.ub"]][1]`; p = `r ifelse(run_sse_SMD_L(df)[["pval"]][2] < 0.001, "<0.001", sprintf("%.3f", run_sse_SMD_L(df)[["pval"]][1]))`).
+Egger regression based on `r run_sse_SMD_L(df)[["k"]]` studies of TAAR1 Agonist v Control where Locomotor activity was measured showed a coefficient for small-study effect of `r run_sse_SMD_L(df)[["beta"]][2]` (95% CI: `r run_sse_SMD_L(df)[["ci.lb"]][2]` to `r run_sse_SMD_L(df)[["ci.ub"]][2]`; p = `r ifelse(run_sse_SMD_L(df)[["pval"]][2] < 0.001, "<0.001", sprintf("%.3f", run_sse_SMD_L(df)[["pval"]][2]))`) in the context of a baseline estimate of effect of `r run_sse_SMD_L(df)[["beta"]][1]` (95% CI: `r run_sse_SMD_L(df)[["ci.lb"]][1]` to `r run_sse_SMD_L(df)[["ci.ub"]][1]`; p = `r ifelse(run_sse_SMD_L(df)[["pval"]][2] < 0.001, "<0.001", sprintf("%.3f", run_sse_SMD_L(df)[["pval"]][1]))`).
 
 ## 2.2 Outcome 2: Cognitive function
 
 ### 2.2.1 Risks of bias
 
-Figure 2.2.1a shows the risk of bias summary for studies investigating the effect of administering a TAAR1 agonist on cognition in animals. The risk of bias assessment was performed using the SyRCLE's RoB tool. Figure 2.2.1b shows the corresponding traffic light plot.
+Figure 2.2.1 shows the risk of bias summary for studies investigating the effect of administering a TAAR1 agonist on cognition in animals. The risk of bias assessment was performed using the SyRCLE's RoB tool.
 
-**Figure 2.2.1a -SyRCLE risk of bias summary for cognitive function**
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE}
-SyRCLE_RoB_summary(df, "TvC", "Cognition")
-```
-
-**Figure 2.2.1b - Traffic light plot of the risk of bias for cognitive function**
+**Figure 2.2.1 - Traffic light plot of the risk of bias for cognitive function**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, height = 5}
 SyRCLE_RoB_traffic(df, "TvC", "Cognition")
@@ -1091,13 +1050,7 @@ SyRCLE_RoB_traffic(df, "TvC", "Cognition")
 
 ### 2.2.2 Reporting completeness
 
-Figure 2.2.2a shows the reporting completeness summary for studies investigating the effect of administering a TAAR1 agonist on cognition in animals. The reporting completeness assessment was performed using the ARRIVE guidelines. Figure 2.2.2b shows the corresponding traffic light plot.
-
-**Figure 2.2.2a - Reporting completeness summary based on ARRIVE guidelines for cognitive function**
-
-```{r warning=FALSE, eval = TRUE, echo = FALSE, fig.height = 5}
-ARRIVE_summary(df, "TvC", "Cognition")
-```
+Figure 2.2.2 shows the reporting completeness summary for studies investigating the effect of administering a TAAR1 agonist on cognition in animals. The reporting completeness assessment was performed using the ARRIVE guidelines.
 
 **Figure 2.2.2b - Traffic light plot of the reporting completeness for cognitive function**
 
@@ -1261,7 +1214,7 @@ SMD_S_Cog_potency <- metaregression_analysis(df, "TvC", "Cognition", "pE50", 0.5
 
 ```
 
-**Figure 2.2.4.6 - Subgroup analysis of TAAR1 agonist vs control on cognitive function by potency of the interventions**
+**Figure 2.2.4.6 - Meta-regression of TAAR1 agonist vs control on cognitive function by potency of the interventions**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
 SMD_S_Cog_potency$regression_plot
@@ -1575,25 +1528,24 @@ The p-value for the association between low SyRCLE Risks of Bias reporting and o
 
 #### ARRIVE reporting completeness guidelines
 
-Experiments were categorised based on the number of ARRIVE guidelines (of which there are 23) met. The categorisation was as follows: Experiments meeting 3 or fewer criteria were labeled as "A: \< 3 criteria met"; those meeting 4 to 7 criteria were labeled "B: 4-7 criteria met"; for 8 to 11 criteria, "C: 8-11 criteria met"; for 12 to 15 criteria, "D: 12-15 criteria met"; for 16 to 19 criteria, "E: 16-19 criteria met"; and experiments meeting more than 19 criteria were labeled as "F: \> 20 criteria met".
+Experiments were categorised based on the number of ARRIVE guidelines items (of which there are 23) met.
 
-Figure 2.2.4.10 displays the estimates for the pooled SMD's when comparisons are stratified by this categorisation that the experiment met. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by ARRIVE reporting completeness guidelines, is displayed as a diamond shape at the bottom of the plot.
-
-**Figure 2.2.4.10 - Subgroup analysis of TAAR1 agonist vs control on cognitive function by ARRIVE criteria met**
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', out.width = "100%"}
-SMD_S_Cog_ARRIVE <- subgroup_analysis(df, "TvC", "Cognition", "ARRIVEScoreCat", 0.5)
-```
+Figure 2.2.4.10 displays a visualisation of the meta-regression using the number of ARRIVE items met as an explanatory variable. Dashed lines represent the 95% confidence interval of the regression line. The dotted lines represent the 95% prediction interval. Raw data are plotted with 'bubble' size adjusted according to effect size precision.
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-forest_subgroup(SMD_S_Cog_ARRIVE, "ARRIVEScoreCat", "Cognition","number of\n ARRIVE items met")
+SMD_S_cog_ARR2 <- metaregression_analysis(df, "TvC", "Cognition", "ARRIVEScore", 0.5)
+
 ```
 
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-SMD_S_Cog_ARRIVE_noI <- subgroup_SMD(df, "TvC", "Cognition", "ARRIVEScoreCat", 0.5)
+**Figure 2.2.4.10 - Meta-regression of number of ARRIVE items met for TAAR1 agonist vs control on cognitive function**
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
+SMD_S_cog_ARR2$regression_plot
 ```
 
-The p-value for the association between the number of ARRIVE guidelines reporting items and outcome reported was `r round(SMD_S_Cog_ARRIVE_noI$QMp,3)`. The between-strain variance was `r SMD_S_Cog_ARRIVE_noI$sigma2[1]`, the between-study variance `r SMD_S_Cog_ARRIVE_noI$sigma2[2]`, and the within-experiment variance `r SMD_S_Cog_ARRIVE_noI$sigma2[3]`.
+The estimate for $\beta$ was `r SMD_S_cog_ARR2$metaregression_summary$beta[2]` (p = `r  round(SMD_S_cog_ARR2$metaregression_summary$pval[2],3)`). The between-strain variance was `r SMD_S_cog_ARR2$metaregression_summary$sigma2[1]`, the between-study variance `r SMD_S_cog_ARR2$metaregression_summary$sigma2[2]`, and the within-experiment variance `r SMD_S_cog_ARR2$metaregression_summary$sigma2[3]`.
+
+#### Heterogeneity explained by covariates (TAAR1 Agonist vs Control on cognitive function)
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', out.width = "100%"}
 SMD_S_Cog_sexI <- subgroup_SMDI(df, "TvC", "Cognition", "Sex", 0.5)
@@ -1605,27 +1557,7 @@ SMD_S_Cog_DrugI <- subgroup_SMDI(df, "TvC", "Cognition", "DrugName", 0.5)
 SMD_S_Cog_SyRCLERoBI <- subgroup_SMDI(df, "TvC", "Cognition", "RoBScore", 0.5)
 SMD_S_Cog_ARRIVEI <- subgroup_SMDI(df, "TvC", "Cognition", "ARRIVEScoreCat", 0.5)
 SMD_S_Cog_DrugSelectivityI <- subgroup_SMDI(df, "TvC", "Cognition", "Selectivity", 0.5)
-
 ```
-
-#### Alternative evaluation of ARRIVE reporting guidelines performance
-
-As an alternative to a categorical consideration of ARRIVE reporting guideline performance, we also present a metaregression where the number of ARRIVE items met is considered as a continuous variable.
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-SMD_S_cog_ARR2 <- metaregression_analysis(df, "TvC", "Cognition", "ARRIVEScore", 0.5)
-
-```
-
-**Figure 2.2.4.11 - Meta regression of number of ARRIVE items met for TAAR1 agonist vs control on cognitive function**
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
-SMD_S_cog_ARR2$regression_plot
-```
-
-The estimate for $\beta$ was `r SMD_S_cog_ARR2$metaregression_summary$beta[2]` (p = `r  round(SMD_S_cog_ARR2$metaregression_summary$pval[2],3)`). The between-strain variance was `r SMD_S_cog_ARR2$metaregression_summary$sigma2[1]`, the between-study variance `r SMD_S_cog_ARR2$metaregression_summary$sigma2[2]`, and the within-experiment variance `r SMD_S_cog_ARR2$metaregression_summary$sigma2[3]`.
-
-#### Heterogeneity explained by covariates (TAAR1 Agonist vs Control on cognitive function)
 
 The table below shows which of the covariates, if any, explain some of the heterogeneity observed in the effect sizes of the effect of TAAR1 agonists on cognition. We present marginal R^2^, which measures the proportion of variance explained by including moderators in the model.
 
@@ -1661,7 +1593,7 @@ The table below shows which of the covariates, if any, explain some of the heter
 
 ### 2.2.5. Sensitivity Analyses
 
-#### Imputed rho values of 0.2 and 0.8
+#### Imputed 𝞺 values of 0.2 and 0.8
 
 In the previous analyses for the effect of TAAR1 agonists on cognition, we imputed a $\rho$ value of 0.5. Here, we examine the effect of imputing $\rho$ values of 0.2 and 0.8.
 
@@ -1698,6 +1630,16 @@ forest_metafor_NMD(NMD_S_cog, "Cognition")
 For TAAR1 Agonist v Control, TAAR1 interventions had a pooled effect on cognition of NMD = `r NMD_S_cog[["beta"]][1]` (95% CI: `r NMD_S_cog[["ci.lb"]]` to `r NMD_S_cog[["ci.ub"]]`) with a prediction interval of `r predict(NMD_S_cog)$pi.lb` to `r predict(NMD_S_cog)$pi.ub`. For reference the pooled effect size for SMD was `r SMD_S_Cog[["beta"]]` (95% CI: `r SMD_S_Cog[["ci.lb"]]` to `r SMD_S_Cog[["ci.ub"]]`).
 
 `r NMD_S_cog[["k"]]` experimental comparisons were reported in `r NMD_S_cog[["s.nlevels"]][3]` experiments reported from `r NMD_S_cog[["s.nlevels"]][2]` publications and involving `r NMD_S_cog[["s.nlevels"]][1]` different animal strains.Between-strain variance was `r round(NMD_S_cog$sigma2[1], 3)`, between-study variance was `r round(NMD_S_cog$sigma2[2], 3)`, and within-study variance (between experiments) was `r round(NMD_S_cog$sigma2[3], 3)`.
+
+#### Robust variance estimator (RVE)
+
+Here, we examine the robustness of results when using a sandwich-type estimator to obtain cluster-robust tests and confidence intervals of the model coefficients. The variance-covariance matrix is estimated using the 'bias-reduced linearization' for small-sample adjustment and Strain as a clustering variable.
+
+```{r warning=FALSE, eval = TRUE, echo = FALSE}
+SMD_S_Cog_RVE <- robust(SMD_S_Cog, cluster = Strain, clubSandwich=T, verbose=T)
+```
+
+When using the robust variance estimator, TAAR1 interventions had a pooled effect on cognition of SMD = `r SMD_S_Cog_RVE[["beta"]][1]` (95% CI: `r SMD_S_Cog_RVE[["ci.lb"]]` to `r SMD_S_Cog_RVE[["ci.ub"]]` with a prediction interval of `r predict(SMD_S_Cog_RVE)$pi.lb` to `r predict(SMD_S_Cog_RVE)$pi.ub`). For reference the pooled effect size for SMD was `r SMD_S_Cog[["beta"]]` (95% CI: `r SMD_S_Cog[["ci.lb"]]` to `r SMD_S_Cog[["ci.ub"]]`), so the using a robust variance estimator does not substantially change the results.
 
 ### 2.2.6 Reporting bias/small-study effects
 
@@ -2083,12 +2025,10 @@ There were insufficient studies reporting neuotransmitter levels and no studies 
 
 <strong>Behavioural manifestations Ethological validity</strong>
 
-Most experiments reported locomotor activity, but `r SMD_S_Cog[["k"]]` experiments reported some form of cognitive outcome, and in these there was no significant effect of TAAR1 agonists (`r SMD_S_Cog$beta`), 95% CI: `r SMD_S_Cog$ci.lb` to `r SMD_S_Cog$ci.ub`.
+Most experiments reported locomotor activity, but `r SMD_S_Cog[["k"]]` experiments reported some form of cognitive outcome, and in these there was no significant effect of TAAR1 agonists (`r SMD_S_Cog$beta`, 95% CI: `r SMD_S_Cog$ci.lb` to `r SMD_S_Cog$ci.ub`).
 
 # 8. Software used
 
 ```{r echo=FALSE}
 grateful::cite_packages(output = "paragraph", pkgs = "Session", out.dir = ".")
 ```
-
-SMD_S_cog_CatDisInd[SMD_S_cog_CatDisInd\$CategoryDiseaseInduction == "Genetic"][["k"]]

@@ -105,7 +105,7 @@ forest_metafor <- function(model, experiment_type, outcome_title) {
                                       addpred = TRUE,
                                       annotate = TRUE,
                                       header = "Study and Strain",
-                                      order=StudyId,
+                                      order=ARRIVEScore,
                                       xlab = "",
                                       ilab = cbind(ARRIVEScore, Label),
                                       ilab.xpos = c(-5.5, -3),
@@ -128,7 +128,7 @@ forest_metafor <- function(model, experiment_type, outcome_title) {
                                       addpred = TRUE,
                                       annotate = TRUE,
                                       header = "Study and Strain",
-                                      order=StudyId,
+                                      order=ARRIVEScore,
                                       xlab = "", 
                                       ilab = cbind(ARRIVEScore, Label),
                                       ilab.xpos = c(-20.5, -10.5),
@@ -434,7 +434,7 @@ forest_subgroup <- function(modelsumm, moderator, outcome, moderator_text) {
     model <- modelsumm
     colnames(model) <- c('moderator','k','SMD','se','p','ci_l','ci_u','symbol','size','summary','fontfaace','fontsize','d1','d2')
     model$order <- as.numeric(rownames(model))
-    model$estimate_lab = paste0(round(model$SMD,2), " (", round(model$ci_l,2), "-", round(model$ci_u,2),")")
+    model$estimate_lab = paste0(round(model$SMD,2), " (", round(model$ci_l,2), ",", round(model$ci_u,2),")")
     model <- model %>%
       arrange(order) %>%
       mutate(moderator = factor(model[["moderator"]], levels = unique(model[["moderator"]])))
@@ -481,6 +481,7 @@ forest_subgroup <- function(modelsumm, moderator, outcome, moderator_text) {
       ggplot(aes(y = fct_rev(moderator))) +
       geom_text(aes(x = 0, label = moderator), hjust = 0, size = model$fontsize) +
       geom_text(aes(x = r1, label = k), hjust = 1, size = model$fontsize) +
+      annotate("text", x = r1, y = lnth, label = "Number of\nexperiments", hjust=1) +
       theme_void() +
       coord_cartesian(ylim = c(0, lnth), xlim = c(0, span1))
     
