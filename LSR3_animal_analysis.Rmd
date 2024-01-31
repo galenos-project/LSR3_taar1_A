@@ -1,7 +1,7 @@
 ---
 title: "LSR3 analysis: effects of TAAR1 agonists in animal models of psychosis"
 author: "Francesca Tinsdeall, Fiona Ramage, Virginia Chiocchia and Malcolm Macleod"
-date: "2024-01-14"
+date: "`r format(Sys.time(), '%d %B %Y')`"
 output: 
   html_document: 
     fig_width: 9
@@ -74,7 +74,7 @@ editor_options:
 5.  Effect of TAAR1 agonists in TAAR1 receptor knockout animals
     -   5.1 Outcome 1: Locomotor activity
     -   5.2 Outcome 2: Cognitive function
-6.  Attrition bias and adverse effects of treatment
+6.  Proportion of animals not progressing to treatment and adverse effects of treatment
 7.  Summary of the evidence
 8.  Software used
 
@@ -238,12 +238,14 @@ In these studies the:
 
 -   **Intervention group** is a group of animals that is (1) subjected to a psychosis model induction paradigm and (2) administered a TAAR1 agonist treatment
 
--   **Sham group** is a group of animals that is (1) not subjected to a psychosis model induction paradigm and (2) administered a control treatment (vehicle) or no treatment. These data are equired to allow a 'normalised mean difference' effect size to be calculated, given by
+-   **Sham group** is a group of animals that is (1) not subjected to a psychosis model induction paradigm and (2) administered a control treatment (vehicle) or no treatment. These data are required to allow a 'normalised mean difference' (NMD) effect size to be calculated, given by
 
     $$
-    \frac{(\text{Contol - Treatment})}
-    {(\text{Control - Sham)}} \text{   x   100}
+    \frac{(\text{$\bar{\mu}_C - \bar{\mu}_T$})}
+    {(\text{$\bar{\mu}_C - \bar{\mu}_S$)}} \text{   x   100}
     $$
+
+where $\bar{\mu}_C$, $\bar{\mu}_T$, $\bar{\mu}_S$ are the mean reported scores in the control, treatment, and sham groups respectively.
 
 Outcomes with ≥2 independent effect sizes were considered for meta-analysis. In this iteration of the review, this includes `r df %>% group_by(outcome_type) %>% filter(n_distinct(StudyId) > 1) %>% summarise(n = n_distinct(StudyId)) %>% arrange(desc(n)) %>% pull(outcome_type) %>% unique() %>% tolower() %>% { if (length(.) > 1) paste(paste(head(., -1), collapse = ", "), "and", tail(., 1)) else .}`.
 
@@ -257,9 +259,9 @@ All analyses were conducted allowing for the following hierarchical levels in a 
 
 The hierarchical grouping may therefore be considered thus: **Strains** of laboratory animals are included in several **Studies**, each of which can report one or more **Experiments**, and each Experiment is comprised of at least two **Cohorts** which are considered identical except for differing in the experimental manipulation (the **Intervention**) or not being exposed to the disease modelling procedures (a **Sham** cohort, these only being used to provide a baseline for outcome measures to allow Normalised Mean Difference meta-analysis). An **Experiment** can include several **experimental contrasts**, for instance where different doses of drugs are compared to the same control group.
 
-*We constructed multilevel models without Knapp-Hartung adjustments as these are not available for rma.mv class objects in the metafor package* ([metafor](https://cran.r-project.org/web/packages/metafor/metafor.pdf)). *Instead, the model is set to `test = "t"` to use t- and F-distributions for making inferences, and `dfs="contain"` to improve the method of approximating degrees of freedom of these distributions.*
+<!-- TO ADD IN THE METHODS SECTION: *We constructed multilevel models without Knapp-Hartung adjustments as these are not available for rma.mv class objects in the metafor package* ([metafor](https://cran.r-project.org/web/packages/metafor/metafor.pdf)). *Instead, the model is set to `test = "t"` to use t- and F-distributions for making inferences, and `dfs="contain"` to improve the method of approximating degrees of freedom of these distributions.* -->
 
-The scales and units used to measure outcomes in preclinical studies often differ between studies although they may measure the same underlying biological construct. The primary effect size used for meta-analysis of preclinical studies is therefore the standardised mean difference (SMD, Hedge's g). We also present a sensitivity analysis using normalised mean difference (NMD), where there are sufficient data for sham procedures to allow this.
+<!-- The scales and units used to measure outcomes in preclinical studies often differ between studies although they may measure the same underlying biological construct. The primary effect size used for meta-analysis of preclinical studies is therefore the standardised mean difference (SMD, Hedge's g). We also present a sensitivity analysis using normalised mean difference (NMD), where there are sufficient data for sham procedures to allow this. -->
 
 For some experimental contrasts, more than one locomotor or cognitive outcome - for instance both horizontal and vertical climbing activity - was measured in the same cohort of animals. Alternatively, some publications used the same drug doses with the same outcome measures in different experiments. For these reasons, some of the forest plots may appear to include 'duplicate' Study - Drug - Dose combinations with different outcomes. For the later, these are accounted for in the heirarchical analysis, but for the former there were insufficient levels of the different locomotor or cognitive outcome measures to allow for hierachical analysis and so this was not performed.
 
@@ -574,7 +576,7 @@ The estimate for $\beta$ was `r SMD_S_LMA_potency$metaregression_summary$beta[2]
 
 #### Dose of intervention
 
-In this iteration of the review, the TAAR1 agonists tested against control for their effect on locomotor activity were: **`r drugs <- df %>% filter(SortLabel == "TvC") %>% filter(outcome_type == "Locomotor activity") %>% group_by(DrugName) %>% summarise(count = n()) %>% arrange(desc(count)) %>% pull(DrugName); if (length(drugs) > 1) {paste(paste(head(drugs, -1), collapse = ", "), "and", tail(drugs, 1))} else {drugs}`**. Meta-regression using the administered dose as an explanatory variable was conducted for each drug where this had been reported in 10 or more experiments from 3 or more publications. Where there are sufficient data, the dashed lines in the plot represents the 95% confidence interval of the regression line and the dotted lines represent the 95% prediction interval. Raw data are plotted with point size adjusted according to effect size precision.
+In this iteration of the review, the TAAR1 agonists tested against control for their effect on locomotor activity were: **`r drugs <- df %>% filter(SortLabel == "TvC") %>% filter(outcome_type == "Locomotor activity") %>% group_by(DrugName) %>% summarise(count = n()) %>% arrange(desc(count)) %>% pull(DrugName); if (length(drugs) > 1) {paste(paste(head(drugs, -1), collapse = ", "), "and", tail(drugs, 1))} else {drugs}`**. <!--# TO ADD IN THE METHODS SECTION: Meta-regression using the administered dose as an explanatory variable was conducted for each drug where this had been reported in 10 or more experiments from 3 or more publications. --> The dashed lines in the plot represent the 95% confidence interval of the regression line and the dotted lines represent the 95% prediction interval. Raw data are plotted with point size adjusted according to effect size precision.
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 SMD_S_LMA_RO5203648_dose <- metaregression_analysis_by_drug(df, "TvC", "Locomotor activity", "RO5203648", "DoseOfIntervention_mgkg", 0.5)
@@ -998,7 +1000,7 @@ For reference the pooled effect size when rho is assumed to be 0.5 is `r SMD_S_L
 
 #### Normalised Mean Difference (NMD)
 
-For locomotor activity, an NMD was calculable for `r df_S_LMA %>% filter(NMD_possible == "TRUE") %>% nrow()` out of `r nrow(df_S_LMA)` comparisons, i.e. `r ((df_S_LMA %>% filter(NMD_possible == "TRUE") %>% nrow())/(nrow(df_S_LMA)))*100` % of comparisons.
+For locomotor activity, `r df_S_LMA %>% filter(NMD_possible == "TRUE") %>% nrow()` out of `r nrow(df_S_LMA)` comparisons, i.e. `r ((df_S_LMA %>% filter(NMD_possible == "TRUE") %>% nrow())/(nrow(df_S_LMA)))*100` % of comparisons, had data available for a Sham group and, therefore, to calculate an NMD.
 
 The effect of administering a TAAR1 agonist on locomotor activity in animals using NMD as the effect size is shown in Figure 2.1.5. The pooled estimate for NMD across all individual comparisons is displayed as a diamond shape at the bottom of the plot. Dotted lines indicate the prediction interval of the pooled estimate.
 
@@ -1035,7 +1037,7 @@ run_sse_plot_SMD_L(df)
 #run_sse_NMD(df)
 ```
 
-Egger regression based on `r run_sse_SMD_L(df)[["k"]]` studies of TAAR1 Agonist v Control where Locomotor activity was measured showed a coefficient for small-study effect of `r run_sse_SMD_L(df)[["beta"]][2]` (95% CI: `r run_sse_SMD_L(df)[["ci.lb"]][2]` to `r run_sse_SMD_L(df)[["ci.ub"]][2]`; p = `r ifelse(run_sse_SMD_L(df)[["pval"]][2] < 0.001, "<0.001", sprintf("%.3f", run_sse_SMD_L(df)[["pval"]][2]))`) in the context of a baseline estimate of effect of `r run_sse_SMD_L(df)[["beta"]][1]` (95% CI: `r run_sse_SMD_L(df)[["ci.lb"]][1]` to `r run_sse_SMD_L(df)[["ci.ub"]][1]`; p = `r ifelse(run_sse_SMD_L(df)[["pval"]][2] < 0.001, "<0.001", sprintf("%.3f", run_sse_SMD_L(df)[["pval"]][1]))`).
+Egger regression based on `r run_sse_SMD_L(df)[["k"]]` effects of TAAR1 Agonist v Control where Locomotor activity was measured showed a coefficient for small-study effect of `r run_sse_SMD_L(df)[["beta"]][2]` (95% CI: `r run_sse_SMD_L(df)[["ci.lb"]][2]` to `r run_sse_SMD_L(df)[["ci.ub"]][2]`; p = `r ifelse(run_sse_SMD_L(df)[["pval"]][2] < 0.001, "<0.001", sprintf("%.3f", run_sse_SMD_L(df)[["pval"]][2]))`).
 
 ## 2.2 Outcome 2: Cognitive function
 
@@ -1225,7 +1227,9 @@ The estimate for $\beta$ was `r SMD_S_Cog_potency$metaregression_summary$beta[2]
 
 #### Dose of intervention
 
-In this iteration of the review, the TAAR1 agonists tested against control for their effect on cognition were; **`r drugs <- df %>% filter(SortLabel == "TvC") %>% filter(outcome_type == "Cognition") %>% group_by(DrugName) %>% summarise(count = n()) %>% arrange(desc(count)) %>% pull(DrugName); if (length(drugs) > 1) {paste(paste(head(drugs, -1), collapse = ", "), "and", tail(drugs, 1))} else {drugs}`**. Meta-regression using the administered dose as an explanatory variable was conducted for each drug where this had been reported in 10 or more experiments from 3 or more publications. Where there are sufficient data, the dashed lines in the plot represents the 95% confidence interval of the regression line and the dotted lines represent the 95% prediction interval. Raw data are plotted with point size adjusted according to effect size precision.
+In this iteration of the review, the TAAR1 agonists tested against control for their effect on cognition were; **`r drugs <- df %>% filter(SortLabel == "TvC") %>% filter(outcome_type == "Cognition") %>% group_by(DrugName) %>% summarise(count = n()) %>% arrange(desc(count)) %>% pull(DrugName); if (length(drugs) > 1) {paste(paste(head(drugs, -1), collapse = ", "), "and", tail(drugs, 1))} else {drugs}`**. The dashed lines in the plot represent the 95% confidence interval of the regression line and the dotted lines represent the 95% prediction interval. Raw data are plotted with point size adjusted according to effect size precision.
+
+<!--# TO ADD IN METHODS SECTION: Meta-regression using the administered dose as an explanatory variable was conducted for each drug where this had been reported in 10 or more experiments from 3 or more publications. -->
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 SMD_S_Cog_RO5203648_dose <- metaregression_analysis_by_drug(df, "TvC", "Cognition", "RO5203648", "DoseOfIntervention_mgkg", 0.5)
@@ -1614,7 +1618,7 @@ For reference the pooled effect size when rho is assumed to be 0.5 is `r SMD_S_C
 
 #### Normalised Mean Difference (NMD)
 
-For cognition, an NMD was calculable for `r df_S_cog %>% filter(NMD_possible == "TRUE") %>% nrow()` out of `r nrow(df_S_cog)` comparisons, i.e. `r ((df_S_cog %>% filter(NMD_possible == "TRUE") %>% nrow())/(nrow(df_S_cog)))*100` % of comparisons.
+For cognition, `r df_S_cog %>% filter(NMD_possible == "TRUE") %>% nrow()` out of `r nrow(df_S_cog)` comparisons, i.e. `r ((df_S_cog %>% filter(NMD_possible == "TRUE") %>% nrow())/(nrow(df_S_cog)))*100` % of comparisons, had data available for a Sham group and, therefore, to calculate an NMD.
 
 The effect of administering a TAAR1 agonist on cognition in animals using NMD as the effect size is shown in Figure 2.2.5. The pooled estimate for NMD across all individual comparisons is displayed as a diamond shape at the bottom of the plot. Dotted lines indicate the prediction interval of the pooled estimate.
 
@@ -1651,7 +1655,7 @@ run_sse_plot_SMD_C(df)
 #run_sse_NMD(df)
 ```
 
-Egger regression based on `r run_sse_SMD_C(df)[["k"]]` studies of TAAR1 Agonist v Control where Locomotor activity was measured showed a coefficient for a small study effect of `r run_sse_SMD_C(df)[["beta"]][2]` (95% CI: `r run_sse_SMD_C(df)[["ci.lb"]][2]` to `r run_sse_SMD_C(df)[["ci.ub"]][2]`; p = `r ifelse(run_sse_SMD_C(df)[["pval"]][2] < 0.001, "<0.001", sprintf("%.3f", run_sse_SMD_C(df)[["pval"]][2]))`) in the context of a baseline estimate of effect of `r run_sse_SMD_C(df)[["beta"]][1]` (95% CI: `r run_sse_SMD_C(df)[["ci.lb"]][1]` to `r run_sse_SMD_C(df)[["ci.ub"]][1]`; p = `r ifelse(run_sse_SMD_C(df)[["pval"]][2] < 0.001, "<0.001", sprintf("%.3f", run_sse_SMD_C(df)[["pval"]][1]))`).
+Egger regression based on `r run_sse_SMD_C(df)[["k"]]` effects of TAAR1 Agonist v Control where Locomotor activity was measured showed a coefficient for a small study effect of `r run_sse_SMD_C(df)[["beta"]][2]` (95% CI: `r run_sse_SMD_C(df)[["ci.lb"]][2]` to `r run_sse_SMD_C(df)[["ci.ub"]][2]`; p = `r ifelse(run_sse_SMD_C(df)[["pval"]][2] < 0.001, "<0.001", sprintf("%.3f", run_sse_SMD_C(df)[["pval"]][2]))`).
 
 # 3 TAAR1 Agonist v known antipsychotic drug
 
@@ -1994,7 +1998,7 @@ dfiper <- (dfisn/dfin)*100
 
 ```
 
-# 6. Attrition bias and adverse effects of treatment
+# 6. Proportion of animals not progressing to outcome measurement and adverse effects of treatment
 
 `r closs*100`% of `r ctot` animals in Control cohorts and `r tloss*100`% of `r ttot` animals in Intervention cohorts 'dropped out' between allocation to group and outcome measurement. Given that `r dfisn` of `r dfin` interventions (`r dfiper`%) were administered as a single dose, treatment emergent adverse effects likely to lead to withdrawal of an animal from the study would be unusual, and technical failure or attrition is more likely. This analysis is based on full reporting of animals excluded from analyses, and it may be that group sizes were specified 'after the event', or that there was unreported replacement of animals excluded during the experiment, so these data should be interpreted with caution.
 
