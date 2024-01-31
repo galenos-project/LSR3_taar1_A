@@ -113,6 +113,7 @@ library(grateful)
 library(xtable)
 
 
+
 #define LSR
 LSR <- 'LSR3'
 # define date of processing
@@ -348,7 +349,7 @@ forest_metafor(SMD_S_LMA, "TvC", "Locomotor activity")
 
 `r output_text3`
 
-`r SMD_S_LMA[["k"]]` experimental comparisons were reported in `r SMD_S_LMA[["s.nlevels"]][3]` experiments reported from `r SMD_S_LMA[["s.nlevels"]][2]` publications and involving `r SMD_S_LMA[["s.nlevels"]][1]` different animal strains. The between strain variance was `r SMD_S_LMA$sigma2[1]`, the between study variance `r SMD_S_LMA$sigma2[2]` and the within-experiment variance `r SMD_S_LMA$sigma2[3]`.
+`r SMD_S_LMA[["k"]]` experimental comparisons were reported in `r SMD_S_LMA[["s.nlevels"]][3]` experiments reported from `r length(unique(SMD_S_LMA$data$StudyId))` publications and involving `r SMD_S_LMA[["s.nlevels"]][1]` different animal strains. The between strain variance was `r SMD_S_LMA$sigma2[1]`, the between study variance `r SMD_S_LMA$sigma2[2]` and the within-experiment variance `r SMD_S_LMA$sigma2[3]`.
 
 ### 2.1.4 Subgroup analyses and meta-regressions
 
@@ -1013,7 +1014,7 @@ forest_metafor_NMD(NMD_S_LMA, "locomotor hyperactivity")
 
 For TAAR1 Agonist v Control, TAAR1 interventions had a pooled effect on locomotor activity of NMD = `r NMD_S_LMA[["beta"]][1]` (95% CI: `r NMD_S_LMA[["ci.lb"]]` to `r NMD_S_LMA[["ci.ub"]]`) with a prediction interval of `r predict(NMD_S_LMA)$pi.lb` to `r predict(NMD_S_LMA)$pi.ub`). For reference the pooled effect size for SMD was `r SMD_S_LMA[["beta"]][1]` (95% CI: `r SMD_S_LMA[["ci.lb"]]` to `r SMD_S_LMA[["ci.ub"]]`).
 
-`r NMD_S_LMA[["k"]]` experimental comparisons were reported in `r NMD_S_LMA[["s.nlevels"]][3]` experiments reported from `r NMD_S_LMA[["s.nlevels"]][2]` publications and involving `r NMD_S_LMA[["s.nlevels"]][1]` different animal strains. Between-strain variance was `r round(NMD_S_LMA$sigma2[1], 3)`, between-study variance was `r round(NMD_S_LMA$sigma2[2], 3)`, and within-study variance (between experiments) was `r round(NMD_S_LMA$sigma2[3], 3)`.
+`r NMD_S_LMA[["k"]]` experimental comparisons were reported in `r NMD_S_LMA[["s.nlevels"]][3]` experiments reported from `r length(unique(NMD_S_LMA$data$StudyId))` publications and involving `r NMD_S_LMA[["s.nlevels"]][1]` different animal strains. Between-strain variance was `r round(NMD_S_LMA$sigma2[1], 3)`, between-study variance was `r round(NMD_S_LMA$sigma2[2], 3)`, and within-study variance (between experiments) was `r round(NMD_S_LMA$sigma2[3], 3)`.
 
 #### Robust variance estimator (RVE)
 
@@ -1088,7 +1089,7 @@ if (any(class(SMD_S_Cog) == "rma.mv")) {
 
 `r output_text3`
 
-`r SMD_S_Cog[["k"]]` experimental comparisons were reported in `r SMD_S_Cog[["s.nlevels"]][3]` experiments reported from `r SMD_S_Cog[["s.nlevels"]][2]` publications and involving `r SMD_S_Cog[["s.nlevels"]][1]` different animal strains. The between strain variance was `r SMD_S_Cog$sigma2[1]`, the between study variance `r SMD_S_Cog$sigma2[2]` and the within-experiment variance `r SMD_S_Cog$sigma2[3]`.
+`r SMD_S_Cog[["k"]]` experimental comparisons were reported in `r SMD_S_Cog[["s.nlevels"]][3]` experiments reported from `r length(unique(SMD_S_Cog$data$StudyId))` publications and involving `r SMD_S_Cog[["s.nlevels"]][1]` different animal strains. The between strain variance was `r SMD_S_Cog$sigma2[1]`, the between study variance `r SMD_S_Cog$sigma2[2]` and the within-experiment variance `r SMD_S_Cog$sigma2[3]`.
 
 ### 2.2.4 Subgroup analyses and meta-regressions
 
@@ -1629,7 +1630,7 @@ forest_metafor_NMD(NMD_S_cog, "Cognition")
 
 For TAAR1 Agonist v Control, TAAR1 interventions had a pooled effect on cognition of NMD = `r NMD_S_cog[["beta"]][1]` (95% CI: `r NMD_S_cog[["ci.lb"]]` to `r NMD_S_cog[["ci.ub"]]`) with a prediction interval of `r predict(NMD_S_cog)$pi.lb` to `r predict(NMD_S_cog)$pi.ub`. For reference the pooled effect size for SMD was `r SMD_S_Cog[["beta"]]` (95% CI: `r SMD_S_Cog[["ci.lb"]]` to `r SMD_S_Cog[["ci.ub"]]`).
 
-`r NMD_S_cog[["k"]]` experimental comparisons were reported in `r NMD_S_cog[["s.nlevels"]][3]` experiments reported from `r NMD_S_cog[["s.nlevels"]][2]` publications and involving `r NMD_S_cog[["s.nlevels"]][1]` different animal strains.Between-strain variance was `r round(NMD_S_cog$sigma2[1], 3)`, between-study variance was `r round(NMD_S_cog$sigma2[2], 3)`, and within-study variance (between experiments) was `r round(NMD_S_cog$sigma2[3], 3)`.
+`r NMD_S_cog[["k"]]` experimental comparisons were reported in `r NMD_S_cog[["s.nlevels"]][3]` experiments reported from `r length(unique(NMD_S_cog$data$StudyId))` publications and involving `r NMD_S_cog[["s.nlevels"]][1]` different animal strains.Between-strain variance was `r round(NMD_S_cog$sigma2[1], 3)`, between-study variance was `r round(NMD_S_cog$sigma2[2], 3)`, and within-study variance (between experiments) was `r round(NMD_S_cog$sigma2[3], 3)`.
 
 #### Robust variance estimator (RVE)
 
@@ -1692,7 +1693,7 @@ forest_metafor(SMD_S_LMA_H2H, "TvA", "locomotor activity")
 
 `r output_text3`
 
-`r SMD_S_LMA_H2H[["k"]]` experimental comparisons were reported in `r SMD_S_LMA_H2H[["s.nlevels"]][3]` experiments reported from `r SMD_S_LMA_H2H[["s.nlevels"]][2]` publications and involving `r SMD_S_LMA_H2H[["s.nlevels"]][1]` different animal strains. The between strain variance was `r SMD_S_LMA_H2H$sigma2[1]`, the between study variance `r SMD_S_LMA_H2H$sigma2[2]` and the within-experiment variance `r SMD_S_LMA_H2H$sigma2[3]`.
+`r SMD_S_LMA_H2H[["k"]]` experimental comparisons were reported in `r SMD_S_LMA_H2H[["s.nlevels"]][3]` experiments reported from `r  length(unique(SMD_S_LMA_H2H$data$StudyId))` publications and involving `r SMD_S_LMA_H2H[["s.nlevels"]][1]` different animal strains. The between strain variance was `r SMD_S_LMA_H2H$sigma2[1]`, the between study variance `r SMD_S_LMA_H2H$sigma2[2]` and the within-experiment variance `r SMD_S_LMA_H2H$sigma2[3]`.
 
 ## 3.2 Outcome 2: Cognitive function
 
