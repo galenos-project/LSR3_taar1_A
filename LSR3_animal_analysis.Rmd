@@ -846,7 +846,7 @@ SMD_S_LMA_StandardDose <- metaregression_analysis(df, "TvC", "Locomotor activity
 SMD_S_LMA_StandardDose$regression_plot
 ```
 
-The estimate for the change in effect per log unit change in standardised dose was `r SMD_S_LMA_StandardDose$metaregression_summary$beta[2]` (p  `r if(round(SMD_S_LMA_StandardDose[["metaregression"]][["pval"]][2],3)>0.001){paste0('= ',round(SMD_S_LMA_StandardDose[["metaregression"]][["pval"]][2],3))}else{'< 0.001'}`). The between-strain variance was `r SMD_S_LMA_StandardDose$metaregression$sigma2[1]`, the between-study variance `r SMD_S_LMA_StandardDose$metaregression$sigma2[2]`, and the within-experiment variance `r SMD_S_LMA_StandardDose$metaregression$sigma2[3]`.
+The estimate for the change in effect per log unit change in standardised dose was `r SMD_S_LMA_StandardDose$metaregression_summary$beta[2]` (p  `r if(round(SMD_S_LMA_StandardDose[["metaregression"]][["pval"]][2],3)>0.001){paste0('= ',round(SMD_S_LMA_StandardDose[["metaregression"]][["pval"]][2],3))}else{'< 0.001'}`). 
 
 #### SyRCLE RoB assessment
 
@@ -1489,7 +1489,7 @@ SMD_S_Cog_StandardDose <- metaregression_analysis(df, "TvC", "Cognition", "Stand
 SMD_S_Cog_StandardDose$regression_plot
 ```
 
-The estimate for $\theta$ was `r SMD_S_Cog_StandardDose$metaregression_summary$beta[1]`. The estimate for $\beta$ was `r SMD_S_Cog_StandardDose$metaregression_summary$beta[2]`.
+The estimate for the change in effect per log unit change in standardised dose was `r SMD_S_Cog_StandardDose$metaregression_summary$beta[2]` (p  `r if(round(SMD_S_Cog_StandardDose[["metaregression"]][["pval"]][2],3)>0.001){paste0('= ',round(SMD_S_Cog_StandardDose[["metaregression"]][["pval"]][2],3))}else{'< 0.001'}`).
 
 #### SyRCLE RoB assessment
 
@@ -2022,7 +2022,14 @@ knitr::kable(SoE_TvA)
 
 ```
 
- the evaluation of indirectness of evidence is available in the Appendix.
+## Evaluation of indirectness of evidence (based on criteria in document “Assessing the certainty of evidence in animal studies”) for the studies included in the review 
+
+```{r echo = FALSE}
+SoE_Indir <- read_xlsx("data/soe_tables_20240201.xlsx", "Indir")
+
+knitr::kable(SoE_Indir)
+
+```
 
 # 8. Software used
 
