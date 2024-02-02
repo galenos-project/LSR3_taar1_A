@@ -846,7 +846,7 @@ SMD_S_LMA_StandardDose <- metaregression_analysis(df, "TvC", "Locomotor activity
 SMD_S_LMA_StandardDose$regression_plot
 ```
 
-The estimate for the change in effect per log unit change in standardised dose was `r SMD_S_LMA_StandardDose$metaregression_summary$beta[1]` (p = `r round(SMD_S_LMA_StandardDose[["metaregression"]][["k"]],3)`). The between-strain variance was `r SMD_S_LMA_StandardDose$metaregression$sigma2[1]`, the between-study variance `r SMD_S_LMA_StandardDose$metaregression$sigma2[2]`, and the within-experiment variance `r SMD_S_LMA_StandardDose$metaregression$sigma2[3]`.
+The estimate for the change in effect per log unit change in standardised dose was `r SMD_S_LMA_StandardDose$metaregression_summary$beta[2]` (p  `r if(round(SMD_S_LMA_StandardDose[["metaregression"]][["pval"]][2],3)>0.001){paste0('= ',round(SMD_S_LMA_StandardDose[["metaregression"]][["pval"]][2],3))}else{'< 0.001'}`). The between-strain variance was `r SMD_S_LMA_StandardDose$metaregression$sigma2[1]`, the between-study variance `r SMD_S_LMA_StandardDose$metaregression$sigma2[2]`, and the within-experiment variance `r SMD_S_LMA_StandardDose$metaregression$sigma2[3]`.
 
 #### SyRCLE RoB assessment
 
@@ -2013,35 +2013,16 @@ knitr::kable(SoE_TvC)
 
 ```
 
-No studies were of low risk of bias or low reporting bias. Egger Regression suggested that smaller studies report larger effects.
+## TAAR1 agonists versus conventional antipsychotic drugs
 
-This might occur if smaller studies reporting larger effects were disproportionately represented in those studies for which NMD was not evaluable those which did not report performance in a sham group.
+```{r echo = FALSE}
+SoE_TvA <- read_xlsx("data/soe_tables_20240201.xlsx", "TvA")
 
-Bias due to indirectness was assessed as follows.
+knitr::kable(SoE_TvA)
 
-The <strong>Initial organism Homological validity</strong>
+```
 
-We assessed rodents as having moderate validity as a non primate mammalian species, and all experiments included here were conducted in rodents. Further, `r SMD_S_LMA_CatDisInd %>% filter(CategoryDiseaseInduction == "Genetic") %>% pull(k)` experiments reporting locomotor activity and `r SMD_S_Cog_CatDisInd %>% filter(CategoryDiseaseInduction == "Genetic") %>% pull(k)` experiments reporting cognition used a genetic manipulation in a gene DAT known to be associated with human disease.
-
-<strong>Early environment factors inducing transition from initial organism to vulnerable organism Ontopathogenic validity</strong>
-
-Aside from the genetic models above, no models manipulated early environmental factors.
-
-<strong>Triggering factors inducing transition from Vulnerable organism to Pathological organism</strong> were commonly used e.g. cocaine, amphetamine, PCP but usually only with short term exposures trigerring increased locomotor activity. It was not possible to assess <strong>Pathological Organism Mechanistic validity</strong> whether the neurobiological or cognitive mechanisms which operate in human disease could be observed in the animal models used or <strong>Triggering factors inducing changes in biomarkers Induction validity</strong> because these were not assessed.
-
-<strong>Therapeutic agents inducing changes in outcome</strong>
-
-There was some evidence to support directness in that known antipsychotic drugs had observed efficacy in improving locomotor activity.
-
-<strong>Biological markers</strong>
-
-There were insufficient studies reporting neuotransmitter levels and no studies reported brain imaging outcomes.
-
-<strong>Behavioural manifestations Ethological validity</strong>
-
-Most experiments reported locomotor activity, but `r SMD_S_Cog[["k"]]` experiments reported some form of cognitive outcome, and in these there was no significant effect of TAAR1 agonists (`r SMD_S_Cog$beta`, 95% CI: `r SMD_S_Cog$ci.lb` to `r SMD_S_Cog$ci.ub`).
-
-The table detailing the evaluation of indirectness of evidence is available in the Appendix.
+ the evaluation of indirectness of evidence is available in the Appendix.
 
 # 8. Software used
 
