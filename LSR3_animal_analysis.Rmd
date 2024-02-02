@@ -846,7 +846,7 @@ SMD_S_LMA_StandardDose <- metaregression_analysis(df, "TvC", "Locomotor activity
 SMD_S_LMA_StandardDose$regression_plot
 ```
 
-The estimate for the change in effect per log unit change in standardised dose was `r SMD_S_LMA_StandardDose$metaregression_summary$beta[2]` (p  `r if(round(SMD_S_LMA_StandardDose[["metaregression"]][["pval"]][2],3)>0.001){paste0('= ',round(SMD_S_LMA_StandardDose[["metaregression"]][["pval"]][2],3))}else{'< 0.001'}`). The between-strain variance was `r SMD_S_LMA_StandardDose$metaregression$sigma2[1]`, the between-study variance `r SMD_S_LMA_StandardDose$metaregression$sigma2[2]`, and the within-experiment variance `r SMD_S_LMA_StandardDose$metaregression$sigma2[3]`.
+The estimate for the change in effect per log unit change in standardised dose was `r SMD_S_LMA_StandardDose$metaregression_summary$beta[2]` (p `r if(round(SMD_S_LMA_StandardDose[["metaregression"]][["pval"]][2],3)>0.001){paste0('= ',round(SMD_S_LMA_StandardDose[["metaregression"]][["pval"]][2],3))}else{'< 0.001'}`). The between-strain variance was `r SMD_S_LMA_StandardDose$metaregression$sigma2[1]`, the between-study variance `r SMD_S_LMA_StandardDose$metaregression$sigma2[2]`, and the within-experiment variance `r SMD_S_LMA_StandardDose$metaregression$sigma2[3]`.
 
 #### SyRCLE RoB assessment
 
@@ -1489,7 +1489,7 @@ SMD_S_Cog_StandardDose <- metaregression_analysis(df, "TvC", "Cognition", "Stand
 SMD_S_Cog_StandardDose$regression_plot
 ```
 
-The estimate for $\theta$ was `r SMD_S_Cog_StandardDose$metaregression_summary$beta[1]`. The estimate for $\beta$ was `r SMD_S_Cog_StandardDose$metaregression_summary$beta[2]`.
+The estimate for the change in effect per log unit change in standardised dose was `r SMD_S_Cog_StandardDose$metaregression_summary$beta[2]` (p `r if(round(SMD_S_Cog_StandardDose[["metaregression"]][["pval"]][2],3)>0.001){paste0('= ',round(SMD_S_Cog_StandardDose[["metaregression"]][["pval"]][2],3))}else{'< 0.001'}`). The between-strain variance was `r SMD_S_Cog_StandardDose$metaregression$sigma2[1]`, the between-study variance `r SMD_S_Cog_StandardDose$metaregression$sigma2[2]`, and the within-experiment variance `r SMD_S_Cog_StandardDose$metaregression$sigma2[3]`.
 
 #### SyRCLE RoB assessment
 
@@ -2004,7 +2004,7 @@ dfiper <- (dfisn/dfin)*100
 
 # 7. Summary of the evidence
 
-## TAAR1 agonists versus control
+## 7.1 TAAR1 agonists versus control
 
 ```{r echo = FALSE}
 SoE_TvC <- read_xlsx("data/soe_tables_20240201.xlsx", "TvC")
@@ -2013,7 +2013,7 @@ knitr::kable(SoE_TvC)
 
 ```
 
-## TAAR1 agonists versus conventional antipsychotic drugs
+## 7.2 TAAR1 agonists versus conventional antipsychotic drugs
 
 ```{r echo = FALSE}
 SoE_TvA <- read_xlsx("data/soe_tables_20240201.xlsx", "TvA")
@@ -2022,7 +2022,7 @@ knitr::kable(SoE_TvA)
 
 ```
 
- the evaluation of indirectness of evidence is available in the Appendix.
+The evaluation of indirectness of evidence is available in the Appendix.
 
 # 8. Software used
 
@@ -2032,7 +2032,7 @@ grateful::cite_packages(output = "paragraph", pkgs = "Session", out.dir = ".")
 
 # Appendix
 
-### **Evaluation of indirectness of evidence (based on criteria in document "Assessing the certainty of evidence in animal studies") for the studies included in the review**
+### Evaluation of indirectness of evidence (based on criteria in document "Assessing the certainty of evidence in animal studies") for the studies included in the review
 
 <table>
 <thead>
