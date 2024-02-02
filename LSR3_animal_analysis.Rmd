@@ -1091,7 +1091,7 @@ if (any(class(SMD_S_Cog) == "rma.mv")) {
 
 `r output_text3`
 
-`r SMD_S_Cog[["k"]]` experimental comparisons were reported in `r SMD_S_Cog[["s.nlevels"]][3]` experiments reported from `r length(unique(SMD_S_Cog$data$StudyId))` publications and involving `r SMD_S_Cog[["s.nlevels"]][1]` different animal strains. The between strain variance was `r SMD_S_Cog$sigma2[1]`, the between study variance `r SMD_S_Cog$sigma2[2]` and the within-experiment variance `r SMD_S_Cog$sigma2[3]`.
+`r SMD_S_Cog[["k"]]` experimental comparisons were reported in `r length(unique(SMD_S_Cog[["data"]][["ExperimentId"]]))` experiments reported from `r length(unique(SMD_S_Cog$data$StudyId))` publications and involving `r SMD_S_Cog[["s.nlevels"]][1]` different animal strains. The between strain variance was `r SMD_S_Cog$sigma2[1]`, the between study variance `r SMD_S_Cog$sigma2[2]` and the within-experiment variance `r SMD_S_Cog$sigma2[3]`.
 
 ### 2.2.4 Subgroup analyses and meta-regressions
 
@@ -1634,7 +1634,7 @@ forest_metafor_NMD(NMD_S_cog, "Cognition")
 
 For TAAR1 Agonist v Control, TAAR1 interventions had a pooled effect on cognition of NMD = `r NMD_S_cog[["beta"]][1]` (95% CI: `r NMD_S_cog[["ci.lb"]]` to `r NMD_S_cog[["ci.ub"]]`) with a prediction interval of `r predict(NMD_S_cog)$pi.lb` to `r predict(NMD_S_cog)$pi.ub`. For reference the pooled effect size for SMD was `r SMD_S_Cog[["beta"]]` (95% CI: `r SMD_S_Cog[["ci.lb"]]` to `r SMD_S_Cog[["ci.ub"]]`).
 
-`r NMD_S_cog[["k"]]` experimental comparisons were reported in `r NMD_S_cog[["s.nlevels"]][3]` experiments reported from `r length(unique(NMD_S_cog$data$StudyId))` publications and involving `r NMD_S_cog[["s.nlevels"]][1]` different animal strains.Between-strain variance was `r round(NMD_S_cog$sigma2[1], 3)`, between-study variance was `r round(NMD_S_cog$sigma2[2], 3)`, and within-study variance (between experiments) was `r round(NMD_S_cog$sigma2[3], 3)`.
+`r NMD_S_cog[["k"]]` experimental comparisons were reported in `r NMD_S_cog[["s.nlevels"]][3]` experiments reported from `r length(unique(NMD_S_cog$data$StudyId))` publications and involving `r NMD_S_cog[["s.nlevels"]][1]` different animal strains. Between-strain variance was `r round(NMD_S_cog$sigma2[1], 3)`, between-study variance was `r round(NMD_S_cog$sigma2[2], 3)`, and within-study variance (between experiments) was `r round(NMD_S_cog$sigma2[3], 3)`.
 
 #### Robust variance estimator (RVE)
 
@@ -1697,7 +1697,7 @@ forest_metafor(SMD_S_LMA_H2H, "TvA", "locomotor activity")
 
 `r output_text3`
 
-`r SMD_S_LMA_H2H[["k"]]` experimental comparisons were reported in `r SMD_S_LMA_H2H[["s.nlevels"]][3]` experiments reported from `r  length(unique(SMD_S_LMA_H2H$data$StudyId))` publications and involving `r SMD_S_LMA_H2H[["s.nlevels"]][1]` different animal strains. The between strain variance was `r SMD_S_LMA_H2H$sigma2[1]`, the between study variance `r SMD_S_LMA_H2H$sigma2[2]` and the within-experiment variance `r SMD_S_LMA_H2H$sigma2[3]`.
+`r SMD_S_LMA_H2H[["k"]]` experimental comparisons were reported in `r length(unique(SMD_S_LMA_H2H[["data"]][["ExperimentId"]]))` experiments reported from `r  length(unique(SMD_S_LMA_H2H$data$StudyId))` publications and involving `r SMD_S_LMA_H2H[["s.nlevels"]][1]` different animal strains. The between strain variance was `r SMD_S_LMA_H2H$sigma2[1]`, the between study variance `r SMD_S_LMA_H2H$sigma2[2]` and the within-experiment variance `r SMD_S_LMA_H2H$sigma2[3]`.
 
 ## 3.2 Outcome 2: Cognitive function
 
@@ -2004,6 +2004,15 @@ dfiper <- (dfisn/dfin)*100
 
 # 7. Summary of the evidence
 
+## TAAR1 agonists versus control
+
+```{r echo = FALSE}
+SoE_TvC <- read_xlsx("data/soe_tables_20240201.xlsx", "TvC")
+
+knitr::kable(SoE_TvC)
+
+```
+
 No studies were of low risk of bias or low reporting bias. Egger Regression suggested that smaller studies report larger effects.
 
 This might occur if smaller studies reporting larger effects were disproportionately represented in those studies for which NMD was not evaluable those which did not report performance in a sham group.
@@ -2032,8 +2041,139 @@ There were insufficient studies reporting neuotransmitter levels and no studies 
 
 Most experiments reported locomotor activity, but `r SMD_S_Cog[["k"]]` experiments reported some form of cognitive outcome, and in these there was no significant effect of TAAR1 agonists (`r SMD_S_Cog$beta`, 95% CI: `r SMD_S_Cog$ci.lb` to `r SMD_S_Cog$ci.ub`).
 
+The table detailing the evaluation of indirectness of evidence is available in the Appendix.
+
 # 8. Software used
 
 ```{r echo=FALSE}
 grateful::cite_packages(output = "paragraph", pkgs = "Session", out.dir = ".")
 ```
+
+# Appendix
+
+### **Evaluation of indirectness of evidence (based on criteria in document "Assessing the certainty of evidence in animal studies") for the studies included in the review**
+
+<table>
+<thead>
+<tr class="header">
+<th><p></p></th>
+<th><p></p></th>
+<th><p>Homological validity</p></th>
+<th><p>Ontopathogenic validity</p></th>
+<th><p>Triggering validity</p></th>
+<th><p>Mechanistic validity</p></th>
+<th><p>Induction validity</p></th>
+<th><p>Remission validity</p></th>
+<th><p>Biomarker validity</p></th>
+<th><p>Ethological validity</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><p>Species and strain</p></td>
+<td><p>Rat</p></td>
+<td><p>We could find no evidence that the rat behavioural repertoire is closer to human than is the mouse</p></td>
+<td><p>-</p></td>
+<td><p>-</p></td>
+<td></td>
+<td><p>-</p></td>
+<td><p>-</p></td>
+<td><p>-</p></td>
+<td><p>-</p></td>
+</tr>
+<tr class="even">
+<td><p>Mouse</p></td>
+<td><p>-</p></td>
+<td><p>-</p></td>
+<td></td>
+<td><p>-</p></td>
+<td><p>-</p></td>
+<td><p>-</p></td>
+<td><p>-</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><p>Model Induction</p></td>
+<td><p>Models using genetic induction – the DAT KO model</p></td>
+<td><p>Polymorphisms in human SLC6A3 DAT gene reportedly associated with schizophrenia in some populations</p></td>
+<td><p>-</p></td>
+<td><p>Indirect DAT inhibitors such as methamphetamine can induce psychosis in humans.</p></td>
+<td><p>The effect of indirect DAT inhibitors is thought to be mediated through TAAR1 agonism</p></td>
+<td></td>
+<td><p>-</p></td>
+<td><p>-</p></td>
+<td><p>-</p></td>
+</tr>
+<tr class="even">
+<td><p>Pharmacological</p>
+<p>- psychostimulant models cocaine, amphetamine etc</p>
+<p>- NMDA models phencyclidine PCP, MK801</p></td>
+<td><p>-</p></td>
+<td><p>No</p></td>
+<td><p>MK801, ketamine, PCP and amphetamine induce psychosis and exacerbate symptoms in humans</p></td>
+<td><p>Psychostimulant models induce mesolimbic dopamine dysregulation</p></td>
+<td><p>1.The chronic PCP model has been associated with reduced brain volume; 2.EEG changes induced by amphetamine, PCP and MK801 are seen in human disease</p></td>
+<td><p>1. In vivo EEG changes induced by amphetamine, PCP and MK801 are responsive to treatment</p></td>
+<td><p>1. The chronic PCP model has been associated with reduced brain volume; 2. EEG changes induced by amphetamine, PCP and MK801 are seen in human disease</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><p>Outcome Measure</p></td>
+<td><p>Locomotor activity</p></td>
+<td><p>-</p></td>
+<td><p>-</p></td>
+<td><p>-</p></td>
+<td></td>
+<td></td>
+<td><p>In a systematic review, Bahor found that known antipsychotic drugs improved locomotor activity in developmental models of psychosis. In house data from a Masters project 2015 suggests that some clozapine, aripiprazole, fluphenazine but not all eg olanzapine improve cocaine induced locomotor activity.</p></td>
+<td><p>-</p></td>
+<td><p>Neither psychomotor agitation nor Cognitive impairment are listed on the JLA schizophrenia PSP top 10, and so the ethological validity of these measures as relevant to unmet clinical need is uncertain</p></td>
+</tr>
+<tr class="even">
+<td><p>Cognition</p></td>
+<td><p>-</p></td>
+<td><p>-</p></td>
+<td><p>-</p></td>
+<td></td>
+<td></td>
+<td><p>We could find no SRs of the effects of known antipsychotic drugs.</p></td>
+<td><p>-</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><p>Additional experimental contrasts</p></td>
+<td><p>T1A v other</p></td>
+<td><p>-</p></td>
+<td><p>-</p></td>
+<td><p>-</p></td>
+<td></td>
+<td><p>-</p></td>
+<td><p>In head-to-head experiments, T1A efficacy is non significantly lower than conventional antipsychotics</p></td>
+<td><p>-</p></td>
+<td><p>Relevant to potential use as monotherapy</p></td>
+</tr>
+<tr class="even">
+<td><p>T1A + other v other</p></td>
+<td><p>-</p></td>
+<td><p>-</p></td>
+<td><p>-</p></td>
+<td></td>
+<td><p>-</p></td>
+<td><p>There is no effect of combined treatment compared with conventional antipsychotic drugs alone</p></td>
+<td><p>-</p></td>
+<td><p>Relevant to potential use as component of combination therapy</p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+> **Dose response relationship:** TAAR1 agonists led to significant improvement in locomotor activity, with evidence for a dose-response relationship. There was no significant effect on cognition, and no evidence of a dose-response relationship.
+>
+> **Heterogeneity in observed effects:** There was no association between sex; category of disease induction (Genetic or Pharmacological); route of drug administration; whether drug was given before or after disease administration; whether the drug was a full or a partial agonist; whether the drug was highly selective or also had effects at 5-HT receptors; or with study level risks of bias or completeness of reporting, for either of the outcomes considered. This would be unusual for a truly active compound, and suggests, at best, that there have been too few studies adequately to describe the effects of TAAR1 agonists in animal models of schizophrenia.
+>
+> **Small study effects:** There was evidence of a significant small study effect for 125 locomotor outcomes, with larger studies giving more smaller estimated for efficacy. There was no significant effect of study size for 19 cognitive outcomes.
+>
+> **Risks of Bias and Reporting Quality**: Only 2 of 15 publications were judged at low risk of bias for any of 10 criteria, the majority being at unclear Risk of Bias. There was no significant difference between studies which were of low risk of bias for at least 1 item and those which were not. The median number of ARRIVE reporting guideline items met was 13 out of 22. There was no significant effect of the number of ARRIVE checklist items met, whether this was considered as quartile categories or as a continuous variable.
