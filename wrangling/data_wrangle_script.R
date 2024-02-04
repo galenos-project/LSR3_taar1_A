@@ -156,11 +156,14 @@ reconciled_cohort_label <- reconciled_records %>%
   )
 
 ## sort the blank disease models (which are equivalent to sham)
+
 reconciled_cohort_label <- reconciled_cohort_label %>%
   mutate(
     IsDiseaseModelControl = case_when(
       IsDiseaseModelControl == 'TRUE' ~ TRUE,
       IsDiseaseModelControl == 'FALSE' ~ FALSE,
+      IsDiseaseModelControl == 'True' ~ TRUE,
+      IsDiseaseModelControl == 'False' ~ FALSE,
       is.na(IsDiseaseModelControl) ~ TRUE,
       TRUE ~ as.logical(NA)  # default case if none of the conditions are met
     )
