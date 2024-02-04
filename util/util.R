@@ -909,8 +909,8 @@ ARRIVE_traffic <- function(df, experiment_type, outcome) {
   ARRIVE <- RoB[,c(1,15:37)]
   
   #Change "yes' to 'low' and 'No' to 'high'
-  ARRIVE <- mutate_all(ARRIVE, list(~ ifelse(. == 'Yes', 'Low', .)))
-  ARRIVE <- mutate_all(ARRIVE, list(~ ifelse(. == 'No', 'High', .)))
+  ARRIVE <- mutate_all(ARRIVE, list(~ ifelse(. == 'Yes', 'Reported', .)))
+  ARRIVE <- mutate_all(ARRIVE, list(~ ifelse(. == 'No', 'Not reported', .)))
   #but ethics NAs to justification into ethics low risk
   ARRIVE <- mutate_all(ARRIVE, list(~ ifelse(. == 'NA (ethical approval declared)', 'Low', .)))
   #combine desc stats and variance with ES and CI
