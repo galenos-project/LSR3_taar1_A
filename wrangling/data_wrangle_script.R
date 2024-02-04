@@ -11,7 +11,7 @@ source("wrangling/wrangling_functions.R", local = TRUE)
 LSR <- 'LSR3'
 
 # Import SyRF outcome data
-LSR3_SyRFOutcomes <- read_csv("data/Quantitative_data_-_2024_01_24_-_c494b1ae-4cf4-4618-b91a-e69a2b815bdd_-_Investigators_Unblinded.csv")
+LSR3_SyRFOutcomes <- read_csv("data/Quantitative_data_-_2024_02_01_-_c494b1ae-4cf4-4618-b91a-e69a2b815bdd_-_Investigators_Unblinded.csv")
 
 ###### Tidying and cleaning the data ######
 #clean ; from TiAb etc
@@ -30,6 +30,11 @@ LSR3_SyRFOutcomes$ReferenceType <- gsub(";", ":", LSR3_SyRFOutcomes$ReferenceTyp
 LSR3_SyRFOutcomes$PdfRelativePath <- gsub(";", ":", LSR3_SyRFOutcomes$PdfRelativePath)
 
 
+
+# wrangle because FT didnt mark her most recent entry as a reconciliation <- 'Is this a reconciliation?'
+column_name <- 'Is this a reconciliation?'
+  condition <- LSR3_SyRFOutcomes$StudyId == '2cfb8de7-b0ad-416f-bfa4-a3771051dc1d'  & LSR3_SyRFOutcomes$InvestigatorName == 'Francesca Tinsdeall'
+LSR3_SyRFOutcomes[condition, column_name] <- TRUE
 
 
 # Filter for reconciled studies (and rename columns for consistency with shiny outcomes/remove SYRF columnns)
@@ -155,6 +160,9 @@ reconciled_cohort_label <- reconciled_records %>%
     )
   )
 
+reconciled_cohort_label$IsDiseaseModelControl <- reconciled_cohort_label$`IsDiseaseModelControl[1]`
+reconciled_cohort_label$ModelID <- reconciled_cohort_label$`ModelID[1]`
+
 ## sort the blank disease models (which are equivalent to sham)
 
 reconciled_cohort_label <- reconciled_cohort_label %>%
@@ -168,8 +176,6 @@ reconciled_cohort_label <- reconciled_cohort_label %>%
       TRUE ~ as.logical(NA)  # default case if none of the conditions are met
     )
   )
-
-
 
 ## Make CohortType column
 # Combination interventions are interventions where currently licensed antipsychotic is an intervention
@@ -284,13 +290,13 @@ data <- data %>%
 
 
 ##### Remove DA knockouts and data reported from subgroups #####
-data_rem <- subset(data, data$`DiseaseModelLabel(s)` == 'DAT +/-')
+data_rem <- subset(data, data$`DiseaseModelLabel(s)[1]` == 'DAT +/-')
 data <- anti_join(data, data_rem)
 #remove data reported from subgroups
-data_rem <- data %>% filter(str_detect(`DiseaseModelLabel(s)`, "SUBGROUP") | str_detect(CohortLabel, 'SUBGROUP'))
+data_rem <- data %>% filter(str_detect(`DiseaseModelLabel(s)[1]`, "SUBGROUP") | str_detect(CohortLabel, 'SUBGROUP'))
 data <- anti_join(data, data_rem)
 data <- data %>%
-  mutate(`DiseaseModelLabel(s)` = ifelse(`DiseaseModelLabel(s)` == "DAT -/-", "DAT KO", `DiseaseModelLabel(s)`))
+  mutate(`DiseaseModelLabel(s)[1]` = ifelse(`DiseaseModelLabel(s)[1]` == "DAT -/-", "DAT KO", `DiseaseModelLabel(s)[1]`))
 data <- data %>% mutate_all(trimws)
 
 
@@ -888,33 +894,33 @@ data2 <- data2 %>%
   rename_at(vars(ends_with(".y")), ~str_remove(., "\\.y") %>% paste0("_C"))
 
 ###get names (wrangled externally) of columns to delete
-col_data2 <- read_csv("data/col_data2.csv")
-cols2delete <- as.list(col_data2[,1])
-col_data2 <- as.data.frame(colnames(data2))
+#col_data2 <- read_csv("data/col_data2.csv")
+#cols2delete <- as.list(col_data2[,1])
+#col_data2 <- as.data.frame(colnames(data2))
 
-data2 <- data2 %>% select(-cols2delete[["colnames(data2)"]])
+#data2 <- data2 %>% select(-cols2delete[["colnames(data2)"]])
 
 #####colname corrections #####
-data2<- data2 %>% rename(`Type of outcome?` = `Type of outcome?_I`)
-data2<- data2 %>% rename(StudyId = StudyId_I)
-data2<- data2 %>% rename(ErrorType = ErrorType_I)
-data2<- data2 %>% rename(GreaterIsWorse = GreaterIsWorse_I)
-data2<- data2 %>% rename(`Category of disease model induction method:` = `Category of disease model induction method:_I`)
-data2<- data2 %>% rename(`Measurement unit of treatment dose:[1]` = `Measurement unit of treatment dose:[1]_I`)
-data2<- data2 %>% rename(`Measurement unit of treatment dose:[2]` = `Measurement unit of treatment dose:[2]_I`)
-data2<- data2 %>% rename(`Duration of treatment[1]` = `Duration of treatment[1]_I`)
-data2<- data2 %>% rename(`Unit of measurement for treatment duration[1]` = `Unit of measurement for treatment duration[1]_I`)
-data2<- data2 %>% rename(`Duration of treatment[2]` = `Duration of treatment[2]_I`)
-data2<- data2 %>% rename(`Unit of measurement for treatment duration[2]` = `Unit of measurement for treatment duration[2]_I`)
-data2<- data2 %>% rename(`Species of animals?` = `Species of animals?_I`)
-data2<- data2 %>% rename(`Animal strain?` = `Animal strain?_I`)
-data2<- data2 %>% rename(`Sex of animals?` = `Sex of animals?_I`)
-data2<- data2 %>% rename(`Were caregivers/investigator blinded to which intervention each animal received?` = `Were caregivers/investigator blinded to which intervention each animal received?_I`)
-data2<- data2 %>% rename(`Is any role of the funder in the design/analysis/reporting of study described?` = `Is any role of the funder in the design/analysis/reporting of study described?_I`)
-data2<- data2 %>% rename(Title = Title_I)
-data2<- data2 %>% rename(Year = Year_I)
-data2<- data2 %>% rename(ModelID = ModelID_I)
-data2<- data2 %>% rename(Authors = Authors_I)
+data2$`Type of outcome?` <- data2$`Type of outcome?_I`
+data2$StudyId <- data2$StudyId_I
+data2$ErrorType <- data2$ErrorType_I
+data2$GreaterIsWorse <-  data2$GreaterIsWorse_I
+data2$`Category of disease model induction method:`<-  data2$`Category of disease model induction method:[1]_I`
+data2$`Measurement unit of treatment dose:[1]` <-  data2$`Measurement unit of treatment dose:[1]_I`
+data2$`Measurement unit of treatment dose:[2]` <- data2$`Measurement unit of treatment dose:[2]_I`
+data2$`Duration of treatment[1]` <- data2$`Duration of treatment[1]_I`
+data2$`Unit of measurement for treatment duration[1]` <- data2$`Unit of measurement for treatment duration[1]_I`
+data2$`Duration of treatment[2]` <- data2$`Duration of treatment[2]_I`
+data2$`Unit of measurement for treatment duration[2]` <- data2$`Unit of measurement for treatment duration[2]_I`
+data2$`Species of animals?` <- data2$`Species of animals?_I`
+data2$`Animal strain?` <- data2$`Animal strain?_I`
+data2$`Sex of animals?` <- data2$`Sex of animals?_I`
+data2$`Were caregivers/investigator blinded to which intervention each animal received?` <- data2$`Were caregivers/investigator blinded to which intervention each animal received?_I`
+data2$`Is any role of the funder in the design/analysis/reporting of study described?`<- data2$`Is any role of the funder in the design/analysis/reporting of study described?_I`
+data2$Title <- data2$Title_I
+data2$Year <- data2$Year_I
+data2$ModelID <- data2$ModelID_I
+data2$Authors <- data2$Authors_I
 
 #GroupIdlist <- unique(data2$GroupID.x) ##?
 
