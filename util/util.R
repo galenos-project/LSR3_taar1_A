@@ -484,7 +484,7 @@ forest_subgroup <- function(modelsumm, moderator, outcome, moderator_text) {
       ggplot(aes(y = fct_rev(moderator))) +
       geom_text(aes(x = 0, label = moderator), hjust = 0, size = model$fontsize) +
       geom_text(aes(x = r1, label = k), hjust = 1, size = model$fontsize) +
-      annotate("text", x = r1, y = lnth, label = "Number of\nexperiments", hjust=1) +
+      annotate("text", x = r1, y = lnth, label = "Number of\nexperimental\ncontrasts", hjust=1) +
       theme_void() +
       coord_cartesian(ylim = c(0, lnth), xlim = c(0, span1))
     
@@ -727,7 +727,7 @@ SyRCLE_RoB_summary <- function(df, experiment_type, outcome) {
 RoB <- unique(df[,c(4,6,12,25:58)])
 
 #change studyId to Author, year
-RoB$StudyId <- toupper(paste0(str_extract(RoB$Authors,"\\b\\w+\\b"),', ',RoB$Year))
+RoB$StudyId <- toupper(paste0(str_extract(RoB$Authors_I,"\\b\\w+\\b"),', ',RoB$Year_I))
 
 # fix >1 publication per first author in a year
 
@@ -776,7 +776,7 @@ SyRCLE_RoB_traffic <- function(df, experiment_type, outcome) {
   RoB <- unique(df[,c(4,6,12,25:58)])
 
   #change studyId to Author, year
-  RoB$StudyId <- toupper(paste0(str_extract(RoB$Authors,"\\b\\w+\\b"),', ',RoB$Year))
+  RoB$StudyId <- toupper(paste0(str_extract(RoB$Authors_I,"\\b\\w+\\b"),', ',RoB$Year_I))
   
   # fix >1 publication per first author in a year
   
@@ -802,7 +802,7 @@ SyRCLE_RoB_traffic <- function(df, experiment_type, outcome) {
   
   
   #extract Syrcle RoB scores
-  SyRCLE <- RoB[,c(1,5:14)]
+  SyRCLE <- RoB[,c(38,5:14)]
   
   #Change "yes' to 'low' and 'No' to 'high'
   SyRCLE <- mutate_all(SyRCLE, list(~ ifelse(. == 'Yes', 'Low', .)))
@@ -884,7 +884,7 @@ ARRIVE_traffic <- function(df, experiment_type, outcome) {
   RoB <- unique(dfb[,c(4,6,12,25:58)])
 
   #change studyId to Author, year
-  RoB$StudyId <- toupper(paste0(str_extract(RoB$Authors,"\\b\\w+\\b"),', ',RoB$Year))
+  RoB$StudyId <- toupper(paste0(str_extract(RoB$Authors_I,"\\b\\w+\\b"),', ',RoB$Year_I))
   
   # fix >1 publication per first author in a year
   
@@ -909,7 +909,7 @@ ARRIVE_traffic <- function(df, experiment_type, outcome) {
   RoB <- RoB[order(RoB$StudyId),]
   
   #extract ARRIVE reporting scores
-  ARRIVE <- RoB[,c(1,15:37)]
+  ARRIVE <- RoB[,c(38,15:37)]
   
   #Change "yes' to 'low' and 'No' to 'high'
   ARRIVE <- mutate_all(ARRIVE, list(~ ifelse(. == 'Yes', 'Reported', .)))
