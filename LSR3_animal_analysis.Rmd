@@ -1683,7 +1683,7 @@ The table below summarises the heterogeneity observed for each covariate in the 
 |            Risk of Bias             |           \-            |                        \-                         |                                                    \-                                                    |         `r round((r2_ml(SMD_S_Cog_SyRCLERoBI)[1]*100),1)`%          |
 |                 \-                  |    *0 criteria met*     |         `r SMD_S_Cog_SyRCLERoBI$beta[1]`          |                  `r SMD_S_Cog_SyRCLERoBI$ci.lb[1]` to `r SMD_S_Cog_SyRCLERoBI$ci.ub[1]`                  |                                 \-                                  |
 |                 \-                  |    *1 criteria met*     |         `r SMD_S_Cog_SyRCLERoBI$beta[2]`          |                  `r SMD_S_Cog_SyRCLERoBI$ci.lb[2]` to `r SMD_S_Cog_SyRCLERoBI$ci.ub[2]`                  |                                 \-                                  |
-|               Reporting completeness               |      per log unit       |   `r SMD_S_Cog_ARR2$metaregression$beta[2]`    |      `r SMD_S_Cog_ARR2$metaregression$ci.lb[2]` to `r SMD_S_Cog_ARR2$metaregression$ci.ub[2]`      |   `r round((r2_ml(SMD_S_Cog_ARR2$metaregression)[1]*100),1)`%    |
+|               Reporting completeness               |      per log unit       |   `r SMD_S_cog_ARR2$metaregression$beta[2]`    |      `r SMD_S_cog_ARR2$metaregression$ci.lb[2]` to `r SMD_S_cog_ARR2$metaregression$ci.ub[2]`      |   `r round((r2_ml(SMD_S_cog_ARR2$metaregression)[1]*100),1)`%    |
 
 ### 2.2.5. Sensitivity Analyses
 
@@ -2101,7 +2101,7 @@ dfiper <- (dfisn/dfin)*100
 ## 7.1 TAAR1 agonists versus control
 
 ```{r echo = FALSE}
-SoE_TvC <- read_xlsx("data/soe_tables_20240201.xlsx", "TvC")
+SoE_TvC <- read_xlsx("data/soe_tables_20240205.xlsx", "TvC")
 
 knitr::kable(SoE_TvC) %>%
   kable_styling(bootstrap_options = "bordered")
@@ -2111,7 +2111,7 @@ knitr::kable(SoE_TvC) %>%
 ## 7.2 TAAR1 agonists versus conventional antipsychotic drugs
 
 ```{r echo = FALSE}
-SoE_TvA <- read_xlsx("data/soe_tables_20240201.xlsx", "TvA")
+SoE_TvA <- read_xlsx("data/soe_tables_20240205.xlsx", "TvA")
 
 knitr::kable(SoE_TvA) %>%
   kable_styling(bootstrap_options = "bordered")
@@ -2132,7 +2132,7 @@ Rationale for conclusions for indirectness:
 ## Evaluation of indirectness of evidence (based on criteria in document "Assessing the certainty of evidence in animal studies") for the studies included in the review
 
 ```{r echo = FALSE}
-SoE_Indir <- read_xlsx("data/soe_tables_20240201.xlsx", "Indir") ### ? where is this##
+SoE_Indir <- read_xlsx("data/soe_tables_20240205.xlsx", "Indir") ### ? where is this##
 
 knitr::kable(SoE_Indir) %>%
   kable_styling(bootstrap_options = "bordered")
