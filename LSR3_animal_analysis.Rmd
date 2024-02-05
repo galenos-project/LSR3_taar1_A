@@ -284,13 +284,13 @@ forest_metafor(SMD_S_LMA, "TvC", "Locomotor activity")
 
 `r output_text3`
 
-`r SMD_S_LMA[["k"]]` experimental comparisons were reported in `r SMD_S_LMA[["s.nlevels"]][3]` experiments reported from `r length(unique(SMD_S_LMA$data$StudyId))` publications and involving `r SMD_S_LMA[["s.nlevels"]][1]` different animal strains. 
+`r SMD_S_LMA[["k"]]` experimental comparisons were reported in `r length(unique(SMD_S_LMA$data$ExperimentID_I))` experiments reported from `r length(unique(SMD_S_LMA$data$StudyId))` publications and involving `r length(unique(SMD_S_LMA$data$Strain))` different animal strains. 
 
 | Level| Number of instances | Attributable variance  | 
 |:-------------:|:-------------:|:-------------:|
 | Strain |`r ifelse('Strain' %in% SMD_S_LMA$s.names, SMD_S_LMA$s.nlevels[[which(SMD_S_LMA$s.names == 'Strain')]], 0)`|`r ifelse('Strain' %in% SMD_S_LMA$s.names, SMD_S_LMA$sigma2[[which(SMD_S_LMA$s.names == 'Strain')]], NA)`|
-| Study |`r ifelse('Strain/StudyId' %in% SMD_S_LMA$s.names, SMD_S_LMA$s.nlevels[[which(SMD_S_LMA$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_LMA$s.names, SMD_S_LMA$sigma2[[which(SMD_S_LMA$s.names == 'Strain/StudyId')]], NA)`|
-| Experiment |`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA$s.names, SMD_S_LMA$s.nlevels[[which(SMD_S_LMA$s.names == 'Strain/StudyId/ExperimentID_I')]], 0)`|`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA$s.names, SMD_S_LMA$sigma2[[which(SMD_S_LMA$s.names == 'Strain/StudyId/ExperimentID_I')]], 'NA')`|
+| Study x Strain |`r ifelse('Strain/StudyId' %in% SMD_S_LMA$s.names, SMD_S_LMA$s.nlevels[[which(SMD_S_LMA$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_LMA$s.names, SMD_S_LMA$sigma2[[which(SMD_S_LMA$s.names == 'Strain/StudyId')]], NA)`|
+| Study x Strain  x Experiment |`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA$s.names, SMD_S_LMA$s.nlevels[[which(SMD_S_LMA$s.names == 'Strain/StudyId/ExperimentID_I')]], 0)`|`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA$s.names, SMD_S_LMA$sigma2[[which(SMD_S_LMA$s.names == 'Strain/StudyId/ExperimentID_I')]], 'NA')`|
 
 
 ### 2.1.4 Subgroup analyses and meta-regressions
@@ -348,8 +348,8 @@ The p-value for the association between the sex of animal groups used and outcom
 | Level| Number of instances | Attributable variance  | 
 |:-------------:|:-------------:|:-------------:|
 | Strain |`r ifelse('Strain' %in% SMD_S_LMA_sex$analysis$s.names, SMD_S_LMA_sex$analysis$s.nlevels[[which(SMD_S_LMA_sex$analysis$s.names == 'Strain')]], 0)`|`r ifelse('Strain' %in% SMD_S_LMA_sex$analysis$s.names, SMD_S_LMA_sex$analysis$sigma2[[which(SMD_S_LMA_sex$analysis$s.names == 'Strain')]], NA)`|
-| Study |`r ifelse('Strain/StudyId' %in% SMD_S_LMA_sex$analysis$s.names, SMD_S_LMA_sex$analysis$s.nlevels[[which(SMD_S_LMA_sex$analysis$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_LMA_sex$analysis$s.names, SMD_S_LMA_sex$analysis$sigma2[[which(SMD_S_LMA_sex$analysis$s.names == 'Strain/StudyId')]], NA)`|
-| Experiment |`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_sex$analysis$s.names, SMD_S_LMA_sex$analysis$s.nlevels[[which(SMD_S_LMA_sex$analysis$s.names == 'Strain/StudyId/ExperimentID_I')]], 0)`|`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_sex$analysis$s.names, SMD_S_LMA_sex$analysis$sigma2[[which(SMD_S_LMA_sex$analysis$s.names == 'Strain/StudyId/ExperimentID_I')]], 'NA')`|
+| Study x Strain |`r ifelse('Strain/StudyId' %in% SMD_S_LMA_sex$analysis$s.names, SMD_S_LMA_sex$analysis$s.nlevels[[which(SMD_S_LMA_sex$analysis$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_LMA_sex$analysis$s.names, SMD_S_LMA_sex$analysis$sigma2[[which(SMD_S_LMA_sex$analysis$s.names == 'Strain/StudyId')]], NA)`|
+| Study x Strain  x Experiment |`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_sex$analysis$s.names, SMD_S_LMA_sex$analysis$s.nlevels[[which(SMD_S_LMA_sex$analysis$s.names == 'Strain/StudyId/ExperimentID_I')]], 0)`|`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_sex$analysis$s.names, SMD_S_LMA_sex$analysis$sigma2[[which(SMD_S_LMA_sex$analysis$s.names == 'Strain/StudyId/ExperimentID_I')]], 'NA')`|
 
 #### Category of disease induction
 
@@ -374,8 +374,8 @@ The p-value for the association between whether genetic or pharmacological model
 | Level| Number of instances | Attributable variance  | 
 |:-------------:|:-------------:|:-------------:|
 | Strain |`r ifelse('Strain' %in% SMD_S_LMA_CatDisInd$analysis$s.names, SMD_S_LMA_CatDisInd$analysis$s.nlevels[[which(SMD_S_LMA_CatDisInd$analysis$s.names == 'Strain')]], 0)`|`r ifelse('Strain' %in% SMD_S_LMA_CatDisInd$analysis$s.names, SMD_S_LMA_CatDisInd$analysis$sigma2[[which(SMD_S_LMA_CatDisInd$analysis$s.names == 'Strain')]], NA)`|
-| Study |`r ifelse('Strain/StudyId' %in% SMD_S_LMA_CatDisInd$analysis$s.names, SMD_S_LMA_CatDisInd$analysis$s.nlevels[[which(SMD_S_LMA_CatDisInd$analysis$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_LMA_CatDisInd$analysis$s.names, SMD_S_LMA_CatDisInd$analysis$sigma2[[which(SMD_S_LMA_CatDisInd$analysis$s.names == 'Strain/StudyId')]], NA)`|
-| Experiment |`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_CatDisInd$analysis$s.names, SMD_S_LMA_CatDisInd$analysis$s.nlevels[[which(SMD_S_LMA_CatDisInd$analysis$s.names == 'Strain/StudyId/ExperimentID_I')]], 0)`|`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_CatDisInd$analysis$s.names, SMD_S_LMA_CatDisInd$analysis$sigma2[[which(SMD_S_LMA_CatDisInd$analysis$s.names == 'Strain/StudyId/ExperimentID_I')]], 'NA')`|
+| Study x Strain |`r ifelse('Strain/StudyId' %in% SMD_S_LMA_CatDisInd$analysis$s.names, SMD_S_LMA_CatDisInd$analysis$s.nlevels[[which(SMD_S_LMA_CatDisInd$analysis$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_LMA_CatDisInd$analysis$s.names, SMD_S_LMA_CatDisInd$analysis$sigma2[[which(SMD_S_LMA_CatDisInd$analysis$s.names == 'Strain/StudyId')]], NA)`|
+| Study x Strain  x Experiment |`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_CatDisInd$analysis$s.names, SMD_S_LMA_CatDisInd$analysis$s.nlevels[[which(SMD_S_LMA_CatDisInd$analysis$s.names == 'Strain/StudyId/ExperimentID_I')]], 0)`|`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_CatDisInd$analysis$s.names, SMD_S_LMA_CatDisInd$analysis$sigma2[[which(SMD_S_LMA_CatDisInd$analysis$s.names == 'Strain/StudyId/ExperimentID_I')]], 'NA')`|
 
 #### Route of intervention administration
 
@@ -400,8 +400,8 @@ The p-value for the association between the route of intervention administration
 | Level| Number of instances | Attributable variance  | 
 |:-------------:|:-------------:|:-------------:|
 | Strain |`r ifelse('Strain' %in% SMD_S_LMA_AdminRoute$analysis$s.names, SMD_S_LMA_AdminRoute$analysis$s.nlevels[[which(SMD_S_LMA_AdminRoute$analysis$s.names == 'Strain')]], 0)`|`r ifelse('Strain' %in% SMD_S_LMA_AdminRoute$analysis$s.names, SMD_S_LMA_AdminRoute$analysis$sigma2[[which(SMD_S_LMA_AdminRoute$analysis$s.names == 'Strain')]], NA)`|
-| Study |`r ifelse('Strain/StudyId' %in% SMD_S_LMA_AdminRoute$analysis$s.names, SMD_S_LMA_AdminRoute$analysis$s.nlevels[[which(SMD_S_LMA_AdminRoute$analysis$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_LMA_AdminRoute$analysis$s.names, SMD_S_LMA_AdminRoute$analysis$sigma2[[which(SMD_S_LMA_AdminRoute$analysis$s.names == 'Strain/StudyId')]], NA)`|
-| Experiment |`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_AdminRoute$analysis$s.names, SMD_S_LMA_AdminRoute$analysis$s.nlevels[[which(SMD_S_LMA_AdminRoute$analysis$s.names == 'Strain/StudyId/ExperimentID_I')]], 0)`|`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_AdminRoute$analysis$s.names, SMD_S_LMA_AdminRoute$analysis$sigma2[[which(SMD_S_LMA_AdminRoute$analysis$s.names == 'Strain/StudyId/ExperimentID_I')]], 'NA')`|
+| Study x Strain |`r ifelse('Strain/StudyId' %in% SMD_S_LMA_AdminRoute$analysis$s.names, SMD_S_LMA_AdminRoute$analysis$s.nlevels[[which(SMD_S_LMA_AdminRoute$analysis$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_LMA_AdminRoute$analysis$s.names, SMD_S_LMA_AdminRoute$analysis$sigma2[[which(SMD_S_LMA_AdminRoute$analysis$s.names == 'Strain/StudyId')]], NA)`|
+| Study x Strain  x Experiment |`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_AdminRoute$analysis$s.names, SMD_S_LMA_AdminRoute$analysis$s.nlevels[[which(SMD_S_LMA_AdminRoute$analysis$s.names == 'Strain/StudyId/ExperimentID_I')]], 0)`|`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_AdminRoute$analysis$s.names, SMD_S_LMA_AdminRoute$analysis$sigma2[[which(SMD_S_LMA_AdminRoute$analysis$s.names == 'Strain/StudyId/ExperimentID_I')]], 'NA')`|
 
 #### Prophylactic or therapeutic intervention
 
@@ -426,8 +426,8 @@ The p-value for the association between whether the intervention was administere
 | Level| Number of instances | Attributable variance  | 
 |:-------------:|:-------------:|:-------------:|
 | Strain |`r ifelse('Strain' %in% SMD_S_LMA_ProphThera$analysis$s.names, SMD_S_LMA_ProphThera$analysis$s.nlevels[[which(SMD_S_LMA_ProphThera$analysis$s.names == 'Strain')]], 0)`|`r ifelse('Strain' %in% SMD_S_LMA_ProphThera$analysis$s.names, SMD_S_LMA_ProphThera$analysis$sigma2[[which(SMD_S_LMA_ProphThera$analysis$s.names == 'Strain')]], NA)`|
-| Study |`r ifelse('Strain/StudyId' %in% SMD_S_LMA_ProphThera$analysis$s.names, SMD_S_LMA_ProphThera$analysis$s.nlevels[[which(SMD_S_LMA_ProphThera$analysis$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_LMA_ProphThera$analysis$s.names, SMD_S_LMA_ProphThera$analysis$sigma2[[which(SMD_S_LMA_ProphThera$analysis$s.names == 'Strain/StudyId')]], NA)`|
-| Experiment |`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_ProphThera$analysis$s.names, SMD_S_LMA_ProphThera$analysis$s.nlevels[[which(SMD_S_LMA_ProphThera$analysis$s.names == 'Strain/StudyId/ExperimentID_I')]], 0)`|`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_ProphThera$analysis$s.names, SMD_S_LMA_ProphThera$analysis$sigma2[[which(SMD_S_LMA_ProphThera$analysis$s.names == 'Strain/StudyId/ExperimentID_I')]], 'NA')`|
+| Study x Strain |`r ifelse('Strain/StudyId' %in% SMD_S_LMA_ProphThera$analysis$s.names, SMD_S_LMA_ProphThera$analysis$s.nlevels[[which(SMD_S_LMA_ProphThera$analysis$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_LMA_ProphThera$analysis$s.names, SMD_S_LMA_ProphThera$analysis$sigma2[[which(SMD_S_LMA_ProphThera$analysis$s.names == 'Strain/StudyId')]], NA)`|
+| Study x Strain  x Experiment |`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_ProphThera$analysis$s.names, SMD_S_LMA_ProphThera$analysis$s.nlevels[[which(SMD_S_LMA_ProphThera$analysis$s.names == 'Strain/StudyId/ExperimentID_I')]], 0)`|`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_ProphThera$analysis$s.names, SMD_S_LMA_ProphThera$analysis$sigma2[[which(SMD_S_LMA_ProphThera$analysis$s.names == 'Strain/StudyId/ExperimentID_I')]], 'NA')`|
 
 #### Duration of treatment period
 
@@ -484,8 +484,8 @@ The p-value for the association between the intervention and outcome reported wa
 | Level| Number of instances | Attributable variance  | 
 |:-------------:|:-------------:|:-------------:|
 | Strain |`r ifelse('Strain' %in% SMD_S_LMA_Drug$analysis$s.names, SMD_S_LMA_Drug$analysis$s.nlevels[[which(SMD_S_LMA_Drug$analysis$s.names == 'Strain')]], 0)`|`r ifelse('Strain' %in% SMD_S_LMA_Drug$analysis$s.names, SMD_S_LMA_Drug$analysis$sigma2[[which(SMD_S_LMA_Drug$analysis$s.names == 'Strain')]], NA)`|
-| Study |`r ifelse('Strain/StudyId' %in% SMD_S_LMA_Drug$analysis$s.names, SMD_S_LMA_Drug$analysis$s.nlevels[[which(SMD_S_LMA_Drug$analysis$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_LMA_Drug$analysis$s.names, SMD_S_LMA_Drug$analysis$sigma2[[which(SMD_S_LMA_Drug$analysis$s.names == 'Strain/StudyId')]], NA)`|
-| Experiment |`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_Drug$analysis$s.names, SMD_S_LMA_Drug$analysis$s.nlevels[[which(SMD_S_LMA_Drug$analysis$s.names == 'Strain/StudyId/ExperimentID_I')]], 0)`|`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_Drug$analysis$s.names, SMD_S_LMA_Drug$analysis$sigma2[[which(SMD_S_LMA_Drug$analysis$s.names == 'Strain/StudyId/ExperimentID_I')]], 'NA')`|
+| Study x Strain |`r ifelse('Strain/StudyId' %in% SMD_S_LMA_Drug$analysis$s.names, SMD_S_LMA_Drug$analysis$s.nlevels[[which(SMD_S_LMA_Drug$analysis$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_LMA_Drug$analysis$s.names, SMD_S_LMA_Drug$analysis$sigma2[[which(SMD_S_LMA_Drug$analysis$s.names == 'Strain/StudyId')]], NA)`|
+| Study x Strain  x Experiment |`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_Drug$analysis$s.names, SMD_S_LMA_Drug$analysis$s.nlevels[[which(SMD_S_LMA_Drug$analysis$s.names == 'Strain/StudyId/ExperimentID_I')]], 0)`|`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_Drug$analysis$s.names, SMD_S_LMA_Drug$analysis$sigma2[[which(SMD_S_LMA_Drug$analysis$s.names == 'Strain/StudyId/ExperimentID_I')]], 'NA')`|
 
 #### The efficacy of the drug (i.e. whether the drug is a partial or full agonist)
 
@@ -510,8 +510,8 @@ The p-value for the association between whether the drug was a full or partial a
 | Level| Number of instances | Attributable variance  | 
 |:-------------:|:-------------:|:-------------:|
 | Strain |`r ifelse('Strain' %in% SMD_S_LMA_DrugEfficacy$analysis$s.names, SMD_S_LMA_DrugEfficacy$analysis$s.nlevels[[which(SMD_S_LMA_DrugEfficacy$analysis$s.names == 'Strain')]], 0)`|`r ifelse('Strain' %in% SMD_S_LMA_DrugEfficacy$analysis$s.names, SMD_S_LMA_DrugEfficacy$analysis$sigma2[[which(SMD_S_LMA_DrugEfficacy$analysis$s.names == 'Strain')]], NA)`|
-| Study |`r ifelse('Strain/StudyId' %in% SMD_S_LMA_DrugEfficacy$analysis$s.names, SMD_S_LMA_DrugEfficacy$analysis$s.nlevels[[which(SMD_S_LMA_DrugEfficacy$analysis$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_LMA_DrugEfficacy$analysis$s.names, SMD_S_LMA_DrugEfficacy$analysis$sigma2[[which(SMD_S_LMA_DrugEfficacy$analysis$s.names == 'Strain/StudyId')]], NA)`|
-| Experiment |`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_DrugEfficacy$analysis$s.names, SMD_S_LMA_DrugEfficacy$analysis$s.nlevels[[which(SMD_S_LMA_DrugEfficacy$analysis$s.names == 'Strain/StudyId/ExperimentID_I')]], 0)`|`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_DrugEfficacy$analysis$s.names, SMD_S_LMA_DrugEfficacy$analysis$sigma2[[which(SMD_S_LMA_DrugEfficacy$analysis$s.names == 'Strain/StudyId/ExperimentID_I')]], 'NA')`|
+| Study x Strain |`r ifelse('Strain/StudyId' %in% SMD_S_LMA_DrugEfficacy$analysis$s.names, SMD_S_LMA_DrugEfficacy$analysis$s.nlevels[[which(SMD_S_LMA_DrugEfficacy$analysis$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_LMA_DrugEfficacy$analysis$s.names, SMD_S_LMA_DrugEfficacy$analysis$sigma2[[which(SMD_S_LMA_DrugEfficacy$analysis$s.names == 'Strain/StudyId')]], NA)`|
+| Study x Strain  x Experiment |`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_DrugEfficacy$analysis$s.names, SMD_S_LMA_DrugEfficacy$analysis$s.nlevels[[which(SMD_S_LMA_DrugEfficacy$analysis$s.names == 'Strain/StudyId/ExperimentID_I')]], 0)`|`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_DrugEfficacy$analysis$s.names, SMD_S_LMA_DrugEfficacy$analysis$sigma2[[which(SMD_S_LMA_DrugEfficacy$analysis$s.names == 'Strain/StudyId/ExperimentID_I')]], 'NA')`|
 
 #### The selectivity of the drug
 
@@ -536,8 +536,8 @@ The p-value for the association between whether the drug was highly selective, o
 | Level| Number of instances | Attributable variance  | 
 |:-------------:|:-------------:|:-------------:|
 | Strain |`r ifelse('Strain' %in% SMD_S_LMA_DrugSelectivity$analysis$s.names, SMD_S_LMA_DrugSelectivity$analysis$s.nlevels[[which(SMD_S_LMA_DrugSelectivity$analysis$s.names == 'Strain')]], 0)`|`r ifelse('Strain' %in% SMD_S_LMA_DrugSelectivity$analysis$s.names, SMD_S_LMA_DrugSelectivity$analysis$sigma2[[which(SMD_S_LMA_DrugSelectivity$analysis$s.names == 'Strain')]], NA)`|
-| Study |`r ifelse('Strain/StudyId' %in% SMD_S_LMA_DrugSelectivity$analysis$s.names, SMD_S_LMA_DrugSelectivity$analysis$s.nlevels[[which(SMD_S_LMA_DrugSelectivity$analysis$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_LMA_DrugSelectivity$analysis$s.names, SMD_S_LMA_DrugSelectivity$analysis$sigma2[[which(SMD_S_LMA_DrugSelectivity$analysis$s.names == 'Strain/StudyId')]], NA)`|
-| Experiment |`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_DrugSelectivity$analysis$s.names, SMD_S_LMA_DrugSelectivity$analysis$s.nlevels[[which(SMD_S_LMA_DrugSelectivity$analysis$s.names == 'Strain/StudyId/ExperimentID_I')]], 0)`|`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_DrugSelectivity$analysis$s.names, SMD_S_LMA_DrugSelectivity$analysis$sigma2[[which(SMD_S_LMA_DrugSelectivity$analysis$s.names == 'Strain/StudyId/ExperimentID_I')]], 'NA')`|
+| Study x Strain |`r ifelse('Strain/StudyId' %in% SMD_S_LMA_DrugSelectivity$analysis$s.names, SMD_S_LMA_DrugSelectivity$analysis$s.nlevels[[which(SMD_S_LMA_DrugSelectivity$analysis$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_LMA_DrugSelectivity$analysis$s.names, SMD_S_LMA_DrugSelectivity$analysis$sigma2[[which(SMD_S_LMA_DrugSelectivity$analysis$s.names == 'Strain/StudyId')]], NA)`|
+| Study x Strain  x Experiment |`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_DrugSelectivity$analysis$s.names, SMD_S_LMA_DrugSelectivity$analysis$s.nlevels[[which(SMD_S_LMA_DrugSelectivity$analysis$s.names == 'Strain/StudyId/ExperimentID_I')]], 0)`|`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_DrugSelectivity$analysis$s.names, SMD_S_LMA_DrugSelectivity$analysis$sigma2[[which(SMD_S_LMA_DrugSelectivity$analysis$s.names == 'Strain/StudyId/ExperimentID_I')]], 'NA')`|
 
 #### Potency of intervention
 
@@ -559,8 +559,8 @@ The estimate for $\beta$ was `r SMD_S_LMA_potency$metaregression_summary$beta[2]
 | Level| Number of instances | Attributable variance  | 
 |:-------------:|:-------------:|:-------------:|
 | Strain |`r ifelse('Strain' %in% SMD_S_LMA_potency$metaregression_summary$s.names, SMD_S_LMA_potency$metaregression_summary$s.nlevels[[which(SMD_S_LMA_potency$metaregression_summary$s.names == 'Strain')]], 0)`|`r ifelse('Strain' %in% SMD_S_LMA_potency$metaregression_summary$s.names, SMD_S_LMA_potency$metaregression_summary$sigma2[[which(SMD_S_LMA_potency$metaregression_summary$s.names == 'Strain')]], NA)`|
-| Study |`r ifelse('Strain/StudyId' %in% SMD_S_LMA_potency$metaregression_summary$s.names, SMD_S_LMA_potency$metaregression_summary$s.nlevels[[which(SMD_S_LMA_potency$metaregression_summary$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_LMA_potency$metaregression_summary$s.names, SMD_S_LMA_potency$metaregression_summary$sigma2[[which(SMD_S_LMA_potency$metaregression_summary$s.names == 'Strain/StudyId')]], NA)`|
-| Experiment |`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_potency$metaregression_summary$s.names, SMD_S_LMA_potency$metaregression_summary$s.nlevels[[which(SMD_S_LMA_potency$metaregression_summary$s.names == 'Strain/StudyId/ExperimentID_I')]], 0)`|`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_potency$metaregression_summary$s.names, SMD_S_LMA_potency$metaregression_summary$sigma2[[which(SMD_S_LMA_potency$metaregression_summary$s.names == 'Strain/StudyId/ExperimentID_I')]], 'NA')`|
+| Study x Strain |`r ifelse('Strain/StudyId' %in% SMD_S_LMA_potency$metaregression_summary$s.names, SMD_S_LMA_potency$metaregression_summary$s.nlevels[[which(SMD_S_LMA_potency$metaregression_summary$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_LMA_potency$metaregression_summary$s.names, SMD_S_LMA_potency$metaregression_summary$sigma2[[which(SMD_S_LMA_potency$metaregression_summary$s.names == 'Strain/StudyId')]], NA)`|
+| Study x Strain  x Experiment |`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_potency$metaregression_summary$s.names, SMD_S_LMA_potency$metaregression_summary$s.nlevels[[which(SMD_S_LMA_potency$metaregression_summary$s.names == 'Strain/StudyId/ExperimentID_I')]], 0)`|`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_potency$metaregression_summary$s.names, SMD_S_LMA_potency$metaregression_summary$sigma2[[which(SMD_S_LMA_potency$metaregression_summary$s.names == 'Strain/StudyId/ExperimentID_I')]], 'NA')`|
 
 #### Dose of intervention
 
@@ -643,8 +643,8 @@ The estimate for $\beta$ was `r SMD_S_LMA_SEP363856_dose$beta[2]` (p = `r  round
 | Level| Number of instances | Attributable variance  | 
 |:-------------:|:-------------:|:-------------:|
 | Strain |`r ifelse('Strain' %in% SMD_S_LMA_SEP363856_dose$s.names, SMD_S_LMA_SEP363856_dose$s.nlevels[[which(SMD_S_LMA_SEP363856_dose$s.names == 'Strain')]], 0)`|`r ifelse('Strain' %in% SMD_S_LMA_SEP363856_dose$s.names, SMD_S_LMA_SEP363856_dose$sigma2[[which(SMD_S_LMA_SEP363856_dose$s.names == 'Strain')]], NA)`|
-| Study |`r ifelse('Strain/StudyId' %in% SMD_S_LMA_SEP363856_dose$s.names, SMD_S_LMA_SEP363856_dose$s.nlevels[[which(SMD_S_LMA_SEP363856_dose$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_LMA_SEP363856_dose$s.names, SMD_S_LMA_SEP363856_dose$sigma2[[which(SMD_S_LMA_SEP363856_dose$s.names == 'Strain/StudyId')]], NA)`|
-| Experiment |`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_SEP363856_dose$s.names, SMD_S_LMA_SEP363856_dose$s.nlevels[[which(SMD_S_LMA_SEP363856_dose$s.names == 'Strain/StudyId/ExperimentID_I')]], 0)`|`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_SEP363856_dose$s.names, SMD_S_LMA_SEP363856_dose$sigma2[[which(SMD_S_LMA_SEP363856_dose$s.names == 'Strain/StudyId/ExperimentID_I')]], 'NA')`|
+| Study x Strain |`r ifelse('Strain/StudyId' %in% SMD_S_LMA_SEP363856_dose$s.names, SMD_S_LMA_SEP363856_dose$s.nlevels[[which(SMD_S_LMA_SEP363856_dose$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_LMA_SEP363856_dose$s.names, SMD_S_LMA_SEP363856_dose$sigma2[[which(SMD_S_LMA_SEP363856_dose$s.names == 'Strain/StudyId')]], NA)`|
+| Study x Strain  x Experiment |`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_SEP363856_dose$s.names, SMD_S_LMA_SEP363856_dose$s.nlevels[[which(SMD_S_LMA_SEP363856_dose$s.names == 'Strain/StudyId/ExperimentID_I')]], 0)`|`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_SEP363856_dose$s.names, SMD_S_LMA_SEP363856_dose$sigma2[[which(SMD_S_LMA_SEP363856_dose$s.names == 'Strain/StudyId/ExperimentID_I')]], 'NA')`|
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 SMD_S_LMA_RO5166017_dose <- metaregression_analysis_by_drug(df, "TvC", "Locomotor activity", "RO5166017", "DoseOfIntervention_mgkg", 0.5)
@@ -821,7 +821,7 @@ We then sought evidence of a dose response relationship across all drugs. To do 
 The standardised dose was calculated as the logarithm of the dose of the intervention (in g/kg) divided by the product of the intervention's EC50 (in moles) and the Molar mass of the drug (in g/mol):
 
 $$
-\log\frac{(\text{Dose of Intervention (g/kg)})}{(\text{Molar Mass (g/mol)}) \times ({\text{EC50 (mol)}})}
+\log\frac{(\text{Dose of Intervention (g/kg)})}{(\text{Molar Mass (g/mol)}) \times ({\text{EC50 (mol/l)}})}
 $$
 
 **This is a simplified approximation based on the reasoning that if drug actions are mediated through the TAAR1 receptor, and drug efficacy is reflected in the respective EC50 values, then in principal drugs should exhibit similar effects when acting at their respective EC50.**
@@ -848,8 +848,8 @@ The estimate for the change in effect per log unit change in standardised dose w
 | Level| Number of instances | Attributable variance  | 
 |:-------------:|:-------------:|:-------------:|
 | Strain |`r ifelse('Strain' %in% SMD_S_LMA_StandardDose$metaregression_summary$s.names, SMD_S_LMA_StandardDose$metaregression_summary$s.nlevels[[which(SMD_S_LMA_StandardDose$metaregression_summary$s.names == 'Strain')]], 0)`|`r ifelse('Strain' %in% SMD_S_LMA_StandardDose$metaregression_summary$s.names, SMD_S_LMA_StandardDose$metaregression_summary$sigma2[[which(SMD_S_LMA_StandardDose$metaregression_summary$s.names == 'Strain')]], NA)`|
-| Study |`r ifelse('Strain/StudyId' %in% SMD_S_LMA_StandardDose$metaregression_summary$s.names, SMD_S_LMA_StandardDose$metaregression_summary$s.nlevels[[which(SMD_S_LMA_StandardDose$metaregression_summary$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_LMA_StandardDose$metaregression_summary$s.names, SMD_S_LMA_StandardDose$metaregression_summary$sigma2[[which(SMD_S_LMA_StandardDose$metaregression_summary$s.names == 'Strain/StudyId')]], NA)`|
-| Experiment |`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_StandardDose$metaregression_summary$s.names, SMD_S_LMA_StandardDose$metaregression_summary$s.nlevels[[which(SMD_S_LMA_StandardDose$metaregression_summary$s.names == 'Strain/StudyId/ExperimentID_I')]], 0)`|`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_StandardDose$metaregression_summary$s.names, SMD_S_LMA_StandardDose$metaregression_summary$sigma2[[which(SMD_S_LMA_StandardDose$metaregression_summary$s.names == 'Strain/StudyId/ExperimentID_I')]], 'NA')`|
+| Study x Strain |`r ifelse('Strain/StudyId' %in% SMD_S_LMA_StandardDose$metaregression_summary$s.names, SMD_S_LMA_StandardDose$metaregression_summary$s.nlevels[[which(SMD_S_LMA_StandardDose$metaregression_summary$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_LMA_StandardDose$metaregression_summary$s.names, SMD_S_LMA_StandardDose$metaregression_summary$sigma2[[which(SMD_S_LMA_StandardDose$metaregression_summary$s.names == 'Strain/StudyId')]], NA)`|
+| Study x Strain  x Experiment |`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_StandardDose$metaregression_summary$s.names, SMD_S_LMA_StandardDose$metaregression_summary$s.nlevels[[which(SMD_S_LMA_StandardDose$metaregression_summary$s.names == 'Strain/StudyId/ExperimentID_I')]], 0)`|`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_StandardDose$metaregression_summary$s.names, SMD_S_LMA_StandardDose$metaregression_summary$sigma2[[which(SMD_S_LMA_StandardDose$metaregression_summary$s.names == 'Strain/StudyId/ExperimentID_I')]], 'NA')`|
 
 #### SyRCLE RoB assessment considered as a categorical variable
 
@@ -874,8 +874,8 @@ The p-value for the association between SyRCLE Risks of Bias reporting and outco
 | Level| Number of instances | Attributable variance  | 
 |:-------------:|:-------------:|:-------------:|
 | Strain |`r ifelse('Strain' %in% SMD_S_LMA_SyRCLERoB$analysis$s.names, SMD_S_LMA_SyRCLERoB$analysis$s.nlevels[[which(SMD_S_LMA_SyRCLERoB$analysis$s.names == 'Strain')]], 0)`|`r ifelse('Strain' %in% SMD_S_LMA_SyRCLERoB$analysis$s.names, SMD_S_LMA_SyRCLERoB$analysis$sigma2[[which(SMD_S_LMA_SyRCLERoB$analysis$s.names == 'Strain')]], NA)`|
-| Study |`r ifelse('Strain/StudyId' %in% SMD_S_LMA_SyRCLERoB$analysis$s.names, SMD_S_LMA_SyRCLERoB$analysis$s.nlevels[[which(SMD_S_LMA_SyRCLERoB$analysis$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_LMA_SyRCLERoB$analysis$s.names, SMD_S_LMA_SyRCLERoB$analysis$sigma2[[which(SMD_S_LMA_SyRCLERoB$analysis$s.names == 'Strain/StudyId')]], NA)`|
-| Experiment |`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_SyRCLERoB$analysis$s.names, SMD_S_LMA_SyRCLERoB$analysis$s.nlevels[[which(SMD_S_LMA_SyRCLERoB$analysis$s.names == 'Strain/StudyId/ExperimentID_I')]], 0)`|`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_SyRCLERoB$analysis$s.names, SMD_S_LMA_SyRCLERoB$analysis$sigma2[[which(SMD_S_LMA_SyRCLERoB$analysis$s.names == 'Strain/StudyId/ExperimentID_I')]], 'NA')`|
+| Study x Strain |`r ifelse('Strain/StudyId' %in% SMD_S_LMA_SyRCLERoB$analysis$s.names, SMD_S_LMA_SyRCLERoB$analysis$s.nlevels[[which(SMD_S_LMA_SyRCLERoB$analysis$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_LMA_SyRCLERoB$analysis$s.names, SMD_S_LMA_SyRCLERoB$analysis$sigma2[[which(SMD_S_LMA_SyRCLERoB$analysis$s.names == 'Strain/StudyId')]], NA)`|
+| Study x Strain  x Experiment |`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_SyRCLERoB$analysis$s.names, SMD_S_LMA_SyRCLERoB$analysis$s.nlevels[[which(SMD_S_LMA_SyRCLERoB$analysis$s.names == 'Strain/StudyId/ExperimentID_I')]], 0)`|`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_SyRCLERoB$analysis$s.names, SMD_S_LMA_SyRCLERoB$analysis$sigma2[[which(SMD_S_LMA_SyRCLERoB$analysis$s.names == 'Strain/StudyId/ExperimentID_I')]], 'NA')`|
 
 #### SyRCLE RoB assessment considering those studies where any item is at low risk of bias
 
@@ -900,8 +900,8 @@ The p-value for the association between low SyRCLE Risks of Bias reporting and o
 | Level| Number of instances | Attributable variance  | 
 |:-------------:|:-------------:|:-------------:|
 | Strain |`r ifelse('Strain' %in% SMD_S_LMA_SyRCLERoBTF$analysis$s.names, SMD_S_LMA_SyRCLERoBTF$analysis$s.nlevels[[which(SMD_S_LMA_SyRCLERoBTF$analysis$s.names == 'Strain')]], 0)`|`r ifelse('Strain' %in% SMD_S_LMA_SyRCLERoBTF$analysis$s.names, SMD_S_LMA_SyRCLERoBTF$analysis$sigma2[[which(SMD_S_LMA_SyRCLERoBTF$analysis$s.names == 'Strain')]], NA)`|
-| Study |`r ifelse('Strain/StudyId' %in% SMD_S_LMA_SyRCLERoBTF$analysis$s.names, SMD_S_LMA_SyRCLERoBTF$analysis$s.nlevels[[which(SMD_S_LMA_SyRCLERoBTF$analysis$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_LMA_SyRCLERoBTF$analysis$s.names, SMD_S_LMA_SyRCLERoBTF$analysis$sigma2[[which(SMD_S_LMA_SyRCLERoBTF$analysis$s.names == 'Strain/StudyId')]], NA)`|
-| Experiment |`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_SyRCLERoBTF$analysis$s.names, SMD_S_LMA_SyRCLERoBTF$analysis$s.nlevels[[which(SMD_S_LMA_SyRCLERoBTF$analysis$s.names == 'Strain/StudyId/ExperimentID_I')]], 0)`|`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_SyRCLERoBTF$analysis$s.names, SMD_S_LMA_SyRCLERoBTF$analysis$sigma2[[which(SMD_S_LMA_SyRCLERoBTF$analysis$s.names == 'Strain/StudyId/ExperimentID_I')]], 'NA')`|
+| Study x Strain |`r ifelse('Strain/StudyId' %in% SMD_S_LMA_SyRCLERoBTF$analysis$s.names, SMD_S_LMA_SyRCLERoBTF$analysis$s.nlevels[[which(SMD_S_LMA_SyRCLERoBTF$analysis$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_LMA_SyRCLERoBTF$analysis$s.names, SMD_S_LMA_SyRCLERoBTF$analysis$sigma2[[which(SMD_S_LMA_SyRCLERoBTF$analysis$s.names == 'Strain/StudyId')]], NA)`|
+| Study x Strain  x Experiment |`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_SyRCLERoBTF$analysis$s.names, SMD_S_LMA_SyRCLERoBTF$analysis$s.nlevels[[which(SMD_S_LMA_SyRCLERoBTF$analysis$s.names == 'Strain/StudyId/ExperimentID_I')]], 0)`|`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_SyRCLERoBTF$analysis$s.names, SMD_S_LMA_SyRCLERoBTF$analysis$sigma2[[which(SMD_S_LMA_SyRCLERoBTF$analysis$s.names == 'Strain/StudyId/ExperimentID_I')]], 'NA')`|
 
 #### ARRIVE reporting completeness guidelines
 
@@ -923,8 +923,8 @@ The estimate for $\beta$ was `r SMD_S_LMA_ARR2$metaregression_summary$beta[2]` (
 | Level| Number of instances | Attributable variance  | 
 |:-------------:|:-------------:|:-------------:|
 | Strain |`r ifelse('Strain' %in% SMD_S_LMA_ARR2$metaregression_summary$s.names, SMD_S_LMA_ARR2$metaregression_summary$s.nlevels[[which(SMD_S_LMA_ARR2$metaregression_summary$s.names == 'Strain')]], 0)`|`r ifelse('Strain' %in% SMD_S_LMA_ARR2$metaregression_summary$s.names, SMD_S_LMA_ARR2$metaregression_summary$sigma2[[which(SMD_S_LMA_ARR2$metaregression_summary$s.names == 'Strain')]], NA)`|
-| Study |`r ifelse('Strain/StudyId' %in% SMD_S_LMA_ARR2$metaregression_summary$s.names, SMD_S_LMA_ARR2$metaregression_summary$s.nlevels[[which(SMD_S_LMA_ARR2$metaregression_summary$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_LMA_ARR2$metaregression_summary$s.names, SMD_S_LMA_ARR2$metaregression_summary$sigma2[[which(SMD_S_LMA_ARR2$metaregression_summary$s.names == 'Strain/StudyId')]], NA)`|
-| Experiment |`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_ARR2$metaregression_summary$s.names, SMD_S_LMA_ARR2$metaregression_summary$s.nlevels[[which(SMD_S_LMA_ARR2$metaregression_summary$s.names == 'Strain/StudyId/ExperimentID_I')]], 0)`|`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_ARR2$metaregression_summary$s.names, SMD_S_LMA_ARR2$metaregression_summary$sigma2[[which(SMD_S_LMA_ARR2$metaregression_summary$s.names == 'Strain/StudyId/ExperimentID_I')]], 'NA')`|
+| Study x Strain |`r ifelse('Strain/StudyId' %in% SMD_S_LMA_ARR2$metaregression_summary$s.names, SMD_S_LMA_ARR2$metaregression_summary$s.nlevels[[which(SMD_S_LMA_ARR2$metaregression_summary$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_LMA_ARR2$metaregression_summary$s.names, SMD_S_LMA_ARR2$metaregression_summary$sigma2[[which(SMD_S_LMA_ARR2$metaregression_summary$s.names == 'Strain/StudyId')]], NA)`|
+| Study x Strain  x Experiment |`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_ARR2$metaregression_summary$s.names, SMD_S_LMA_ARR2$metaregression_summary$s.nlevels[[which(SMD_S_LMA_ARR2$metaregression_summary$s.names == 'Strain/StudyId/ExperimentID_I')]], 0)`|`r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_ARR2$metaregression_summary$s.names, SMD_S_LMA_ARR2$metaregression_summary$sigma2[[which(SMD_S_LMA_ARR2$metaregression_summary$s.names == 'Strain/StudyId/ExperimentID_I')]], 'NA')`|
 
 #### Heterogeneity explained by covariates (TAAR1 Agonist vs Control on locomotor activity)
 
@@ -1031,13 +1031,13 @@ forest_metafor_NMD(NMD_S_LMA, "locomotor hyperactivity")
 
 For TAAR1 Agonist v Control, TAAR1 interventions had a pooled effect on locomotor activity of NMD = `r NMD_S_LMA[["beta"]][1]` (95% CI: `r NMD_S_LMA[["ci.lb"]]` to `r NMD_S_LMA[["ci.ub"]]`) with a prediction interval of `r predict(NMD_S_LMA)$pi.lb` to `r predict(NMD_S_LMA)$pi.ub`). For reference the pooled effect size for SMD was `r SMD_S_LMA[["beta"]][1]` (95% CI: `r SMD_S_LMA[["ci.lb"]]` to `r SMD_S_LMA[["ci.ub"]]`).
 
-`r NMD_S_LMA[["k"]]` experimental comparisons were reported in `r NMD_S_LMA[["s.nlevels"]][3]` experiments reported from `r length(unique(NMD_S_LMA$data$StudyId))` publications and involving `r NMD_S_LMA[["s.nlevels"]][1]` different animal strains. 
+`r NMD_S_LMA[["k"]]` experimental comparisons were reported in `r length(unique(NMD_S_LMA$data$ExperimentID_I))` experiments reported from `r length(unique(NMD_S_LMA$data$StudyId))` publications and involving `r length(unique(NMD_S_LMA$data$Strain))` different animal strains. 
 
 | Level| Number of instances | Attributable variance  | 
 |:-------------:|:-------------:|:-------------:|
 | Strain |`r ifelse('Strain' %in% NMD_S_LMA$s.names, NMD_S_LMA$s.nlevels[[which(NMD_S_LMA$s.names == 'Strain')]], 0)`|`r ifelse('Strain' %in% NMD_S_LMA$s.names, NMD_S_LMA$sigma2[[which(NMD_S_LMA$s.names == 'Strain')]], NA)`|
-| Study |`r ifelse('Strain/StudyId' %in% NMD_S_LMA$s.names, NMD_S_LMA$s.nlevels[[which(NMD_S_LMA$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% NMD_S_LMA$s.names, NMD_S_LMA$sigma2[[which(NMD_S_LMA$s.names == 'Strain/StudyId')]], NA)`|
-| Experiment |`r ifelse('Strain/StudyId/ExperimentID_I' %in% NMD_S_LMA$s.names, NMD_S_LMA$s.nlevels[[which(NMD_S_LMA$s.names == 'Strain/StudyId/ExperimentID_I')]], 0)`|`r ifelse('Strain/StudyId/ExperimentID_I' %in% NMD_S_LMA$s.names, NMD_S_LMA$sigma2[[which(NMD_S_LMA$s.names == 'Strain/StudyId/ExperimentID_I')]], 'NA')`|
+| Study x Strain |`r ifelse('Strain/StudyId' %in% NMD_S_LMA$s.names, NMD_S_LMA$s.nlevels[[which(NMD_S_LMA$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% NMD_S_LMA$s.names, NMD_S_LMA$sigma2[[which(NMD_S_LMA$s.names == 'Strain/StudyId')]], NA)`|
+| Study x Strain  x Experiment |`r ifelse('Strain/StudyId/ExperimentID_I' %in% NMD_S_LMA$s.names, NMD_S_LMA$s.nlevels[[which(NMD_S_LMA$s.names == 'Strain/StudyId/ExperimentID_I')]], 0)`|`r ifelse('Strain/StudyId/ExperimentID_I' %in% NMD_S_LMA$s.names, NMD_S_LMA$sigma2[[which(NMD_S_LMA$s.names == 'Strain/StudyId/ExperimentID_I')]], 'NA')`|
 
 #### Robust variance estimator (RVE)
 
@@ -1063,8 +1063,8 @@ Egger regression based on `r run_sse_SMD_L(df)[["k"]]` effects of TAAR1 Agonist 
 | Level| Number of instances | Attributable variance  | 
 |:-------------:|:-------------:|:-------------:|
 | Strain |`r ifelse('Strain' %in% run_sse_SMD_L(df)$s.names, run_sse_SMD_L(df)$s.nlevels[[which(run_sse_SMD_L(df)$s.names == 'Strain')]], 0)`|`r ifelse('Strain' %in% run_sse_SMD_L(df)$s.names, run_sse_SMD_L(df)$sigma2[[which(run_sse_SMD_L(df)$s.names == 'Strain')]], NA)`|
-| Study |`r ifelse('Strain/StudyId' %in% run_sse_SMD_L(df)$s.names, run_sse_SMD_L(df)$s.nlevels[[which(run_sse_SMD_L(df)$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% run_sse_SMD_L(df)$s.names, run_sse_SMD_L(df)$sigma2[[which(run_sse_SMD_L(df)$s.names == 'Strain/StudyId')]], NA)`|
-| Experiment |`r ifelse('Strain/StudyId/ExperimentID_I' %in% run_sse_SMD_L(df)$s.names, run_sse_SMD_L(df)$s.nlevels[[which(run_sse_SMD_L(df)$s.names == 'Strain/StudyId/ExperimentID_I')]], 0)`|`r ifelse('Strain/StudyId/ExperimentID_I' %in% run_sse_SMD_L(df)$s.names, run_sse_SMD_L(df)$sigma2[[which(run_sse_SMD_L(df)$s.names == 'Strain/StudyId/ExperimentID_I')]], 'NA')`|
+| Study x Strain |`r ifelse('Strain/StudyId' %in% run_sse_SMD_L(df)$s.names, run_sse_SMD_L(df)$s.nlevels[[which(run_sse_SMD_L(df)$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% run_sse_SMD_L(df)$s.names, run_sse_SMD_L(df)$sigma2[[which(run_sse_SMD_L(df)$s.names == 'Strain/StudyId')]], NA)`|
+| Study x Strain  x Experiment |`r ifelse('Strain/StudyId/ExperimentID_I' %in% run_sse_SMD_L(df)$s.names, run_sse_SMD_L(df)$s.nlevels[[which(run_sse_SMD_L(df)$s.names == 'Strain/StudyId/ExperimentID_I')]], 0)`|`r ifelse('Strain/StudyId/ExperimentID_I' %in% run_sse_SMD_L(df)$s.names, run_sse_SMD_L(df)$sigma2[[which(run_sse_SMD_L(df)$s.names == 'Strain/StudyId/ExperimentID_I')]], 'NA')`|
 
 ## 2.2 Outcome 2: Cognitive function
 
@@ -1118,13 +1118,13 @@ if (any(class(SMD_S_Cog) == "rma.mv")) {
 
 `r output_text3`
 
-`r SMD_S_Cog[["k"]]` experimental comparisons were reported in `r length(unique(SMD_S_Cog[["data"]][["ExperimentId"]]))` experiments reported from `r length(unique(SMD_S_Cog$data$StudyId))` publications and involving `r SMD_S_Cog[["s.nlevels"]][1]` different animal strains. 
+`r SMD_S_Cog[["k"]]` experimental comparisons were reported in `r length(unique(SMD_S_Cog$data$ExperimentID_I))` experiments reported from `r length(unique(SMD_S_Cog$data$StudyId))` publications and involving `r length(unique(SMD_S_Cog$data$Strain))` different animal strains. 
 
 | Level| Number of instances | Attributable variance  | 
 |:-------------:|:-------------:|:-------------:|
 | Strain |`r ifelse('Strain' %in% SMD_S_Cog$s.names, SMD_S_Cog$s.nlevels[[which(SMD_S_Cog$s.names == 'Strain')]], 0)`|`r ifelse('Strain' %in% SMD_S_Cog$s.names, SMD_S_Cog$sigma2[[which(SMD_S_Cog$s.names == 'Strain')]], NA)`|
-| Study |`r ifelse('Strain/StudyId' %in% SMD_S_Cog$s.names, SMD_S_Cog$s.nlevels[[which(SMD_S_Cog$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_Cog$s.names, SMD_S_Cog$sigma2[[which(SMD_S_Cog$s.names == 'Strain/StudyId')]], NA)`|
-| Experiment |`r ifelse('ExperimentID_I' %in% SMD_S_Cog$s.names, SMD_S_Cog$s.nlevels[[which(SMD_S_Cog$s.names == 'ExperimentID_I')]], 0)`|`r ifelse('ExperimentID_I' %in% SMD_S_Cog$s.names, SMD_S_Cog$sigma2[[which(SMD_S_Cog$s.names == 'ExperimentID_I')]], 'NA')`|
+| Study x Strain |`r ifelse('Strain/StudyId' %in% SMD_S_Cog$s.names, SMD_S_Cog$s.nlevels[[which(SMD_S_Cog$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_Cog$s.names, SMD_S_Cog$sigma2[[which(SMD_S_Cog$s.names == 'Strain/StudyId')]], NA)`|
+| Study x Strain  x Experiment |`r ifelse('ExperimentID_I' %in% SMD_S_Cog$s.names, SMD_S_Cog$s.nlevels[[which(SMD_S_Cog$s.names == 'ExperimentID_I')]], 0)`|`r ifelse('ExperimentID_I' %in% SMD_S_Cog$s.names, SMD_S_Cog$sigma2[[which(SMD_S_Cog$s.names == 'ExperimentID_I')]], 'NA')`|
 
 ### 2.2.4 Subgroup analyses and meta-regressions
 
@@ -1151,8 +1151,8 @@ The p-value for the association between the sex of animal groups used and outcom
 | Level| Number of instances | Attributable variance  | 
 |:-------------:|:-------------:|:-------------:|
 | Strain |`r ifelse('Strain' %in% SMD_S_Cog_sex$analysis$s.names, SMD_S_Cog_sex$analysis$s.nlevels[[which(SMD_S_Cog_sex$analysis$s.names == 'Strain')]], 0)`|`r ifelse('Strain' %in% SMD_S_Cog_sex$analysis$s.names, SMD_S_Cog_sex$analysis$sigma2[[which(SMD_S_Cog_sex$analysis$s.names == 'Strain')]], NA)`|
-| Study |`r ifelse('Strain/StudyId' %in% SMD_S_Cog_sex$analysis$s.names, SMD_S_Cog_sex$analysis$s.nlevels[[which(SMD_S_Cog_sex$analysis$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_Cog_sex$analysis$s.names, SMD_S_Cog_sex$analysis$sigma2[[which(SMD_S_Cog_sex$analysis$s.names == 'Strain/StudyId')]], NA)`|
-| Experiment |`r ifelse('ExperimentID_I' %in% SMD_S_Cog_sex$analysis$s.names, SMD_S_Cog_sex$analysis$s.nlevels[[which(SMD_S_Cog_sex$analysis$s.names == 'ExperimentID_I')]], 0)`|`r ifelse('ExperimentID_I' %in% SMD_S_Cog_sex$analysis$s.names, SMD_S_Cog_sex$analysis$sigma2[[which(SMD_S_Cog_sex$analysis$s.names == 'ExperimentID_I')]], 'NA')`|
+| Study x Strain |`r ifelse('Strain/StudyId' %in% SMD_S_Cog_sex$analysis$s.names, SMD_S_Cog_sex$analysis$s.nlevels[[which(SMD_S_Cog_sex$analysis$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_Cog_sex$analysis$s.names, SMD_S_Cog_sex$analysis$sigma2[[which(SMD_S_Cog_sex$analysis$s.names == 'Strain/StudyId')]], NA)`|
+| Study x Strain  x Experiment |`r ifelse('ExperimentID_I' %in% SMD_S_Cog_sex$analysis$s.names, SMD_S_Cog_sex$analysis$s.nlevels[[which(SMD_S_Cog_sex$analysis$s.names == 'ExperimentID_I')]], 0)`|`r ifelse('ExperimentID_I' %in% SMD_S_Cog_sex$analysis$s.names, SMD_S_Cog_sex$analysis$sigma2[[which(SMD_S_Cog_sex$analysis$s.names == 'ExperimentID_I')]], 'NA')`|
 
 #### Category of disease induction
 
@@ -1177,8 +1177,8 @@ The p-value for the association between whether genetic or pharmacological model
 | Level| Number of instances | Attributable variance  | 
 |:-------------:|:-------------:|:-------------:|
 | Strain |`r ifelse('Strain' %in% SMD_S_Cog_CatDisInd$analysis$s.names, SMD_S_Cog_CatDisInd$analysis$s.nlevels[[which(SMD_S_Cog_CatDisInd$analysis$s.names == 'Strain')]], 0)`|`r ifelse('Strain' %in% SMD_S_Cog_CatDisInd$analysis$s.names, SMD_S_Cog_CatDisInd$analysis$sigma2[[which(SMD_S_Cog_CatDisInd$analysis$s.names == 'Strain')]], NA)`|
-| Study |`r ifelse('Strain/StudyId' %in% SMD_S_Cog_CatDisInd$analysis$s.names, SMD_S_Cog_CatDisInd$analysis$s.nlevels[[which(SMD_S_Cog_CatDisInd$analysis$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_Cog_CatDisInd$analysis$s.names, SMD_S_Cog_CatDisInd$analysis$sigma2[[which(SMD_S_Cog_CatDisInd$analysis$s.names == 'Strain/StudyId')]], NA)`|
-| Experiment |`r ifelse('ExperimentID_I' %in% SMD_S_Cog_CatDisInd$analysis$s.names, SMD_S_Cog_CatDisInd$analysis$s.nlevels[[which(SMD_S_Cog_CatDisInd$analysis$s.names == 'ExperimentID_I')]], 0)`|`r ifelse('ExperimentID_I' %in% SMD_S_Cog_CatDisInd$analysis$s.names, SMD_S_Cog_CatDisInd$analysis$sigma2[[which(SMD_S_Cog_CatDisInd$analysis$s.names == 'ExperimentID_I')]], 'NA')`|
+| Study x Strain |`r ifelse('Strain/StudyId' %in% SMD_S_Cog_CatDisInd$analysis$s.names, SMD_S_Cog_CatDisInd$analysis$s.nlevels[[which(SMD_S_Cog_CatDisInd$analysis$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_Cog_CatDisInd$analysis$s.names, SMD_S_Cog_CatDisInd$analysis$sigma2[[which(SMD_S_Cog_CatDisInd$analysis$s.names == 'Strain/StudyId')]], NA)`|
+| Study x Strain  x Experiment |`r ifelse('ExperimentID_I' %in% SMD_S_Cog_CatDisInd$analysis$s.names, SMD_S_Cog_CatDisInd$analysis$s.nlevels[[which(SMD_S_Cog_CatDisInd$analysis$s.names == 'ExperimentID_I')]], 0)`|`r ifelse('ExperimentID_I' %in% SMD_S_Cog_CatDisInd$analysis$s.names, SMD_S_Cog_CatDisInd$analysis$sigma2[[which(SMD_S_Cog_CatDisInd$analysis$s.names == 'ExperimentID_I')]], 'NA')`|
 
 #### Route of intervention administration
 
@@ -1203,8 +1203,8 @@ The p-value for the association between whether genetic or pharmacological model
 | Level| Number of instances | Attributable variance  | 
 |:-------------:|:-------------:|:-------------:|
 | Strain |`r ifelse('Strain' %in% SMD_S_Cog_AdminRoute$analysis$s.names, SMD_S_Cog_AdminRoute$analysis$s.nlevels[[which(SMD_S_Cog_AdminRoute$analysis$s.names == 'Strain')]], 0)`|`r ifelse('Strain' %in% SMD_S_Cog_AdminRoute$analysis$s.names, SMD_S_Cog_AdminRoute$analysis$sigma2[[which(SMD_S_Cog_AdminRoute$analysis$s.names == 'Strain')]], NA)`|
-| Study |`r ifelse('Strain/StudyId' %in% SMD_S_Cog_AdminRoute$analysis$s.names, SMD_S_Cog_AdminRoute$analysis$s.nlevels[[which(SMD_S_Cog_AdminRoute$analysis$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_Cog_AdminRoute$analysis$s.names, SMD_S_Cog_AdminRoute$analysis$sigma2[[which(SMD_S_Cog_AdminRoute$analysis$s.names == 'Strain/StudyId')]], NA)`|
-| Experiment |`r ifelse('ExperimentID_I' %in% SMD_S_Cog_AdminRoute$analysis$s.names, SMD_S_Cog_AdminRoute$analysis$s.nlevels[[which(SMD_S_Cog_AdminRoute$analysis$s.names == 'ExperimentID_I')]], 0)`|`r ifelse('ExperimentID_I' %in% SMD_S_Cog_AdminRoute$analysis$s.names, SMD_S_Cog_AdminRoute$analysis$sigma2[[which(SMD_S_Cog_AdminRoute$analysis$s.names == 'ExperimentID_I')]], 'NA')`|
+| Study x Strain |`r ifelse('Strain/StudyId' %in% SMD_S_Cog_AdminRoute$analysis$s.names, SMD_S_Cog_AdminRoute$analysis$s.nlevels[[which(SMD_S_Cog_AdminRoute$analysis$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_Cog_AdminRoute$analysis$s.names, SMD_S_Cog_AdminRoute$analysis$sigma2[[which(SMD_S_Cog_AdminRoute$analysis$s.names == 'Strain/StudyId')]], NA)`|
+| Study x Strain  x Experiment |`r ifelse('ExperimentID_I' %in% SMD_S_Cog_AdminRoute$analysis$s.names, SMD_S_Cog_AdminRoute$analysis$s.nlevels[[which(SMD_S_Cog_AdminRoute$analysis$s.names == 'ExperimentID_I')]], 0)`|`r ifelse('ExperimentID_I' %in% SMD_S_Cog_AdminRoute$analysis$s.names, SMD_S_Cog_AdminRoute$analysis$sigma2[[which(SMD_S_Cog_AdminRoute$analysis$s.names == 'ExperimentID_I')]], 'NA')`|
 
 #### Prophylactic or therapeutic intervention
 
@@ -1237,8 +1237,8 @@ The p-value for the association between the intervention and outcome reported wa
 | Level| Number of instances | Attributable variance  | 
 |:-------------:|:-------------:|:-------------:|
 | Strain |`r ifelse('Strain' %in% SMD_S_Cog_Drug$analysis$s.names, SMD_S_Cog_Drug$analysis$s.nlevels[[which(SMD_S_Cog_Drug$analysis$s.names == 'Strain')]], 0)`|`r ifelse('Strain' %in% SMD_S_Cog_Drug$analysis$s.names, SMD_S_Cog_Drug$analysis$sigma2[[which(SMD_S_Cog_Drug$analysis$s.names == 'Strain')]], NA)`|
-| Study |`r ifelse('Strain/StudyId' %in% SMD_S_Cog_Drug$analysis$s.names, SMD_S_Cog_Drug$analysis$s.nlevels[[which(SMD_S_Cog_Drug$analysis$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_Cog_Drug$analysis$s.names, SMD_S_Cog_Drug$analysis$sigma2[[which(SMD_S_Cog_Drug$analysis$s.names == 'Strain/StudyId')]], NA)`|
-| Experiment |`r ifelse('ExperimentID_I' %in% SMD_S_Cog_Drug$analysis$s.names, SMD_S_Cog_Drug$analysis$s.nlevels[[which(SMD_S_Cog_Drug$analysis$s.names == 'ExperimentID_I')]], 0)`|`r ifelse('ExperimentID_I' %in% SMD_S_Cog_Drug$analysis$s.names, SMD_S_Cog_Drug$analysis$sigma2[[which(SMD_S_Cog_Drug$analysis$s.names == 'ExperimentID_I')]], 'NA')`|
+| Study x Strain |`r ifelse('Strain/StudyId' %in% SMD_S_Cog_Drug$analysis$s.names, SMD_S_Cog_Drug$analysis$s.nlevels[[which(SMD_S_Cog_Drug$analysis$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_Cog_Drug$analysis$s.names, SMD_S_Cog_Drug$analysis$sigma2[[which(SMD_S_Cog_Drug$analysis$s.names == 'Strain/StudyId')]], NA)`|
+| Study x Strain  x Experiment |`r ifelse('ExperimentID_I' %in% SMD_S_Cog_Drug$analysis$s.names, SMD_S_Cog_Drug$analysis$s.nlevels[[which(SMD_S_Cog_Drug$analysis$s.names == 'ExperimentID_I')]], 0)`|`r ifelse('ExperimentID_I' %in% SMD_S_Cog_Drug$analysis$s.names, SMD_S_Cog_Drug$analysis$sigma2[[which(SMD_S_Cog_Drug$analysis$s.names == 'ExperimentID_I')]], 'NA')`|
 
 #### The efficacy of the drug (i.e. whether the drug is a partial or full agonist)
 
@@ -1267,8 +1267,8 @@ The p-value for the association between whether the drug was highly selective, o
 | Level| Number of instances | Attributable variance  | 
 |:-------------:|:-------------:|:-------------:|
 | Strain |`r ifelse('Strain' %in% SMD_S_Cog_DrugSelectivity$analysis$s.names, SMD_S_Cog_DrugSelectivity$analysis$s.nlevels[[which(SMD_S_Cog_DrugSelectivity$analysis$s.names == 'Strain')]], 0)`|`r ifelse('Strain' %in% SMD_S_Cog_DrugSelectivity$analysis$s.names, SMD_S_Cog_DrugSelectivity$analysis$sigma2[[which(SMD_S_Cog_DrugSelectivity$analysis$s.names == 'Strain')]], NA)`|
-| Study |`r ifelse('Strain/StudyId' %in% SMD_S_Cog_DrugSelectivity$analysis$s.names, SMD_S_Cog_DrugSelectivity$analysis$s.nlevels[[which(SMD_S_Cog_DrugSelectivity$analysis$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_Cog_DrugSelectivity$analysis$s.names, SMD_S_Cog_DrugSelectivity$analysis$sigma2[[which(SMD_S_Cog_DrugSelectivity$analysis$s.names == 'Strain/StudyId')]], NA)`|
-| Experiment |`r ifelse('ExperimentID_I' %in% SMD_S_Cog_DrugSelectivity$analysis$s.names, SMD_S_Cog_DrugSelectivity$analysis$s.nlevels[[which(SMD_S_Cog_DrugSelectivity$analysis$s.names == 'ExperimentID_I')]], 0)`|`r ifelse('ExperimentID_I' %in% SMD_S_Cog_DrugSelectivity$analysis$s.names, SMD_S_Cog_DrugSelectivity$analysis$sigma2[[which(SMD_S_Cog_DrugSelectivity$analysis$s.names == 'ExperimentID_I')]], 'NA')`|
+| Study x Strain |`r ifelse('Strain/StudyId' %in% SMD_S_Cog_DrugSelectivity$analysis$s.names, SMD_S_Cog_DrugSelectivity$analysis$s.nlevels[[which(SMD_S_Cog_DrugSelectivity$analysis$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_Cog_DrugSelectivity$analysis$s.names, SMD_S_Cog_DrugSelectivity$analysis$sigma2[[which(SMD_S_Cog_DrugSelectivity$analysis$s.names == 'Strain/StudyId')]], NA)`|
+| Study x Strain  x Experiment |`r ifelse('ExperimentID_I' %in% SMD_S_Cog_DrugSelectivity$analysis$s.names, SMD_S_Cog_DrugSelectivity$analysis$s.nlevels[[which(SMD_S_Cog_DrugSelectivity$analysis$s.names == 'ExperimentID_I')]], 0)`|`r ifelse('ExperimentID_I' %in% SMD_S_Cog_DrugSelectivity$analysis$s.names, SMD_S_Cog_DrugSelectivity$analysis$sigma2[[which(SMD_S_Cog_DrugSelectivity$analysis$s.names == 'ExperimentID_I')]], 'NA')`|
 
 #### Potency of interventions
 
@@ -1291,8 +1291,8 @@ The estimate for $\beta$ was `r SMD_S_Cog_potency$metaregression_summary$beta[2]
 | Level| Number of instances | Attributable variance  | 
 |:-------------:|:-------------:|:-------------:|
 | Strain |`r ifelse('Strain' %in% SMD_S_Cog_potency$metaregression_summary$s.names, SMD_S_Cog_potency$metaregression_summary$s.nlevels[[which(SMD_S_Cog_potency$metaregression_summary$s.names == 'Strain')]], 0)`|`r ifelse('Strain' %in% SMD_S_Cog_potency$metaregression_summary$s.names, SMD_S_Cog_potency$metaregression_summary$sigma2[[which(SMD_S_Cog_potency$metaregression_summary$s.names == 'Strain')]], NA)`|
-| Study |`r ifelse('Strain/StudyId' %in% SMD_S_Cog_potency$metaregression_summary$s.names, SMD_S_Cog_potency$metaregression_summary$s.nlevels[[which(SMD_S_Cog_potency$metaregression_summary$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_Cog_potency$metaregression_summary$s.names, SMD_S_Cog_potency$metaregression_summary$sigma2[[which(SMD_S_Cog_potency$metaregression_summary$s.names == 'Strain/StudyId')]], NA)`|
-| Experiment |`r ifelse('ExperimentID_I' %in% SMD_S_Cog_potency$metaregression_summary$s.names, SMD_S_Cog_potency$metaregression_summary$s.nlevels[[which(SMD_S_Cog_potency$metaregression_summary$s.names == 'ExperimentID_I')]], 0)`|`r ifelse('ExperimentID_I' %in% SMD_S_Cog_potency$metaregression_summary$s.names, SMD_S_Cog_potency$metaregression_summary$sigma2[[which(SMD_S_Cog_potency$metaregression_summary$s.names == 'ExperimentID_I')]], 'NA')`|
+| Study x Strain |`r ifelse('Strain/StudyId' %in% SMD_S_Cog_potency$metaregression_summary$s.names, SMD_S_Cog_potency$metaregression_summary$s.nlevels[[which(SMD_S_Cog_potency$metaregression_summary$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_Cog_potency$metaregression_summary$s.names, SMD_S_Cog_potency$metaregression_summary$sigma2[[which(SMD_S_Cog_potency$metaregression_summary$s.names == 'Strain/StudyId')]], NA)`|
+| Study x Strain  x Experiment |`r ifelse('ExperimentID_I' %in% SMD_S_Cog_potency$metaregression_summary$s.names, SMD_S_Cog_potency$metaregression_summary$s.nlevels[[which(SMD_S_Cog_potency$metaregression_summary$s.names == 'ExperimentID_I')]], 0)`|`r ifelse('ExperimentID_I' %in% SMD_S_Cog_potency$metaregression_summary$s.names, SMD_S_Cog_potency$metaregression_summary$sigma2[[which(SMD_S_Cog_potency$metaregression_summary$s.names == 'ExperimentID_I')]], 'NA')`|
 
 #### Dose of intervention
 
@@ -1563,8 +1563,8 @@ The estimate for the change in effect per log unit change in standardised dose w
 | Level| Number of instances | Attributable variance  | 
 |:-------------:|:-------------:|:-------------:|
 | Strain |`r ifelse('Strain' %in% SMD_S_Cog_StandardDose$metaregression$s.names, SMD_S_Cog_StandardDose$metaregression$s.nlevels[[which(SMD_S_Cog_StandardDose$metaregression$s.names == 'Strain')]], 0)`|`r ifelse('Strain' %in% SMD_S_Cog_StandardDose$metaregression$s.names, SMD_S_Cog_StandardDose$metaregression$sigma2[[which(SMD_S_Cog_StandardDose$metaregression$s.names == 'Strain')]], NA)`|
-| Study |`r ifelse('Strain/StudyId' %in% SMD_S_Cog_StandardDose$metaregression$s.names, SMD_S_Cog_StandardDose$metaregression$s.nlevels[[which(SMD_S_Cog_StandardDose$metaregression$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_Cog_StandardDose$metaregression$s.names, SMD_S_Cog_StandardDose$metaregression$sigma2[[which(SMD_S_Cog_StandardDose$metaregression$s.names == 'Strain/StudyId')]], NA)`|
-| Experiment |`r ifelse('ExperimentID_I' %in% SMD_S_Cog_StandardDose$metaregression$s.names, SMD_S_Cog_StandardDose$metaregression$s.nlevels[[which(SMD_S_Cog_StandardDose$metaregression$s.names == 'ExperimentID_I')]], 0)`|`r ifelse('ExperimentID_I' %in% SMD_S_Cog_StandardDose$metaregression$s.names, SMD_S_Cog_StandardDose$metaregression$sigma2[[which(SMD_S_Cog_StandardDose$metaregression$s.names == 'ExperimentID_I')]], 'NA')`|
+| Study x Strain |`r ifelse('Strain/StudyId' %in% SMD_S_Cog_StandardDose$metaregression$s.names, SMD_S_Cog_StandardDose$metaregression$s.nlevels[[which(SMD_S_Cog_StandardDose$metaregression$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_Cog_StandardDose$metaregression$s.names, SMD_S_Cog_StandardDose$metaregression$sigma2[[which(SMD_S_Cog_StandardDose$metaregression$s.names == 'Strain/StudyId')]], NA)`|
+| Study x Strain  x Experiment |`r ifelse('ExperimentID_I' %in% SMD_S_Cog_StandardDose$metaregression$s.names, SMD_S_Cog_StandardDose$metaregression$s.nlevels[[which(SMD_S_Cog_StandardDose$metaregression$s.names == 'ExperimentID_I')]], 0)`|`r ifelse('ExperimentID_I' %in% SMD_S_Cog_StandardDose$metaregression$s.names, SMD_S_Cog_StandardDose$metaregression$sigma2[[which(SMD_S_Cog_StandardDose$metaregression$s.names == 'ExperimentID_I')]], 'NA')`|
 
 #### SyRCLE RoB assessment considered as a categorical variable
 
@@ -1589,8 +1589,8 @@ The p-value for the association between SyRCLE Risks of Bias reporting and outco
 | Level| Number of instances | Attributable variance  | 
 |:-------------:|:-------------:|:-------------:|
 | Strain |`r ifelse('Strain' %in% SMD_S_Cog_SyRCLERoB$analysis$s.names, SMD_S_Cog_SyRCLERoB$analysis$s.nlevels[[which(SMD_S_Cog_SyRCLERoB$analysis$s.names == 'Strain')]], 0)`|`r ifelse('Strain' %in% SMD_S_Cog_SyRCLERoB$analysis$s.names, SMD_S_Cog_SyRCLERoB$analysis$sigma2[[which(SMD_S_Cog_SyRCLERoB$analysis$s.names == 'Strain')]], NA)`|
-| Study |`r ifelse('Strain/StudyId' %in% SMD_S_Cog_SyRCLERoB$analysis$s.names, SMD_S_Cog_SyRCLERoB$analysis$s.nlevels[[which(SMD_S_Cog_SyRCLERoB$analysis$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_Cog_SyRCLERoB$analysis$s.names, SMD_S_Cog_SyRCLERoB$analysis$sigma2[[which(SMD_S_Cog_SyRCLERoB$analysis$s.names == 'Strain/StudyId')]], NA)`|
-| Experiment |`r ifelse('ExperimentID_I' %in% SMD_S_Cog_SyRCLERoB$analysis$s.names, SMD_S_Cog_SyRCLERoB$analysis$s.nlevels[[which(SMD_S_Cog_SyRCLERoB$analysis$s.names == 'ExperimentID_I')]], 0)`|`r ifelse('ExperimentID_I' %in% SMD_S_Cog_SyRCLERoB$analysis$s.names, SMD_S_Cog_SyRCLERoB$analysis$sigma2[[which(SMD_S_Cog_SyRCLERoB$analysis$s.names == 'ExperimentID_I')]], 'NA')`|
+| Study x Strain |`r ifelse('Strain/StudyId' %in% SMD_S_Cog_SyRCLERoB$analysis$s.names, SMD_S_Cog_SyRCLERoB$analysis$s.nlevels[[which(SMD_S_Cog_SyRCLERoB$analysis$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_Cog_SyRCLERoB$analysis$s.names, SMD_S_Cog_SyRCLERoB$analysis$sigma2[[which(SMD_S_Cog_SyRCLERoB$analysis$s.names == 'Strain/StudyId')]], NA)`|
+| Study x Strain  x Experiment |`r ifelse('ExperimentID_I' %in% SMD_S_Cog_SyRCLERoB$analysis$s.names, SMD_S_Cog_SyRCLERoB$analysis$s.nlevels[[which(SMD_S_Cog_SyRCLERoB$analysis$s.names == 'ExperimentID_I')]], 0)`|`r ifelse('ExperimentID_I' %in% SMD_S_Cog_SyRCLERoB$analysis$s.names, SMD_S_Cog_SyRCLERoB$analysis$sigma2[[which(SMD_S_Cog_SyRCLERoB$analysis$s.names == 'ExperimentID_I')]], 'NA')`|
 
 #### SyRCLE RoB assessment considering those studies where any item is at low risk of bias
 
@@ -1615,8 +1615,8 @@ The p-value for the association between low SyRCLE Risks of Bias reporting and o
 | Level| Number of instances | Attributable variance  | 
 |:-------------:|:-------------:|:-------------:|
 | Strain |`r ifelse('Strain' %in% SMD_S_cog_SyRCLERoBTF$analysis$s.names, SMD_S_cog_SyRCLERoBTF$analysis$s.nlevels[[which(SMD_S_cog_SyRCLERoBTF$analysis$s.names == 'Strain')]], 0)`|`r ifelse('Strain' %in% SMD_S_cog_SyRCLERoBTF$analysis$s.names, SMD_S_cog_SyRCLERoBTF$analysis$sigma2[[which(SMD_S_cog_SyRCLERoBTF$analysis$s.names == 'Strain')]], NA)`|
-| Study |`r ifelse('Strain/StudyId' %in% SMD_S_cog_SyRCLERoBTF$analysis$s.names, SMD_S_cog_SyRCLERoBTF$analysis$s.nlevels[[which(SMD_S_cog_SyRCLERoBTF$analysis$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_cog_SyRCLERoBTF$analysis$s.names, SMD_S_cog_SyRCLERoBTF$analysis$sigma2[[which(SMD_S_cog_SyRCLERoBTF$analysis$s.names == 'Strain/StudyId')]], NA)`|
-| Experiment |`r ifelse('ExperimentID_I' %in% SMD_S_cog_SyRCLERoBTF$analysis$s.names, SMD_S_cog_SyRCLERoBTF$analysis$s.nlevels[[which(SMD_S_cog_SyRCLERoBTF$analysis$s.names == 'ExperimentID_I')]], 0)`|`r ifelse('ExperimentID_I' %in% SMD_S_cog_SyRCLERoBTF$analysis$s.names, SMD_S_cog_SyRCLERoBTF$analysis$sigma2[[which(SMD_S_cog_SyRCLERoBTF$analysis$s.names == 'ExperimentID_I')]], 'NA')`|
+| Study x Strain |`r ifelse('Strain/StudyId' %in% SMD_S_cog_SyRCLERoBTF$analysis$s.names, SMD_S_cog_SyRCLERoBTF$analysis$s.nlevels[[which(SMD_S_cog_SyRCLERoBTF$analysis$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_cog_SyRCLERoBTF$analysis$s.names, SMD_S_cog_SyRCLERoBTF$analysis$sigma2[[which(SMD_S_cog_SyRCLERoBTF$analysis$s.names == 'Strain/StudyId')]], NA)`|
+| Study x Strain  x Experiment |`r ifelse('ExperimentID_I' %in% SMD_S_cog_SyRCLERoBTF$analysis$s.names, SMD_S_cog_SyRCLERoBTF$analysis$s.nlevels[[which(SMD_S_cog_SyRCLERoBTF$analysis$s.names == 'ExperimentID_I')]], 0)`|`r ifelse('ExperimentID_I' %in% SMD_S_cog_SyRCLERoBTF$analysis$s.names, SMD_S_cog_SyRCLERoBTF$analysis$sigma2[[which(SMD_S_cog_SyRCLERoBTF$analysis$s.names == 'ExperimentID_I')]], 'NA')`|
 
 #### ARRIVE reporting completeness guidelines
 
@@ -1638,8 +1638,8 @@ The estimate for $\beta$ was `r SMD_S_cog_ARR2$metaregression_summary$beta[2]` (
 | Level| Number of instances | Attributable variance  | 
 |:-------------:|:-------------:|:-------------:|
 | Strain |`r ifelse('Strain' %in% SMD_S_cog_ARR2$metaregression$s.names, SMD_S_cog_ARR2$metaregression$s.nlevels[[which(SMD_S_cog_ARR2$metaregression$s.names == 'Strain')]], 0)`|`r ifelse('Strain' %in% SMD_S_cog_ARR2$metaregression$s.names, SMD_S_cog_ARR2$metaregression$sigma2[[which(SMD_S_cog_ARR2$metaregression$s.names == 'Strain')]], NA)`|
-| Study |`r ifelse('Strain/StudyId' %in% SMD_S_cog_ARR2$metaregression$s.names, SMD_S_cog_ARR2$metaregression$s.nlevels[[which(SMD_S_cog_ARR2$metaregression$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_cog_ARR2$metaregression$s.names, SMD_S_cog_ARR2$metaregression$sigma2[[which(SMD_S_cog_ARR2$metaregression$s.names == 'Strain/StudyId')]], NA)`|
-| Experiment |`r ifelse('ExperimentID_I' %in% SMD_S_cog_ARR2$metaregression$s.names, SMD_S_cog_ARR2$metaregression$s.nlevels[[which(SMD_S_cog_ARR2$metaregression$s.names == 'ExperimentID_I')]], 0)`|`r ifelse('ExperimentID_I' %in% SMD_S_cog_ARR2$metaregression$s.names, SMD_S_cog_ARR2$metaregression$sigma2[[which(SMD_S_cog_ARR2$metaregression$s.names == 'ExperimentID_I')]], 'NA')`|
+| Study x Strain |`r ifelse('Strain/StudyId' %in% SMD_S_cog_ARR2$metaregression$s.names, SMD_S_cog_ARR2$metaregression$s.nlevels[[which(SMD_S_cog_ARR2$metaregression$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_cog_ARR2$metaregression$s.names, SMD_S_cog_ARR2$metaregression$sigma2[[which(SMD_S_cog_ARR2$metaregression$s.names == 'Strain/StudyId')]], NA)`|
+| Study x Strain  x Experiment |`r ifelse('ExperimentID_I' %in% SMD_S_cog_ARR2$metaregression$s.names, SMD_S_cog_ARR2$metaregression$s.nlevels[[which(SMD_S_cog_ARR2$metaregression$s.names == 'ExperimentID_I')]], 0)`|`r ifelse('ExperimentID_I' %in% SMD_S_cog_ARR2$metaregression$s.names, SMD_S_cog_ARR2$metaregression$sigma2[[which(SMD_S_cog_ARR2$metaregression$s.names == 'ExperimentID_I')]], 'NA')`|
 
 #### Heterogeneity explained by covariates (TAAR1 Agonist vs Control on cognitive function)
 
@@ -1722,13 +1722,13 @@ forest_metafor_NMD(NMD_S_cog, "Cognition")
 
 For TAAR1 Agonist v Control, TAAR1 interventions had a pooled effect on cognition of NMD = `r NMD_S_cog[["beta"]][1]` (95% CI: `r NMD_S_cog[["ci.lb"]]` to `r NMD_S_cog[["ci.ub"]]`) with a prediction interval of `r predict(NMD_S_cog)$pi.lb` to `r predict(NMD_S_cog)$pi.ub`. For reference the pooled effect size for SMD was `r SMD_S_Cog[["beta"]]` (95% CI: `r SMD_S_Cog[["ci.lb"]]` to `r SMD_S_Cog[["ci.ub"]]`).
 
-`r NMD_S_cog[["k"]]` experimental comparisons were reported in `r NMD_S_cog[["s.nlevels"]][3]` experiments reported from `r length(unique(NMD_S_cog$data$StudyId))` publications and involving `r NMD_S_cog[["s.nlevels"]][1]` different animal strains. 
+`r NMD_S_cog[["k"]]` experimental comparisons were reported in `r length(unique(NMD_S_cog$data$ExperimentID_I))` experiments reported from `r length(unique(NMD_S_cog$data$StudyId))` publications and involving `r length(unique(NMD_S_cog$data$Strain))` different animal strains. 
 
 | Level| Number of instances | Attributable variance  | 
 |:-------------:|:-------------:|:-------------:|
 | Strain |`r ifelse('Strain' %in% NMD_S_cog$s.names, NMD_S_cog$s.nlevels[[which(NMD_S_cog$s.names == 'Strain')]], 0)`|`r ifelse('Strain' %in% NMD_S_cog$s.names, NMD_S_cog$sigma2[[which(NMD_S_cog$s.names == 'Strain')]], NA)`|
-| Study |`r ifelse('Strain/StudyId' %in% NMD_S_cog$s.names, NMD_S_cog$s.nlevels[[which(NMD_S_cog$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% NMD_S_cog$s.names, NMD_S_cog$sigma2[[which(NMD_S_cog$s.names == 'Strain/StudyId')]], NA)`|
-| Experiment |`r ifelse('ExperimentID_I' %in% NMD_S_cog$s.names, NMD_S_cog$s.nlevels[[which(NMD_S_cog$s.names == 'ExperimentID_I')]], 0)`|`r ifelse('ExperimentID_I' %in% NMD_S_cog$s.names, NMD_S_cog$sigma2[[which(NMD_S_cog$s.names == 'ExperimentID_I')]], 'NA')`|
+| Study x Strain |`r ifelse('Strain/StudyId' %in% NMD_S_cog$s.names, NMD_S_cog$s.nlevels[[which(NMD_S_cog$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% NMD_S_cog$s.names, NMD_S_cog$sigma2[[which(NMD_S_cog$s.names == 'Strain/StudyId')]], NA)`|
+| Study x Strain  x Experiment |`r ifelse('ExperimentID_I' %in% NMD_S_cog$s.names, NMD_S_cog$s.nlevels[[which(NMD_S_cog$s.names == 'ExperimentID_I')]], 0)`|`r ifelse('ExperimentID_I' %in% NMD_S_cog$s.names, NMD_S_cog$sigma2[[which(NMD_S_cog$s.names == 'ExperimentID_I')]], 'NA')`|
 
 #### Robust variance estimator (RVE)
 
@@ -1754,8 +1754,8 @@ Egger regression based on `r run_sse_SMD_C(df)[["k"]]` effects of TAAR1 Agonist 
 | Level| Number of instances | Attributable variance  | 
 |:-------------:|:-------------:|:-------------:|
 | Strain |`r ifelse('Strain' %in% run_sse_SMD_C(df)$s.names, run_sse_SMD_C(df)$s.nlevels[[which(run_sse_SMD_C(df)$s.names == 'Strain')]], 0)`|`r ifelse('Strain' %in% run_sse_SMD_C(df)$s.names, run_sse_SMD_C(df)$sigma2[[which(run_sse_SMD_C(df)$s.names == 'Strain')]], NA)`|
-| Study |`r ifelse('Strain/StudyId' %in% run_sse_SMD_C(df)$s.names, run_sse_SMD_C(df)$s.nlevels[[which(run_sse_SMD_C(df)$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% run_sse_SMD_C(df)$s.names, run_sse_SMD_C(df)$sigma2[[which(run_sse_SMD_C(df)$s.names == 'Strain/StudyId')]], NA)`|
-| Experiment |`r ifelse('ExperimentID_I' %in% run_sse_SMD_C(df)$s.names, run_sse_SMD_C(df)$s.nlevels[[which(run_sse_SMD_C(df)$s.names == 'ExperimentID_I')]], 0)`|`r ifelse('ExperimentID_I' %in% run_sse_SMD_C(df)$s.names, run_sse_SMD_C(df)$sigma2[[which(run_sse_SMD_C(df)$s.names == 'ExperimentID_I')]], 'NA')`|
+| Study x Strain |`r ifelse('Strain/StudyId' %in% run_sse_SMD_C(df)$s.names, run_sse_SMD_C(df)$s.nlevels[[which(run_sse_SMD_C(df)$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% run_sse_SMD_C(df)$s.names, run_sse_SMD_C(df)$sigma2[[which(run_sse_SMD_C(df)$s.names == 'Strain/StudyId')]], NA)`|
+| Study x Strain  x Experiment |`r ifelse('ExperimentID_I' %in% run_sse_SMD_C(df)$s.names, run_sse_SMD_C(df)$s.nlevels[[which(run_sse_SMD_C(df)$s.names == 'ExperimentID_I')]], 0)`|`r ifelse('ExperimentID_I' %in% run_sse_SMD_C(df)$s.names, run_sse_SMD_C(df)$sigma2[[which(run_sse_SMD_C(df)$s.names == 'ExperimentID_I')]], 'NA')`|
 
 # 3 TAAR1 Agonist v known antipsychotic drug
 
@@ -1771,6 +1771,7 @@ SMD_S_LMA_H2H <- run_ML_SMD(df, "TvA", "Locomotor activity", 0.5)
   output_text2 <- "Figure 3.1 - Forest plot of Locomotor activity for TAAR1 Agonist vs known antipychotic drug"
 } else {
   output_text1 <- "Multilevel analysis is only performed if there are 5 levels or more for at least one of Strain, Study and Experiment, and that is not the case here."
+  output_text2 <- ""
 }
 ```
 
@@ -1797,60 +1798,17 @@ forest_metafor(SMD_S_LMA_H2H, "TvA", "locomotor activity")
 
 `r output_text3`
 
-`r SMD_S_LMA_H2H[["k"]]` experimental comparisons were reported in `r length(unique(SMD_S_LMA_H2H[["data"]][["ExperimentId"]]))` experiments reported from `r  length(unique(SMD_S_LMA_H2H$data$StudyId))` publications and involving `r SMD_S_LMA_H2H[["s.nlevels"]][1]` different animal strains. 
+`r SMD_S_LMA_H2H[["k"]]` experimental comparisons were reported in `r length(unique(SMD_S_LMA_H2H$data$ExperimentID_I))` experiments reported from `r  length(unique(SMD_S_LMA_H2H$data$StudyId))` publications and involving `r length(unique(SMD_S_LMA_H2H$data$Strain))` different animal strains. 
 
 | Level| Number of instances | Attributable variance  | 
 |:-------------:|:-------------:|:-------------:|
 | Strain |`r ifelse('Strain' %in% SMD_S_LMA_H2H$s.names, SMD_S_LMA_H2H$s.nlevels[[which(SMD_S_LMA_H2H$s.names == 'Strain')]], 0)`|`r ifelse('Strain' %in% SMD_S_LMA_H2H$s.names, SMD_S_LMA_H2H$sigma2[[which(SMD_S_LMA_H2H$s.names == 'Strain')]], NA)`|
-| Study |`r ifelse('Strain/StudyId' %in% SMD_S_LMA_H2H$s.names, SMD_S_LMA_H2H$s.nlevels[[which(SMD_S_LMA_H2H$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_LMA_H2H$s.names, SMD_S_LMA_H2H$sigma2[[which(SMD_S_LMA_H2H$s.names == 'Strain/StudyId')]], NA)`|
-| Experiment |`r ifelse('ExperimentID_I' %in% SMD_S_LMA_H2H$s.names, SMD_S_LMA_H2H$s.nlevels[[which(SMD_S_LMA_H2H$s.names == 'ExperimentID_I')]], 0)`|`r ifelse('ExperimentID_I' %in% SMD_S_LMA_H2H$s.names, SMD_S_LMA_H2H$sigma2[[which(SMD_S_LMA_H2H$s.names == 'ExperimentID_I')]], 'NA')`|
+| Study x Strain |`r ifelse('Strain/StudyId' %in% SMD_S_LMA_H2H$s.names, SMD_S_LMA_H2H$s.nlevels[[which(SMD_S_LMA_H2H$s.names == 'Strain/StudyId')]], 0)`| `r ifelse('Strain/StudyId' %in% SMD_S_LMA_H2H$s.names, SMD_S_LMA_H2H$sigma2[[which(SMD_S_LMA_H2H$s.names == 'Strain/StudyId')]], NA)`|
+| Study x Strain  x Experiment |`r ifelse('ExperimentID_I' %in% SMD_S_LMA_H2H$s.names, SMD_S_LMA_H2H$s.nlevels[[which(SMD_S_LMA_H2H$s.names == 'ExperimentID_I')]], 0)`|`r ifelse('ExperimentID_I' %in% SMD_S_LMA_H2H$s.names, SMD_S_LMA_H2H$sigma2[[which(SMD_S_LMA_H2H$s.names == 'ExperimentID_I')]], 'NA')`|
 
 ## 3.2 Outcome 2: Cognitive function
 
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-SMD_S_Cog_H2H <- run_ML_SMD(df, "TvA", "Cognition", 0.5)
-```
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-SMD_Cog_H2H <- run_SMD(df, "TvA", "Cognition")
-```
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
- if (any(class(SMD_S_Cog_H2H) == "rma.mv")) {
-  output_text1 <- "In TAAR1 Agonist v known antipsychotic drug studies, the effect of administering a TAAR1 agonist on cognitive outcomes in animals using SMD as the effect size is shown in Figure 3.2. The pooled estimate for SMD across all individual comparisons is displayed as a diamond shape at the bottom of the plot. Dotted lines indicate the prediction interval of the pooled estimate."
-  output_text2 <- "Figure 3.2 - Forest plot of cognitive function for TAAR1 Agonist vs known antipychotic drug"
-} else {
-  output_text1 <- "Multilevel analysis is only performed if there are 5 levels or more for at least one of Strain, Study and Experiment, and that is not the case here. We provide a conventional univariate random effects model to illustrate the data"
-  output_text2 <- ""
-}
-```
-
-`r output_text1`
-
-**`r output_text2`**
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=6, fig.width=10}
-forest_metafor(SMD_S_Cog_H2H, "TvA", "Cognition")
-```
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=6, fig.width=10}
- if (!any(class(SMD_S_Cog_H2H) == "rma.mv")) {
-   forest_metafor(SMD_Cog_H2H, "TvA","Cognition")}
-```
-
-```{r echo=FALSE}
- if (any(class(SMD_S_Cog_H2H) == "rma.mv")) {
-  output_text3 <- paste0("For TAAR1 Agonist v known antipsychotic drug comparisons, TAAR1 interventions had a pooled effect on cognitive outcomes of SMD = `r SMD_S_Cog_H2H[['beta']]` (95% CI: `r SMD_S_Cog_H2H[['ci.lb']]` to `r SMD_S_Cog_H2H[['ci.ub']]`) with a prediction interval of `r predict(SMD_S_Cog_H2H)$pi.lb` to `r predict(SMD_S_Cog_H2H)$pi.ub`).")
-  output_text4 <- paste0(`r SMD_S_Cog_H2H$k`," experimental comparisons were reported in ",`r SMD_S_Cog_H2H$s.nlevels"[3]`," experiments reported from ",`r SMD_S_Cog_H2H$s.nlevels[2]`," publications and involving ",`r SMD_S_Cog_H2Hs.nlevels[1]`," different animal strains. The between strain variance was ",`r SMD_S_Cog_H2H$sigma2[1]`,", the between study variance ",`r SMD_S_Cog_H2H$sigma2[2]`," and the within-experiment variance ",`r SMD_S_Cog_H2H$sigma2[3]`,".")
-} else {
-  output_text3 <- ""
-  output_text4 <- ""
-}
-```
-
-`r output_text3`
-
-`r output_text4`
+Only one study reported cognitive outcomes in this category, so meta-analysis was not performed.
 
 # 4 Co-treatment with TAAR1 agonist plus known antipsychotic drug v known antipsychotic drug alone
 
@@ -1902,51 +1860,7 @@ forest_metafor(SMD_S_LMA_TAA, "TAvA","Locomotor activity")
 
 ## 4.2 Outcome 2: Cognitive function
 
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-SMD_S_Cog_TAA <- run_ML_SMD(df, "TAvA", "Cognition", 0.5)
-```
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-SMD_Cog_TAA <- run_SMD(df, "TAvA", "Cognition")
-```
-
-```{r echo=FALSE}
- if (any(class(SMD_S_Cog_TAA) == "rma.mv")) {
-  output_text1 <- "For combination studies, the effect of administering a TAAR1 agonist plus a conventional antipsychotic drug, compared with TAAR1 agonist alone, on cognitive function in animals using SMD as the effect size is shown in Figure 4.2. The pooled estimate for SMD across all individual comparisons is displayed as a diamond shape at the bottom of the plot. Dotted lines indicate the prediction interval of the pooled estimate."
-  output_text2 <- "Figure 4.2 - Forest plot of cognitive function for TAAR1 Agonist + known antipsychotic vs known antipychotic alone"
-} else {
-  output_text1 <- "Multilevel analysis is only performed if there are 5 levels or more for at least one of Strain, Study and Experiment, and that is not the case here. We provide a conventional univariate random effects model to illustrate the data"
-  output_text2 <- ""
-}
-```
-
-`r output_text1`
-
-**`r output_text2`**
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=7, fig.width=11}
-forest_metafor(SMD_S_Cog_TAA, "TAvA","Cognition")
-```
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, fig.height=7, fig.width=11}
- if (!any(class(SMD_S_Cog_TAA) == "rma.mv")) {
-   forest_metafor(SMD_Cog_TAA, "TAvA","Cognition")}
-```
-
-```{r echo = FALSE}
- if (any(class(SMD_S_Cog_TAA) == "rma.mv")) {
-  output_text3 <- paste0("For combination experiments, TAAR1 agonists with antipsychotic drugs, compared with antipsychotic drugs alone, had a pooled effect on cognition of SMD =", round(SMD_S_Cog_TAA[['beta']], 3), " (95% CI: ", round(SMD_S_Cog_TAA[['ci.lb']], 3), " to ", round(SMD_S_Cog_TAA[['ci.ub']], 3),", with a prediction interval of ", round(predict(SMD_S_Cog_TAA)$pi.lb, 3), " to ", round(predict(SMD_S_Cog_TAA)$pi.ub, 3), ").")
-    output_text4 <- paste0(`r SMD_S_Cog_TAA$k`," experimental comparisons were reported in ",`r SMD_S_Cog_TAA$s.nlevels[3]`," experiments reported from ",`r SMD_S_Cog_TAA$s.nlevels[2]`," publications and involving ",`r SMD_S_Cog_TAA$s.nlevels[1]`," different animal strains. The between strain variance was ",`r SMD_S_Cog_TAA$sigma2[1]`,", the between study variance ",`r SMD_S_Cog_TAA$sigma2[2]`," and the within-experiment variance ",`r SMD_S_Cog_TAA$sigma2[3]`,".")
-} else {
-  output_text3 <- ""
-  output_text4 <- ""
-}
-
-```
-
-`r output_text3`
-
-`r output_text4`
+Only one study reported cognitive outcomes in this category, so meta-analysis was not performed.
 
 # 5 Effect of TAAR1 agonists in TAAR1 receptor knockout animals
 
