@@ -424,7 +424,7 @@ data[condition, column_name12] <- temp
 
 columnnmae13 <- "Animal strain?"
 condition <- data$StudyId == '2cfb8de7-b0ad-416f-bfa4-a3771051dc1d'
-data[condition, columnnmae13] <- "Not stated (mouse)"
+data[condition, columnnmae13] <- "C57Bl/6J (mouse)"
 
 condition <- data$ExperimentID == '40a5354c-f200-41e7-868e-2f9dbcfc2424'
 data[condition, columnnmae13] <- "C57Bl/6Jx129Sv/J (mouse)"
