@@ -323,6 +323,8 @@ For each outcome, the covariates of interest for subgroup analysesand meta-regre
 
 We also conducted subgroup analyses using **(1) SyRCLE Risk of Bias** and **(2) ARRIVE reporting completeness** assessment scores as covariates to evaluate their influence on effect size estimates. These were not specified in the study protocol, but evaluation of risk of bias is required for the Summary of Evidence table, and no studies were considered at low risk of bias or high reporting completeness to allow such a sensitivity analysis
 
+Only 21% of studies overall reported either a mean age, or an age range, of the experimental animals, so this was not analysed further.
+
 The significance (p value) reported is that for a test of whether the moderators are significantly different one from another, rather than whether the effect is significantly different from 0. 
 
 #### Sex
