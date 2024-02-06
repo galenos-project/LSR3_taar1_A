@@ -386,7 +386,7 @@ Figure 2.1.4.3 displays the estimates for the pooled SMD's when comparisons are 
 
 **Figure 2.1.4.3 - Subgroup analysis of TAAR1 agonist vs control on locomotor activity by route of intervention administration**
 
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', fig.width=9, fig.height=2}
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 SMD_S_LMA_AdminRoute <- subgroup_analysis(df, "TvC", "Locomotor activity", "InterventionAdministrationRoute", 0.5)
 ```
 
@@ -412,7 +412,7 @@ Figure 2.1.4.4 displays the estimates for the pooled SMD's when comparisons are 
 
 **Figure 2.1.4.4 - Subgroup analysis of TAAR1 agonist vs control on locomotor activity by intervention type**
 
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', fig.width=9, fig.height=3}
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 SMD_S_LMA_ProphThera <- subgroup_analysis(df, "TvC", "Locomotor activity", "ProphylacticOrTherapeutic", 0.5)
 ```
 
@@ -470,7 +470,7 @@ Figure 2.1.4.6 displays the estimates for the pooled SMD's when comparisons are 
 
 **Figure 2.1.4.6 - Subgroup analysis of TAAR1 agonist vs control on locomotor activity by intervention administered**
 
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', fig.width=9, fig.height=5}
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 SMD_S_LMA_Drug <- subgroup_analysis(df, "TvC", "Locomotor activity", "DrugName", 0.5)
 ```
 
@@ -496,7 +496,7 @@ Figure 2.1.4.7 displays the estimates for the pooled SMD's when comparisons are 
 
 **Figure 2.1.4.7 - Subgroup analysis of TAAR1 agonist vs control on locomotor activity by efficacy of the drug**
 
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', fig.width=9, fig.height=5}
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 SMD_S_LMA_DrugEfficacy <- subgroup_analysis(df, "TvC", "Locomotor activity", "Efficacy", 0.5)
 ```
 
@@ -522,7 +522,7 @@ Figure 2.1.4.8 displays the estimates for the pooled SMD's when comparisons are 
 
 **Figure 2.1.4.8 - Subgroup analysis of TAAR1 agonist vs control on locomotor activity by selectivity of the drug**
 
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', fig.width=9, fig.height=5}
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 SMD_S_LMA_DrugSelectivity <- subgroup_analysis(df, "TvC", "Locomotor activity", "Selectivity", 0.5)
 ```
 

@@ -484,7 +484,7 @@ forest_subgroup <- function(modelsumm, moderator, outcome, moderator_text) {
       ggplot(aes(y = fct_rev(moderator))) +
       geom_text(aes(x = 0, label = moderator), hjust = 0, size = model$fontsize) +
       geom_text(aes(x = r1, label = k), hjust = 1, size = model$fontsize) +
-      annotate("text", x = r1, y = lnth, label = "Number of\nexperimental\ncontrasts", hjust=1) +
+      annotate("text", x = r1, y = lnth, label = "Number of\nexperimental contrasts", hjust=1) +
       theme_void() +
       coord_cartesian(ylim = c(0, lnth), xlim = c(0, span1))
     
