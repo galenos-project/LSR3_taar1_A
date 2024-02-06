@@ -108,9 +108,8 @@ recent_reconciledID <- LSR3_reconciled %>%
 
 # Filter all records that have a StudyIdStr and AnnotatorIdStr that is in the reconciled_study_annotator_pairs to get final set of reconciled data
 reconciled_records_unique <- LSR3_reconciled %>%
-  semi_join(recent_reconciledID, by = c("StudyId","InvestigatorId")
+  semi_join(recent_reconciledID, by = c("StudyId","InvestigatorId"))
 
-# Rearrange rows to be grouped by studies and then experiment within studies. Reorder columns for readability
 reconciled_records <- reconciled_records_unique %>%
   arrange(StudyId, ExperimentID, CohortId, OutcomeId, InterventionID) %>% 
   rename(`Dose of positive control treatment?` = `Dose of control treatment?`) %>% 
