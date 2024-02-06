@@ -70,10 +70,6 @@ start_index <- match("Title", col_names)
 end_index <- match("Is any role of the funder in the design/analysis/reporting of study described?", col_names)
 ARRIVEROB_columns <- col_names[start_index:end_index] 
 
-
-
-
-
 ## 1. Overwrite appendix ARRIVE/ROB with main ARRIVE/ROB for both pairs
 ## PAIR 1: fb8ed201-f663-48db-aae1-8ee88b355abd - main, dd9dddac-739b-412f-9fac-6f36e0a21494 - appendix
 r_to_r <- subset(LSR3_reconciled, LSR3_reconciled$StudyId == 'dd9dddac-739b-412f-9fac-6f36e0a21494')
@@ -123,6 +119,11 @@ reconciled_records <- reconciled_records_unique %>%
   relocate(OutcomeLabel, .after = OutcomeId) %>% 
   relocate(c(OutcomeLabel, OutcomeId), .after = ExperimentLabel) %>% 
   relocate(c(InterventionLabel), .after = InterventionID)
+
+reconciled_records <- reconciled_records %>%
+  rename(`(RoB) Were caregivers/investigator blinded to which intervention each animal received?` = `Were caregivers/investigator blinded to which intervention each animal received?`)
+reconciled_records <- reconciled_records %>% 
+  rename(`(ARRIVE) Is any role of the funder in the design/analysis/reporting of the study described?` = `Is any role of the funder in the design/analysis/reporting of study described?`)
 
 # this segmented removed by MM 151223
 # Remove ARRIVE/ROB columns and put into separate dataframe (-> reconciled_record_ROB). Join later
@@ -1223,11 +1224,8 @@ df <- df %>%
 
 
 ###### For RoB subgroup analysis ######
-df <- df %>%
-  rename(`(RoB) Were caregivers/investigator blinded to which intervention each animal received?` = `Were caregivers/investigator blinded to which intervention each animal received?`)
-
 # Calculate overall RoB score
-
+df <- df[,-c(197:229,368:400)]
 df <- df %>%
   rowwise() %>%
   mutate(RoSBScoreAny = sum(c_across(contains("RoB")) == "Yes", na.rm = TRUE)) %>%
@@ -1250,8 +1248,6 @@ for(i in 1:nrow(df)) {
 }
 ##### For reporting quality subgroup analysis #####
 
-df <- df %>% 
-  rename(`(ARRIVE) Is any role of the funder in the design/analysis/reporting of the study described?` = `Is any role of the funder in the design/analysis/reporting of study described?`)
 
 # Calculate overall ARRIVE score
 df <- df %>%
