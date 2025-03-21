@@ -1,0 +1,65 @@
+Study,Model,Strain,Comparison,Outcome,N
+Previously included studies,.,.,.,.,.
+"BEGNI, 2021",Pharmacological,Lister hooded (rat),SEP-363856 v Vehicle,Cognition,40
+"""","""","""","""",Locomotor activity,120
+"CINQUE, 2018",Genetic,Wistar (rat),RO5203648 v Vehicle,Cognition,32
+"DEDIC, 2019",Pharmacological,C57BL/6J (mouse),SEP-363856 v Vehicle,Locomotor activity,48
+"""","""","""",SEP-363856 v clozapine,Locomotor activity,48
+"""","""",Sprague-dawley (rat),SEP-363856 v Vehicle,Social interaction,48
+"""","""","""",SEP-363856 v clozapine,Social interaction,48
+"GALLEY, 2012",Pharmacological,Wistar (rat),RO5073012 v Vehicle,Locomotor activity,48
+"KOKKINOU, 2021",Pharmacological,C57BL/6 (mouse),SEP-363856 v Vehicle,Neurobiological outcome,17
+"KRASAVIN, 2022a",Genetic,Wistar (rat),LK000764 v Vehicle,Locomotor activity,108
+"""",Pharmacological,Wistar (rat),LK000764 v Vehicle,Locomotor activity,140
+"KRASAVIN, 2022b",Genetic,Wistar (rat),AP163 v Vehicle,Locomotor activity,18
+"LEO, 2018",Genetic,Wistar (rat),RO5203648 v Vehicle,Locomotor activity,24
+"LIANG, 2022",Pharmacological,ICR (mouse),SEP-363856 & olanzapine v olanzapine,Cognition,48
+"""","""","""","""",Locomotor activity,16
+"""","""","""",SEP-363856 v Vehicle,Cognition,192
+"""","""","""","""",Locomotor activity,96
+"""","""","""",SEP-363856 v olanzapine,Cognition,48
+"""","""","""","""",Locomotor activity,16
+"REVEL, 2011",Genetic,C57BL/6J (mouse),RO5166017 v Vehicle,Locomotor activity,42
+"""",Pharmacological,C57BL/6 (mouse),RO5166017 v Vehicle,Locomotor activity,200
+"""","""","""","""",Stereotypy,128
+"""","""",NMRI (mouse),RO5166017 v Vehicle,Locomotor activity,84
+"REVEL, 2012a",Genetic,C57Bl/6Jx129Sv/J (mouse),RO5203648 v Vehicle,Locomotor activity,48
+"""",Pharmacological,C57BL/6J (mouse),RO5203648 v Vehicle,Locomotor activity,154
+"REVEL, 2012a",Pharmacological,Wistar (rat),RO5203648 v Vehicle,Locomotor activity,84
+"REVEL, 2012b",Pharmacological,C57BL/6J (mouse),RO5073012 v Vehicle,Locomotor activity,42
+"REVEL, 2013",Pharmacological,C57BL/6J (mouse),RO5256390 v Vehicle,Locomotor activity,122
+"""","""","""",RO5256390 v olanzapine,Locomotor activity,32
+"""","""","""",RO5263397 & risperidone v risperidone,Locomotor activity,96
+"""","""","""",RO5263397 v Vehicle,Locomotor activity,184
+"""","""","""",RO5263397 v olanzapine,Locomotor activity,80
+"""","""","""",RO5263397 v risperidone,Locomotor activity,96
+"""","""",Long-evans (rat),RO5256390 v Vehicle,Cognition,48
+"""","""",Not stated (mouse),RO5256390 v Vehicle,Locomotor activity,208
+"SAARINEN, 2022",Pharmacological,C57Bl/6J (mouse),SEP-363856 v Vehicle,Locomotor activity,56
+"""","""","""","""",Prepulse inhibition,60
+"WANG, 2023",Pharmacological,C57BL/6J (mouse),Compound 50A v Vehicle,Locomotor activity,72
+"""","""","""",Compound 50B v Vehicle,Locomotor activity,90
+"""","""","""",Compound 50B v aripiprazole,Locomotor activity,16
+"""","""","""",Compound 50B v risperidone,Locomotor activity,16
+"""","""","""",SEP-363856 v Vehicle,Locomotor activity,18
+"""","""","""",SEP-363856 v aripiprazole,Locomotor activity,16
+"""","""","""",SEP-363856 v risperidone,Locomotor activity,16
+New studies added in this iteration,.,.,.,.,.
+"CICHERO, 2023",Genetic,Wistar (rat),Guanfacine v Vehicle,Locomotor activity,20
+"COTTER, 2015",Pharmacological,Long-evans (rat),RO5203648 v Vehicle,Locomotor activity,200
+"LI, 2024",Pharmacological,Not stated (mouse),SEP-363856 v Vehicle,Cognition,240
+"""","""","""","""",Locomotor activity,180
+"""","""","""","""",Prepulse inhibition,180
+"""","""","""","""",Social interaction,60
+"""","""","""","""",Stereotypy,60
+"THORN, 2014",Pharmacological,Sprague-dawley (rat),RO5263397 v Vehicle,Locomotor activity,372
+"YUN, 2023",Pharmacological,C57BL/6J (mouse),SEP-363856 v Vehicle,Locomotor activity,176
+"""","""","""","""",Prepulse inhibition,28
+"ZHOU, 2024",Pharmacological,C57BL/6J (mouse),Compond 8b v Vehicle,Cognition,20
+"""","""","""","""",Locomotor activity,60
+"""","""","""",Compound 6e v Vehicle,Cognition,20
+"""","""","""","""",Locomotor activity,60
+"""","""","""",Compound 7b v Vehicle,Cognition,20
+"""","""","""","""",Locomotor activity,60
+"""","""","""",SEP-363856 v Vehicle,Cognition,20
+"""","""","""","""",Locomotor activity,60
