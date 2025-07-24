@@ -1,0 +1,36 @@
+WRANGLING
+
+Done: 
+- checked str_detect for model, control, outcomes still works
+- Add lines 182-187 to ensure wrangling involving disease model still works (removing [2] columns has no meaningful impact)
+- Fixed "columnnmae13" typo lines 457-483
+- Made function to clean column names after bad pivot (.x and .y suffixes) lines 947-968
+- Updated OutcomeType classification, combined with later code
+- Added "total movements" into str_detect for locomotor outcomes (outcome label states IQR but data as mean + SD)
+- Improved Category of disease induction lines 1134-1148
+- Changed diagnostic lines 1154-1162
+- Fixed Duration of treatment column name problems around lines 1203-1220 (added _I suffix needed due to bad pivot wider)
+- 1195-1210: changed 999 to "NA" for treatment duration in case_when function
+- changed so treatment duration values for [2] don't overwrite [1]
+- added "not reported" option to treatment duration category
+- simplified RoB code
+- wrote function to remove redundant columns at end of the script; some remaining columns not merging but due to typos
+
+To do: 
+- Add new interventions for TAAR1 agonists to wrangling script (lines 327-391) when reconciled studies added to SyRF
+- Add in EC50 values starting line 1253
+
+Still to address: 
+- assuming outcomes flagged as median + IQR in the outcome label have already been converted to the currrent AverageType and ErrorType and don't need to be addressed?
+- don't understand rows 1024-25 "Assume that treatments are closer to shams than controls are, so C-S > T-S". What is the logic behind this? In practice  result     n (taking into account greaterIsWorse reversing the result)
+Control is closer to sham than treatment: TRUE/FALSE
+  <chr>  <int>
+1 FALSE     76
+2 TRUE     174
+I don't understand why... does that mean we expect the treatment not to work? (i.e., sham + control is closer to model + treatment than model + control)?
+- what does it mean if standardised dose < 0 ? (around 10 instances)
+
+
+
+
+ANALYSIS
