@@ -1,0 +1,31 @@
+WRANGLING: 
+- add in PAIR 3 lines 97-107: 55bd4131-4668-401d-9e07-1935015bb592 - main, f16411ee-022b-4380-90a4-b9803f3d2718 - appendix (doesn't work with current data so currently commented out)
+- fixed IsDiseaseModelControl which pivots badly to [1] and [2] - keep [1], delete [2] (just one vehicle) so rest of code works 
+- fixed typo "columnname13" lines 448-474
+- fix NA value in `data` which prevents code from working data <- data[-567,]
+- fixed code lines 1117-1128: (drugname 2 lines used drugname 1 as an argument)
+df <- df %>% 
+  mutate(drugname1 = str_replace_all(drugname1, "SEP(?!-363856)", "SEP-363856")) %>%
+  mutate(drugname1_C = str_replace_all(drugname1_C, "SEP(?!-363856)", "SEP-363856")) %>%
+  mutate(drugname1_I = str_replace_all(drugname1_I, "SEP(?!-363856)", "SEP-363856")) %>%
+  mutate(drugname2 = str_replace_all(drugname2, "SEP(?!-363856)", "SEP-363856")) %>%
+  mutate(drugname2_C = str_replace_all(drugname2_C, "SEP(?!-363856)", "SEP-363856")) %>%
+  mutate(drugname2_I = str_replace_all(drugname2_I, "SEP(?!-363856)", "SEP-363856"))
+- improve category disease induction lines 1130-1142; had to fix code and variable names since didn't work
+- added values for NA for treatment duration for values 999, 9999 etc lines 1154-1174
+- fix variable name line 1129   rename(CategoryDiseaseInduction = `Category of disease model induction method`)
+
+CHECKS
+  - all outcomes still being picked up by str_detect
+  - all variations of models and controls (e.g. TAAR1KO) still being picked up by str_detect
+  - checked standardised dose; 10 instances S_dose < 0, but due to log - all actual doses are positive so it's fine
+
+ANALYSIS
+- Traffic light plot no longer works
+> SyRCLE_RoB_traffic(df, "TvC", "Locomotor activity")
+Error in rob_traffic_light(data <- SyRCLE, tool = "Generic", psize = 6,  : 
+  unused argument (overall = FALSE)
+> source("~/Documents/CAMARADES_postdoc/Research/GALENOS/LSR_repositories/LSR3_taar1_A/util_u2/util.R")
+> SyRCLE_RoB_traffic(df, "TvC", "Locomotor activity")
+Error in rob_traffic_light(data <- SyRCLE, tool = "Generic", psize = 6) : 
+  object 'trafficlightplot' not found

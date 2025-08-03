@@ -1,0 +1,43 @@
+WRANGLING/CLEANING SCRIPT
+
+Done: 
+- added bit at the top drawing attention to what needs to be looked at with each iteration
+- checked str_detect for model, control, outcomes still works
+- Add lines 182-187 to ensure wrangling involving disease model still works (removing [2] columns has no meaningful impact)
+- Fixed "columnnmae13" typo lines 457-483
+- Made function to clean column names after bad pivot (.x and .y suffixes) lines 947-968
+- Updated OutcomeType classification, replaced later code to streamline
+- Added "total movements" into str_detect for locomotor outcomes (outcome label states IQR but data as mean + SD) - actually seems to have been added in later down in the code anyway
+- Improved Category of disease induction lines 1134-1148 to be easier to analyse
+- Changed diagnostic lines 1154-1162 for is control closer to sham than treatment is
+- Fixed Duration of treatment column name problems around lines 1203-1220 (added _I suffix needed due to bad pivot wider)
+- 1195-1210: changed 999 to "NA" for treatment duration in case_when function - also added 998, 9999, 1000, and 1001 (common typos/SyRF hallucinations)
+- changed so treatment duration values for [2] don't overwrite [1] in case_when code
+- added "not reported" option to treatment duration category to replace NA and avoid it being defaulted to a false duration
+- simplified RoB code
+- wrote function to remove redundant columns at end of the script; some remaining columns not merging but due to typos (e.g. 999 VS 998 or 9999)
+- fixed code here: (drugname 2 lines used drugname 1 as an argument)
+df <- df %>% 
+  mutate(drugname1 = str_replace_all(drugname1, "SEP(?!-363856)", "SEP-363856")) %>%
+  mutate(drugname1_C = str_replace_all(drugname1_C, "SEP(?!-363856)", "SEP-363856")) %>%
+  mutate(drugname1_I = str_replace_all(drugname1_I, "SEP(?!-363856)", "SEP-363856")) %>%
+  mutate(drugname2 = str_replace_all(drugname2, "SEP(?!-363856)", "SEP-363856")) %>%
+  mutate(drugname2_C = str_replace_all(drugname2_C, "SEP(?!-363856)", "SEP-363856")) %>%
+  mutate(drugname2_I = str_replace_all(drugname2_I, "SEP(?!-363856)", "SEP-363856"))
+- fixed "compond 8b" to "compound 8b" in code above
+- checked standardised dose; 10 instances S_dose < 0, but due to log - all actual doses are positive so it's fine
+
+Still to address: 
+
+- don't understand rows 1024-25 "Assume that treatments are closer to shams than controls are, so C-S > T-S". What is the logic behind this? In practice  result (taking into account greaterIsWorse reversing the result) - see lines of "diagnostic" code
+Control is closer to sham than treatment: TRUE/FALSE
+  <chr>  <int>
+1 FALSE     76
+2 TRUE     174
+I don't understand why it wouldn't be... does that mean we expect the treatment not to work? (i.e., sham + control is closer to model + treatment than model + control is)? Actually also unsure whether GreaterIsWorse changes anything since they're absolute values of the difference...
+I may be wrong, but ControlCloser == TRUE may warrant switching to the alternate version of the equation, though this probably should be hypothesis/logic driven and not data driven?
+
+
+ANALYSIS
+- fixed hardcoded columns and column names that don't work with how I cleaned the dataframe
+- had to change outcome_type to OutcomeType throughout the util.R in /u2
