@@ -1,0 +1,100 @@
+"","OutcomeType","OutcomeLabel_I","Type of outcome?","n"
+"1","Behavioural (other related to psychosis), e.g. positive/negative/cognitive/depression",NA,"Behavioural (other related to psychosis), e.g. positive/negative/cognitive/depression",26
+"2","Behavioural (primary): locomotor hyperactivity, PPI impairment",NA,"Behavioural (primary): locomotor hyperactivity, PPI impairment",61
+"3","Cognition","% choice of larger reward","Behavioural (other related to psychosis), e.g. positive/negative/cognitive/depression",2
+"4","Cognition","% choice of larger reward",NA,1
+"5","Cognition","MWM - crossings to target","Behavioural (other related to psychosis), e.g. positive/negative/cognitive/depression",4
+"6","Cognition","MWM - crossings to target",NA,2
+"7","Cognition","MWM - escape latency","Behavioural (other related to psychosis), e.g. positive/negative/cognitive/depression",4
+"8","Cognition","MWM - escape latency",NA,2
+"9","Cognition","MWM - platform entries","Behavioural (other related to psychosis), e.g. positive/negative/cognitive/depression",4
+"10","Cognition","MWM - platform entries",NA,2
+"11","Cognition","MWM ecsape latency after 6 days MK-801","Behavioural (other related to psychosis), e.g. positive/negative/cognitive/depression",33
+"12","Cognition","MWM ecsape latency after 6 days MK-801",NA,15
+"13","Cognition","N small and soon","Behavioural (other related to psychosis), e.g. positive/negative/cognitive/depression",2
+"14","Cognition","N small and soon",NA,1
+"15","Cognition","NOR","Behavioural (other related to psychosis), e.g. positive/negative/cognitive/depression",12
+"16","Cognition","NOR",NA,6
+"17","Cognition","NOR - Discrimiation index (median +/- IQR)","Behavioural (other related to psychosis), e.g. positive/negative/cognitive/depression",4
+"18","Cognition","NOR - Discrimiation index (median +/- IQR)",NA,2
+"19","Cognition","attention set shifting","Behavioural (primary): locomotor hyperactivity, PPI impairment",6
+"20","Cognition","attention set shifting",NA,3
+"21","Locomotor activity","Climbing behaviour – mean score","Behavioural (primary): locomotor hyperactivity, PPI impairment",6
+"22","Locomotor activity","Climbing behaviour – mean score",NA,3
+"23","Locomotor activity","Cocaine: OFT","Behavioural (primary): locomotor hyperactivity, PPI impairment",3
+"24","Locomotor activity","Cocaine: OFT",NA,1
+"25","Locomotor activity","HORIZONTAL ACTIVITY (Mean +/- SEM)","Behavioural (primary): locomotor hyperactivity, PPI impairment",6
+"26","Locomotor activity","HORIZONTAL ACTIVITY (Mean +/- SEM)",NA,3
+"27","Locomotor activity","Horizontal locomotor activity – beam breaks","Behavioural (primary): locomotor hyperactivity, PPI impairment",33
+"28","Locomotor activity","Horizontal locomotor activity – beam breaks",NA,21
+"29","Locomotor activity","LMA",NA,6
+"30","Locomotor activity","LMA - C, P - Olanz",NA,12
+"31","Locomotor activity","LMA - C,P","Behavioural (primary): locomotor hyperactivity, PPI impairment",34
+"32","Locomotor activity","LMA - C,P",NA,17
+"33","Locomotor activity","LMA - C,P - Resp",NA,19
+"34","Locomotor activity","LMA - L","Behavioural (primary): locomotor hyperactivity, PPI impairment",26
+"35","Locomotor activity","LMA - L",NA,13
+"36","Locomotor activity","LMA - L - Olanz",NA,8
+"37","Locomotor activity","Loc15","Behavioural (primary): locomotor hyperactivity, PPI impairment",24
+"38","Locomotor activity","Loc15",NA,6
+"39","Locomotor activity","Loc60",NA,12
+"40","Locomotor activity","Locomotor activity – total distance travelled","Behavioural (primary): locomotor hyperactivity, PPI impairment",26
+"41","Locomotor activity","Locomotor activity – total distance travelled",NA,14
+"42","Locomotor activity","MK-801 locomotor hyperactivity – total distance","Behavioural (primary): locomotor hyperactivity, PPI impairment",9
+"43","Locomotor activity","MK-801 locomotor hyperactivity – total distance",NA,5
+"44","Locomotor activity","MK-801: OFT","Behavioural (primary): locomotor hyperactivity, PPI impairment",3
+"45","Locomotor activity","MK-801: OFT",NA,1
+"46","Locomotor activity","MWM - target quadrant swimming distance","Behavioural (other related to psychosis), e.g. positive/negative/cognitive/depression",4
+"47","Locomotor activity","MWM - target quadrant swimming distance",NA,2
+"48","Locomotor activity","OFT","Behavioural (primary): locomotor hyperactivity, PPI impairment",24
+"49","Locomotor activity","OFT",NA,12
+"50","Locomotor activity","OFT - Distance travelled","Behavioural (other related to psychosis), e.g. positive/negative/cognitive/depression",4
+"51","Locomotor activity","OFT - Distance travelled",NA,2
+"52","Locomotor activity","OFT - average speed","Behavioural (other related to psychosis), e.g. positive/negative/cognitive/depression",4
+"53","Locomotor activity","OFT - average speed",NA,2
+"54","Locomotor activity","OFT locomotor speed","Behavioural (primary): locomotor hyperactivity, PPI impairment",10
+"55","Locomotor activity","OFT locomotor speed",NA,5
+"56","Locomotor activity","Open field – distance travelled","Behavioural (primary): locomotor hyperactivity, PPI impairment",10
+"57","Locomotor activity","Open field – distance travelled",NA,6
+"58","Locomotor activity","d-Amphetamine: OFT","Behavioural (primary): locomotor hyperactivity, PPI impairment",3
+"59","Locomotor activity","d-Amphetamine: OFT",NA,1
+"60","Locomotor activity","horizontal activity","Behavioural (primary): locomotor hyperactivity, PPI impairment",38
+"61","Locomotor activity","horizontal activity",NA,35
+"62","Locomotor activity","locomotion","Behavioural (primary): locomotor hyperactivity, PPI impairment",4
+"63","Locomotor activity","locomotion",NA,2
+"64","Locomotor activity","open field test distance travelled in 1hr","Behavioural (primary): locomotor hyperactivity, PPI impairment",4
+"65","Locomotor activity","open field test distance travelled in 1hr",NA,2
+"66","Locomotor activity","open field test distance travelled per 20 min","Behavioural (primary): locomotor hyperactivity, PPI impairment",36
+"67","Locomotor activity","open field test distance travelled per 20 min",NA,18
+"68","Locomotor activity","total distance (Mean +/- SEM)","Behavioural (primary): locomotor hyperactivity, PPI impairment",2
+"69","Locomotor activity","total distance (Mean +/- SEM)",NA,1
+"70","Locomotor activity","total distance travelled",NA,2
+"71","Locomotor activity","total movements (median +/- IQR)","Behavioural (primary): locomotor hyperactivity, PPI impairment",12
+"72","Locomotor activity","total movements (median +/- IQR)",NA,6
+"73","Locomotor activity","vertical activity",NA,18
+"74","Neurobiological outcome (mechanistic) e.g. dopaminergic/seritonergic/glutamatergic signalling","Striatal dopamine synthesis capacity","Neurobiological outcome (mechanistic) e.g. dopaminergic/seritonergic/glutamatergic signalling",2
+"75","Neurobiological outcome (mechanistic) e.g. dopaminergic/seritonergic/glutamatergic signalling",NA,"Neurobiological outcome (mechanistic) e.g. dopaminergic/seritonergic/glutamatergic signalling",1
+"76","Prepulse inhibition","MK-801: PPI: +12dB","Behavioural (primary): locomotor hyperactivity, PPI impairment",3
+"77","Prepulse inhibition","MK-801: PPI: +12dB",NA,1
+"78","Prepulse inhibition","MK-801: PPI: +3dB","Behavioural (primary): locomotor hyperactivity, PPI impairment",3
+"79","Prepulse inhibition","MK-801: PPI: +3dB",NA,1
+"80","Prepulse inhibition","MK-801: PPI: +6dB","Behavioural (primary): locomotor hyperactivity, PPI impairment",3
+"81","Prepulse inhibition","MK-801: PPI: +6dB",NA,1
+"82","Prepulse inhibition","PPI","Behavioural (primary): locomotor hyperactivity, PPI impairment",2
+"83","Prepulse inhibition","PPI",NA,1
+"84","Prepulse inhibition","PPI - 87","Behavioural (primary): locomotor hyperactivity, PPI impairment",4
+"85","Prepulse inhibition","PPI - 87",NA,2
+"86","Prepulse inhibition","PPI - 90","Behavioural (primary): locomotor hyperactivity, PPI impairment",4
+"87","Prepulse inhibition","PPI - 90",NA,2
+"88","Prepulse inhibition","PPI - 93","Behavioural (primary): locomotor hyperactivity, PPI impairment",4
+"89","Prepulse inhibition","PPI - 93",NA,2
+"90","Social interaction","Social interaction test – interaction time","Behavioural (other related to psychosis), e.g. positive/negative/cognitive/depression",10
+"91","Social interaction","Social interaction test – interaction time",NA,6
+"92","Social interaction","social interaction","Behavioural (other related to psychosis), e.g. positive/negative/cognitive/depression",4
+"93","Social interaction","social interaction",NA,2
+"94","Stereotypy","Cocaine-induced stereotypies (stereotypy time)","Behavioural (other related to psychosis), e.g. positive/negative/cognitive/depression",12
+"95","Stereotypy","Cocaine-induced stereotypies (stereotypy time)",NA,5
+"96","Stereotypy","stereotypy","Behavioural (other related to psychosis), e.g. positive/negative/cognitive/depression",4
+"97","Stereotypy","stereotypy",NA,2
+"98",NA,"Striatal dopamine synthesis capacity",NA,1
+"99",NA,NA,NA,115

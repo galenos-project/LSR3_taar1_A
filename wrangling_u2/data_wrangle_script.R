@@ -42,7 +42,7 @@ LSR3_SyRFOutcomes$PdfRelativePath <- gsub(";", ":", LSR3_SyRFOutcomes$PdfRelativ
 
 # wrangle because FT didnt mark her most recent entry as a reconciliation <- 'Is this a reconciliation?'
 column_name <- 'Is this a reconciliation?'
-  condition <- LSR3_SyRFOutcomes$StudyId == '2cfb8de7-b0ad-416f-bfa4-a3771051dc1d'  & LSR3_SyRFOutcomes$InvestigatorName == 'Francesca Tinsdeall'
+condition <- LSR3_SyRFOutcomes$StudyId == '2cfb8de7-b0ad-416f-bfa4-a3771051dc1d'  & LSR3_SyRFOutcomes$InvestigatorName == 'Francesca Tinsdeall'
 LSR3_SyRFOutcomes[condition, column_name] <- TRUE
 
 
@@ -105,15 +105,15 @@ residual_rows <- subset(LSR3_reconciled, !LSR3_reconciled$StudyId %in% r_to_r$St
 LSR3_reconciled <- rbind(residual_rows, r_to_r)
 
 # PAIR 3: 55bd4131-4668-401d-9e07-1935015bb592 - main, f16411ee-022b-4380-90a4-b9803f3d2718 - appendix
-r_to_r <- subset(LSR3_reconciled, LSR3_reconciled$StudyId == 'f16411ee-022b-4380-90a4-b9803f3d2718')
-source_row <- subset(LSR3_reconciled, LSR3_reconciled$StudyId == '55bd4131-4668-401d-9e07-1935015bb592') %>% slice(1)
-for(i in start_index: end_index) {
-  for(j in 1:nrow(r_to_r)) {
-    r_to_r[j,i] <- source_row[1,i]
-  }
-}
-residual_rows <- subset(LSR3_reconciled, !LSR3_reconciled$StudyId %in% r_to_r$StudyId)
-LSR3_reconciled <- rbind(residual_rows, r_to_r)
+# r_to_r <- subset(LSR3_reconciled, LSR3_reconciled$StudyId == 'f16411ee-022b-4380-90a4-b9803f3d2718')
+# source_row <- subset(LSR3_reconciled, LSR3_reconciled$StudyId == '55bd4131-4668-401d-9e07-1935015bb592') %>% slice(1)
+# for(i in start_index: end_index) {
+#   for(j in 1:nrow(r_to_r)) {
+#     r_to_r[j,i] <- source_row[1,i]
+#   }
+# }
+# residual_rows <- subset(LSR3_reconciled, !LSR3_reconciled$StudyId %in% r_to_r$StudyId)
+# LSR3_reconciled <- rbind(residual_rows, r_to_r)
 
 
 ## 2. Replace StudyId of appendix studies with the StudyId of corresponding main paper
@@ -362,7 +362,7 @@ data <- data%>%
     grepl("AP163", data$`InterventionLabel[1]`) ~ "AP163",
     grepl("6e", data$`InterventionLabel[1]`) ~ "Compound 6e",
     grepl("7b", data$`InterventionLabel[1]`) ~ "Compound 7b",
-    grepl("8b", data$`InterventionLabel[1]`) ~ "Compond 8b",
+    grepl("8b", data$`InterventionLabel[1]`) ~ "Compound 8b",
     grepl("guanfacine", data$`InterventionLabel[1]`) ~ "Guanfacine",
     TRUE ~ "Other"
   ))
@@ -394,7 +394,7 @@ data <- data%>%
     grepl("AP163", data$`InterventionLabel[2]`) ~ "AP163",
     grepl("6e", data$`InterventionLabel[2]`) ~ "Compound 6e",
     grepl("7b", data$`InterventionLabel[2]`) ~ "Compound 7b",
-    grepl("8b", data$`InterventionLabel[2]`) ~ "Compond 8b",
+    grepl("8b", data$`InterventionLabel[2]`) ~ "Compound 8b",
     grepl("guanfacine", data$`InterventionLabel[2]`) ~ "Guanfacine",
     TRUE ~ "Other"
   ))
@@ -1179,9 +1179,9 @@ df <- df %>%
   mutate(drugname1 = str_replace_all(drugname1, "SEP(?!-363856)", "SEP-363856")) %>%
   mutate(drugname1_C = str_replace_all(drugname1_C, "SEP(?!-363856)", "SEP-363856")) %>%
   mutate(drugname1_I = str_replace_all(drugname1_I, "SEP(?!-363856)", "SEP-363856")) %>%
-  mutate(drugname2 = str_replace_all(drugname1, "SEP(?!-363856)", "SEP-363856")) %>%
-  mutate(drugname2_C = str_replace_all(drugname1_C, "SEP(?!-363856)", "SEP-363856")) %>%
-  mutate(drugname2_I = str_replace_all(drugname1_I, "SEP(?!-363856)", "SEP-363856"))
+  mutate(drugname2 = str_replace_all(drugname2, "SEP(?!-363856)", "SEP-363856")) %>%
+  mutate(drugname2_C = str_replace_all(drugname2_C, "SEP(?!-363856)", "SEP-363856")) %>%
+  mutate(drugname2_I = str_replace_all(drugname2_I, "SEP(?!-363856)", "SEP-363856"))
 
 # df <- df %>% 
 #   mutate(CategoryDiseaseInduction = case_when(
@@ -1202,7 +1202,11 @@ df <- df %>%
 # Create variable standardised to Weeks
 df <- df %>% 
   mutate(`Duration of treatment[1]_I` = as.numeric(`Duration of treatment[1]_I`)) %>% 
-  mutate(DurationOfTreatmentWeeks = case_when(`Duration of treatment[1]_I` == 999 ~ NA_real_, 
+  mutate(DurationOfTreatmentWeeks = case_when(`Duration of treatment[1]_I` == 999 ~ NA_real_,
+                                              `Duration of treatment[1]_I` == 998 ~ NA_real_,
+                                              `Duration of treatment[1]_I` == 9999 ~ NA_real_,
+                                              `Duration of treatment[1]_I` == 1000 ~ NA_real_,
+                                              `Duration of treatment[1]_I` == 1001 ~ NA_real_,
                                               `Unit of measurement for treatment duration[1]_I` == "Days" ~ `Duration of treatment[1]_I`/7, 
                                               `Unit of measurement for treatment duration[1]_I` == "Months" ~ `Duration of treatment[1]_I`/4.345, 
                                               `Unit of measurement for treatment duration[1]_I` == "Weeks" ~ `Duration of treatment[1]_I`, 
@@ -1211,12 +1215,16 @@ df <- df %>%
 df <- df %>% 
   mutate(`Duration of treatment[2]_I` = as.numeric(`Duration of treatment[2]_I`)) %>% 
   mutate(DurationOfTreatmentWeeks_2 = case_when(`Duration of treatment[2]_I` == 999 ~ NA_real_, # changed so doesn't overwrite values for [1]
+                                                `Duration of treatment[2]_I` == 998 ~ NA_real_,
+                                                `Duration of treatment[2]_I` == 9999 ~ NA_real_,
+                                                `Duration of treatment[2]_I` == 1000 ~ NA_real_,
+                                                `Duration of treatment[2]_I` == 1001 ~ NA_real_,
                                               `Unit of measurement for treatment duration[2]_I` == "Days" ~ `Duration of treatment[2]_I`/7, 
                                               `Unit of measurement for treatment duration[2]_I` == "Months" ~ `Duration of treatment[2]_I`/4.345, 
                                               `Unit of measurement for treatment duration[2]_I` == "Weeks" ~ `Duration of treatment[2]_I`, 
                                               `Unit of measurement for treatment duration[2]_I` == "Single dose" ~ 1/7))
 
-# Either empty or same as [1] so can delete for now
+# Either empty or same as [1] so can delete for now - check with each iteration before deleting
 df <- df %>% select(-DurationOfTreatmentWeeks_2)
 
 # Create categorical variable for Duration of treatment. Grouped into up to a week, between a week and 4 weeks, more than 4 weeks
@@ -1266,10 +1274,13 @@ df <- df %>%
                           DrugName == "AP163" ~ 6.95,
                           DrugName == "Compound 50A" ~ 5.20,
                           DrugName == "Compound 50B" ~ 6.39,
-                          DrugName == "Compound 6e" ~ 7.3,
-                          DrugName == "Compound 7b" ~ 8,
-                          DrugName == "Compound 8b" ~ 7.9,
-                          DrugName == "Guanfacine" ~ 7.7,
+                          DrugName == "Guanfacine" ~ 7.70,
+                          DrugName == "Compound 6e" ~ 7.33,
+                          DrugName == "Compound 7b" ~ 8.02,
+                          DrugName == "Compound 8b" ~ NA,
+                          DrugName == "ZH8659" ~ NA, 
+                          DrugName == "ZH8651" ~ 8.01, 
+                          DrugName == "ZH8667" ~ 8.93,
                           TRUE ~ NA_real_)) %>% 
   mutate(Efficacy = case_when(DrugName == "LK000764" ~ "TAAR1 full agonist", 
                               DrugName == "RO5073012" ~ "TAAR1 partial agonist", 
@@ -1286,6 +1297,9 @@ df <- df %>%
                               DrugName == "Compound 7b" ~ "TAAR1 partial agonist",
                               DrugName == "Compound 8b" ~ "TAAR1 full agonist",
                               DrugName == "Guanfacine" ~ "TAAR1 full agonist",  
+                              DrugName == "ZH8659" ~ "Not detected", 
+                              DrugName == "ZH8651" ~ "Full agonist", 
+                              DrugName == "ZH8667" ~ "Full agonist",
                               TRUE ~ "NA")) %>% 
   mutate(Selectivity = case_when(DrugName == "LK000764" ~ "Unclear", 
                                  DrugName == "RO5073012" ~ "High", 
@@ -1302,6 +1316,9 @@ df <- df %>%
                                  DrugName == "Compound 7b" ~ "Unclear",
                                  DrugName == "Compound 8b" ~ "Unclear",
                                  DrugName == "Guanfacine" ~ "Unclear",
+                                 DrugName == "ZH8659" ~ "Unclear", 
+                                 DrugName == "ZH8651" ~ "Unclear", 
+                                 DrugName == "ZH8667" ~ "Unclear",
                                  TRUE ~ "NA")) %>% 
   mutate(MolarMass = case_when(DrugName == "LK000764" ~ 299.1058, 
                                DrugName == "RO5073012" ~ 249.742, 
@@ -1318,6 +1335,9 @@ df <- df %>%
                                DrugName == "Compound 7b" ~ 211.14,
                                DrugName == "Compound 8b" ~ 245.10,
                                DrugName == "Guanfacine" ~ 246.01,
+                               DrugName == "ZH8659" ~ 187.24, 
+                               DrugName == "ZH8651" ~ 200.0, 
+                               DrugName == "ZH8667" ~ 215.27,
                                TRUE ~ NA_real_)) %>% 
   mutate(EC50mM = case_when(DrugName == "LK000764" ~ 0.004, 
                             DrugName == "RO5073012" ~ 0.023, 
@@ -1332,8 +1352,11 @@ df <- df %>%
                             DrugName == "Compound 50B" ~ 0.405, 
                             DrugName == "Compound 6e" ~ 0.046,
                             DrugName == "Compound 7b" ~ 0.009,
-                            DrugName == "Compound 8b" ~ 0.014,
+                            DrugName == "Compound 8b" ~ NA,
                             DrugName == "Guanfacine" ~ 0.02,
+                            DrugName == "ZH8659" ~ NA, 
+                            DrugName == "ZH8651" ~ 0.01, 
+                            DrugName == "ZH8667" ~ 0.001,
                             TRUE ~ NA_real_)) 
 
 # Calculate standardised dose for overall dose-response meta-regression
@@ -1446,8 +1469,10 @@ check <- check %>% select(all_of(ordered_cols))
 # Note: seems ok, just typos in columns that didn't merge
 
 
-
-# SAVE FILE
+### SAVE FILE
 savefile_output <- paste0(LSR,'_','clean_data_',Sys.Date(),'.csv')
-write.csv(df, savefile_output, row.names = FALSE)
+write.csv(df_final, savefile_output, row.names = FALSE)
+
+# Check for missing drug info that needs to be manually written in 
+drug_check <- df_final %>% select(Label, pE50, Efficacy, Selectivity, MolarMass, EC50mM, StandardisedDose) %>% distinct()
 

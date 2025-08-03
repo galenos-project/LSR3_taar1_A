@@ -29,6 +29,9 @@ library(ggplot2)
 library(Matrix)
 library(meta)
 library(metafor)
+# rm(list = ls())
+# devtools::install_github("daniel1noble/orchaRd", ref = "main", force = TRUE) # install orchaRd
+# pacman::p_load(devtools, tidyverse, metafor, patchwork, R.rsp, orchaRd, emmeans, ape, phytools, flextable)
 library(orchaRd)
 library(readxl)
 library(readr)
@@ -46,8 +49,9 @@ library(PRISMA2020)
 library(grateful)
 library(xtable)
 
+```
 
-
+```{r}
 #define LSR
 LSR <- 'LSR3'
 # define date of processing
@@ -87,7 +91,7 @@ The flow of study selection is shown in Figure 1. Studies included were publishe
 **Figure 1 - PRISMA flowchart**
 
 ```{r PRISMA flowchart, eval = TRUE, echo = FALSE, warning=FALSE, message=FALSE}
-prisma_data <- read_csv("data_u1/LSR3_prisma_180325.csv")
+prisma_data <- read_csv("data_u2/LSR3_prisma_180325.csv")
 dfp <- PRISMA_data(prisma_data)
 PRISMA_flowdiagram(dfp, interactive=FALSE, previous=TRUE, other=FALSE,
                     detail_databases=FALSE, detail_registers=FALSE, fontsize=12, font="Helvetica",
@@ -100,11 +104,11 @@ The table below gives a summary of the included studies, the model and species u
 
 ```{r results="asis", echo = FALSE, warning=FALSE, message=FALSE}
 
-RoB <- unique(df[,c(4,6,12)])
+RoB <- df %>% dplyr::select(StudyId, Authors, Year) %>% unique()
 
 #change studyId to Author, year
-RoB$Study <- RoB$StudyId_I
-RoB$StudyId <- toupper(paste0(str_extract(RoB$Authors_I,"\\b\\w+\\b"),', ',RoB$Year_I))
+RoB$Study <- RoB$StudyId
+RoB$StudyId <- toupper(paste0(str_extract(RoB$Authors,"\\b\\w+\\b"),', ',RoB$Year))
 
 # fix >1 publication per first author in a year
 
@@ -128,12 +132,13 @@ RoB$StudyId <- paste(RoB$StudyId, RoB$suffix, sep = "")
 RoB <- select(RoB, -suffix)
 RoB <- RoB[order(RoB$StudyId),]
 
-RoB <- RoB[,c(5,2,3,1)]
+RoB <- RoB[,c(4,2,3,1)]
 
 colnames(RoB) <- c('Study', 'Authors', 'Year', 'StudyId')
 
-colnamesdf <- c('StudyId', 'Authors','Year','Strain', 'CategoryDiseaseInduction', 'DrugLabel_I', 'DrugLabel_C', 'outcome_type',
+colnamesdf <- c('StudyId', 'Authors','Year','Strain', 'CategoryDiseaseInduction', 'DrugLabel_I', 'DrugLabel_C', 'OutcomeType',
                 'NumberOfAnimals', 'NumberOfAnimals_C', 'NumberOfAnimals_I', 'SortLabel')
+
 df3 <- df[,colnamesdf]
 df3$N <- as.numeric(df3$NumberOfAnimals_C) + as.numeric(df3$NumberOfAnimals_I)
 df3 <- subset(df3, !df3$SortLabel=='AvC')
@@ -144,7 +149,7 @@ df3$CompLable <- paste0(df3$DrugLabel_I,' v ',df3$DrugLabel_C)
 trow <- merge(df3, RoB, by = 'StudyId')
 tab1 <- trow[,c(15,5,4,14,8,13)]
 tab2 <- tab1 %>%
-  group_by(Study, CategoryDiseaseInduction, Strain, CompLable, outcome_type) %>%
+  group_by(Study, CategoryDiseaseInduction, Strain, CompLable, OutcomeType) %>%
   summarise(subjects_sum = sum(N))
 
 
@@ -155,7 +160,7 @@ tab2 <- tab2 %>%
 
 write.csv(tab2, 'tab2.csv')
 
-tab2 <- read_csv("data_u1/tab_formatted.csv")
+tab2 <- read_csv("data_u2/tab_formatted.csv")
 tab2[is.na(tab2)] <- ""
 tab2$N <- as.numeric(tab2$N)
 original_data <- tab2[1:63, 1:6]
