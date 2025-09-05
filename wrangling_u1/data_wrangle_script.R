@@ -12,7 +12,7 @@ LSR <- 'LSR3'
 
 # Import SyRF outcome data
 
-LSR3_SyRFOutcomes <- read_csv("data_u1/Quantitative_data_-_2025_08_22_-_c494b1ae-4cf4-4618-b91a-e69a2b815bdd_-_Investigators_Unblinded.csv")
+LSR3_SyRFOutcomes <- read_csv("data_u1/Quantitative_data_-_2025_09_05_-_c494b1ae-4cf4-4618-b91a-e69a2b815bdd_-_Investigators_Unblinded.csv")
 
 ###### Tidying and cleaning the data ######
 #clean ; from TiAb etc
