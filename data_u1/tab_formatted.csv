@@ -20,13 +20,20 @@ Previously included studies,.,.,.,.,.
 """","""","""",SEP-363856 v olanzapine,Cognition,48
 """","""","""","""",Locomotor activity,16
 "REVEL, 2011",Genetic,C57BL/6J (mouse),RO5166017 v Vehicle,Locomotor activity,42
+<<<<<<< HEAD
 """","""",C57Bl/6Jx129Sv/J (mouse),RO5263397 v Vehicle,Locomotor activity,48
+=======
+>>>>>>> 2e39e683e2960bd9bcb0a07c00515be385e228f0
 """",Pharmacological,C57BL/6 (mouse),RO5166017 v Vehicle,Locomotor activity,200
 """","""","""","""",Stereotypy,128
 """","""",NMRI (mouse),RO5166017 v Vehicle,Locomotor activity,84
 "REVEL, 2012a",Genetic,C57Bl/6Jx129Sv/J (mouse),RO5203648 v Vehicle,Locomotor activity,48
 """",Pharmacological,C57BL/6J (mouse),RO5203648 v Vehicle,Locomotor activity,154
+<<<<<<< HEAD
 """","""",Wistar (rat),RO5203648 v Vehicle,Locomotor activity,84
+=======
+"REVEL, 2012a",Pharmacological,Wistar (rat),RO5203648 v Vehicle,Locomotor activity,84
+>>>>>>> 2e39e683e2960bd9bcb0a07c00515be385e228f0
 "REVEL, 2012b",Pharmacological,C57BL/6J (mouse),RO5073012 v Vehicle,Locomotor activity,42
 "REVEL, 2013",Pharmacological,C57BL/6J (mouse),RO5256390 v Vehicle,Locomotor activity,122
 """","""","""",RO5256390 v olanzapine,Locomotor activity,32
@@ -35,7 +42,11 @@ Previously included studies,.,.,.,.,.
 """","""","""",RO5263397 v olanzapine,Locomotor activity,80
 """","""","""",RO5263397 v risperidone,Locomotor activity,96
 """","""",Long-evans (rat),RO5256390 v Vehicle,Cognition,48
+<<<<<<< HEAD
 """","""",NMRI (mouse),RO5256390 v Vehicle,Locomotor activity,208
+=======
+"""","""",Not stated (mouse),RO5256390 v Vehicle,Locomotor activity,208
+>>>>>>> 2e39e683e2960bd9bcb0a07c00515be385e228f0
 "SAARINEN, 2022",Pharmacological,C57Bl/6J (mouse),SEP-363856 v Vehicle,Locomotor activity,56
 """","""","""","""",Prepulse inhibition,60
 "WANG, 2023",Pharmacological,C57BL/6J (mouse),Compound 50A v Vehicle,Locomotor activity,72
@@ -48,12 +59,16 @@ Previously included studies,.,.,.,.,.
 New studies added in this iteration,.,.,.,.,.
 "CICHERO, 2023",Genetic,Wistar (rat),Guanfacine v Vehicle,Locomotor activity,20
 "COTTER, 2015",Pharmacological,Long-evans (rat),RO5203648 v Vehicle,Locomotor activity,200
+<<<<<<< HEAD
 "ESPINOZA, 2018",Genetic,C57Bl/6Jx129Sv/J (mouse),RO5263397 v Vehicle,Locomotor activity,48
+=======
+>>>>>>> 2e39e683e2960bd9bcb0a07c00515be385e228f0
 "LI, 2024",Pharmacological,Not stated (mouse),SEP-363856 v Vehicle,Cognition,240
 """","""","""","""",Locomotor activity,180
 """","""","""","""",Prepulse inhibition,180
 """","""","""","""",Social interaction,60
 """","""","""","""",Stereotypy,60
+<<<<<<< HEAD
 "SHANG, 2023",Pharmacological,C57BL/6J (mouse),SEP-363856 v Vehicle,Cognition,24
 """","""","""","""",Locomotor activity,141
 """","""","""","""",Prepulse inhibition,285
@@ -64,6 +79,8 @@ New studies added in this iteration,.,.,.,.,.
 """","""","""","""",Locomotor activity,111
 """","""","""","""",Prepulse inhibition,270
 """","""","""",ZH8667 v Vehicle,Locomotor activity,19
+=======
+>>>>>>> 2e39e683e2960bd9bcb0a07c00515be385e228f0
 "THORN, 2014",Pharmacological,Sprague-dawley (rat),RO5263397 v Vehicle,Locomotor activity,372
 "YUN, 2023",Pharmacological,C57BL/6J (mouse),SEP-363856 v Vehicle,Locomotor activity,176
 """","""","""","""",Prepulse inhibition,28

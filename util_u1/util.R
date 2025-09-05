@@ -284,6 +284,7 @@ subgroup_analysis <- function(df, experiment_type, outcome, moderator, rho_value
   }
 }
 
+<<<<<<< HEAD
 subgroup_analysis_con <- function(df, experiment_type, outcome, moderator, rho_value) {
   # this returns a table of effect sizes etc by moderator, for passing to 'forest_subgroup'
   # for plotting
@@ -394,6 +395,8 @@ subgroup_analysis_con <- function(df, experiment_type, outcome, moderator, rho_v
   }
 }
 
+=======
+>>>>>>> 2e39e683e2960bd9bcb0a07c00515be385e228f0
 # plot_subgroup_analysis <- function(df, experiment_type, outcome, moderator, rho_value) {
 #   
 #   # Ensure the moderator is a character string for later conversion to symbol
@@ -748,6 +751,7 @@ metaregression_analysis <- function(df, experiment_type, outcome, moderator, rho
     regression_plot = x))
 }
 
+<<<<<<< HEAD
 metaregression_analysis_con <- function(df, experiment_type, outcome, moderator, rho_value) {
   
   # Ensure the moderator is a character string for evaluation in sym() function (can't convert numerics to symbol)
@@ -807,6 +811,8 @@ metaregression_analysis_con <- function(df, experiment_type, outcome, moderator,
     regression_plot = x))
 }
 
+=======
+>>>>>>> 2e39e683e2960bd9bcb0a07c00515be385e228f0
 metaregression_analysis_by_drug <- function(df, experiment_type, outcome, drug_name, moderator, rho_value) {
   
   # Ensure the moderator is a character string for evaluation in sym() function (can't convert numerics to symbol)
@@ -1387,6 +1393,7 @@ run_sse_SMD_C <- function(df, rho_value = 0.5) {
   return(SMD_sse)
 }
 
+<<<<<<< HEAD
 run_sse_SMD_P <- function(df, rho_value = 0.5) {
   
   #  df<-filter_experiment_outcome_type(df, experiment, outcome)
@@ -1422,6 +1429,8 @@ run_sse_SMD_P <- function(df, rho_value = 0.5) {
   return(SMD_sse)
 }
 
+=======
+>>>>>>> 2e39e683e2960bd9bcb0a07c00515be385e228f0
 run_sse_plot_SMD_L <- function(df, rho_value = 0.5) {
   
   #  df<-filter_experiment_outcome_type(df, experiment, outcome)
@@ -1494,6 +1503,7 @@ run_sse_plot_SMD_C <- function(df, rho_value = 0.5) {
   return(plot)
 }
 
+<<<<<<< HEAD
 run_sse_plot_SMD_P <- function(df, rho_value = 0.5) {
   
   #  df<-filter_experiment_outcome_type(df, experiment, outcome)
@@ -1530,6 +1540,8 @@ run_sse_plot_SMD_P <- function(df, rho_value = 0.5) {
   return(plot)
 }
 
+=======
+>>>>>>> 2e39e683e2960bd9bcb0a07c00515be385e228f0
 subgroup_SMD <- function(df, experiment_type, outcome, moderator, rho_value) {
   # with intercept, to allow calculation of effect of moderators - returns intercept 
   # as beta-coefficient for first category, and beta coefficients for other categories 
@@ -1600,6 +1612,7 @@ subgroup_SMD <- function(df, experiment_type, outcome, moderator, rho_value) {
     return(subgroup_analysis)
   }  }
 
+<<<<<<< HEAD
 subgroup_SMD_con <- function(df, experiment_type, outcome, moderator, rho_value) {
   # with intercept, to allow calculation of effect of moderators - returns intercept 
   # as beta-coefficient for first category, and beta coefficients for other categories 
@@ -1671,6 +1684,8 @@ subgroup_SMD_con <- function(df, experiment_type, outcome, moderator, rho_value)
     return(subgroup_analysis)
   }  }
 
+=======
+>>>>>>> 2e39e683e2960bd9bcb0a07c00515be385e228f0
 subgroup_SMDI <- function(df, experiment_type, outcome, moderator, rho_value) {
   # this gives beta co-efficients for every moderator variable compared with no effect; 
   # so is used to report these and their 95% CIs, but not whether or not the effects of 
@@ -1729,6 +1744,7 @@ subgroup_SMDI <- function(df, experiment_type, outcome, moderator, rho_value) {
     return(subgroup_analysis)
   }  }
 
+<<<<<<< HEAD
 subgroup_SMDI_con <- function(df, experiment_type, outcome, moderator, rho_value) {
   # this gives beta co-efficients for every moderator variable compared with no effect; 
   # so is used to report these and their 95% CIs, but not whether or not the effects of 
@@ -1788,6 +1804,8 @@ subgroup_SMDI_con <- function(df, experiment_type, outcome, moderator, rho_value
     return(subgroup_analysis)
   }  }
 
+=======
+>>>>>>> 2e39e683e2960bd9bcb0a07c00515be385e228f0
 metaregression_analysisI <- function(df, experiment_type, outcome, moderator, rho_value) {
   
   # Ensure the moderator is a character string for evaluation in sym() function (can't convert numerics to symbol)
