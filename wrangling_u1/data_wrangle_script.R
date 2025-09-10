@@ -1354,6 +1354,33 @@ df <- df %>%
   mutate(Label = str_replace_all(Label, "miligrams \\(mg\\) per kg", "mg/kg"),
   ) 
 
+# extract different categories of disease induction models
+df <- df %>% 
+  mutate(CDI_level2 = case_when(`Category of disease model induction method:[1]_I` == "Pharmacological (e.g. psychostimulants, NMDA antagonists)" & `Type of pharmacological induction:_I` == "cocaine" ~ "Stimulant or Dopamine Agonist", 
+                                              `Category of disease model induction method:[1]_I` == "Pharmacological (e.g. psychostimulants, NMDA antagonists)" & `Type of pharmacological induction:_I` == "MK-801" ~ "NMDA antagonist",
+                                              `Category of disease model induction method:[1]_I` == "Pharmacological (e.g. psychostimulants, NMDA antagonists)" & `Type of pharmacological induction:_I` == "phencyclidine" ~ "NMDA antagonist", 
+                                              `Category of disease model induction method:[1]_I` == "Pharmacological (e.g. psychostimulants, NMDA antagonists)" & `Type of pharmacological induction:_I` == "ketamine" ~ "NMDA antagonist", 
+                                              `Category of disease model induction method:[1]_I` == "Pharmacological (e.g. psychostimulants, NMDA antagonists)" & `Type of pharmacological induction:_I` == "apomorphine" ~ "Stimulant or Dopamine Agonist", 
+                                              `Category of disease model induction method:[1]_I` == "Pharmacological (e.g. psychostimulants, NMDA antagonists)" & `Type of pharmacological induction:_I` == "Other" ~ "Other", 
+                                              `Category of disease model induction method:[1]_I` == "Pharmacological (e.g. psychostimulants, NMDA antagonists)" & `Type of pharmacological induction:_I` == "other" ~ "Other", 
+                                              `Category of disease model induction method:[1]_I` == "Pharmacological (e.g. psychostimulants, NMDA antagonists)" & `Type of pharmacological induction:_I` == "amphetamine" ~ "Stimulant or Dopamine Agonist", 
+                                              `Category of disease model induction method:[1]_I` == "Genetic (e.g. DISC1 KO, DAT KO, D2R overexpression)" & `Gene manipulated:_I` == "DAT" ~ "DAT KO", 
+                                              `Category of disease model induction method:[1]_I` == "Genetic (e.g. DISC1 KO, DAT KO, D2R overexpression)" & `Gene manipulated:_I` == "DAT KO" ~ "DAT KO", 
+                                              TRUE ~ `Category of disease model induction method:[1]_I`))  # Keep other values unchanged))
+
+df <- df %>% 
+  mutate(CDI_level3 = case_when(`Category of disease model induction method:[1]_I` == "Pharmacological (e.g. psychostimulants, NMDA antagonists)" & `Type of pharmacological induction:_I` == "cocaine" ~ "Cocaine", 
+                                `Category of disease model induction method:[1]_I` == "Pharmacological (e.g. psychostimulants, NMDA antagonists)" & `Type of pharmacological induction:_I` == "MK-801" ~ "MK-801",
+                                `Category of disease model induction method:[1]_I` == "Pharmacological (e.g. psychostimulants, NMDA antagonists)" & `Type of pharmacological induction:_I` == "phencyclidine" ~ "PCP", 
+                                `Category of disease model induction method:[1]_I` == "Pharmacological (e.g. psychostimulants, NMDA antagonists)" & `Type of pharmacological induction:_I` == "ketamine" ~ "Ketamine", 
+                                `Category of disease model induction method:[1]_I` == "Pharmacological (e.g. psychostimulants, NMDA antagonists)" & `Type of pharmacological induction:_I` == "apomorphine" ~ "APO", 
+                                `Category of disease model induction method:[1]_I` == "Pharmacological (e.g. psychostimulants, NMDA antagonists)" & `Type of pharmacological induction:_I` == "Other" ~ "Other", 
+                                `Category of disease model induction method:[1]_I` == "Pharmacological (e.g. psychostimulants, NMDA antagonists)" & `Type of pharmacological induction:_I` == "other" ~ "Other", 
+                                `Category of disease model induction method:[1]_I` == "Pharmacological (e.g. psychostimulants, NMDA antagonists)" & `Type of pharmacological induction:_I` == "amphetamine" ~ "Amphetamine", 
+                                `Category of disease model induction method:[1]_I` == "Genetic (e.g. DISC1 KO, DAT KO, D2R overexpression)" & `Gene manipulated:_I` == "DAT" ~ "DAT KO", 
+                                `Category of disease model induction method:[1]_I` == "Genetic (e.g. DISC1 KO, DAT KO, D2R overexpression)" & `Gene manipulated:_I` == "DAT KO" ~ "DAT KO", 
+                                TRUE ~ `Category of disease model induction method:[1]_I`))  # Keep other values unchanged))
+
 # SAVE FILE
 savefile_output <- paste0(LSR,'_','clean_data_',Sys.Date(),'.csv')
 write.csv(df, savefile_output, row.names = FALSE)
