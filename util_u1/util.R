@@ -428,6 +428,9 @@ forest_subgroup <- function(modelsumm, moderator, outcome, moderator_text) {
   lop<- 1 - ((poly1$SMD - poly1$ci_l)/(cf *2))
   dfp <- data.frame(x = c(poly1$SMD, poly1$ci_u, poly1$SMD, poly1$ci_l), y = c(lop, 1, upp, 1))
 
+  model <- model %>%
+    arrange(order) %>%
+    mutate(moderator = factor(moderator, levels = unique(moderator)))
     p_mid <- model %>%
       ggplot(aes(y = fct_rev(moderator))) +
       theme_classic() +
@@ -470,6 +473,82 @@ forest_subgroup <- function(modelsumm, moderator, outcome, moderator_text) {
     p_left + p_mid + p_right + plot_layout(design = layout) + plot_annotation(title = title, theme = theme(plot.title = element_text(hjust = 0.5)))
   }
 
+forest_subgroup_ml <- function(modelsumm, moderator, outcome, moderator_text) {
+  # this uses GGplot2 to draw a forest plot for the subgroup analyses, and returns the plot 
+  
+  title <- paste0("Effect of TAAR1 Agonists on ",outcome, " by drug used to induce model")           
+  
+  model <- modelsumm
+  lt <- nrow(model)
+  colnames(model) <- c('moderator','k','SMD','se','p','ci_l','ci_u','symbol','size','summary','fontfaace','fontsize','d1','d2','CDI_Level2','order')
+  model$order <- as.numeric(rownames(model))
+  model$estimate_lab = paste0(sprintf('%.2f',model$SMD)," (", sprintf('%.2f',model$ci_l,2),",", sprintf('%.2f',model$ci_u,2),")")
+  model <- model %>%
+    arrange(order) %>%
+    mutate(moderator = factor(moderator, levels = moderator[c(2:lt, 1)]))
+  lnth <- nrow(model)+1
+  
+  axis_min <- min(floor(min(model$ci_l, model$ci_u)),-2)
+  axis_max <- max(ceiling(max(model$ci_l, model$ci_u)),1)
+  span2 <- 1 + (axis_max - axis_min)
+  span1 <- span2 * 0.8
+  span3 <- span2 * 0.5
+  r1 <- span1
+  l2 <- span1 + 1
+  r2 <- span1 + span2 + 1
+  l3 <- span1 + span2 + 2
+  r3 <- span1 + span2 + span3 + 2
+  
+  cf <- span2/lnth
+  
+  
+  poly1 <- subset(model, model$moderator == "Overall estimate")
+  upp <- 1 + ((poly1$SMD - poly1$ci_l)/(cf *2))
+  lop<- 1 - ((poly1$SMD - poly1$ci_l)/(cf *2))
+  dfp <- data.frame(x = c(poly1$SMD, poly1$ci_u, poly1$SMD, poly1$ci_l), y = c(lop, 1, upp, 1))
+  
+  p_mid <- model %>%
+    ggplot(aes(y = fct_rev(moderator))) +
+    theme_classic() +
+    geom_point(aes(x = SMD), shape = model$symbol, size = model$size) +
+    geom_linerange(aes(xmin = ci_l, xmax = ci_u)) +
+    labs(x = "SMD Effect size") +
+    coord_cartesian(ylim = c(0, lnth), xlim = c(axis_min-1, axis_max+1)) +
+    geom_vline(xintercept = 0, linetype = "solid") +
+    geom_vline(xintercept = poly1$SMD, linetype = "dashed") +
+    annotate("text", x = axis_min-1, y = lnth, label = "TAAR1 Agonist\nworse", hjust = 0) +
+    annotate("text", x = axis_max+1, y = lnth, label = "TAAR1 Agonist\nbetter", hjust = 1) +
+    geom_polygon(data = dfp, aes(x = x, y = y), fill = "black") +
+    theme(axis.line.y = element_blank(),
+          axis.ticks.y = element_blank(),
+          axis.text.y = element_blank(),
+          axis.title.y = element_blank())
+  
+  
+  p_left <-
+    model %>%
+    ggplot(aes(y = fct_rev(moderator))) +
+    geom_text(aes(x = 0, label = moderator), hjust = 0, size = model$fontsize) +
+    geom_text(aes(x = r1, label = k), hjust = 1, size = model$fontsize) +
+    annotate("text", x = r1, y = lnth, label = "Number of\nexperimental contrasts", hjust=1) +
+    theme_void() +
+    coord_cartesian(ylim = c(0, lnth), xlim = c(0, span1))
+  
+  p_right <-
+    model %>%
+    ggplot() +
+    geom_text(aes(x = span3, y = fct_rev(moderator), label = estimate_lab),size = model$fontsize, hjust = 1) +
+    coord_cartesian(ylim = c(0, lnth), xlim = c(0, span3)) +
+    theme_void()
+  
+  layout <- c(
+    area(t = 0, l = 0, b = 30, r = r1),
+    area(t = 1, l = l2, b = 30, r = r2),
+    area(t = 0, l = l3, b = 30, r = r3)
+  )
+  
+  p_left + p_mid + p_right + plot_layout(design = layout) + plot_annotation(title = title, theme = theme(plot.title = element_text(hjust = 0.5)))
+}
 
 
 #overall_estimate_index <-dim(subgroup_analysis_plotdata)[1]
@@ -1728,4 +1807,200 @@ run_SMD <- function(df, experiment, outcome) {
   print(pred_interval)
   
   return(SMD_ML)
+}
+
+forest_induction <- function(df) {
+  library(metafor)
+  
+  # Fit models for each subgroup and group
+  model_x <- rma(yi, vi, data=dat, subset=(group=="A" & subgroup=="x"))
+  model_y <- rma(yi, vi, data=dat, subset=(group=="A" & subgroup=="y"))
+  model_z <- rma(yi, vi, data=dat, subset=(group=="B" & subgroup=="z"))
+  model_alpha <- rma(yi, vi, data=dat, subset=(group=="B" & subgroup=="alpha"))
+  
+  model_A <- rma(yi, vi, data=dat, subset=(group=="A"))
+  model_B <- rma(yi, vi, data=dat, subset=(group=="B"))
+  
+  # Create an empty forest plot with appropriate dimensions
+  forest(NA, ylim=c(-1, 7), 
+         xlim=c(-8, 6),
+         rows=c(6, 5, 3, 2, 1, 0),  # Positions for the aggregates
+         ylab="", xlab="Effect Size",
+         alim=c(-3, 3), at=c(-2, 0, 2),
+         cex=1, mlab="", header="Group/Subgroup")
+  
+  # Add subgroup aggregates
+  addpoly(model_x, row=5, mlab="Subgroup x (A)", cex=0.9)
+  addpoly(model_y, row=4, mlab="Subgroup y (A)", cex=0.9)
+  addpoly(model_z, row=2, mlab="Subgroup z (B)", cex=0.9)
+  addpoly(model_alpha, row=1, mlab="Subgroup alpha (B)", cex=0.9)
+  
+  # Add group aggregates (slightly larger and bolder)
+  addpoly(model_A, row=6, mlab="GROUP A COMBINED", cex=1, col="darkblue")
+  addpoly(model_B, row=0, mlab="GROUP B COMBINED", cex=1, col="darkred")
+  
+  # Add group labels
+  text(-8, 6, "Group A", font=2, pos=4, cex=1.1)
+  text(-8, 3, "Group B", font=2, pos=4, cex=1.1)
+  
+  # Add subgroup labels
+  text(-8, c(5, 4, 2, 1), c("x", "y", "z", "alpha"), pos=4, cex=1)
+  
+  # Add separator lines
+  abline(h=c(3.5, -0.5), lty=2, col="gray")
+}
+
+
+hierarchical_subgroup_analysis <- function(df, experiment_type, outcome, rho_value) {
+  # Filter data according to your requirements
+  df_filtered <- df %>% 
+    filter(SortLabel == experiment_type) %>% 
+    filter(outcome_type == outcome) %>%  
+    filter(!CDI_level2 == 'DAT KO') %>%
+    filter(!is.na(SMDv))
+  
+  df_filtered <- df_filtered %>% mutate(effect_id = row_number()) # add effect_id column
+  
+  #calculate variance-covariance matrix of the sampling errors for dependent effect sizes
+  factors_to_consider <- c("Strain", "StudyId", "ExperimentID_I")
+  
+  # Create the random effects formula
+  random_formula <- create_formula(factors_to_consider, df_filtered)
+  
+  VCVM_SMD <- vcalc(vi = SMDv,
+                    cluster = StudyId, 
+                    subgroup= ExperimentID_I,
+                    obs=effect_id,
+                    data = df_filtered, 
+                    rho = rho_value) 
+  
+  ## ML model on df_filtered without subgroup
+  global_analysis <- rma.mv(yi = SMD,
+                            V = VCVM_SMD,
+                            random = random_formula, # nested levels
+                            test = "t", # use t- and F-tests for making inferences
+                            data = df_filtered,
+                            rho = rho_value,
+                            dfs="contain", # improve degree of freedom estimation for t- and F-distributions
+                            control=list(optimizer="nlminb"))
+  
+  k_subgroups <- df_filtered %>%
+    count() %>%
+    pull(n)
+  
+  
+  global_analysis_plotdata <- data.frame('Global estimate', k_subgroups, global_analysis$beta, global_analysis$se, global_analysis$pval, global_analysis$ci.lb, global_analysis$ci.ub)
+  colnames(global_analysis_plotdata) <- c('subgroup', "k", "SMD", "se","p", "ci_l", "ci_u") #, "pi.lb", "pi.ub")
+  global_analysis_plotdata$symbol <- 15
+  global_analysis_plotdata$size <- (1/global_analysis_plotdata$se)
+  global_analysis_plotdata$summary <- 'TRUE'
+  global_analysis_plotdata$fontfaace <- "bold"
+  global_analysis_plotdata$fontsize <- 7
+  #global_analysis_plotdata=rbind(global_analysis_plotdata, c("Overall estimate",  overall_estimate_rma$k, overall_estimate_rma$beta, overall_estimate_rma$se, overall_estimate_rma$pval, overall_estimate_rma$ci.lb,overall_estimate_rma$ci.ub, 18,1,TRUE,"bold",5)) #overall_estimate_rma_predict$pi.lb, overall_estimate_rma_predict$pi.ub))
+  
+  
+  
+  
+  rownames(global_analysis_plotdata) <- 1:nrow(global_analysis_plotdata)
+  global_analysis_plotdata$k <- as.numeric(global_analysis_plotdata$k)
+  global_analysis_plotdata$SMD <- as.numeric(global_analysis_plotdata$SMD)
+  global_analysis_plotdata$se <- as.numeric(global_analysis_plotdata$se)
+  global_analysis_plotdata$ci_l <- as.numeric(global_analysis_plotdata$ci_l)
+  global_analysis_plotdata$ci_u <- as.numeric(global_analysis_plotdata$ci_u)
+  global_analysis_plotdata$p <- as.numeric(global_analysis_plotdata$p)
+  global_analysis_plotdata$symbol <- as.numeric(global_analysis_plotdata$symbol)
+  global_analysis_plotdata$size <- as.numeric(global_analysis_plotdata$size)
+  global_analysis_plotdata$summary <- as.character(global_analysis_plotdata$summary)
+  global_analysis_plotdata$fontsize <- as.numeric(global_analysis_plotdata$fontsize)
+  
+  global_analysis_plotdata$d1 <- (global_analysis_plotdata$SMD - global_analysis_plotdata$ci_l)/1.92
+  global_analysis_plotdata$d2 <- (global_analysis_plotdata$ci_u - global_analysis_plotdata$SMD)/1.92
+  global_analysis_plotdata$CDI_level2 <- ''
+  
+  
+  # Get unique CDI_level1 values
+  cdi_levels <- unique(df_filtered$CDI_level2)
+  
+  # Initialize lists to store results
+  all_plotdata <- list()
+  all_analyses <- list()
+  
+  all_plotdata[['global']] <- global_analysis_plotdata
+  all_analyses[['global']] <- global_analysis
+  
+  # Process each CDI_level1
+  for (cdi1 in cdi_levels) {
+    df_cdi1 <- df_filtered %>% filter(CDI_level2 == cdi1)
+    
+    # Check if we have CDI_level3 subgroups
+    if (length(unique(df_cdi1$CDI_level3)) > 1) {
+      # Perform subgroup analysis on CDI_level3 within this CDI_level1
+      res <- subgroup_analysis(df_cdi1, experiment_type, outcome, "CDI_level3", rho_value)
+      
+      if (!is.null(res)) {
+        # Add CDI_level2 information
+        res$plotdata$CDI_level2 <- cdi1
+        
+        # Rename the moderator column to "subgroup" for consistency
+        # The column name will be "CDI_level3" from the subgroup_analysis
+        res$plotdata <- res$plotdata %>%
+          rename(subgroup = CDI_level3)
+        
+        # Store results
+        all_plotdata[[cdi1]] <- res$plotdata
+        all_analyses[[cdi1]] <- res$analysis
+      }
+    } else {
+      # If only one CDI_level3, create a simple overall analysis for this CDI_level1
+      # This is a simplified version of your subgroup_analysis without moderator
+      # (Implementation would go here)
+    }
+  }
+  
+  # Combine all plotdata
+  combined_plotdata <- bind_rows(all_plotdata)
+  
+  combined_plotdata <- combined_plotdata %>%
+    mutate(subgroup = case_when(subgroup == 'Overall estimate' ~ 'Subgroup estimate',
+                                subgroup == 'Global estimate' ~ 'Overall estimate',
+                                TRUE ~ subgroup))
+  lt <- nrow(combined_plotdata)
+  combined_plotdata <- combined_plotdata[c(2:lt,1),]
+  
+  return(list(plotdata = combined_plotdata, analyses = all_analyses))
+}
+
+forest_hierarchical <- function(plotdata, outcome) {
+  # Check if plotdata is empty
+  if (nrow(plotdata) == 0) {
+    stop("plotdata is empty - cannot create forest plot")
+  }
+  
+  plotdata <- plotdata %>%
+    mutate(size = case_when(
+      str_detect(subgroup, "Subgroup") ~ 10,
+      TRUE ~ `size`  # keep original value if no match
+    ))
+  
+  # Prepare data for plotting - create the display labels
+  plotdata_prepared <- plotdata %>%
+    mutate(subgroup = case_when(
+      str_detect(subgroup, "Subgroup estimate") ~ CDI_level2,
+      TRUE ~ subgroup))
+  plotdata_prepared$order <- 1
+  
+  # Reorder factors for proper display
+  plotdata_prepared <- plotdata_prepared %>%
+    mutate(display_label = factor(display_label, levels = unique(display_label)))
+  
+  # Create a copy with the moderator column renamed for the forest plot function
+  plotdata_for_forest <- plotdata_prepared %>%
+    mutate(subgroup = display_label) %>%
+    select(-display_label)  # Remove the temporary column
+  
+  # Call the forest plot function
+  
+  p <- forest_subgroup_ml(plotdata_prepared, "moderator", outcome, "CDI Level")
+  
+  return(p)
 }
