@@ -435,11 +435,37 @@ The p-value for the association between whether genetic or pharmacological model
 |       Study x Strain        |                `r ifelse('Strain/StudyId' %in% SMD_S_LMA_CatDisInd$analysis$s.names, SMD_S_LMA_CatDisInd$analysis$s.nlevels[[which(SMD_S_LMA_CatDisInd$analysis$s.names == 'Strain/StudyId')]], 0)`                |                 `r ifelse('Strain/StudyId' %in% SMD_S_LMA_CatDisInd$analysis$s.names, SMD_S_LMA_CatDisInd$analysis$sigma2[[which(SMD_S_LMA_CatDisInd$analysis$s.names == 'Strain/StudyId')]], NA)`                 |
 | Study x Strain x Experiment | `r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_CatDisInd$analysis$s.names, SMD_S_LMA_CatDisInd$analysis$s.nlevels[[which(SMD_S_LMA_CatDisInd$analysis$s.names == 'Strain/StudyId/ExperimentID_I')]], 0)` | `r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_CatDisInd$analysis$s.names, SMD_S_LMA_CatDisInd$analysis$sigma2[[which(SMD_S_LMA_CatDisInd$analysis$s.names == 'Strain/StudyId/ExperimentID_I')]], 'NA')` |
 
+#### Disease model induction
+
+Figure 2.1.4.3 displays the estimates for the pooled SMDs for experiments using pharmacological model inductions, stratified by the drug used to induce the model. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD for pharmacological induction models is displayed as an elongated diamond shape at the bottom of the plot, and summary data grouping drugs as 'Stimulants or dopamine agonists' or 'NMDA antagonists' is shown with diamond symbols and in bold text. This analysis was not pre-specified in the study protocol for the first iteration of this review, but was suggested in peer review of that protocol. The summary estimate differs slightly from that in Fig 2.1.4.2, likely because we generated a different variance-covariance matrix.
+
+**Figure 2.1.4.3 - Subgroup analysis of TAAR1 agonist vs control on locomotor activity by pharmacological category of disease induction**
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', fig.width=20, fig.height=4}
+SMD_S_LMA_PharmDisInd <- hierarchical_subgroup_analysis(df, "TvC", "Locomotor activity", 0.5)
+```
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+forest_hierarchical(SMD_S_LMA_PharmDisInd$plotdata, "Locomotor Activity")
+```
+
+```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
+SMD_S_LMA_PharmDisInd_noI <- subgroup_SMD_pharm(df, "TvC", "Locomotor activity", "CDI_level2", 0.5)
+```
+
+The p-value for the association between different categories of pharmacological induction ('Stimulants or dopamine agonists' versus 'NMDA antagonists') and outcome reported was `r if(round(SMD_S_LMA_PharmDisInd_noI$QMp,3)>0.001){paste0('= ',round(SMD_S_LMA_PharmDisInd_noI$QMp,3))}else{'< 0.001'}`.
+
+|            Level            |                                                                           Number of categories for that level included in this analysis                                                                            |                                                                                               Attributable variance                                                                                                |
+|:----------------------:|:----------------------:|:----------------------:|
+|           Strain            |                        `r ifelse('Strain' %in% SMD_S_LMA_PharmDisInd$analyses$global$s.names, SMD_S_LMA_PharmDisInd$analyses$global$s.nlevels[[which(SMD_S_LMA_PharmDisInd$analyses$global$s.names == 'Strain')]], 0)`                        |                         `r ifelse('Strain' %in% SMD_S_LMA_PharmDisInd$analyses$global$s.names, SMD_S_LMA_PharmDisInd$analyses$global$sigma2[[which(SMD_S_LMA_PharmDisInd$analyses$global$s.names == 'Strain')]], NA)`                         |
+|       Study x Strain        |                `r ifelse('Strain/StudyId' %in% SMD_S_LMA_PharmDisInd$analyses$global$s.names, SMD_S_LMA_PharmDisInd$analyses$global$s.nlevels[[which(SMD_S_LMA_PharmDisInd$analyses$global$s.names == 'Strain/StudyId')]], 0)`                |                 `r ifelse('Strain/StudyId' %in% SMD_S_LMA_PharmDisInd$analyses$global$s.names, SMD_S_LMA_PharmDisInd$analyses$global$sigma2[[which(SMD_S_LMA_PharmDisInd$analyses$global$s.names == 'Strain/StudyId')]], NA)`                 |
+| Study x Strain x Experiment | `r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_PharmDisInd$analyses$global$s.names, SMD_S_LMA_PharmDisInd$analyses$global$s.nlevels[[which(SMD_S_LMA_PharmDisInd$analyses$global$s.names == 'Strain/StudyId/ExperimentID_I')]], 0)` | `r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_PharmDisInd$analyses$global$s.names, SMD_S_LMA_PharmDisInd$analyses$global$sigma2[[which(SMD_S_LMA_PharmDisInd$analyses$global$s.names == 'Strain/StudyId/ExperimentID_I')]], 'NA')` |
+
 #### Route of intervention administration
 
-Figure 2.1.4.3 displays the estimates for the pooled SMD's when comparisons are stratified by the route of intervention administration. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD is displayed as a diamond shape at the bottom of the plot.
+Figure 2.1.4.4 displays the estimates for the pooled SMD's when comparisons are stratified by the route of intervention administration. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD is displayed as a diamond shape at the bottom of the plot.
 
-**Figure 2.1.4.3 - Subgroup analysis of TAAR1 agonist vs control on locomotor activity by route of intervention administration**
+**Figure 2.1.4.4 - Subgroup analysis of TAAR1 agonist vs control on locomotor activity by route of intervention administration**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 SMD_S_LMA_AdminRoute <- subgroup_analysis(df, "TvC", "Locomotor activity", "InterventionAdministrationRoute", 0.5)
@@ -463,9 +489,9 @@ The p-value for the association between the route of intervention administration
 
 #### Prophylactic or therapeutic intervention
 
-Figure 2.1.4.4 displays the estimates for the pooled SMD's when comparisons are stratified by whether the intervention was administered prophylactically or therapeutically. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD is displayed as a diamond shape at the bottom of the plot. This categorisation is co-linear with that for route of administration - all treatments given after the induction of locomotor activity were given intraperitoneally.
+Figure 2.1.4.5 displays the estimates for the pooled SMD's when comparisons are stratified by whether the intervention was administered prophylactically or therapeutically. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD is displayed as a diamond shape at the bottom of the plot. This categorisation is co-linear with that for route of administration - all treatments given after the induction of locomotor activity were given intraperitoneally.
 
-**Figure 2.1.4.4 - Subgroup analysis of TAAR1 agonist vs control on locomotor activity by intervention type**
+**Figure 2.1.4.5 - Subgroup analysis of TAAR1 agonist vs control on locomotor activity by intervention type**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 SMD_S_LMA_ProphThera <- subgroup_analysis(df, "TvC", "Locomotor activity", "ProphylacticOrTherapeutic", 0.5)
@@ -486,10 +512,6 @@ The p-value for the association between whether the intervention was administere
 |           Strain            |                        `r ifelse('Strain' %in% SMD_S_LMA_ProphThera$analysis$s.names, SMD_S_LMA_ProphThera$analysis$s.nlevels[[which(SMD_S_LMA_ProphThera$analysis$s.names == 'Strain')]], 0)`                        |                         `r ifelse('Strain' %in% SMD_S_LMA_ProphThera$analysis$s.names, SMD_S_LMA_ProphThera$analysis$sigma2[[which(SMD_S_LMA_ProphThera$analysis$s.names == 'Strain')]], NA)`                         |
 |       Study x Strain        |                `r ifelse('Strain/StudyId' %in% SMD_S_LMA_ProphThera$analysis$s.names, SMD_S_LMA_ProphThera$analysis$s.nlevels[[which(SMD_S_LMA_ProphThera$analysis$s.names == 'Strain/StudyId')]], 0)`                |                 `r ifelse('Strain/StudyId' %in% SMD_S_LMA_ProphThera$analysis$s.names, SMD_S_LMA_ProphThera$analysis$sigma2[[which(SMD_S_LMA_ProphThera$analysis$s.names == 'Strain/StudyId')]], NA)`                 |
 | Study x Strain x Experiment | `r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_ProphThera$analysis$s.names, SMD_S_LMA_ProphThera$analysis$s.nlevels[[which(SMD_S_LMA_ProphThera$analysis$s.names == 'Strain/StudyId/ExperimentID_I')]], 0)` | `r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_ProphThera$analysis$s.names, SMD_S_LMA_ProphThera$analysis$sigma2[[which(SMD_S_LMA_ProphThera$analysis$s.names == 'Strain/StudyId/ExperimentID_I')]], 'NA')` |
-
-#### Disease model induction
-
-Figure 2.1.4.4 Blah.
 
 **Figure 2.1.4.4 - Subgroup analysis of TAAR1 agonist vs control on locomotor activity by model type**
 
@@ -521,8 +543,8 @@ SMD_S_LMA_DurRx <- subgroup_analysis(df, "TvC", "Locomotor activity", "Treatment
 
 ```{r echo=FALSE}
  if (any(class(SMD_S_LMA_DurRx) == "rma.mv")) {
-  output_text1 <- "Figure 2.1.4.5 displays the estimates for the pooled SMD's when comparisons are stratified by duration of treatment. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by whether the intervention was administered prophylactically or therapeutically, is displayed as a diamond shape at the bottom of the plot."
-  output_text2 <- "Figure 2.1.4.5 - Subgroup analysis of TAAR1 agonist vs control on locomotor activity by duration of treatment"
+  output_text1 <- "Figure 2.1.4.6 displays the estimates for the pooled SMD's when comparisons are stratified by duration of treatment. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD, not stratified by whether the intervention was administered prophylactically or therapeutically, is displayed as a diamond shape at the bottom of the plot."
+  output_text2 <- "Figure 2.1.4.6 - Subgroup analysis of TAAR1 agonist vs control on locomotor activity by duration of treatment"
 } else {
   output_text1 <- "In this iteration of the review, all relevant comparisons administered the TAAR1 agonist for < 1 week. Therefore, no subgroup analyses were conducted for this variable."
   output_text2 <- ""
@@ -547,9 +569,9 @@ SMD_S_LMA_DurRx <- subgroup_analysis(df, "TvC", "Locomotor activity", "Treatment
 
 #### The intervention administered
 
-Figure 2.1.4.6 displays the estimates for the pooled SMD's when comparisons are stratified by the intervention administered. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD is displayed as a diamond shape at the bottom of the plot.
+Figure 2.1.4.7 displays the estimates for the pooled SMD's when comparisons are stratified by the intervention administered. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD is displayed as a diamond shape at the bottom of the plot.
 
-**Figure 2.1.4.6 - Subgroup analysis of TAAR1 agonist vs control on locomotor activity by intervention administered**
+**Figure 2.1.4.7 - Subgroup analysis of TAAR1 agonist vs control on locomotor activity by intervention administered**
 
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
@@ -574,9 +596,9 @@ The p-value for the association between the intervention and outcome reported wa
 
 #### The efficacy of the drug (i.e. whether the drug is a partial or full agonist)
 
-Figure 2.1.4.7 displays the estimates for the pooled SMD's when comparisons are stratified by the action/efficacy of the intervention administered. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD is displayed as a diamond shape at the bottom of the plot.
+Figure 2.1.4.8 displays the estimates for the pooled SMD's when comparisons are stratified by the action/efficacy of the intervention administered. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD is displayed as a diamond shape at the bottom of the plot.
 
-**Figure 2.1.4.7 - Subgroup analysis of TAAR1 agonist vs control on locomotor activity by efficacy of the drug**
+**Figure 2.1.4.8 - Subgroup analysis of TAAR1 agonist vs control on locomotor activity by efficacy of the drug**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 SMD_S_LMA_DrugEfficacy <- subgroup_analysis(df, "TvC", "Locomotor activity", "Efficacy", 0.5)
@@ -600,9 +622,9 @@ The p-value for the association between whether the drug was a full or partial a
 
 #### The selectivity of the drug
 
-Figure 2.1.4.8 displays the estimates for the pooled SMD's when comparisons are stratified by the selectivity of the intervention administered. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD is displayed as a diamond shape at the bottom of the plot.
+Figure 2.1.4.9 displays the estimates for the pooled SMD's when comparisons are stratified by the selectivity of the intervention administered. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD is displayed as a diamond shape at the bottom of the plot.
 
-**Figure 2.1.4.8 - Subgroup analysis of TAAR1 agonist vs control on locomotor activity by selectivity of the drug**
+**Figure 2.1.4.9 - Subgroup analysis of TAAR1 agonist vs control on locomotor activity by selectivity of the drug**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 SMD_S_LMA_DrugSelectivity <- subgroup_analysis(df, "TvC", "Locomotor activity", "Selectivity", 0.5)
@@ -626,14 +648,14 @@ The p-value for the association between whether the drug was highly selective, o
 
 #### Potency of intervention
 
-The pEC50 value of each drug was used to measure potency. The pEC50 value is the negative logarithm (to base 10) of the EC50 value. Higher pEC50 values indicate higher potency (as they indicate a lower EC50). Figure 2.1.4.9 displays a visualisation of the meta-regression using the pEC50 value as an explanatory variable. Dashed lines represent the 95% confidence interval of the regression line. The dotted lines represent the 95% prediction interval. Raw data are plotted with 'bubble' size adjusted according to effect size precision.
+The pEC50 value of each drug was used to measure potency. The pEC50 value is the negative logarithm (to base 10) of the EC50 value. Higher pEC50 values indicate higher potency (as they indicate a lower EC50). Figure 2.1.4.10 displays a visualisation of the meta-regression using the pEC50 value as an explanatory variable. Dashed lines represent the 95% confidence interval of the regression line. The dotted lines represent the 95% prediction interval. Raw data are plotted with 'bubble' size adjusted according to effect size precision.
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 SMD_S_LMA_potency <- metaregression_analysis(df, "TvC", "Locomotor activity", "pE50", 0.5)
 
 ```
 
-**Figure 2.1.4.9 - Meta-regression of TAAR1 agonist vs control on locomotor activity by potency of intervention**
+**Figure 2.1.4.10 - Meta-regression of TAAR1 agonist vs control on locomotor activity by potency of intervention**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
 SMD_S_LMA_potency$regression_plot
@@ -1043,7 +1065,7 @@ $$
 
 The actual concentration of a drug at the receptor site is influenced by several variables, including dosage, administration route, elimination half-life, and first-pass metabolism (in case of oral administration). Incorporating all these factors accurately would necessitate a detailed pharmacokinetic model, which falls outside the scope of this review. Here, we assume uniformity across experiments in terms of (i) volume of distribution, (ii) first-pass metabolism, (iii) blood-brain barrier permeability, and (iv) experimental design, especially regarding the timing of peak drug concentration (where we assume that experiments were designed to be done at a time when the drug was near peak concentration). We recognise the limitations of this approach, the findings of which should be interpreted with caution.
 
-Figure 2.1.4.10 provides a visualisation of the meta-regression analysis relationship between standardised doses of TAAR1 agonists and the Standardized Mean Difference (SMD) change in Locomotor activity. As before, dashed lines represent the 95% confidence interval of the regression line and dotted lines represent the 95% prediction interval. Raw data are plotted with point size adjusted according to effect size precision.
+Figure 2.1.4.11 provides a visualisation of the meta-regression analysis relationship between standardised doses of TAAR1 agonists and the Standardized Mean Difference (SMD) change in Locomotor activity. As before, dashed lines represent the 95% confidence interval of the regression line and dotted lines represent the 95% prediction interval. Raw data are plotted with point size adjusted according to effect size precision.
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 
@@ -1051,7 +1073,7 @@ SMD_S_LMA_StandardDose <- metaregression_analysis(df, "TvC", "Locomotor activity
 
 ```
 
-**Figure 2.1.4.10 - Meta regression of standardised dose for TAAR1 agonist vs control on locomotor activity**
+**Figure 2.1.4.11 - Meta regression of standardised dose for TAAR1 agonist vs control on locomotor activity**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
 SMD_S_LMA_StandardDose$regression_plot
@@ -1067,9 +1089,9 @@ The estimate for the change in effect per log unit change in standardised dose w
 
 #### SyRCLE RoB assessment considered as a categorical variable
 
-Figure 2.1.4.11 displays the estimates for the pooled SMD's when comparisons are stratified by how many of the SyRCLE risk of bias assessment criteria (of which there are 10) that the experiment met. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD is displayed as a diamond shape at the bottom of the plot.
+Figure 2.1.4.12 displays the estimates for the pooled SMD's when comparisons are stratified by how many of the SyRCLE risk of bias assessment criteria (of which there are 10) that the experiment met. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD is displayed as a diamond shape at the bottom of the plot.
 
-**Figure 2.1.4.11 - Subgroup analysis of TAAR1 agonist vs control on locomotor activity by SyRCLE RoB criteria met**
+**Figure 2.1.4.12 - Subgroup analysis of TAAR1 agonist vs control on locomotor activity by SyRCLE RoB criteria met**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', out.width = "100%"}
 SMD_S_LMA_SyRCLERoB <- subgroup_analysis(df, "TvC", "Locomotor activity", "RoBScore", 0.5)
@@ -1093,9 +1115,9 @@ The p-value for the association between SyRCLE Risks of Bias reporting and outco
 
 #### SyRCLE RoB assessment considering those studies where any item is at low risk of bias
 
-Figure 2.1.4.12 displays the estimates for the pooled SMD's when comparisons are stratified by whether of not any of the SyRCLE Risk of bias domains were rated as low risk of bias. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD is displayed as a diamond shape at the bottom of the plot.
+Figure 2.1.4.13 displays the estimates for the pooled SMD's when comparisons are stratified by whether of not any of the SyRCLE Risk of bias domains were rated as low risk of bias. Whiskers indicate the 95% confidence interval of each estimate. The overall pooled SMD is displayed as a diamond shape at the bottom of the plot.
 
-**Figure 2.1.4.12 - Subgroup analysis of TAAR1 agonist vs control on locomotor activity by alternative SyRCLE RoB assessment**
+**Figure 2.1.4.13 - Subgroup analysis of TAAR1 agonist vs control on locomotor activity by alternative SyRCLE RoB assessment**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', out.width = "100%"}
 SMD_S_LMA_SyRCLERoBTF <- subgroup_analysis(df, "TvC", "Locomotor activity", "RoBTF", 0.5)
@@ -1119,14 +1141,14 @@ The p-value for the association between low SyRCLE Risks of Bias reporting and o
 
 #### ARRIVE reporting completeness guidelines
 
-Figure 2.1.4.13 displays a visualisation of the meta-regression using the number of ARRIVE items met (from a possible total of 22) as an explanatory variable. Dashed lines represent the 95% confidence interval of the regression line. The dotted lines represent the 95% prediction interval. Raw data are plotted with 'bubble' size adjusted according to effect size precision.
+Figure 2.1.4.14 displays a visualisation of the meta-regression using the number of ARRIVE items met (from a possible total of 22) as an explanatory variable. Dashed lines represent the 95% confidence interval of the regression line. The dotted lines represent the 95% prediction interval. Raw data are plotted with 'bubble' size adjusted according to effect size precision.
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
 SMD_S_LMA_ARR2 <- metaregression_analysis(df, "TvC", "Locomotor activity", "ARRIVEScore", 0.5)
 
 ```
 
-**Figure 2.1.4.13 - Meta-regression of number of ARRIVE items met for TAAR1 agonist vs control on locomotor activity**
+**Figure 2.1.4.14 - Meta-regression of number of ARRIVE items met for TAAR1 agonist vs control on locomotor activity**
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE,}
 SMD_S_LMA_ARR2$regression_plot
@@ -1145,6 +1167,7 @@ The estimate for $\beta$ was `r SMD_S_LMA_ARR2$metaregression_summary$beta[2]` (
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', out.width = "100%"}
 SMD_S_LMA_sexI <- subgroup_SMDI(df, "TvC", "Locomotor activity", "Sex", 0.5)
 SMD_S_LMA_CatDisIndI <- subgroup_SMDI(df, "TvC", "Locomotor activity", "CategoryDiseaseInduction", 0.5)
+SMD_S_LMA_PharmDisIndI <- subgroup_SMDI_pharm(df, "TvC", "Locomotor activity", "CDI_level2", 0.5)
 SMD_S_LMA_AdminRouteI <- subgroup_SMDI(df, "TvC", "Locomotor activity", "InterventionAdministrationRoute", 0.5)
 SMD_S_LMA_ProphTheraI <- subgroup_SMDI(df, "TvC", "Locomotor activity", "ProphylacticOrTherapeutic", 0.5)
 SMD_S_LMA_DurRxI <- subgroup_SMDI(df, "TvC", "Locomotor activity", "TreatmentDurationCategory", 0.5)
@@ -1167,9 +1190,11 @@ The table below summarises the heterogeneity observed for each covariate in the 
 |                    \-                    |         *Mixed*         |            `r SMD_S_LMA_sexI$beta[3]`             |                        `r SMD_S_LMA_sexI$ci.lb[3]` to `r SMD_S_LMA_sexI$ci.ub[3]`                        |                                 \-                                  |
 |                    \-                    |     *Not reported*      |            `r SMD_S_LMA_sexI$beta[4]`             |                        `r SMD_S_LMA_sexI$ci.lb[4]` to `r SMD_S_LMA_sexI$ci.ub[4]`                        |                                 \-                                  |
 |   Category of disease model induction    |           \-            |                        \-                         |                                                    \-                                                    |         `r round((r2_ml(SMD_S_LMA_CatDisIndI)[1]*100),1)`%          |
-|                    \-                    |        *Genetic*        |         `r SMD_S_LMA_CatDisIndI$beta[1]`          |              `r SMD_S_LMA_CatDisIndI$ci.lb[1]` to `r SMD_S_LMA_CatDisInd$analysis$ci.ub[1]`              |                                 \-                                  |
+|                    \-                    |        *Genetic*        |         `r SMD_S_LMA_CatDisIndI$beta[1]`          |              `r SMD_S_LMA_CatDisIndI$ci.lb[1]` to `r SMD_S_LMA_CatDisIndI$analysis$ci.ub[1]`              |                                 \-                                  |
 |                    \-                    |    *Pharmacological*    |         `r SMD_S_LMA_CatDisIndI$beta[2]`          |                  `r SMD_S_LMA_CatDisIndI$ci.lb[2]` to `r SMD_S_LMA_CatDisIndI$ci.ub[2]`                  |                                 \-                                  |
-|           Administration route           |           \-            |                        \-                         |                                                    \-                                                    |         `r round((r2_ml(SMD_S_LMA_AdminRouteI)[1]*100),1)`%         |
+|   Pharmacological class of model induction    |           \-            |                        \-                         |                                                    \-                                                    |         `r round((r2_ml(SMD_S_LMA_PharmDisIndI)[1]*100),1)`%          |
+|                    \-                    |        *NMDA antagonist*        |         `r SMD_S_LMA_PharmDisIndI$beta[1]`          |              `r SMD_S_LMA_PharmDisIndI$ci.lb[1]` to `r SMD_S_LMA_PharmDisIndI$analysis$ci.ub[1]`              |                                 \-                                  |
+|                    \-                    |    *Stimulant or Dopamine agonist*    |         `r SMD_S_LMA_PharmDisIndI$beta[2]`          |                  `r SMD_S_LMA_PharmDisIndI$ci.lb[2]` to `r SMD_S_LMA_PharmDisIndI$ci.ub[2]`                  |   |           Administration route           |           \-            |                        \-                         |                                                    \-                                                    |         `r round((r2_ml(SMD_S_LMA_AdminRouteI)[1]*100),1)`%         |
 |                    \-                    |    *Intraperitoneal*    |         `r SMD_S_LMA_AdminRouteI$beta[1]`         |                 `r SMD_S_LMA_AdminRouteI$ci.lb[1]` to `r SMD_S_LMA_AdminRouteI$ci.ub[1]`                 |                                 \-                                  |
 |                    \-                    |         *Oral*          |         `r SMD_S_LMA_AdminRouteI$beta[2]`         |                 `r SMD_S_LMA_AdminRouteI$ci.lb[2]` to `r SMD_S_LMA_AdminRouteI$ci.ub[2]`                 |                                 \-                                  |
 | Prophylactic or therapeutic intervention |           \-            |                        \-                         |                                                    \-                                                    |         `r round((r2_ml(SMD_S_LMA_ProphTheraI)[1]*100),1)`%         |
@@ -1442,9 +1467,9 @@ The p-value for the association between the intervention and outcome reported wa
   |       Study x Strain        | `r ifelse('Strain/StudyId' %in% SMD_S_PPI_Drug$analysis$s.names, SMD_S_PPI_Drug$analysis$s.nlevels[[which(SMD_S_PPI_Drug$analysis$s.names == 'Strain/StudyId')]], 0)` |  `r ifelse('Strain/StudyId' %in% SMD_S_PPI_Drug$analysis$s.names, SMD_S_PPI_Drug$analysis$sigma2[[which(SMD_S_PPI_Drug$analysis$s.names == 'Strain/StudyId')]], NA)`  |
   | Study x Strain x Experiment | `r ifelse('ExperimentID_I' %in% SMD_S_PPI_Drug$analysis$s.names, SMD_S_PPI_Drug$analysis$s.nlevels[[which(SMD_S_PPI_Drug$analysis$s.names == 'ExperimentID_I')]], 0)` | `r ifelse('ExperimentID_I' %in% SMD_S_PPI_Drug$analysis$s.names, SMD_S_PPI_Drug$analysis$sigma2[[which(SMD_S_PPI_Drug$analysis$s.names == 'ExperimentID_I')]], 'NA')` |
   
-  #### The efficacy of the drug (i.e. whether the drug is a partial or full agonist)
+#### The efficacy of the drug (i.e. whether the drug is a partial or full agonist)
   
-  In this iteration of the review, all relevant comparisons administered the TAAR1 agonists with partial agonist activity. Therefore, no subgroup analyses were conducted for this variable.
+In this iteration of the review, all relevant comparisons administered the TAAR1 agonists with full TAAR1-Gs agonist activity (SEP-363856 and ZH8651) or which is a TAAR1-Gq agonist (ZH8659) Therefore, no subgroup analyses were conducted for this variable.
 
 #### The selectivity of the drug
 
