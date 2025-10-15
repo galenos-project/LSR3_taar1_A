@@ -164,7 +164,7 @@ original_data <- tab2[1:76, 1:6]
 
 
 # Rows to have bold lines beneath
-rows_with_bold_lines <- c(0,2,3,7,8,9,11,12,13,19,23,26,27,36,38,45,46,47,48,49,54,64,65,67,76)
+rows_with_bold_lines <- c(0,2,3,7,8,9,11,12,13,19,24,27,28,36,38,45,46,47,48,49,54,64,65,67,76)
 rows_with_bold_lines <- rows_with_bold_lines + 1
 # Generate HTML table with adjusted styles
 cat('<div style="text-align: center;">')
