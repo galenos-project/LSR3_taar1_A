@@ -12,7 +12,7 @@ LSR <- 'LSR3'
 
 # Import SyRF outcome data
 
-LSR3_SyRFOutcomes <- read_csv("data_u1/Quantitative_data_-_2025_09_05_-_c494b1ae-4cf4-4618-b91a-e69a2b815bdd_-_Investigators_Unblinded.csv")
+LSR3_SyRFOutcomes <- read_csv("data_u1/Quantitative_data_-_2025_10_15_-_c494b1ae-4cf4-4618-b91a-e69a2b815bdd_-_Investigators_Unblinded.csv")
 
 ###### Tidying and cleaning the data ######
 #clean ; from TiAb etc
@@ -32,7 +32,7 @@ LSR3_SyRFOutcomes$PdfRelativePath <- gsub(";", ":", LSR3_SyRFOutcomes$PdfRelativ
 
 
 
-# wrangle because FT didnt mark her most recent entry as a reconciliation <- 'Is this a reconciliation?'
+# wrangle because FT didn't mark her most recent entry as a reconciliation <- 'Is this a reconciliation?'
 column_name <- 'Is this a reconciliation?'
   condition <- LSR3_SyRFOutcomes$StudyId == '2cfb8de7-b0ad-416f-bfa4-a3771051dc1d'  & LSR3_SyRFOutcomes$InvestigatorName == 'Francesca Tinsdeall'
 LSR3_SyRFOutcomes[condition, column_name] <- TRUE
@@ -558,7 +558,7 @@ data <- data %>%
 
 
 ###for each cohort, label sham and control groups, along with TAAR1KO -ve control Contol for combination interventions (== positive control)
-### first, we need to work out the attributes of each group - wgat types of comparisons will they allow?
+### first, we need to work out the attributes of each group - what types of comparisons will they allow?
 # Assuming "df" is your data frame with columns "groupId" and "cohortType"
 
 ##### Count occurrences for each cohort type within each group #####
