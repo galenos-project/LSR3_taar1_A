@@ -142,15 +142,17 @@ df3 <- subset(df3, !df3$SortLabel=='AvC')
 df3 <- df3 %>%
   mutate(DrugLabel_C = ifelse(is.na(DrugLabel_C), 'Vehicle', DrugLabel_C))
 df3$CompLable <- paste0(df3$DrugLabel_I,' v ',df3$DrugLabel_C)
+df3 <- df3 %>% 
+  mutate(TAAR1RS = ifelse(df3$SortLabel == "TvC_KO", "TAAR1 R KO", "WT"))
 
 trow <- merge(df3, RoB, by = 'StudyId')
-tab1 <- trow[,c(15,5,4,14,8,13)]
+tab1 <- trow[,c(16,5,4,14,8,13,15)]
 tab2 <- tab1 %>%
-  group_by(Study, CategoryDiseaseInduction, Strain, CompLable, outcome_type) %>%
+  group_by(Study, CategoryDiseaseInduction, Strain, CompLable, outcome_type, TAAR1RS) %>%
   summarise(subjects_sum = sum(N))
 
 
-colnames(tab2) <- c("Study", "Model", "Strain", "Comparison", "Outcome","N")
+colnames(tab2) <- c("Study", "Model", "Strain", "Comparison", "Outcome","TAAR1 Receptor Status", "N")
 
 tab2 <- tab2 %>%
   arrange(Study, Model, Strain, Comparison, Outcome)
@@ -158,14 +160,16 @@ tab2 <- tab2 %>%
 write.csv(tab2, 'tab2.csv')
 
 tab2 <- read_csv("data_u1/tab_formatted.csv")
-tab2[is.na(tab2)] <- ""
-tab2$N <- as.numeric(tab2$N)
-original_data <- tab2[1:76, 1:6]
+tab2 <- tab2 %>%
+  mutate(across(where(is.character), ~ str_remove_all(., fixed('"'))))
+tab2 <- tab2 %>%
+  mutate(across(where(is.character), ~ replace_na(., "")))
+#tab2$N <- as.numeric(tab2$N)
+original_data <- tab2[1:89, 1:7]
 
 
 # Rows to have bold lines beneath
-rows_with_bold_lines <- c(0,2,3,7,8,9,11,12,13,19,24,27,28,36,38,45,46,47,48,49,54,64,65,67,76)
-rows_with_bold_lines <- rows_with_bold_lines + 1
+rows_with_bold_lines <- c(1,3,4,9,10,11,13,14,15,21,27,30,31,40,42,49,50,51,52,53,63,78,79,81)
 # Generate HTML table with adjusted styles
 cat('<div style="text-align: center;">')
 cat('<table style="width: 100%; border-collapse: collapse;">')
@@ -221,7 +225,7 @@ Within the literature we identified distinct categories of experiments and the d
 
 3.  **Co-treatment with TAAR1 agonist plus know antipsychotic drug v known antipsychotic drug alone**, reported in `r nrow(df %>% filter(SortLabel == "TAvA"))` experiments from `r nrow(df %>% filter(SortLabel == "TAvA") %>% distinct(StudyId))` publications.
 
-4.  **Effect of TAAR1 antagonism on the effect of TAAR1 agonist v control.** These were experiments investigating whether any effect of TAAR1 agonism was inhibited by TAAR1 antagonism. In this iteration of the review, all experiments within this category used genetic approaches to TAAR1 antogonism (that is, they knocked out the gene for the TAAR1 receptor, so any observed drug effect could not be due to actions mediated through the TAAR1 receptor, and therefore could not be considered specific drug effects mediated through the TAAR1 receptor.
+4.  **Effect of TAAR1 receptor knock-out on the effect of TAAR1 agonist v control.** These were experiments investigating whether any effect of TAAR1 agonism was inhibited by TAAR1 antagonism. In this iteration of the review, all experiments within this category used genetic approaches to TAAR1 antogonism (that is, they knocked out the gene for the TAAR1 receptor, so any observed drug effect could not be due to actions mediated through the TAAR1 receptor, and therefore could not be considered specific drug effects mediated through the TAAR1 receptor). This was the case for `r nrow(df %>% filter(SortLabel == "TvC_KO"))` experiments from `r nrow(df %>% filter(SortLabel == "TvC_KO") %>% distinct(StudyId))` publications.
 
 Each experiment type is analysed separately. This is because each experiment type uses different control conditions.
 
@@ -254,7 +258,7 @@ The hierarchical grouping may therefore be considered thus: **Strains** of labor
 
 For some experimental contrasts, more than one locomotor or cognitive outcome - for instance both horizontal and vertical climbing activity - was measured in the same cohort of animals. Further, some publications used the same drug doses with the same outcome measures in different experiments. For these reasons, some of the forest plots may appear to include 'duplicate' Study - Drug - Dose combinations with different outcomes. For the former there were insufficient levels of the different locomotor or cognitive outcome measures to allow for hierachical analysis and so this was not performed; and for the later, these are accounted for in the heirarchical analysis.
 
-# 2 TAAR1 Agonists v Control
+# 2. TAAR1 Agonists v Control
 
 ```{r # Split df by experiment and outcome type into dataframes to simply inline code below - TAAR1 Agonist v Control, eval = TRUE, echo = FALSE}
 df_S <- filter(df, SortLabel == "TvC")
@@ -279,7 +283,7 @@ df_S_stereo <- filter_experiment_outcome_type(df, "TvC", "Stereotypy")
 
 \* These outcomes were identified in the study protocol as primary outcomes of interest.
 
-Only two publications reported each of social interaction and stereotypy, and so these outcomes are not analysed further.
+Since only two publications reported each of social interaction and stereotypy, these outcomes are not analysed further.
 
 ## 2.1 Outcome 1: Locomotor Activity
 
@@ -513,28 +517,6 @@ The p-value for the association between whether the intervention was administere
 |       Study x Strain        |                `r ifelse('Strain/StudyId' %in% SMD_S_LMA_ProphThera$analysis$s.names, SMD_S_LMA_ProphThera$analysis$s.nlevels[[which(SMD_S_LMA_ProphThera$analysis$s.names == 'Strain/StudyId')]], 0)`                |                 `r ifelse('Strain/StudyId' %in% SMD_S_LMA_ProphThera$analysis$s.names, SMD_S_LMA_ProphThera$analysis$sigma2[[which(SMD_S_LMA_ProphThera$analysis$s.names == 'Strain/StudyId')]], NA)`                 |
 | Study x Strain x Experiment | `r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_ProphThera$analysis$s.names, SMD_S_LMA_ProphThera$analysis$s.nlevels[[which(SMD_S_LMA_ProphThera$analysis$s.names == 'Strain/StudyId/ExperimentID_I')]], 0)` | `r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_ProphThera$analysis$s.names, SMD_S_LMA_ProphThera$analysis$sigma2[[which(SMD_S_LMA_ProphThera$analysis$s.names == 'Strain/StudyId/ExperimentID_I')]], 'NA')` |
 
-**Figure 2.1.4.4 - Subgroup analysis of TAAR1 agonist vs control on locomotor activity by model type**
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-SMD_S_LMA_CDI_level2 <- subgroup_analysis(df, "TvC", "Locomotor activity", "CDI_level2", 0.5)
-```
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-forest_subgroup(SMD_S_LMA_CDI_level2$plotdata, "CDI_level2", "Locomotor Activity","Treatment before \nor after model induction")
-```
-
-```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide'}
-SMD_S_LMA_CDI_level2_noI <- subgroup_SMD(df, "TvC", "Locomotor activity", "CDI_level2", 0.5)
-```
-
-The p-value for the association between whether the intervention was administered prophylactically or therapeutically and outcome reported was `r round(SMD_S_LMA_ProphThera_noI$QMp,3)`.
-
-|            Level            |                                                                             Number of categories for that level included in this analysis                                                                             |                                                                                                 Attributable variance                                                                                                 |
-|:----------------------:|:----------------------:|:----------------------:|
-|           Strain            |                        `r ifelse('Strain' %in% SMD_S_LMA_ProphThera$analysis$s.names, SMD_S_LMA_CDI_level2$analysis$s.nlevels[[which(SMD_S_LMA_CDI_level2$analysis$s.names == 'Strain')]], 0)`                        |                         `r ifelse('Strain' %in% SMD_S_LMA_CDI_level2$analysis$s.names, SMD_S_LMA_CDI_level2$analysis$sigma2[[which(SMD_S_LMA_CDI_level2$analysis$s.names == 'Strain')]], NA)`                         |
-|       Study x Strain        |                `r ifelse('Strain/StudyId' %in% SMD_S_LMA_CDI_level2$analysis$s.names, SMD_S_LMA_CDI_level2$analysis$s.nlevels[[which(SMD_S_LMA_CDI_level2$analysis$s.names == 'Strain/StudyId')]], 0)`                |                 `r ifelse('Strain/StudyId' %in% SMD_S_LMA_CDI_level2$analysis$s.names, SMD_S_LMA_CDI_level2$analysis$sigma2[[which(SMD_S_LMA_CDI_level2$analysis$s.names == 'Strain/StudyId')]], NA)`                 |
-| Study x Strain x Experiment | `r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_CDI_level2$analysis$s.names, SMD_S_LMA_CDI_level2$analysis$s.nlevels[[which(SMD_S_LMA_CDI_level2$analysis$s.names == 'Strain/StudyId/ExperimentID_I')]], 0)` | `r ifelse('Strain/StudyId/ExperimentID_I' %in% SMD_S_LMA_CDI_level2$analysis$s.names, SMD_S_LMA_CDI_level2$analysis$sigma2[[which(SMD_S_LMA_CDI_level2$analysis$s.names == 'Strain/StudyId/ExperimentID_I')]], 'NA')` |
-
 #### Duration of treatment period
 
 ```{r message=FALSE, warning=FALSE, eval = TRUE, echo = FALSE, results='hide', fig.width=9, fig.height=3}
@@ -638,7 +620,7 @@ forest_subgroup(SMD_S_LMA_DrugSelectivity$plotdata, "Selectivity", "Locomotor Ac
 SMD_S_LMA_DrugSelectivity_noI <- subgroup_SMD(df, "TvC", "Locomotor activity", "Selectivity", 0.5)
 ```
 
-The p-value for the association between whether the drug was highly selective, or also manifests 5-HT1A or $/a$-2 adrenergic effects, and outcome reported was `r round(SMD_S_LMA_DrugSelectivity_noI$QMp,3)`.
+The p-value for the association between whether the drug was highly selective, or also manifests 5-HT1A ("5HT1A part. ag") or $/a$-2 adrenergic ("Adr a2 ag") effects, and outcome reported was `r round(SMD_S_LMA_DrugSelectivity_noI$QMp,3)`.
 
 |            Level            |                                                                                    Number of categories for that level included in this analysis                                                                                     |                                                                                                        Attributable variance                                                                                                         |
 |:----------------------:|:----------------------:|:----------------------:|
@@ -1194,9 +1176,11 @@ The table below summarises the heterogeneity observed for each covariate in the 
 |                    \-                    |    *Pharmacological*    |         `r SMD_S_LMA_CatDisIndI$beta[2]`          |                  `r SMD_S_LMA_CatDisIndI$ci.lb[2]` to `r SMD_S_LMA_CatDisIndI$ci.ub[2]`                  |                                 \-                                  |
 |   Pharmacological class of model induction    |           \-            |                        \-                         |                                                    \-                                                    |         `r round((r2_ml(SMD_S_LMA_PharmDisIndI)[1]*100),1)`%          |
 |                    \-                    |        *NMDA antagonist*        |         `r SMD_S_LMA_PharmDisIndI$beta[1]`          |              `r SMD_S_LMA_PharmDisIndI$ci.lb[1]` to `r SMD_S_LMA_PharmDisIndI$analysis$ci.ub[1]`              |                                 \-                                  |
-|                    \-                    |    *Stimulant or Dopamine agonist*    |         `r SMD_S_LMA_PharmDisIndI$beta[2]`          |                  `r SMD_S_LMA_PharmDisIndI$ci.lb[2]` to `r SMD_S_LMA_PharmDisIndI$ci.ub[2]`                  |   |           Administration route           |           \-            |                        \-                         |                                                    \-                                                    |         `r round((r2_ml(SMD_S_LMA_AdminRouteI)[1]*100),1)`%         |
+|                    \-                    |    *Stimulant or Dopamine agonist*    |         `r SMD_S_LMA_PharmDisIndI$beta[2]`          |                  `r SMD_S_LMA_PharmDisIndI$ci.lb[2]` to `r SMD_S_LMA_PharmDisIndI$ci.ub[2]`                  |   \-| 
+|           Administration route           |           \-            |                        \-                         |                                                    \-                                                    |         `r round((r2_ml(SMD_S_LMA_AdminRouteI)[1]*100),1)`%         |
 |                    \-                    |    *Intraperitoneal*    |         `r SMD_S_LMA_AdminRouteI$beta[1]`         |                 `r SMD_S_LMA_AdminRouteI$ci.lb[1]` to `r SMD_S_LMA_AdminRouteI$ci.ub[1]`                 |                                 \-                                  |
 |                    \-                    |         *Oral*          |         `r SMD_S_LMA_AdminRouteI$beta[2]`         |                 `r SMD_S_LMA_AdminRouteI$ci.lb[2]` to `r SMD_S_LMA_AdminRouteI$ci.ub[2]`                 |                                 \-                                  |
+|                    \-                    |         *Subcutaneous*          |         `r SMD_S_LMA_AdminRouteI$beta[3]`         |                 `r SMD_S_LMA_AdminRouteI$ci.lb[3]` to `r SMD_S_LMA_AdminRouteI$ci.ub[3]`                 |                                 \-                                  |
 | Prophylactic or therapeutic intervention |           \-            |                        \-                         |                                                    \-                                                    |         `r round((r2_ml(SMD_S_LMA_ProphTheraI)[1]*100),1)`%         |
 |                    \-                    |     *Prophylactic*      |         `r SMD_S_LMA_ProphTheraI$beta[1]`         |                 `r SMD_S_LMA_ProphTheraI$ci.lb[1]` to `r SMD_S_LMA_ProphTheraI$ci.ub[1]`                 |                                 \-                                  |
 |                    \-                    |      *Therapeutic*      |         `r SMD_S_LMA_ProphTheraI$beta[2]`         |                 `r SMD_S_LMA_ProphTheraI$ci.lb[2]` to `r SMD_S_LMA_ProphTheraI$ci.ub[2]`                 |                                 \-                                  |
@@ -1262,7 +1246,7 @@ For reference the pooled effect size when rho is assumed to be 0.5 is `r SMD_S_L
 
 #### Normalised Mean Difference (NMD)
 
-For locomotor activity, `r df_S_LMA %>% filter(NMD_possible == "TRUE") %>% nrow()` out of `r nrow(df_S_LMA)` comparisons, i.e. `r ((df_S_LMA %>% filter(NMD_possible == "TRUE") %>% nrow())/(nrow(df_S_LMA)))*100` % of comparisons, had data available for a Sham group and for these studies it was possible to calculate an NMD estimate of effect size.
+For locomotor activity, `r df_S_LMA %>% filter(NMD_possible == "TRUE") %>% nrow()` out of `r nrow(df_S_LMA)` comparisons, i.e. `r round(((df_S_LMA %>% filter(NMD_possible == "TRUE") %>% nrow())/(nrow(df_S_LMA)))*100,1)` % of comparisons, had data available for a Sham group and for these studies it was possible to calculate an NMD estimate of effect size.
 
 The effect of administering a TAAR1 agonist on locomotor activity in animals using NMD as the effect size is shown in Figure 2.1.5. The pooled estimate for NMD across all individual comparisons is displayed as a diamond shape at the bottom of the plot. Dotted lines indicate the prediction interval of the pooled estimate.
 
@@ -1276,7 +1260,7 @@ NMD_S_LMA <- run_ML_NMD(df, "TvC", "Locomotor activity", 0.5)
 forest_metafor_NMD(NMD_S_LMA, "locomotor hyperactivity")
 ```
 
-For TAAR1 Agonist v Control, TAAR1 interventions had a pooled effect on locomotor activity of NMD = `r NMD_S_LMA[["beta"]][1]` (95% CI: `r NMD_S_LMA[["ci.lb"]]` to `r NMD_S_LMA[["ci.ub"]]`) with a prediction interval of `r predict(NMD_S_LMA)$pi.lb` to `r predict(NMD_S_LMA)$pi.ub`). For reference the pooled effect size for SMD was `r SMD_S_LMA[["beta"]][1]` (95% CI: `r SMD_S_LMA[["ci.lb"]]` to `r SMD_S_LMA[["ci.ub"]]`).
+For TAAR1 Agonist v Control, TAAR1 interventions had a pooled effect on locomotor activity of NMD = `r round(NMD_S_LMA[["beta"]][1],1)` (95% CI: `r round(NMD_S_LMA[["ci.lb"]],1)` to `r round(NMD_S_LMA[["ci.ub"]],1)`) with a prediction interval of `r round(predict(NMD_S_LMA)$pi.lb,1)` to `r round(predict(NMD_S_LMA)$pi.ub,1)`). For reference the pooled effect size for SMD was `r SMD_S_LMA[["beta"]][1]` (95% CI: `r SMD_S_LMA[["ci.lb"]]` to `r SMD_S_LMA[["ci.ub"]]`).
 
 `r NMD_S_LMA[["k"]]` experimental comparisons were reported in `r length(unique(NMD_S_LMA$data$ExperimentID_I))` experiments reported from `r length(unique(NMD_S_LMA$data$StudyId))` publications and involving `r length(unique(NMD_S_LMA$data$Strain))` different animal strains.
 
@@ -1406,6 +1390,10 @@ The p-value for the association between the sex of animal groups used and outcom
 #### Category of disease induction
 
 All studies used pharmacological models
+
+#### Disease model induction
+
+All but one study used NMDA antagonism as disease model induction
 
 #### Route of intervention administration
   
@@ -1691,7 +1679,7 @@ SMD_S_PPI_ARR2 <- metaregression_analysis_con(df, "TvC", "Prepulse inhibition", 
 SMD_S_PPI_ARR2$regression_plot
 ```
 
-The estimate for $\beta$ was `r SMD_S_PPI_ARR2$metaregression_summary$beta[2]` (p if(round(SMD_S_PPI_ARR2$metaregression_summary$pval[2],3)>0.001){paste0('= ',round(SMD_S_PPI_ARR2$metaregression_summary$pval[2],3))}else{'< 0.001'}`.
+The estimate for $\beta$ was `r SMD_S_PPI_ARR2$metaregression_summary$beta[2]` (p`r if(round(SMD_S_PPI_ARR2$metaregression_summary$pval[2],3)>0.001){paste0('= ',round(SMD_S_PPI_ARR2$metaregression_summary$pval[2],3))}else{'< 0.001'}`).
 
 |            Level            |                                                              Number of categories for that level included in this analysis                                                              |                                                                                  Attributable variance                                                                                  |
 |:----------------------:|:----------------------:|:----------------------:|
@@ -1722,6 +1710,7 @@ The table below summarises the heterogeneity observed for each covariate in the 
 |        Administration route         |           \-            |                        \-                         |                                                    \-                                                    |         `r round((r2_ml(SMD_S_PPI_AdminRouteI)[1]*100),1)`%         |
 |                 \-                  |    *Intraperitoneal*    |         `r SMD_S_PPI_AdminRouteI$beta[1]`         |                 `r SMD_S_PPI_AdminRouteI$ci.lb[1]` to `r SMD_S_PPI_AdminRouteI$ci.ub[1]`                 |                                 \-                                  |
 |                 \-                  |         *Oral*          |         `r SMD_S_PPI_AdminRouteI$beta[2]`         |                 `r SMD_S_PPI_AdminRouteI$ci.lb[2]` to `r SMD_S_PPI_AdminRouteI$ci.ub[2]`                 |                                 \-                                  |
+|                 \-                  |         *Subcutaneous*          |         `r SMD_S_PPI_AdminRouteI$beta[3]`         |                 `r SMD_S_PPI_AdminRouteI$ci.lb[3]` to `r SMD_S_PPI_AdminRouteI$ci.ub[3]`                 |                                 \-                                  |
 |      Intervention administered      |           \-            |                        \-                         |                                                    \-                                                    |            `r round((r2_ml(SMD_S_PPI_DrugI)[1]*100),1)`%            |
 |                 \-                  |       *SEP-363856 (Ultaront)*       |            `r SMD_S_PPI_DrugI$beta[1]`            |                       `r SMD_S_PPI_DrugI$ci.lb[1]` to `r SMD_S_PPI_DrugI$ci.ub[1]`                       |                                 \-                                  |
 |                 \-                  |       *ZH8651*       |            `r SMD_S_PPI_DrugI$beta[2]`            |                       `r SMD_S_PPI_DrugI$ci.lb[2]` to `r SMD_S_PPI_DrugI$ci.ub[2]`                       |                                 \-                                  |
@@ -1758,7 +1747,7 @@ For reference the pooled effect size when rho is assumed to be 0.5 is `r SMD_S_P
 
 #### Normalised Mean Difference (NMD)
 
-For Pre pulse inhibition, `r df_S_PPI %>% filter(NMD_possible == "TRUE") %>% nrow()` out of `r nrow(df_S_PPI)` comparisons, i.e. `r ((df_S_PPI %>% filter(NMD_possible == "TRUE") %>% nrow())/(nrow(df_S_PPI)))*100` % of comparisons, had data available for a Sham group, and for these studies it was possible to calculate an NMD estimate of effect size.
+For Pre pulse inhibition, `r df_S_PPI %>% filter(NMD_possible == "TRUE") %>% nrow()` out of `r nrow(df_S_PPI)` comparisons, i.e. `r round(((df_S_PPI %>% filter(NMD_possible == "TRUE") %>% nrow())/(nrow(df_S_PPI)))*100,1)` % of comparisons, had data available for a Sham group, and for these studies it was possible to calculate an NMD estimate of effect size.
 
 The effect of administering a TAAR1 agonist on Pre pulse inhibition in animals using NMD as the effect size is shown in Figure 2.2.5. The pooled estimate for NMD across all individual comparisons is displayed as a diamond shape at the bottom of the plot. Dotted lines indicate the prediction interval of the pooled estimate.
 
@@ -1772,7 +1761,7 @@ NMD_S_PPI <- run_ML_NMD(df, "TvC", "Prepulse inhibition", 0.5)
 forest_metafor_NMD(NMD_S_PPI, "Prepulse inhibition")
 ```
 
-For TAAR1 Agonist v Control, TAAR1 interventions had a pooled effect on Pre pulse inhibition of NMD = `r NMD_S_PPI[["beta"]][1]` (95% CI: `r NMD_S_PPI[["ci.lb"]]` to `r NMD_S_PPI[["ci.ub"]]`) with a prediction interval of `r predict(NMD_S_PPI)$pi.lb` to `r predict(NMD_S_PPI)$pi.ub`. For reference the pooled effect size for SMD was `r SMD_S_PPI[["beta"]]` (95% CI: `r SMD_S_PPI[["ci.lb"]]` to `r SMD_S_PPI[["ci.ub"]]`).
+For TAAR1 Agonist v Control, TAAR1 interventions had a pooled effect on Pre pulse inhibition of NMD = `r round(NMD_S_PPI[["beta"]][1],1)` (95% CI: `r round(NMD_S_PPI[["ci.lb"]],1)` to `r round(NMD_S_PPI[["ci.ub"]],1)`) with a prediction interval of `r round(predict(NMD_S_PPI)$pi.lb,1)` to `r round(predict(NMD_S_PPI)$pi.ub,1)`. For reference the pooled effect size for SMD was `r SMD_S_PPI[["beta"]]` (95% CI: `r SMD_S_PPI[["ci.lb"]]` to `r SMD_S_PPI[["ci.ub"]]`).
 
 `r NMD_S_PPI[["k"]]` experimental comparisons were reported in `r length(unique(NMD_S_PPI$data$ExperimentID_I))` experiments reported from `r length(unique(NMD_S_PPI$data$StudyId))` publications and involving `r length(unique(NMD_S_PPI$data$Strain))` different animal strains.
 
@@ -1790,7 +1779,7 @@ Here, we examine the robustness of results when using a sandwich-type estimator 
 SMD_S_PPI_RVE <- robust(SMD_S_PPI, cluster = Strain, clubSandwich=T, verbose=T)
 ```
 
-When using the robust variance estimator, TAAR1 interventions had a pooled effect on Pre pulse inhibition of SMD = `r SMD_S_PPI_RVE[["beta"]][1]` (95% CI: `r SMD_S_PPI_RVE[["ci.lb"]]` to `r SMD_S_PPI_RVE[["ci.ub"]]` with a prediction interval of `r predict(SMD_S_PPI_RVE)$pi.lb` to `r predict(SMD_S_PPI_RVE)$pi.ub`). For reference the pooled effect size for SMD was `r SMD_S_PPI[["beta"]]` (95% CI: `r SMD_S_PPI[["ci.lb"]]` to `r SMD_S_PPI[["ci.ub"]]`), so the using a robust variance estimator does not substantially change the results.
+When using the robust variance estimator, TAAR1 interventions had a pooled effect on Pre pulse inhibition of SMD = `r SMD_S_PPI_RVE[["beta"]][1]` (95% CI: `r SMD_S_PPI_RVE[["ci.lb"]]` to `r SMD_S_PPI_RVE[["ci.ub"]]` with a prediction interval of `r predict(SMD_S_PPI_RVE)$pi.lb` to `r predict(SMD_S_PPI_RVE)$pi.ub`). For reference the pooled effect size for SMD was `r SMD_S_PPI[["beta"]][1]` (95% CI: `r SMD_S_PPI[["ci.lb"]]` to `r SMD_S_PPI[["ci.ub"]]`), so the using a robust variance estimator does not substantially change the results, although the confidence intervals are wider.
 
 ### 2.2.6 Reporting bias/small-study effects
 
@@ -2361,7 +2350,7 @@ For reference the pooled effect size when rho is assumed to be 0.5 is `r SMD_S_C
 
 #### Normalised Mean Difference (NMD)
 
-For cognition, `r df_S_cog %>% filter(NMD_possible == "TRUE") %>% nrow()` out of `r nrow(df_S_cog)` comparisons, i.e. `r ((df_S_cog %>% filter(NMD_possible == "TRUE") %>% nrow())/(nrow(df_S_cog)))*100` % of comparisons, had data available for a Sham group, and for these studies it was possible to calculate an NMD estimate of effect size.
+For cognition, `r df_S_cog %>% filter(NMD_possible == "TRUE") %>% nrow()` out of `r nrow(df_S_cog)` comparisons, i.e. `r round(((df_S_cog %>% filter(NMD_possible == "TRUE") %>% nrow())/(nrow(df_S_cog)))*100,1)` % of comparisons, had data available for a Sham group, and for these studies it was possible to calculate an NMD estimate of effect size.
 
 The effect of administering a TAAR1 agonist on cognition in animals using NMD as the effect size is shown in Figure 2.2.5. The pooled estimate for NMD across all individual comparisons is displayed as a diamond shape at the bottom of the plot. Dotted lines indicate the prediction interval of the pooled estimate.
 
@@ -2375,7 +2364,7 @@ NMD_S_cog <- run_ML_NMD(df, "TvC", "Cognition", 0.5)
 forest_metafor_NMD(NMD_S_cog, "Cognition")
 ```
 
-For TAAR1 Agonist v Control, TAAR1 interventions had a pooled effect on cognition of NMD = `r NMD_S_cog[["beta"]][1]` (95% CI: `r NMD_S_cog[["ci.lb"]]` to `r NMD_S_cog[["ci.ub"]]`) with a prediction interval of `r predict(NMD_S_cog)$pi.lb` to `r predict(NMD_S_cog)$pi.ub`. For reference the pooled effect size for SMD was `r SMD_S_Cog[["beta"]]` (95% CI: `r SMD_S_Cog[["ci.lb"]]` to `r SMD_S_Cog[["ci.ub"]]`).
+For TAAR1 Agonist v Control, TAAR1 interventions had a pooled effect on cognition of NMD = `r round(NMD_S_cog[["beta"]][1],1)` (95% CI: `r round(NMD_S_cog[["ci.lb"]],1)` to `r round(NMD_S_cog[["ci.ub"]],1)`) with a prediction interval of `r round(predict(NMD_S_cog)$pi.lb,1)` to `r round(predict(NMD_S_cog)$pi.ub,1)`. For reference the pooled effect size for SMD was `r SMD_S_Cog[["beta"]]` (95% CI: `r SMD_S_Cog[["ci.lb"]]` to `r SMD_S_Cog[["ci.ub"]]`).
 
 `r NMD_S_cog[["k"]]` experimental comparisons were reported in `r length(unique(NMD_S_cog$data$ExperimentID_I))` experiments reported from `r length(unique(NMD_S_cog$data$StudyId))` publications and involving `r length(unique(NMD_S_cog$data$Strain))` different animal strains.
 
@@ -2393,7 +2382,7 @@ Here, we examine the robustness of results when using a sandwich-type estimator 
 SMD_S_Cog_RVE <- robust(SMD_S_Cog, cluster = Strain, clubSandwich=T, verbose=T)
 ```
 
-When using the robust variance estimator, TAAR1 interventions had a pooled effect on cognition of SMD = `r SMD_S_Cog_RVE[["beta"]][1]` (95% CI: `r SMD_S_Cog_RVE[["ci.lb"]]` to `r SMD_S_Cog_RVE[["ci.ub"]]` with a prediction interval of `r predict(SMD_S_Cog_RVE)$pi.lb` to `r predict(SMD_S_Cog_RVE)$pi.ub`). For reference the pooled effect size for SMD was `r SMD_S_Cog[["beta"]]` (95% CI: `r SMD_S_Cog[["ci.lb"]]` to `r SMD_S_Cog[["ci.ub"]]`), so the using a robust variance estimator does not substantially change the results.
+When using the robust variance estimator, TAAR1 interventions had a pooled effect on cognition of SMD = `r SMD_S_Cog_RVE[["beta"]][1]` (95% CI: `r SMD_S_Cog_RVE[["ci.lb"]]` to `r SMD_S_Cog_RVE[["ci.ub"]]` with a prediction interval of `r predict(SMD_S_Cog_RVE)$pi.lb` to `r predict(SMD_S_Cog_RVE)$pi.ub`). For reference the pooled effect size for SMD was `r SMD_S_Cog[["beta"]][1]` (95% CI: `r SMD_S_Cog[["ci.lb"]]` to `r SMD_S_Cog[["ci.ub"]]`), so the using a robust variance estimator does not substantially change the results.
 
 ### 2.3.6 Reporting bias/small-study effects
 
@@ -2469,7 +2458,7 @@ Only one study reported pre pulse inhibition in this category, so meta-analysis 
 
 ## 3.3 Outcome 3: Cognitive function
 
-Only one study reported cognitive outcomes in this category, so meta-analysis was not performed.
+Only two studies reported cognitive outcomes in this category, so meta-analysis was not performed.
 
 # 4 Co-treatment with TAAR1 agonist plus known antipsychotic drug v known antipsychotic drug alone
 
@@ -2564,7 +2553,7 @@ forest_metafor(SMD_S_LMA_KO, "TvC_KO","Locomotor activity")
 
 ## 5.2 Outcome 2: Pre pulse inhibition
 
-No studies reported pre pulse inhibition in TAAR1 knockout animals
+Only one study reported pre pulse inhibition in TAAR1 knockout animals, so meta-analysis was not performed.
 
 ## 5.3 Outcome 3: Cognitive function
 
@@ -2586,6 +2575,9 @@ c6 <- which(colnames(df) == "F_T_n")
 Nsdf <- df[,c(c2,c3,c5,c6)]
 Nsdf <- subset(Nsdf, !Nsdf$`n allocated to group at experiment start?_C` == 999)
 Nsdf <- subset(Nsdf, !Nsdf$`n allocated to group at experiment start?_C` == 9999)
+Nsdf <- as.data.frame(Nsdf)
+Nsdf$`n allocated to group at experiment start?_C` <- as.numeric(Nsdf$`n allocated to group at experiment start?_C`)
+Nsdf$`n allocated to group at experiment start?_I` <- as.numeric(Nsdf$`n allocated to group at experiment start?_I`)
 Nsdf$closs <- Nsdf$`n allocated to group at experiment start?_C` - Nsdf$F_C_n
 Nsdf$tloss <- Nsdf$`n allocated to group at experiment start?_I` - Nsdf$F_T_n
 
@@ -2615,7 +2607,7 @@ dfiper <- (dfisn/dfin)*100
 
 # 6. Proportion of animals not progressing to outcome measurement, potentially reflecting adverse effects of treatment
 
-`r closs*100`% of `r ctot` animals in Control cohorts and `r tloss*100`% of `r ttot` animals in Intervention cohorts 'dropped out' between allocation to group and outcome measurement. Given that `r dfisn` of `r dfin` interventions (`r dfiper`%) were administered as a single dose, treatment emergent adverse effects likely to lead to withdrawal of an animal from the study would be unusual, and technical failure or attrition is more likely. This analysis is based on full reporting of animals excluded from analyses, and it may be that group sizes were specified 'after the event', or that there was unreported replacement of animals excluded during the experiment, so these data should be interpreted with considerable caution.
+`r round(closs*100,1)`% of `r ctot` animals in Control cohorts and `r round(tloss*100,1)`% of `r ttot` animals in Intervention cohorts 'dropped out' between allocation to group and outcome measurement. Given that `r dfisn` of `r dfin` interventions (`r round(dfiper,1)`%) were administered as a single dose, treatment emergent adverse effects likely to lead to withdrawal of an animal from the study would be unusual, and technical failure or attrition is more likely. This analysis is based on full reporting of animals excluded from analyses, and it may be that group sizes were specified 'after the event', or that there was unreported replacement of animals excluded during the experiment, so these data should be interpreted with considerable caution.
 
 # 7. Summary of the evidence
 
