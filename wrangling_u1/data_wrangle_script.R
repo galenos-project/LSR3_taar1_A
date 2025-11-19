@@ -12,7 +12,7 @@ LSR <- 'LSR3'
 
 # Import SyRF outcome data
 
-LSR3_SyRFOutcomes <- read_csv("data_u1/Quantitative_data_-_2025_11_17_-_c494b1ae-4cf4-4618-b91a-e69a2b815bdd_-_Investigators_Unblinded.csv")
+LSR3_SyRFOutcomes <- read_csv("data_u1/Quantitative_data_-_2025_11_19_-_c494b1ae-4cf4-4618-b91a-e69a2b815bdd_-_Investigators_Unblinded.csv")
 
 ###### Tidying and cleaning the data ######
 #clean ; from TiAb etc
@@ -1258,15 +1258,15 @@ df <- df %>%
                                  DrugName == "RO5203648" ~ "High",
                                  DrugName == "RO5263397" ~ "High",
                                  DrugName == "RO5256390" ~ "High",
-                                 DrugName == "Ulotaront" | DrugName == "SEP-363856" ~ "Low (5HT1A partial agonism)",
+                                 DrugName == "Ulotaront" | DrugName == "SEP-363856" ~ "Low (5HT1A part. ag)",
                                  DrugName == "Ralmitaront" | DrugName == "RO6889450" ~ "High",
                                  DrugName == "AP163" ~ "Unclear",
                                  DrugName == "Compound 50A" ~ "Unclear",
-                                 DrugName == "Compound 50B" ~ "Low (5HT1A partial agonism)", 
+                                 DrugName == "Compound 50B" ~ "Low (5HT1A part. ag)", 
                                  DrugName == "Compound 6e" ~ "Unclear",
                                  DrugName == "Compound 7b" ~ "Unclear",
                                  DrugName == "Compound 8b" ~ "Unclear",
-                                 DrugName == "Guanfacine" ~ "Low (Adrenergic alpha2 agonism)",
+                                 DrugName == "Guanfacine" ~ "Low (Adr a2 ag)",
                                  DrugName == "ZH8659" ~ "Unclear",
                                  DrugName == "ZH8651" ~ "Unclear",
                                  DrugName == "ZH8667" ~ "Unclear",                                

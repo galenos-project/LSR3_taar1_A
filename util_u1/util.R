@@ -422,6 +422,7 @@ forest_subgroup <- function(modelsumm, moderator, outcome, moderator_text) {
   
   cf <- span2/lnth
   
+  top_margin <- 2
 
   poly1 <- subset(model, model$moderator == "Overall estimate")
   upp <- 1 + ((poly1$SMD - poly1$ci_l)/(cf *2))
@@ -437,11 +438,11 @@ forest_subgroup <- function(modelsumm, moderator, outcome, moderator_text) {
       geom_point(aes(x = SMD), shape = model$symbol, size = model$size) +
       geom_linerange(aes(xmin = ci_l, xmax = ci_u)) +
       labs(x = "SMD Effect size") +
-      coord_cartesian(ylim = c(0, lnth), xlim = c(axis_min-1, axis_max+1)) +
+      coord_cartesian(ylim = c(0, lnth + top_margin), xlim = c(axis_min-1, axis_max+1)) +
       geom_vline(xintercept = 0, linetype = "solid") +
       geom_vline(xintercept = poly1$SMD, linetype = "dashed") +
-      annotate("text", x = axis_min-1, y = lnth, label = "TAAR1 Agonist\nworse", hjust = 0) +
-      annotate("text", x = axis_max+1, y = lnth, label = "TAAR1 Agonist\nbetter", hjust = 1) +
+      annotate("text", x = axis_min-1, y = lnth + top_margin - 0.5, label = "TAAR1 Agonist\nworse", hjust = 0) +
+      annotate("text", x = axis_max+1, y = lnth + top_margin - 0.5, label = "TAAR1 Agonist\nbetter", hjust = 1) +
       geom_polygon(data = dfp, aes(x = x, y = y), fill = "grey") +
       theme(axis.line.y = element_blank(),
             axis.ticks.y = element_blank(),
@@ -453,15 +454,15 @@ forest_subgroup <- function(modelsumm, moderator, outcome, moderator_text) {
       ggplot(aes(y = fct_rev(moderator))) +
       geom_text(aes(x = 0, label = moderator), hjust = 0, size = model$fontsize) +
       geom_text(aes(x = r1, label = k), hjust = 1, size = model$fontsize) +
-      annotate("text", x = r1, y = lnth, label = "Number of\nexperimental contrasts", hjust=1) +
+      annotate("text", x = r1, y = lnth  + top_margin - 0.5, label = "Number of\nexperimental contrasts", hjust=1) +
       theme_void() +
-      coord_cartesian(ylim = c(0, lnth), xlim = c(0, span1))
+      coord_cartesian(ylim = c(0, lnth + top_margin), xlim = c(0, span1))
     
     p_right <-
       model %>%
       ggplot() +
       geom_text(aes(x = span3, y = fct_rev(moderator), label = estimate_lab),size = model$fontsize, hjust = 1) +
-      coord_cartesian(ylim = c(0, lnth), xlim = c(0, span3)) +
+      coord_cartesian(ylim = c(0, lnth + top_margin), xlim = c(0, span3)) +
       theme_void()
     
     layout <- c(
@@ -470,7 +471,13 @@ forest_subgroup <- function(modelsumm, moderator, outcome, moderator_text) {
       area(t = 0, l = l3, b = 30, r = r3)
     )
  
-    p_left + p_mid + p_right + plot_layout(design = layout) + plot_annotation(title = title, theme = theme(plot.title = element_text(hjust = 0.5)))
+    p_left + p_mid + p_right + plot_layout(design = layout) + 
+      plot_annotation(
+        title = title, 
+        theme = theme(plot.title = element_text(hjust = 0.5, margin = margin(b = 20)),  # Add margin below title
+        plot.margin = margin(t = 40, r = 10, b = 10, l = 10)
+        )
+      )
   }
 
 forest_subgroup_ml <- function(modelsumm, moderator, outcome, moderator_text) {
