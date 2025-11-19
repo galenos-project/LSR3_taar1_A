@@ -12,7 +12,7 @@ LSR <- 'LSR3'
 
 # Import SyRF outcome data
 
-LSR3_SyRFOutcomes <- read_csv("data_u1/Quantitative_data_-_2025_10_15_-_c494b1ae-4cf4-4618-b91a-e69a2b815bdd_-_Investigators_Unblinded.csv")
+LSR3_SyRFOutcomes <- read_csv("data_u1/Quantitative_data_-_2025_11_17_-_c494b1ae-4cf4-4618-b91a-e69a2b815bdd_-_Investigators_Unblinded.csv")
 
 ###### Tidying and cleaning the data ######
 #clean ; from TiAb etc
@@ -915,7 +915,7 @@ data_TvCKOs$SortLabel <- "TvC_KO"
 data_TvCKOs <- subset(data_TvCKOs, !is.na(data_TvCKOs$Intervention) & !is.na(data_TvCKOs$Control) & !is.na(data_TvCKOs$Sham))
 
 
-##### 3.4.2 TA v A - without sham - possibility of multiple control (A) conditions #####
+##### 3.4.2 T v C KO - without sham - possibility of multiple control (A) conditions #####
 
 data_TvCKO <- data.frame()
 
