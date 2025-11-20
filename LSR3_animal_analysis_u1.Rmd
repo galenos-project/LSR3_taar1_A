@@ -213,7 +213,7 @@ cat('</div>')
 
 ```
 
-References of included studies are located in the appendix. Included studies used `r length(table(df$ModelID))` unique disease model induction procedures.
+References of included studies are located in the appendix. Included studies used `r nrow(unique(df[,c(435,436,437,61:72)]))` unique disease model induction procedures.
 
 ## 1.1 Description of experiment types and methodological approach
 
