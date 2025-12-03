@@ -31,14 +31,16 @@ LSR3_SyRFOutcomes$ReferenceType <- gsub(";", ":", LSR3_SyRFOutcomes$ReferenceTyp
 LSR3_SyRFOutcomes$PdfRelativePath <- gsub(";", ":", LSR3_SyRFOutcomes$PdfRelativePath)
 
 
-
 # wrangle because FT didn't mark her most recent entry as a reconciliation <- 'Is this a reconciliation?'
 column_name <- 'Is this a reconciliation?'
-  condition <- LSR3_SyRFOutcomes$StudyId == '2cfb8de7-b0ad-416f-bfa4-a3771051dc1d'  & LSR3_SyRFOutcomes$InvestigatorName == 'Francesca Tinsdeall'
+condition <- LSR3_SyRFOutcomes$StudyId == '2cfb8de7-b0ad-416f-bfa4-a3771051dc1d'  & LSR3_SyRFOutcomes$InvestigatorName == 'Francesca Tinsdeall'
 LSR3_SyRFOutcomes[condition, column_name] <- TRUE
 
+column_name <- 'Is this a reconciliation?'
+condition <- LSR3_SyRFOutcomes$StudyId == '2cfb8de7-b0ad-416f-bfa4-a3771051dc1d'  & LSR3_SyRFOutcomes$InvestigatorName == 'Fiona Ramage'
+LSR3_SyRFOutcomes[condition, column_name] <- FALSE
 
-# Filter for reconciled studies (and rename columns for consistency with shiny outcomes/remove SYRF columnns)
+# Filter for reconciled studies (and rename columns for consistency with shiny outcomes/remove SYRF columns)
 LSR3_SyRFOutcomes <- subset(LSR3_SyRFOutcomes, !LSR3_SyRFOutcomes$`should have been excluded` == TRUE)
 
 LSR3_reconciled <- LSR3_SyRFOutcomes %>% 
@@ -167,7 +169,7 @@ reconciled_cohort_label <- reconciled_records %>%
 #reconciled_cohort_label$ModelID <- reconciled_cohort_label$`ModelID`
 
 ## sort the blank disease models (which are equivalent to sham)
-
+reconciled_cohort_label$'IsDiseaseModelControl' <- reconciled_cohort_label$'IsDiseaseModelControl[1]'
 reconciled_cohort_label <- reconciled_cohort_label %>%
   mutate(
     IsDiseaseModelControl = case_when(
@@ -177,8 +179,8 @@ reconciled_cohort_label <- reconciled_cohort_label %>%
       IsDiseaseModelControl == 'False' ~ FALSE,
       is.na(IsDiseaseModelControl) ~ TRUE,
       TRUE ~ as.logical(NA)  # default case if none of the conditions are met
-    )
-  )
+    ))
+
 
 ## Make CohortType column
 # Combination interventions are interventions where currently licensed antipsychotic is an intervention
@@ -251,7 +253,7 @@ reconciled_cohort_type <- reconciled_cohort_label %>%
   )) %>% 
   relocate(CohortType, .after = `InterventionID[2]`) %>% 
   relocate(c(Treatment1Type, Treatment2Type), .after = `InterventionLabel[2]`) %>% 
-  relocate(IsDiseaseModelControl, .after = ModelID)
+  relocate(IsDiseaseModelControl, .after = 'ModelID[1]')
 
 reconciled_cohort_type <- reconciled_cohort_type %>%
   mutate(GroupID = interaction(StudyId, ExperimentID, OutcomeId, TimeInMinute))
@@ -291,7 +293,7 @@ data <- data %>%
 
 #### SyRF correction section ends
 
-
+data$'DiseaseModelLabel(s)' <- data$'DiseaseModelLabel(s)[1]'
 ##### Remove DA knockouts and data reported from subgroups #####
 data_rem <- subset(data, data$'DiseaseModelLabel(s)' == 'DAT +/-')
 data <- anti_join(data, data_rem)
@@ -1126,6 +1128,9 @@ diagnostic <- dataall.direction %>%
 
 df <- dataall.direction
 
+df$`Type of pharmacological induction:_I` <- df$`Type of pharmacological induction:[1]_I`
+df$'Gene manipulated:_I' <- df$'Gene manipulated:[1]_I'
+
 # Correct "SEP" : All SEP VALUES FOR DRUG NAMES ARE SEP-363856. Checked each paper on 14.12.23. StudyID's: eba6e60f, c064173a, 84b834
 df <- df %>% 
   mutate(drugname1 = str_replace_all(drugname1, "SEP(?!-363856)", "SEP-363856"))
@@ -1316,7 +1321,7 @@ df <- df %>%
 
 ###### For RoB subgroup analysis ######
 # Calculate overall RoB score
-df <- df[,-c(182:214,338:370)]
+df <- df[,-c(195:229,366:400)]
 df <- df %>%
   rowwise() %>%
   mutate(RoSBScoreAny = sum(c_across(contains("RoB")) == "Yes", na.rm = TRUE)) %>%
