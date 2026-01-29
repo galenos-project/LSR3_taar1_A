@@ -1,7 +1,7 @@
 
 ---
 title: "LSR3 analysis: effects of TAAR1 agonists in animal models of psychosis"
-author: "Francesca Tinsdeall, Fiona Ramage, Virginia Chiocchia and Malcolm Macleod"
+author: "Francesca Tinsdeall, Fiona Ramage, Virginia Chiocchia, Spyridon Siafis and Malcolm Macleod"
 date: "`r format(Sys.time(), '%d %B %Y')`"
 output: 
   html_document: 
