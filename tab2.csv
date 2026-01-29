@@ -1,75 +1,90 @@
-"","Study","Model","Strain","Comparison","Outcome","N"
-"1","BEGNI, 2021","Pharmacological","Lister hooded (rat)","SEP-363856 v Vehicle","Cognition",40
-"2","BEGNI, 2021","Pharmacological","Lister hooded (rat)","SEP-363856 v Vehicle","Locomotor activity",120
-"3","CICHERO, 2023","Genetic","Wistar (rat)","Guanfacine v Vehicle","Locomotor activity",20
-"4","CINQUE, 2018","Genetic","Wistar (rat)","RO5203648 v Vehicle","Cognition",32
-"5","COTTER, 2015","Pharmacological","Long-evans (rat)","RO5203648 v Vehicle","Locomotor activity",200
-"6","DEDIC, 2019","Pharmacological","C57BL/6J (mouse)","SEP-363856 v Vehicle","Locomotor activity",48
-"7","DEDIC, 2019","Pharmacological","C57BL/6J (mouse)","SEP-363856 v clozapine","Locomotor activity",48
-"8","DEDIC, 2019","Pharmacological","Sprague-dawley (rat)","SEP-363856 v Vehicle","Social interaction",48
-"9","DEDIC, 2019","Pharmacological","Sprague-dawley (rat)","SEP-363856 v clozapine","Social interaction",48
-"10","ESPINOZA, 2018","Genetic","C57Bl/6Jx129Sv/J (mouse)","RO5263397 v Vehicle","Locomotor activity",48
-"11","GALLEY, 2012","Pharmacological","Wistar (rat)","RO5073012 v Vehicle","Locomotor activity",48
-"12","KOKKINOU, 2021","Pharmacological","C57BL/6 (mouse)","SEP-363856 v Vehicle","Neurobiological outcome",17
-"13","KRASAVIN, 2022a","Genetic","Wistar (rat)","LK000764 v Vehicle","Locomotor activity",108
-"14","KRASAVIN, 2022a","Pharmacological","Wistar (rat)","LK000764 v Vehicle","Locomotor activity",140
-"15","KRASAVIN, 2022b","Genetic","Wistar (rat)","AP163 v Vehicle","Locomotor activity",18
-"16","LEO, 2018","Genetic","Wistar (rat)","RO5203648 v Vehicle","Locomotor activity",24
-"17","LI, 2024","Pharmacological","Not stated (mouse)","SEP-363856 v Vehicle","Cognition",240
-"18","LI, 2024","Pharmacological","Not stated (mouse)","SEP-363856 v Vehicle","Locomotor activity",180
-"19","LI, 2024","Pharmacological","Not stated (mouse)","SEP-363856 v Vehicle","Prepulse inhibition",180
-"20","LI, 2024","Pharmacological","Not stated (mouse)","SEP-363856 v Vehicle","Social interaction",60
-"21","LI, 2024","Pharmacological","Not stated (mouse)","SEP-363856 v Vehicle","Stereotypy",60
-"22","LIANG, 2022","Pharmacological","ICR (mouse)","SEP-363856 & olanzapine v olanzapine","Cognition",48
-"23","LIANG, 2022","Pharmacological","ICR (mouse)","SEP-363856 & olanzapine v olanzapine","Locomotor activity",16
-"24","LIANG, 2022","Pharmacological","ICR (mouse)","SEP-363856 v Vehicle","Cognition",192
-"25","LIANG, 2022","Pharmacological","ICR (mouse)","SEP-363856 v Vehicle","Locomotor activity",96
-"26","LIANG, 2022","Pharmacological","ICR (mouse)","SEP-363856 v olanzapine","Cognition",48
-"27","LIANG, 2022","Pharmacological","ICR (mouse)","SEP-363856 v olanzapine","Locomotor activity",16
-"28","REVEL, 2011","Genetic","C57BL/6J (mouse)","RO5166017 v Vehicle","Locomotor activity",42
-"29","REVEL, 2011","Pharmacological","C57BL/6 (mouse)","RO5166017 v Vehicle","Locomotor activity",200
-"30","REVEL, 2011","Pharmacological","C57BL/6 (mouse)","RO5166017 v Vehicle","Stereotypy",128
-"31","REVEL, 2011","Pharmacological","NMRI (mouse)","RO5166017 v Vehicle","Locomotor activity",84
-"32","REVEL, 2012a","Genetic","C57Bl/6Jx129Sv/J (mouse)","RO5203648 v Vehicle","Locomotor activity",48
-"33","REVEL, 2012a","Pharmacological","C57BL/6J (mouse)","RO5203648 v Vehicle","Locomotor activity",154
-"34","REVEL, 2012a","Pharmacological","Wistar (rat)","RO5203648 v Vehicle","Locomotor activity",84
-"35","REVEL, 2012b","Pharmacological","C57BL/6J (mouse)","RO5073012 v Vehicle","Locomotor activity",42
-"36","REVEL, 2013","Pharmacological","C57BL/6J (mouse)","RO5256390 v Vehicle","Locomotor activity",122
-"37","REVEL, 2013","Pharmacological","C57BL/6J (mouse)","RO5256390 v olanzapine","Locomotor activity",32
-"38","REVEL, 2013","Pharmacological","C57BL/6J (mouse)","RO5263397 & risperidone v risperidone","Locomotor activity",96
-"39","REVEL, 2013","Pharmacological","C57BL/6J (mouse)","RO5263397 v Vehicle","Locomotor activity",184
-"40","REVEL, 2013","Pharmacological","C57BL/6J (mouse)","RO5263397 v olanzapine","Locomotor activity",80
-"41","REVEL, 2013","Pharmacological","C57BL/6J (mouse)","RO5263397 v risperidone","Locomotor activity",96
-"42","REVEL, 2013","Pharmacological","Long-evans (rat)","RO5256390 v Vehicle","Cognition",48
-"43","REVEL, 2013","Pharmacological","NMRI (mouse)","RO5256390 v Vehicle","Locomotor activity",80
-"44","REVEL, 2013","Pharmacological","NMRI (mouse)","RO5263397 v Vehicle","Locomotor activity",128
-"45","SAARINEN, 2022","Pharmacological","C57Bl/6J (mouse)","SEP-363856 v Vehicle","Locomotor activity",56
-"46","SAARINEN, 2022","Pharmacological","C57Bl/6J (mouse)","SEP-363856 v Vehicle","Prepulse inhibition",60
-"47","SHANG, 2023","Pharmacological","C57BL/6J (mouse)","SEP-363856 v Vehicle","Cognition",24
-"48","SHANG, 2023","Pharmacological","C57BL/6J (mouse)","SEP-363856 v Vehicle","Locomotor activity",141
-"49","SHANG, 2023","Pharmacological","C57BL/6J (mouse)","SEP-363856 v Vehicle","Prepulse inhibition",285
-"50","SHANG, 2023","Pharmacological","C57BL/6J (mouse)","ZH8651 v Vehicle","Cognition",24
-"51","SHANG, 2023","Pharmacological","C57BL/6J (mouse)","ZH8651 v Vehicle","Locomotor activity",111
-"52","SHANG, 2023","Pharmacological","C57BL/6J (mouse)","ZH8651 v Vehicle","Prepulse inhibition",270
-"53","SHANG, 2023","Pharmacological","C57BL/6J (mouse)","ZH8659 v Vehicle","Cognition",24
-"54","SHANG, 2023","Pharmacological","C57BL/6J (mouse)","ZH8659 v Vehicle","Locomotor activity",111
-"55","SHANG, 2023","Pharmacological","C57BL/6J (mouse)","ZH8659 v Vehicle","Prepulse inhibition",270
-"56","SHANG, 2023","Pharmacological","C57BL/6J (mouse)","ZH8667 v Vehicle","Locomotor activity",19
-"57","THORN, 2014","Pharmacological","Sprague-dawley (rat)","RO5263397 v Vehicle","Locomotor activity",180
-"58","WANG, 2023","Pharmacological","C57BL/6J (mouse)","Compound 50A v Vehicle","Locomotor activity",72
-"59","WANG, 2023","Pharmacological","C57BL/6J (mouse)","Compound 50B v Vehicle","Locomotor activity",90
-"60","WANG, 2023","Pharmacological","C57BL/6J (mouse)","Compound 50B v aripiprazole","Locomotor activity",16
-"61","WANG, 2023","Pharmacological","C57BL/6J (mouse)","Compound 50B v risperidone","Locomotor activity",16
-"62","WANG, 2023","Pharmacological","C57BL/6J (mouse)","SEP-363856 v Vehicle","Locomotor activity",18
-"63","WANG, 2023","Pharmacological","C57BL/6J (mouse)","SEP-363856 v aripiprazole","Locomotor activity",16
-"64","WANG, 2023","Pharmacological","C57BL/6J (mouse)","SEP-363856 v risperidone","Locomotor activity",16
-"65","YUN, 2023","Pharmacological","C57BL/6J (mouse)","SEP-363856 v Vehicle","Locomotor activity",176
-"66","YUN, 2023","Pharmacological","C57BL/6J (mouse)","SEP-363856 v Vehicle","Prepulse inhibition",28
-"67","ZHOU, 2024","Pharmacological","C57BL/6J (mouse)","Compound 6e v Vehicle","Cognition",20
-"68","ZHOU, 2024","Pharmacological","C57BL/6J (mouse)","Compound 6e v Vehicle","Locomotor activity",60
-"69","ZHOU, 2024","Pharmacological","C57BL/6J (mouse)","Compound 7b v Vehicle","Cognition",20
-"70","ZHOU, 2024","Pharmacological","C57BL/6J (mouse)","Compound 7b v Vehicle","Locomotor activity",60
-"71","ZHOU, 2024","Pharmacological","C57BL/6J (mouse)","Compound 8b v Vehicle","Cognition",20
-"72","ZHOU, 2024","Pharmacological","C57BL/6J (mouse)","Compound 8b v Vehicle","Locomotor activity",60
-"73","ZHOU, 2024","Pharmacological","C57BL/6J (mouse)","SEP-363856 v Vehicle","Cognition",20
-"74","ZHOU, 2024","Pharmacological","C57BL/6J (mouse)","SEP-363856 v Vehicle","Locomotor activity",60
+"","Study","Model","Strain","Comparison","Outcome","TAAR1 Receptor Status","N"
+"1","BEGNI, 2021","Pharmacological","Lister hooded (rat)","SEP-363856 v Vehicle","Cognition","WT",40
+"2","BEGNI, 2021","Pharmacological","Lister hooded (rat)","SEP-363856 v Vehicle","Locomotor activity","WT",120
+"3","CICHERO, 2023","Genetic","Wistar (rat)","Guanfacine v Vehicle","Locomotor activity","WT",20
+"4","CINQUE, 2018","Genetic","Wistar (rat)","RO5203648 v Vehicle","Cognition","WT",32
+"5","COTTER, 2015","Pharmacological","Long-evans (rat)","RO5203648 v Vehicle","Locomotor activity","WT",40
+"6","DEDIC, 2019","Pharmacological","C57BL/6J (mouse)","SEP-363856 v Vehicle","Locomotor activity","WT",48
+"7","DEDIC, 2019","Pharmacological","C57BL/6J (mouse)","SEP-363856 v clozapine","Locomotor activity","WT",48
+"8","DEDIC, 2019","Pharmacological","Sprague-dawley (rat)","SEP-363856 v Vehicle","Locomotor activity","WT",18
+"9","DEDIC, 2019","Pharmacological","Sprague-dawley (rat)","SEP-363856 v Vehicle","Social interaction","WT",48
+"10","DEDIC, 2019","Pharmacological","Sprague-dawley (rat)","SEP-363856 v clozapine","Social interaction","WT",48
+"11","ESPINOZA, 2018","Genetic","C57Bl/6Jx129Sv/J (mouse)","RO5263397 v Vehicle","Locomotor activity","WT",48
+"12","GALLEY, 2012","Pharmacological","Wistar (rat)","RO5073012 v Vehicle","Locomotor activity","WT",48
+"13","KOKKINOU, 2021","Pharmacological","C57BL/6 (mouse)","SEP-363856 v Vehicle","Neurobiological outcome","WT",17
+"14","KRASAVIN, 2022a","Genetic","Wistar (rat)","LK000764 v Vehicle","Locomotor activity","WT",108
+"15","KRASAVIN, 2022a","Pharmacological","Wistar (rat)","LK000764 v Vehicle","Locomotor activity","WT",140
+"16","KRASAVIN, 2022b","Genetic","Wistar (rat)","AP163 v Vehicle","Locomotor activity","WT",18
+"17","LEO, 2018","Genetic","Wistar (rat)","RO5203648 v Vehicle","Locomotor activity","WT",24
+"18","LI, 2024","Pharmacological","Not stated (mouse)","SEP-363856 v Vehicle","Cognition","WT",240
+"19","LI, 2024","Pharmacological","Not stated (mouse)","SEP-363856 v Vehicle","Locomotor activity","WT",180
+"20","LI, 2024","Pharmacological","Not stated (mouse)","SEP-363856 v Vehicle","Prepulse inhibition","WT",180
+"21","LI, 2024","Pharmacological","Not stated (mouse)","SEP-363856 v Vehicle","Social interaction","WT",60
+"22","LI, 2024","Pharmacological","Not stated (mouse)","SEP-363856 v Vehicle","Stereotypy","WT",60
+"23","LI, 2024","Pharmacological","Not stated (mouse)","SEP-363856 v olanzapine","Cognition","WT",216
+"24","LI, 2024","Pharmacological","Not stated (mouse)","SEP-363856 v olanzapine","Locomotor activity","WT",162
+"25","LI, 2024","Pharmacological","Not stated (mouse)","SEP-363856 v olanzapine","Prepulse inhibition","WT",162
+"26","LI, 2024","Pharmacological","Not stated (mouse)","SEP-363856 v olanzapine","Social interaction","WT",54
+"27","LI, 2024","Pharmacological","Not stated (mouse)","SEP-363856 v olanzapine","Stereotypy","WT",54
+"28","LIANG, 2022","Pharmacological","ICR (mouse)","SEP-363856 & olanzapine v olanzapine","Cognition","WT",48
+"29","LIANG, 2022","Pharmacological","ICR (mouse)","SEP-363856 & olanzapine v olanzapine","Locomotor activity","WT",16
+"30","LIANG, 2022","Pharmacological","ICR (mouse)","SEP-363856 v Vehicle","Cognition","WT",192
+"31","LIANG, 2022","Pharmacological","ICR (mouse)","SEP-363856 v Vehicle","Locomotor activity","WT",96
+"32","LIANG, 2022","Pharmacological","ICR (mouse)","SEP-363856 v olanzapine","Cognition","WT",48
+"33","LIANG, 2022","Pharmacological","ICR (mouse)","SEP-363856 v olanzapine","Locomotor activity","WT",16
+"34","REVEL, 2011","Genetic","C57BL/6J (mouse)","RO5166017 v Vehicle","Locomotor activity","WT",42
+"35","REVEL, 2011","Pharmacological","C57BL/6 (mouse)","RO5166017 v Vehicle","Locomotor activity","TAAR1 R KO",52
+"36","REVEL, 2011","Pharmacological","C57BL/6 (mouse)","RO5166017 v Vehicle","Locomotor activity","WT",148
+"37","REVEL, 2011","Pharmacological","C57BL/6 (mouse)","RO5166017 v Vehicle","Stereotypy","TAAR1 R KO",40
+"38","REVEL, 2011","Pharmacological","C57BL/6 (mouse)","RO5166017 v Vehicle","Stereotypy","WT",88
+"39","REVEL, 2011","Pharmacological","NMRI (mouse)","RO5166017 v Vehicle","Locomotor activity","WT",84
+"40","REVEL, 2012a","Genetic","C57Bl/6Jx129Sv/J (mouse)","RO5203648 v Vehicle","Locomotor activity","WT",48
+"41","REVEL, 2012a","Pharmacological","C57BL/6J (mouse)","RO5203648 v Vehicle","Locomotor activity","WT",154
+"42","REVEL, 2012a","Pharmacological","Wistar (rat)","RO5203648 v Vehicle","Locomotor activity","WT",84
+"43","REVEL, 2012b","Pharmacological","C57BL/6J (mouse)","RO5073012 v Vehicle","Locomotor activity","WT",42
+"44","REVEL, 2013","Pharmacological","C57BL/6J (mouse)","RO5256390 v Vehicle","Locomotor activity","WT",122
+"45","REVEL, 2013","Pharmacological","C57BL/6J (mouse)","RO5256390 v olanzapine","Locomotor activity","WT",32
+"46","REVEL, 2013","Pharmacological","C57BL/6J (mouse)","RO5263397 & risperidone v risperidone","Locomotor activity","WT",96
+"47","REVEL, 2013","Pharmacological","C57BL/6J (mouse)","RO5263397 v Vehicle","Locomotor activity","WT",184
+"48","REVEL, 2013","Pharmacological","C57BL/6J (mouse)","RO5263397 v olanzapine","Locomotor activity","WT",80
+"49","REVEL, 2013","Pharmacological","C57BL/6J (mouse)","RO5263397 v risperidone","Locomotor activity","WT",96
+"50","REVEL, 2013","Pharmacological","Long-evans (rat)","RO5256390 v Vehicle","Cognition","WT",48
+"51","REVEL, 2013","Pharmacological","NMRI (mouse)","RO5256390 v Vehicle","Locomotor activity","WT",80
+"52","REVEL, 2013","Pharmacological","NMRI (mouse)","RO5263397 v Vehicle","Locomotor activity","WT",128
+"53","SAARINEN, 2022","Pharmacological","C57Bl/6J (mouse)","SEP-363856 v Vehicle","Locomotor activity","TAAR1 R KO",48
+"54","SAARINEN, 2022","Pharmacological","C57Bl/6J (mouse)","SEP-363856 v Vehicle","Locomotor activity","WT",56
+"55","SAARINEN, 2022","Pharmacological","C57Bl/6J (mouse)","SEP-363856 v Vehicle","Prepulse inhibition","TAAR1 R KO",60
+"56","SAARINEN, 2022","Pharmacological","C57Bl/6J (mouse)","SEP-363856 v Vehicle","Prepulse inhibition","WT",60
+"57","SHANG, 2023","Pharmacological","C57BL/6J (mouse)","SEP-363856 v Vehicle","Cognition","WT",24
+"58","SHANG, 2023","Pharmacological","C57BL/6J (mouse)","SEP-363856 v Vehicle","Locomotor activity","TAAR1 R KO",13
+"59","SHANG, 2023","Pharmacological","C57BL/6J (mouse)","SEP-363856 v Vehicle","Locomotor activity","WT",141
+"60","SHANG, 2023","Pharmacological","C57BL/6J (mouse)","SEP-363856 v Vehicle","Prepulse inhibition","WT",285
+"61","SHANG, 2023","Pharmacological","C57BL/6J (mouse)","ZH8651 v Vehicle","Cognition","WT",24
+"62","SHANG, 2023","Pharmacological","C57BL/6J (mouse)","ZH8651 v Vehicle","Locomotor activity","TAAR1 R KO",20
+"63","SHANG, 2023","Pharmacological","C57BL/6J (mouse)","ZH8651 v Vehicle","Locomotor activity","WT",111
+"64","SHANG, 2023","Pharmacological","C57BL/6J (mouse)","ZH8651 v Vehicle","Prepulse inhibition","TAAR1 R KO",60
+"65","SHANG, 2023","Pharmacological","C57BL/6J (mouse)","ZH8651 v Vehicle","Prepulse inhibition","WT",270
+"66","SHANG, 2023","Pharmacological","C57BL/6J (mouse)","ZH8659 v Vehicle","Cognition","WT",24
+"67","SHANG, 2023","Pharmacological","C57BL/6J (mouse)","ZH8659 v Vehicle","Locomotor activity","TAAR1 R KO",20
+"68","SHANG, 2023","Pharmacological","C57BL/6J (mouse)","ZH8659 v Vehicle","Locomotor activity","WT",111
+"69","SHANG, 2023","Pharmacological","C57BL/6J (mouse)","ZH8659 v Vehicle","Prepulse inhibition","TAAR1 R KO",57
+"70","SHANG, 2023","Pharmacological","C57BL/6J (mouse)","ZH8659 v Vehicle","Prepulse inhibition","WT",270
+"71","SHANG, 2023","Pharmacological","C57BL/6J (mouse)","ZH8667 v Vehicle","Locomotor activity","WT",19
+"72","THORN, 2014","Pharmacological","Sprague-dawley (rat)","RO5263397 v Vehicle","Locomotor activity","WT",180
+"73","WANG, 2023","Pharmacological","C57BL/6J (mouse)","Compound 50A v Vehicle","Locomotor activity","WT",72
+"74","WANG, 2023","Pharmacological","C57BL/6J (mouse)","Compound 50B v Vehicle","Locomotor activity","WT",90
+"75","WANG, 2023","Pharmacological","C57BL/6J (mouse)","Compound 50B v aripiprazole","Locomotor activity","WT",16
+"76","WANG, 2023","Pharmacological","C57BL/6J (mouse)","Compound 50B v risperidone","Locomotor activity","WT",16
+"77","WANG, 2023","Pharmacological","C57BL/6J (mouse)","SEP-363856 v Vehicle","Locomotor activity","WT",18
+"78","WANG, 2023","Pharmacological","C57BL/6J (mouse)","SEP-363856 v aripiprazole","Locomotor activity","WT",16
+"79","WANG, 2023","Pharmacological","C57BL/6J (mouse)","SEP-363856 v risperidone","Locomotor activity","WT",16
+"80","YUN, 2023","Pharmacological","C57BL/6J (mouse)","SEP-363856 v Vehicle","Locomotor activity","WT",176
+"81","YUN, 2023","Pharmacological","C57BL/6J (mouse)","SEP-363856 v Vehicle","Prepulse inhibition","WT",28
+"82","ZHOU, 2024","Pharmacological","C57BL/6J (mouse)","Compound 6e v Vehicle","Cognition","WT",20
+"83","ZHOU, 2024","Pharmacological","C57BL/6J (mouse)","Compound 6e v Vehicle","Locomotor activity","WT",60
+"84","ZHOU, 2024","Pharmacological","C57BL/6J (mouse)","Compound 7b v Vehicle","Cognition","WT",20
+"85","ZHOU, 2024","Pharmacological","C57BL/6J (mouse)","Compound 7b v Vehicle","Locomotor activity","WT",60
+"86","ZHOU, 2024","Pharmacological","C57BL/6J (mouse)","Compound 8b v Vehicle","Cognition","WT",20
+"87","ZHOU, 2024","Pharmacological","C57BL/6J (mouse)","Compound 8b v Vehicle","Locomotor activity","WT",60
+"88","ZHOU, 2024","Pharmacological","C57BL/6J (mouse)","SEP-363856 v Vehicle","Cognition","WT",20
+"89","ZHOU, 2024","Pharmacological","C57BL/6J (mouse)","SEP-363856 v Vehicle","Locomotor activity","WT",60
